@@ -1,0 +1,16 @@
+Tasks
+- Ethernet (GigE?)
+	- send/receive data between PC + FPGA
+	- FSM to synchronize data transfer from PC to FPGA
+	- Image processing 
+	- feature detection
+	- NCC feature matching
+
+	Final Goals
+	- For Demo
+	- Video of image processing results previously acquired
+in real-time field test (10 FPS)
+	- Cameras send images to CPU for rectification, CPU uses
+	ethernet to send images FPGA, FPGA outputs coordinates
+	of correspondence points
+
