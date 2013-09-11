@@ -1,7 +1,7 @@
 " ignore all vivado files except sv and xdc
 
 lab*/*
-!*/
+!lab*/*/
 !*.sv
 !*.v
 !*.xdc
