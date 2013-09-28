@@ -1,0 +1,92 @@
+/*
+
+Vivado v2013.2 (64-bit)
+Build 272601 by xbuild on Sat Jun 15 11:11:11 MDT 2013
+Process ID: 31453
+
+Current time: 9/28/13 1:36:56 PM
+Time zone: Eastern Standard Time (America/New_York)
+
+OS: Linux
+Version: 2.6.32-358.18.1.el6.x86_64
+Architecture: amd64
+Available processors (cores): 8
+
+DISPLAY: :1.0
+Screen size: 1600x1200
+Screen resolution (DPI): 96
+Available screens: 1
+
+Java version: 1.7.0_17 64-bit
+Java home: /afs/ece.cmu.edu/support/xilinx/xilinx.release/Vivado-2013.2/Vivado/2013.2/tps/lnx64/jre
+
+User name: wtabib
+User directory: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example
+User country: US
+User language: en
+User locale: en_US
+
+GUI Allocated memory:	122 mb
+GUI Max memory:		3,066 mb
+
+*/
+
+minimizeFrame (PAResourceItoP.PAViews_TCL_CONSOLE, "Tcl Console"); // av:DockableFrame (FrameContainer:JideTabbedPane, bG:JFrame)
+// bU:I (bG:JFrame):  Sourcing Tcl script '/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.srcs/sources_1/ip/vc707_pcie_x8_gen2/vc707_pcie_x8_gen2_ex.tcl' : addNotify
+// Tcl: source /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.srcs/sources_1/ip/vc707_pcie_x8_gen2/vc707_pcie_x8_gen2_ex.tcl
+// Tcl: # create_project -name vc707_pcie_x8_gen2_example -force
+// Tcl: # set_property part xc7vx485tffg1761-2 [current_project]# set_property target_language verilog [current_project]# import_ip -files {/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.srcs/sources_1/ip/vc707_pcie_x8_gen2/vc707_pcie_x8_gen2.xci} -name vc707_pcie_x8_gen2
+// Tcl: INFO: [IP_Flow 19-234] Refreshing IP repositoriesINFO: [IP_Flow 19-1704] No user repositories specified
+// Tcl: # reset_target {all} [get_ips vc707_pcie_x8_gen2]
+// Tcl: # proc _filter_supported_targets {targets ip} { set all [get_property SUPPORTED_TARGETS $ip]; set res {}; foreach a_target $targets { lappend res {*}[lsearch -all -inline -nocase $all $a_target] }; return $res }# generate_target [_filter_supported_targets {instantiation_template synthesis simulation} [get_ips vc707_pcie_x8_gen2]] [get_ips vc707_pcie_x8_gen2]
+// Tcl: Generating IP 'vc707_pcie_x8_gen2'...Delivering 'Verilog Instantiation Template' file for IP 'vc707_pcie_x8_gen2'.Generating IP 'vc707_pcie_x8_gen2'...Delivering 'Verilog Synthesis' files for IP 'vc707_pcie_x8_gen2'.
+// Tcl: Generating IP 'vc707_pcie_x8_gen2'...Delivering 'Verilog Simulation' files for IP 'vc707_pcie_x8_gen2'.
+// Tcl: generate_target: Time (s): cpu = 00:00:14 ; elapsed = 00:00:17 . Memory (MB): peak = 3768.559 ; gain = 0.000
+// Tcl: # import_files# set_property TOP [lindex [find_top] 0] [current_fileset]
+dismissDialog ("Sourcing Tcl script '/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.srcs/sources_1/ip/vc707_pcie_x8_gen2/vc707_pcie_x8_gen2_ex.tcl'"); // bU:I (bG:JFrame)
+// Tcl: update_compile_order -fileset sources_1update_compile_order -fileset sim_1update_compile_order -fileset sim_1
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v)]", 1); // m:c (q:JPanel, bG:JFrame)
+expandTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v)]", 1); // m:c (q:JPanel, bG:JFrame)
+expandTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v), vc707_pcie_x8_gen2_i - vc707_pcie_x8_gen2 (vc707_pcie_x8_gen2.xci)]", 3); // m:c (q:JPanel, bG:JFrame)
+collapseTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v), vc707_pcie_x8_gen2_i - vc707_pcie_x8_gen2 (vc707_pcie_x8_gen2.xci)]", 3); // m:c (q:JPanel, bG:JFrame)
+expandTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v), vc707_pcie_x8_gen2_i - vc707_pcie_x8_gen2 (vc707_pcie_x8_gen2.xci)]", 3); // m:c (q:JPanel, bG:JFrame)
+collapseTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v), vc707_pcie_x8_gen2_i - vc707_pcie_x8_gen2 (vc707_pcie_x8_gen2.xci)]", 3); // m:c (q:JPanel, bG:JFrame)
+selectTab (PAResourceAtoH.FileSetView_TABBED_PANE, (HResource) null, "IP Sources", 1); // a:JideTabbedPane (w:aJ, bG:JFrame)
+selectTab (PAResourceAtoH.FileSetView_TABBED_PANE, (HResource) null, "Hierarchy", 0); // a:JideTabbedPane (w:aJ, bG:JFrame)
+selectTab (PAResourceAtoH.FileSetView_TABBED_PANE, (HResource) null, "IP Sources", 1); // a:JideTabbedPane (w:aJ, bG:JFrame)
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, vc707_pcie_x8_gen2]", 1); // m:c (q:JPanel, bG:JFrame)
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, vc707_pcie_x8_gen2]", 1); // m:c (q:JPanel, bG:JFrame)
+expandTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, vc707_pcie_x8_gen2]", 1); // m:c (q:JPanel, bG:JFrame)
+collapseTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, vc707_pcie_x8_gen2]", 1); // m:c (q:JPanel, bG:JFrame)
+selectTab (PAResourceAtoH.FileSetView_TABBED_PANE, (HResource) null, "Hierarchy", 0); // a:JideTabbedPane (w:aJ, bG:JFrame)
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v), pipe_clock_i - vc707_pcie_x8_gen2_pipe_clock]", 2); // m:c (q:JPanel, bG:JFrame)
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v)]", 1); // m:c (q:JPanel, bG:JFrame)
+expandTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v), vc707_pcie_x8_gen2_i - vc707_pcie_x8_gen2 (vc707_pcie_x8_gen2.xci)]", 3); // m:c (q:JPanel, bG:JFrame)
+expandTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v), app - pcie_app_7x (pcie_app_7x.v)]", 7); // m:c (q:JPanel, bG:JFrame)
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v), pipe_clock_i - vc707_pcie_x8_gen2_pipe_clock]", 2); // m:c (q:JPanel, bG:JFrame)
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v)]", 1); // m:c (q:JPanel, bG:JFrame)
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, xilinx_pcie_2_1_ep_7x (xilinx_pcie_2_1_ep_7x.v)]", 1, false, false, false, true, false); // m:c (q:JPanel, bG:JFrame) - POPUP TRIGGER
+selectMenuItem (PAResourceQtoZ.SrcMenu_OPEN_SELECTED_SOURCE_FILES, "Open File"); // af:JMenuItem (aj:JPopupMenu, bG:JFrame)
+expandTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints]", 9); // m:c (q:JPanel, bG:JFrame)
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, xilinx_pcie_7x_ep_x8g2_VC707.xdc]", 11); // m:c (q:JPanel, bG:JFrame)
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Constraints, constrs_1, xilinx_pcie_7x_ep_x8g2_VC707.xdc]", 11, false, false, false, true, false); // m:c (q:JPanel, bG:JFrame) - POPUP TRIGGER
+selectMenuItem (PAResourceQtoZ.SrcMenu_OPEN_SELECTED_SOURCE_FILES, "Open File"); // af:JMenuItem (aj:JPopupMenu, bG:JFrame)
+selectTree (PAResourceAtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Program and Debug, Generate Bitstream]", 23); // v:H (u:q, bG:JFrame)
+// ad:br (bG:JFrame): No Implementation Results Available: addNotify
+selectButton (RDIResource.BaseDialog_YES, "Yes"); // a:JButton (JPanel:JComponent, ad:br)
+// bU:I (bG:JFrame):  Starting Synthesis : addNotify
+dismissDialog ("No Implementation Results Available"); // ad:br (bG:JFrame)
+dismissDialog ("No Implementation Results Available"); // ad:br (bG:JFrame)
+// Tcl: reset_run impl_1
+// Tcl: launch_runs synth_1
+// Tcl: [Sat Sep 28 13:42:30 2013] Launched synth_1...Run output will be captured here: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/synth_1/runme.log
+dismissDialog ("Starting Synthesis"); // bU:I (bG:JFrame)
+// bU:I (bG:JFrame):  Starting Implementation : addNotify
+// Tcl: launch_runs impl_1
+// Tcl: [Sat Sep 28 13:44:29 2013] Launched impl_1...Run output will be captured here: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/runme.log
+dismissDialog ("Starting Implementation"); // bU:I (bG:JFrame)
+// Tcl: launch_runs impl_1 -to_step write_bitstream
+// Tcl: [Sat Sep 28 13:47:17 2013] Launched impl_1...Run output will be captured here: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/runme.log
+// bU:I (bG:JFrame):  Generate Bitstream : addNotify
+dismissDialog ("Generate Bitstream"); // bU:I (bG:JFrame)
+// N:ad (bG:JFrame): Bitstream Generation Completed: addNotify

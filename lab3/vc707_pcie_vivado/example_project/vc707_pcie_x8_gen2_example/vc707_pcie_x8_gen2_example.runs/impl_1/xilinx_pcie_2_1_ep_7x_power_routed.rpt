@@ -1,0 +1,184 @@
+Copyright 1986-1999, 2001-2013 Xilinx, Inc. All Rights Reserved.
+-----------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version     : Vivado v.2013.2 (lin64) Build 272601 Sat Jun 15 11:11:11 MDT 2013
+| Date             : Sat Sep 28 13:47:11 2013
+| Host             : chinook.ece.cmu.edu running 64-bit Red Hat Enterprise Linux Server release 6.4 (Santiago)
+| Command          : report_power -file xilinx_pcie_2_1_ep_7x_power_routed.rpt -pb xilinx_pcie_2_1_ep_7x_power_summary_routed.pb
+| Design           : xilinx_pcie_2_1_ep_7x
+| Device           : xc7vx485tffg1761-2
+| Design State     : Routed
+| Grade            : Commercial
+| Process          : Typical
+| Characterization : Production
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+Power Report
+
+Table of Contents
+-----------------
+1. Summary
+1.1 On-Chip Components
+1.2 Power Supply Summary
+1.3 Confidence Level
+2. Settings
+2.1 Environment
+2.2 Initial Settings
+2.3 Clock Constraints
+3. Detailed Reports
+3.1 By Hierarchy
+
+1. Summary
+----------
+
++--------------------------+-------+
+| Total On-Chip Power (W)  | 3.074 |
+| Dynamic (W)              | 2.794 |
+| Device Static (W)        | 0.280 |
+| Total Off-Chip Power (W) | 0.000 |
+| Effective TJA (C/W)      | 1.1   |
+| Max Ambient (C)          | 81.5  |
+| Junction Temperature (C) | 28.5  |
+| Confidence Level         | Low   |
+| Setting File             | ---   |
+| Simulation Activity File | ---   |
+| Design Nets Matched      | NA    |
++--------------------------+-------+
+
+
+1.1 On-Chip Components
+----------------------
+
++----------------+-----------+----------+-----------+-----------------+
+| On-Chip        | Power (W) | Used     | Available | Utilization (%) |
++----------------+-----------+----------+-----------+-----------------+
+| Clocks         |     0.059 |        2 |       --- |             --- |
+| Slice Logic    |     0.011 |     6152 |       --- |             --- |
+|   LUT as Logic |     0.010 |     2349 |    303600 |             0.8 |
+|   Register     |     0.001 |     3320 |    607200 |             0.5 |
+|   F7/F8 Muxes  |     0.000 |       98 |    303600 |             0.0 |
+|   CARRY4       |     0.000 |       61 |     75900 |             0.1 |
+|   Others       |     0.000 |       77 |       --- |             --- |
+| Signals        |     0.030 |     6103 |       --- |             --- |
+| Block RAM      |     0.052 |        8 |      1030 |             0.8 |
+| MMCM           |     0.109 |        1 |        14 |             7.1 |
+| PCIE           |     0.082 |        1 |         4 |            25.0 |
+| I/O            |     0.002 |       40 |       700 |             5.7 |
+| GTX            |     2.449 |        8 |        28 |            28.6 |
+| Static Power   |     0.280 |          |           |                 |
+| Total          |     3.074 |          |           |                 |
++----------------+-----------+----------+-----------+-----------------+
+
+
+1.2 Power Supply Summary
+------------------------
+
++-----------+-------------+-----------+-------------+------------+
+| Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) |
++-----------+-------------+-----------+-------------+------------+
+| Vccint    |       1.000 |     0.676 |       0.522 |      0.154 |
+| Vccaux    |       1.800 |     0.098 |       0.060 |      0.038 |
+| Vcco33    |       3.300 |     0.000 |       0.000 |      0.000 |
+| Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |
+| Vcco18    |       1.800 |     0.002 |       0.001 |      0.001 |
+| Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |
+| Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |
+| Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |
+| Vccaux_io |       2.000 |     0.000 |       0.000 |      0.000 |
+| Vccbram   |       1.000 |     0.007 |       0.004 |      0.004 |
+| MGTAVcc   |       1.000 |     1.059 |       1.052 |      0.007 |
+| MGTAVtt   |       1.200 |     0.930 |       0.922 |      0.008 |
+| MGTVccaux |       1.800 |     0.000 |       0.000 |      0.000 |
+| MGTZVccl  |       1.075 |     0.000 |       0.000 |      0.000 |
+| MGTZAVcc  |       1.075 |     0.000 |       0.000 |      0.000 |
+| MGTZVcch  |       1.800 |     0.000 |       0.000 |      0.000 |
+| Vccadc    |       1.800 |     0.020 |       0.000 |      0.020 |
++-----------+-------------+-----------+-------------+------------+
+
+
+1.3 Confidence Level
+--------------------
+
++-----------------------------+------------+--------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+| User Input Data             | Confidence | Details                                                | Action                                                                                                             |
++-----------------------------+------------+--------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+| Design implementation state | High       | Design is completely routed                            |                                                                                                                    |
+| Clock nodes activity        | Medium     | More than 5% of clocks are missing user specification  | Provide missing clock activity with a constraint file, simulation results or by editing the "By Clock Domain" view |
+| I/O nodes activity          | Low        | More than 75% of inputs are missing user specification | Provide missing input activity with simulation results or by editing the "By Resource Type -> I/Os" view           |
+| Internal nodes activity     | Medium     | User specified less than 25% of internal nodes         | Provide missing internal nodes activity with simulation results or by editing the "By Resource Type" views         |
+| Device models               | High       | Device models are Production                           |                                                                                                                    |
+|                             |            |                                                        |                                                                                                                    |
+| Overall confidence level    | Low        |                                                        |                                                                                                                    |
++-----------------------------+------------+--------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------+
+
+
+2. Settings
+-----------
+
+2.1 Environment
+---------------
+
++-----------------------+------------------+
+| Ambient Temp (C)      | 25.0             |
+| ThetaJA (C/W)         | 1.1              |
+| Airflow (LFM)         | 250              |
+| Heat Sink             | Medium Profile   |
+| ThetaSA (C/W)         | 2.2              |
+| Board Selection       | Medium (10"x10") |
+| # of Board Layers     | 12 to 15         |
+| Board Temperature (C) | 28.5             |
++-----------------------+------------------+
+
+
+2.2 Initial Settings
+--------------------
+
++-------------------------------------+-------+
+| Register Toggle Rate (%)            |  12.5 |
+| IO Toggle Rate (%)                  |  12.5 |
+| Output Load (pF)                    |   5.0 |
+| IO Enable Probabilty                |   1.0 |
+| BRAM Write Probability              |   0.5 |
+| BRAM Enable Probability             |   0.5 |
+| DSP Toggle Rate (%)                 |  12.5 |
+| Set Signal Probability              |  0.01 |
+| Reset Signal Probability            |  0.01 |
+| Enable Signal Probability           |  0.99 |
+| Unconstrained Clock Frequency (MHz) |   0.0 |
++-------------------------------------+-------+
+
+
+2.3 Clock Constraints
+---------------------
+
++---------------------------------------------+-----------+-----------------+
+| Clock                                       | Domain    | Constraint (ns) |
++---------------------------------------------+-----------+-----------------+
+| sys_clk                                     | sys_clk_p |            10.0 |
+| vc707_pcie_x8_gen2_i/inst/pipe_txoutclk_out | sys_clk_p |            10.0 |
++---------------------------------------------+-----------+-----------------+
+
+
+3. Detailed Reports
+-------------------
+
+3.1 By Hierarchy
+----------------
+
++------------------------+-----------+
+| Name                   | Power (W) |
++------------------------+-----------+
+| xilinx_pcie_2_1_ep_7x  |     2.794 |
+|   app                  |     0.016 |
+|     PIO                |     0.016 |
+|       PIO_EP_inst      |     0.016 |
+|         EP_MEM_inst    |     0.012 |
+|           EP_MEM_inst  |     0.011 |
+|         EP_RX_inst     |     0.002 |
+|         EP_TX_inst     |     0.002 |
+|       PIO_TO_inst      |     0.000 |
+|   ext_clk.pipe_clock_i |     0.112 |
+|   vc707_pcie_x8_gen2_i |     2.664 |
+|     inst               |     2.664 |
++------------------------+-----------+
+
+

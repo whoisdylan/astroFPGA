@@ -1,0 +1,167 @@
+/*
+
+Vivado v2013.2 (64-bit)
+Build 272601 by xbuild on Sat Jun 15 11:11:11 MDT 2013
+Process ID: 31182
+
+Current time: 9/28/13 1:30:27 PM
+Time zone: Eastern Standard Time (America/New_York)
+
+OS: Linux
+Version: 2.6.32-358.18.1.el6.x86_64
+Architecture: amd64
+Available processors (cores): 8
+
+DISPLAY: :1.0
+Screen size: 1600x1200
+Screen resolution (DPI): 96
+Available screens: 1
+
+Java version: 1.7.0_17 64-bit
+Java home: /afs/ece.cmu.edu/support/xilinx/xilinx.release/Vivado-2013.2/Vivado/2013.2/tps/lnx64/jre
+
+User name: wtabib
+User directory: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3
+User country: US
+User language: en
+User locale: en_US
+
+GUI Allocated memory:	122 mb
+GUI Max memory:		3,066 mb
+
+*/
+
+minimizeFrame (PAResourceItoP.PAViews_TCL_CONSOLE, "Tcl Console"); // av:DockableFrame (FrameContainer:JideTabbedPane, bG:JFrame)
+selectButton (PAResourceAtoH.GettingStartedView_CREATE_NEW_PROJECT, "Create New Project"); // h:i (JPanel:JComponent, bG:JFrame)
+// a:aD (bG:JFrame): New Project: addNotify
+selectButton ((HResource) null, "Next >"); // JButton:AbstractButton (ButtonPanel:JPanel, a:aD)
+setText (PAResourceItoP.ProjectNameChooser_PROJECT_NAME, "vc707_pcie_vivado"); // ai:JTextField (JPanel:JComponent, a:aD)
+selectButton ((HResource) null, "Next >"); // JButton:AbstractButton (ButtonPanel:JPanel, a:aD)
+selectButton ((HResource) null, "Next >"); // JButton:AbstractButton (ButtonPanel:JPanel, a:aD)
+selectButton ((HResource) null, "< Back"); // JButton:AbstractButton (ButtonPanel:JPanel, a:aD)
+selectCheckBox (PAResourceItoP.NewProjectWizard_DO_NOT_SPECIFY_SOURCES_AT_THIS_TIME, "Do not specify sources at this time", true, false); // c:JCheckBox (U:p, a:aD): TRUE
+selectButton ((HResource) null, "Next >"); // JButton:AbstractButton (ButtonPanel:JPanel, a:aD)
+selectButton (PAResourceItoP.PartChooser_BOARDS, "Boards"); // s:o (p:JPanel, a:aD): FALSE
+selectTable (PAResourceItoP.PartChooser_BOARDS, "Virtex-7 VC707 Evaluation Platform ; xilinx.com ; virtex7 ; vc707 ; 2.0 ; xc7vx485tffg1761-2 ; 1761 ; 700 ; 303600 ; 607200 ; 1030 ; 2800 ; 28 ; 28 ; 0 ; 0 ; 4 ; 14 ; 0 ; 85 ; 85 ; 0.97 ; 0.97 ; 1.03 ; C ; 0", 3); // N:u (JViewport:JComponent, a:aD)
+selectButton ((HResource) null, "Next >"); // JButton:AbstractButton (ButtonPanel:JPanel, a:aD)
+// bU:I (a:aD):  Create Project : addNotify
+// Tcl: create_project vc707_pcie_vivado /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado -part xc7vx485tffg1761-2
+// Tcl: set_property board xilinx.com:virtex7:vc707:2.0 [current_project]
+selectButton ((HResource) null, "Finish"); // JButton:AbstractButton (ButtonPanel:JPanel, a:aD)
+dismissDialog ("Create Project"); // bU:I (a:aD)
+dismissDialog ("Create Project"); // bU:I (a:aD)
+selectTree (PAResourceAtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Project Manager, IP Catalog]", 3); // v:H (u:q, bG:JFrame)
+// bU:I (bG:JFrame):  IP Catalog : addNotify
+dismissDialog ("IP Catalog"); // bU:I (bG:JFrame)
+expandTreeTable (PAResourceAtoH.CoreTreeTablePanel_CORE_TREE_TABLE, "Standard Bus Interfaces ;  ;  ; ", 3); // A:X (JViewport:JComponent, bG:JFrame)
+expandTreeTable (PAResourceAtoH.CoreTreeTablePanel_CORE_TREE_TABLE, "DisplayPort ;  ;  ; ", 4); // A:X (JViewport:JComponent, bG:JFrame)
+collapseTreeTable (PAResourceAtoH.CoreTreeTablePanel_CORE_TREE_TABLE, "DisplayPort ;  ;  ; ", 4); // A:X (JViewport:JComponent, bG:JFrame)
+expandTreeTable (PAResourceAtoH.CoreTreeTablePanel_CORE_TREE_TABLE, "PCI Express ;  ;  ; ", 5); // A:X (JViewport:JComponent, bG:JFrame)
+selectTable (PAResourceAtoH.CoreTreeTablePanel_CORE_TREE_TABLE, "7 Series Integrated Block for PCI Express ; AXI4-Stream ; Production ; Included", 7); // A:X (JViewport:JComponent, bG:JFrame)
+selectTable (PAResourceAtoH.CoreTreeTablePanel_CORE_TREE_TABLE, "7 Series Integrated Block for PCI Express ; AXI4-Stream ; Production ; Included", 7, false, false, false, true, false); // A:X (JViewport:JComponent, bG:JFrame) - POPUP TRIGGER
+selectMenuItem (PAResourceCommand.PACommandNames_CUSTOMIZE_CORE, "Customize IP..."); // af:JMenuItem (aj:JPopupMenu, bG:JFrame)
+// bU:I (bG:JFrame):  Customize IP : addNotify
+// l:I (bG:JFrame): Customize IP: addNotify
+setText ("Component Name", "vc707_pcie_x8_gen2"); // aV:ai (p:JPanel, l:I)
+selectComboBox ("Lane Width", "X8", 3); // aD:c (p:JPanel, l:I)
+selectRadioButton ((HResource) null, "5.0 GT/s"); // bA:a
+selectRadioButton ((HResource) null, "5.0 GT/s"); // bA:a (p:JPanel, l:I)
+selectComboBox ("Xilinx Development Board", "VC707", 1); // aD:c (p:JPanel, l:I)
+selectButton (RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, l:I)
+dismissDialog ("Customize IP"); // l:I (bG:JFrame)
+// Tcl: create_ip -name pcie_7x -version 2.1 -vendor xilinx.com -library ip -module_name vc707_pcie_x8_gen2
+// Tcl: set_property -dict [list CONFIG.Component_Name {vc707_pcie_x8_gen2} CONFIG.Maximum_Link_Width {X8} CONFIG.Link_Speed {5.0_GT/s} CONFIG.Xlnx_Ref_Board {VC707}] [get_ips vc707_pcie_x8_gen2]
+// Tcl: generate_target instantiation_template [get_files  /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.srcs/sources_1/ip/vc707_pcie_x8_gen2/vc707_pcie_x8_gen2.xci] -force
+// Tcl: Generating IP 'vc707_pcie_x8_gen2'...Delivering 'Verilog Instantiation Template' file for IP 'vc707_pcie_x8_gen2'.
+// aG:V (bG:JFrame): Generate Output Products: addNotify
+// Tcl: update_compile_order -fileset sources_1update_compile_order -fileset sim_1
+selectButton (RDIResource.BaseDialog_CANCEL, "Skip"); // a:JButton (JPanel:JComponent, aG:V)
+dismissDialog ("Generate Output Products"); // aG:V (bG:JFrame)
+selectTable (PAResourceAtoH.CoreTreeTablePanel_CORE_TREE_TABLE, "7 Series Integrated Block for PCI Express ; AXI4-Stream ; Production ; Included", 7, false, false, false, true, false); // A:X (JViewport:JComponent, bG:JFrame) - POPUP TRIGGER
+selectMenuItem (PAResourceCommand.PACommandNames_CUSTOMIZE_CORE, "Customize IP..."); // af:JMenuItem (aj:JPopupMenu, bG:JFrame)
+// bU:I (bG:JFrame):  Customize IP : addNotify
+// l:I (bG:JFrame): Customize IP: addNotify
+selectComboBox ("Xilinx Development Board", "VC707", 1); // aD:c (p:JPanel, l:I)
+selectButton (RDIResource.BaseDialog_CANCEL, "Cancel"); // a:JButton (JPanel:JComponent, l:I)
+dismissDialog ("Customize IP"); // l:I (bG:JFrame)
+selectTab (PAResourceAtoH.FileSetView_TABBED_PANE, (HResource) null, "IP Sources", 1); // a:JideTabbedPane (w:aJ, bG:JFrame)
+selectTab (PAResourceAtoH.FileSetView_TABBED_PANE, (HResource) null, "IP Sources", 1); // a:JideTabbedPane (w:aJ, bG:JFrame)
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, vc707_pcie_x8_gen2]", 1, false, false, false, true, false); // m:c (q:JPanel, bG:JFrame) - POPUP TRIGGER
+selectMenuItem (PAResourceCommand.PACommandNames_RECUSTOMIZE_CORE, "Re-customize IP..."); // af:JMenuItem (aj:JPopupMenu, bG:JFrame)
+// bU:I (bG:JFrame):  Re-customize IP : addNotify
+// l:I (bG:JFrame): Re-customize IP: addNotify
+selectTab (PAResourceQtoZ.XPG_TabbedPane_TABBED_PANE, (HResource) null, "IDs", 1); // bF:a (p:JPanel, l:I)
+selectTab (PAResourceQtoZ.XPG_TabbedPane_TABBED_PANE, (HResource) null, "BARs", 2); // bF:a (p:JPanel, l:I)
+selectComboBox ("Size Unit", "Megabytes", 2); // aD:c (p:JPanel, l:I)
+selectComboBox ("Size Value", "1", 0); // aD:c (p:JPanel, l:I)
+selectButton (RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, l:I)
+dismissDialog ("Re-customize IP"); // l:I (bG:JFrame)
+// Tcl: set_property -dict [list CONFIG.Bar0_Scale {Megabytes} CONFIG.Bar0_Size {1}] [get_ips vc707_pcie_x8_gen2]
+// Tcl: generate_target instantiation_template [get_files  /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.srcs/sources_1/ip/vc707_pcie_x8_gen2/vc707_pcie_x8_gen2.xci] -force
+// Tcl: Generating IP 'vc707_pcie_x8_gen2'...Delivering 'Verilog Instantiation Template' file for IP 'vc707_pcie_x8_gen2'.
+// aG:V (bG:JFrame): Generate Output Products: addNotify
+selectButton (RDIResource.BaseDialog_OK, "Generate"); // a:JButton (JPanel:JComponent, aG:V)
+// bU:I (bG:JFrame):  Managing Output Products : addNotify
+// Tcl: generate_target all [get_files  /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.srcs/sources_1/ip/vc707_pcie_x8_gen2/vc707_pcie_x8_gen2.xci]
+// Tcl: Generating IP 'vc707_pcie_x8_gen2'...
+// Tcl: INFO: [IP_Flow 19-1706] Not generating up to date 'Instantiation Template' target for IP 'vc707_pcie_x8_gen2'.INFO: [IP_Flow 19-120] Not generating up to date IP 'vc707_pcie_x8_gen2'
+// Tcl: Generating IP 'vc707_pcie_x8_gen2'...Delivering 'Verilog Synthesis' files for IP 'vc707_pcie_x8_gen2'.
+// Tcl: Generating IP 'vc707_pcie_x8_gen2'...Delivering 'Verilog Simulation' files for IP 'vc707_pcie_x8_gen2'.
+// Tcl: Generating IP 'vc707_pcie_x8_gen2'...Delivering 'Examples' files for IP 'vc707_pcie_x8_gen2'.
+// Tcl: Delivering 'Examples Simulation' files for IP 'vc707_pcie_x8_gen2'.
+// Tcl: Delivering 'Examples Script Extension' files for IP 'vc707_pcie_x8_gen2'.Delivering 'Any Language Examples Script' files for IP 'vc707_pcie_x8_gen2'.
+// Tcl: generate_target: Time (s): cpu = 00:00:14 ; elapsed = 00:00:17 . Memory (MB): peak = 3832.797 ; gain = 0.000
+dismissDialog ("Managing Output Products"); // bU:I (bG:JFrame)
+selectMenu (PAResourceItoP.MainMenuMgr_FILE, "File"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+dismissMenu (PAResourceItoP.MainMenuMgr_FILE, "File"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+selectMenu (PAResourceItoP.MainMenuMgr_EDIT, "Edit"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+dismissMenu (PAResourceItoP.MainMenuMgr_EDIT, "Edit"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+selectMenu (PAResourceItoP.MainMenuMgr_FLOW, "Flow"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+dismissMenu (PAResourceItoP.MainMenuMgr_FLOW, "Flow"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+selectMenu (PAResourceItoP.MainMenuMgr_TOOLS, "Tools"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+selectMenu (PAResourceItoP.MainMenuMgr_REPORT, "Report"); // ac:JMenu (JPopupMenu:JComponent, bG:JFrame)
+dismissMenu (PAResourceItoP.MainMenuMgr_TOOLS, "Tools"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+selectTree (PAResourceAtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Project Manager, Project Settings]", 1); // v:H (u:q, bG:JFrame)
+// Project Settings: addNotify
+selectButton ((HResource) null, "Simulation"); // JideButton:JButton (ScrollableButtonPanel:ButtonPanel, j:bd)
+selectButton ((HResource) null, "Synthesis"); // JideButton:JButton (ScrollableButtonPanel:ButtonPanel, j:bd)
+selectButton ((HResource) null, "Implementation"); // JideButton:JButton (ScrollableButtonPanel:ButtonPanel, j:bd)
+selectButton ((HResource) null, "Bitstream"); // JideButton:JButton (ScrollableButtonPanel:ButtonPanel, j:bd)
+selectButton ((HResource) null, "IP"); // JideButton:JButton (ScrollableButtonPanel:ButtonPanel, j:bd)
+selectButton ((HResource) null, "General"); // JideButton:JButton (ScrollableButtonPanel:ButtonPanel, j:bd)
+selectButton ((HResource) null, "Simulation"); // JideButton:JButton (ScrollableButtonPanel:ButtonPanel, j:bd)
+selectTab ((HResource) null, PAResourceItoP.ProjectSettingsSimulationPanel_ADVANCED, "Advanced", 3); // a:JideTabbedPane (JPanel:JComponent, j:bd)
+selectTab ((HResource) null, PAResourceItoP.ProjectSettingsSimulationPanel_SIMULATION, "Simulation", 1); // a:JideTabbedPane (JPanel:JComponent, j:bd)
+selectTab ((HResource) null, PAResourceItoP.ProjectSettingsSimulationPanel_COMPILATION, "Compilation", 0); // a:JideTabbedPane (JPanel:JComponent, j:bd)
+selectButton ((HResource) null, "Cancel"); // JButton:AbstractButton (ButtonPanel:JPanel, j:bd)
+expandTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, vc707_pcie_x8_gen2]", 1); // m:c (q:JPanel, bG:JFrame)
+selectTab ((HResource) null, (HResource) null, "Sources", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, bG:JFrame)
+selectTab ((HResource) null, (HResource) null, "Sources", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, bG:JFrame)
+selectTab (PAResourceAtoH.FileSetView_TABBED_PANE, (HResource) null, "Hierarchy", 0); // a:JideTabbedPane (w:aJ, bG:JFrame)
+selectTab ((HResource) null, (HResource) null, "Sources", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, bG:JFrame)
+selectTab ((HResource) null, (HResource) null, "Sources", 0); // FrameContainer:JideTabbedPane (ContainerContainer:JideSplitPane, bG:JFrame)
+expandTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, vc707_pcie_x8_gen2 (vc707_pcie_x8_gen2.xci)]", 1); // m:c (q:JPanel, bG:JFrame)
+selectMenu (PAResourceItoP.MainMenuMgr_FILE, "File"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+selectMenu (PAResourceItoP.MainMenuMgr_OPEN_RECENT_PROJECT, "Open Recent Project"); // ac:JMenu (JPopupMenu:JComponent, Popup:JWindow)
+selectMenu (PAResourceItoP.MainMenuMgr_OPEN_RECENT_PROJECT, "Open Recent Project"); // ac:JMenu (JPopupMenu:JComponent, Popup:JWindow)
+selectMenu (PAResourceItoP.MainMenuMgr_OPEN_EXAMPLE_PROJECT, "Open Example Project"); // ac:JMenu (JPopupMenu:JComponent, Popup:JWindow)
+selectMenuItem (PAResourceCommand.PACommandNames_NEW_FILE, "New File..."); // af:JMenuItem (JPopupMenu:JComponent, Popup:JWindow)
+dismissMenu (PAResourceItoP.MainMenuMgr_FILE, "File"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+dismissFileChooser ();
+selectMenu (PAResourceItoP.MainMenuMgr_FILE, "File"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+selectMenu (PAResourceItoP.MainMenuMgr_OPEN_RECENT_PROJECT, "Open Recent Project"); // ac:JMenu (JPopupMenu:JComponent, Popup:JWindow)
+selectMenu (PAResourceItoP.MainMenuMgr_OPEN_EXAMPLE_PROJECT, "Open Example Project"); // ac:JMenu (JPopupMenu:JComponent, Popup:JWindow)
+selectMenuItem (PAResourceCommand.PACommandNames_OPEN_FILE, "Open File..."); // af:JMenuItem (JPopupMenu:JComponent, Popup:JWindow)
+dismissMenu (PAResourceItoP.MainMenuMgr_FILE, "File"); // Z:JideMenu (CommandMenuBar:CommandBar, bG:JFrame)
+dismissFileChooser ();
+selectTab (PAResourceAtoH.FileSetView_TABBED_PANE, (HResource) null, "IP Sources", 1); // a:JideTabbedPane (w:aJ, bG:JFrame)
+selectTree (PAResourceAtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, IP, vc707_pcie_x8_gen2]", 1, false, false, false, true, false); // m:c (q:JPanel, bG:JFrame) - POPUP TRIGGER
+selectMenuItem (PAResourceCommand.PACommandNames_OPEN_EXAMPLE, "Open IP Example Design..."); // af:JMenuItem (aj:JPopupMenu, bG:JFrame)
+// o:V (bG:JFrame): Open IP Example Design: addNotify
+selectButton (RDIResource.BaseDialog_OK, "OK"); // a:JButton (JPanel:JComponent, o:V)
+dismissDialog ("Open IP Example Design"); // o:V (bG:JFrame)
+// Tcl: open_example_project -force -dir /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado [get_ips  vc707_pcie_x8_gen2]
+// Tcl: Generating IP 'vc707_pcie_x8_gen2'...
+// Tcl: INFO: [IP_Flow 19-1706] Not generating up to date 'Examples' target for IP 'vc707_pcie_x8_gen2'.INFO: [IP_Flow 19-1706] Not generating up to date 'Examples Simulation' target for IP 'vc707_pcie_x8_gen2'.INFO: [IP_Flow 19-1706] Not generating up to date 'Examples Script' target for IP 'vc707_pcie_x8_gen2'.
+// Tcl: Delivering 'Examples Script Extension' files for IP 'vc707_pcie_x8_gen2'.
+// Tcl: open_example_project: Time (s): cpu = 00:00:01 ; elapsed = 00:00:31 . Memory (MB): peak = 3832.922 ; gain = 0.000
