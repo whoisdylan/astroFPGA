@@ -1,4 +1,1 @@
-astroFPGA
-=========
-
-18-545 computer vision on FPGA project
+18-545 Astroteam computer vision project repository
