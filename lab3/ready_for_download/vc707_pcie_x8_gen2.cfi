@@ -1,0 +1,11 @@
+# PROMGEN: Xilinx Prom Generator P.40xd
+# Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+
+SOFTWARE_VERSION P.40xd
+DATE            10/ 5/2013 - 16:36
+SOURCE          /afs/ece/usr/wtabib/astroFPGA/lab3/ready_for_download/vc707_pcie_x8_gen2.mcs
+DEVICE          131072K
+DATA_WIDTH      16
+FILL_DATA       0xFF
+SIGNATURE       0xD4A76FD4
+START_ADDRESS   0x00000000 END_ADDRESS 0x0025B093 DIRECTION_UP   "/afs/ece/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/xilinx_pcie_2_1_ep_7x.bit" 7vx485tffg1761

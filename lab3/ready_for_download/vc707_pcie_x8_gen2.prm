@@ -1,0 +1,17 @@
+PROMGEN: Xilinx Prom Generator P.40xd
+Copyright (c) 1995-2012 Xilinx, Inc.  All rights reserved.
+
+promgen -w -p mcs -c FF -o /afs/ece/usr/wtabib/astroFPGA/lab3/ready_for_download//vc707_pcie_x8_gen2 -s 131072 -u 00000000 /afs/ece/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/xilinx_pcie_2_1_ep_7x.bit -bpi_dc parallel -data_width 16 
+
+PROM /afs/ece/usr/wtabib/astroFPGA/lab3/ready_for_download/vc707_pcie_x8_gen2.prm map: Sat Oct  5 16:36:47 2013
+
+Calculating PROM checksum with fill value ff
+
+Format        Mcs86 (32-bit)
+Size          131072K
+PROM start    0000:0000
+PROM end      07ff:ffff
+PROM checksum d4a76fd4
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    0025:b093     Oct  5 16:08:00 2013 /afs/ece/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/xilinx_pcie_2_1_ep_7x.bit

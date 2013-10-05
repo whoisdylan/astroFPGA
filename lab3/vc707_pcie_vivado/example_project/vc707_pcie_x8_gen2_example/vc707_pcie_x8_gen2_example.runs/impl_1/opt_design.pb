@@ -40,7 +40,7 @@ y
 
 %s
 *constraints2b
-`Time (s): cpu = 00:00:00.20 ; elapsed = 00:00:00.23 . Memory (MB): peak = 994.758 ; gain = 4.004
+`Time (s): cpu = 00:00:00.21 ; elapsed = 00:00:00.21 . Memory (MB): peak = 994.758 ; gain = 3.004
 F
 
 Starting %s Task
@@ -74,7 +74,7 @@ y
 
 %s
 *constraints2b
-`Time (s): cpu = 00:00:00.96 ; elapsed = 00:00:00.91 . Memory (MB): peak = 995.758 ; gain = 1.000
+`Time (s): cpu = 00:00:00.97 ; elapsed = 00:00:00.77 . Memory (MB): peak = 995.758 ; gain = 1.000
 H
 
 Phase %s%s
@@ -96,7 +96,7 @@ s
 
 %s
 *constraints2\
-ZTime (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 995.758 ; gain = 1.000
+ZTime (s): cpu = 00:00:02 ; elapsed = 00:00:01 . Memory (MB): peak = 995.758 ; gain = 1.000
 9
 
 Phase %s%s
@@ -129,7 +129,7 @@ s
 
 %s
 *constraints2\
-ZTime (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 995.758 ; gain = 1.000
+ZTime (s): cpu = 00:00:03 ; elapsed = 00:00:02 . Memory (MB): peak = 995.758 ; gain = 1.000
 F
 
 Starting %s Task
@@ -180,17 +180,6 @@ A
 29*	vivadotcl2
 
 opt_designZ4-42
- 
-I%sTime (s): cpu = %s ; elapsed = %s . Memory (MB): peak = %s ; gain = %s
-268*common2
-opt_design: 2
-
-00:00:062
-
-00:00:052
-
-1085.2072
-95.453Z17-268
 4
 Writing XDEF routing.
 211*designutilsZ20-211
@@ -204,8 +193,8 @@ A
 I%sTime (s): cpu = %s ; elapsed = %s . Memory (MB): peak = %s ; gain = %s
 268*common2
 Write XDEF Complete: 2
-00:00:00.262
-00:00:00.322
+00:00:00.272
+00:00:00.312
 
 1085.2072
 0.000Z17-268

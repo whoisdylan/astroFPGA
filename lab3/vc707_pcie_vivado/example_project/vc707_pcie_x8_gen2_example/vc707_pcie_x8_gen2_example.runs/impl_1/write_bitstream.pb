@@ -61,32 +61,32 @@ K
 Failed to get a license: %s
 295*common2
 Internal_bitstreamZ17-301
-ê
+í
 Parsing XDC File [%s]
-179*designutils2Ÿ
-÷/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-387-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x_early.xdcZ20-179
-ô
+179*designutils2€
+ÿ/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-15731-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x_early.xdcZ20-179
+õ
 Finished Parsing XDC File [%s]
-178*designutils2Ÿ
-÷/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-387-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x_early.xdcZ20-178
-ä
+178*designutils2€
+ÿ/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-15731-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x_early.xdcZ20-178
+å
 Parsing XDC File [%s]
-179*designutils2”
-–/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-387-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x.xdcZ20-179
+179*designutils2’
+“/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-15731-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x.xdcZ20-179
 ô
 %Done setting XDC timing constraints.
 35*timing2Œ
 …/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.srcs/constrs_1/imports/example_design/xilinx_pcie_7x_ep_x8g2_VC707.xdc2
-958@Z38-35
+968@Z38-35
 å
 Deriving generated clocks
 2*timing2Œ
 …/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.srcs/constrs_1/imports/example_design/xilinx_pcie_7x_ep_x8g2_VC707.xdc2
-958@Z38-2
-ì
+968@Z38-2
+ï
 Finished Parsing XDC File [%s]
-178*designutils2”
-–/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-387-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x.xdcZ20-178
+178*designutils2’
+“/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-15731-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x.xdcZ20-178
 6
 Reading XDEF placement.
 206*designutilsZ20-206
@@ -99,8 +99,8 @@ I%sTime (s): cpu = %s ; elapsed = %s . Memory (MB): peak = %s ; gain = %s
 Read XDEF File: 2
 00:00:00.282
 00:00:00.292	
-989.8592
-6.031Z17-268
+988.8282
+5.000Z17-268
 3
 Restoring placement.
 754*designutilsZ20-754
@@ -110,8 +110,8 @@ ORestored %s out of %s XDEF sites from archive | CPU: %s secs | Memory: %s MB |
 12942
 12942
 
-0.6800002
-	10.102516Z20-403
+0.7000002
+	10.102577Z20-403
 Ö
 !Unisim Transformation Summary:
 %s111*project2I
@@ -128,8 +128,8 @@ I%sTime (s): cpu = %s ; elapsed = %s . Memory (MB): peak = %s ; gain = %s
 
 00:00:212
 
-00:00:232	
-992.8592	
+00:00:222	
+992.8282	
 841.156Z17-268
 x
 @Attempting to get a license for feature '%s' and/or device '%s'
@@ -194,8 +194,8 @@ I%sTime (s): cpu = %s ; elapsed = %s . Memory (MB): peak = %s ; gain = %s
 
 00:00:582
 
-1424.5122	
-431.652Z17-268
+1424.4842	
+431.656Z17-268
 
 
 End Record

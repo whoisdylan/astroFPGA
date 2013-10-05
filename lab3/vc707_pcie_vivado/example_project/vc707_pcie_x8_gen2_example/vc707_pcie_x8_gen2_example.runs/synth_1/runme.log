@@ -58,7 +58,7 @@ WARNING: [Synth 8-2507] parameter declaration becomes local in vc707_pcie_x8_gen
 WARNING: [Synth 8-2507] parameter declaration becomes local in vc707_pcie_x8_gen2_pcie_pipe_lane with formal parameter declaration list [/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.srcs/sources_1/ip/vc707_pcie_x8_gen2/vc707_pcie_x8_gen2/source/vc707_pcie_x8_gen2_pcie_pipe_lane.v:103]
 WARNING: [Synth 8-2507] parameter declaration becomes local in vc707_pcie_x8_gen2_pcie_pipe_misc with formal parameter declaration list [/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.srcs/sources_1/ip/vc707_pcie_x8_gen2/vc707_pcie_x8_gen2/source/vc707_pcie_x8_gen2_pcie_pipe_misc.v:90]
 WARNING: [Synth 8-2507] parameter declaration becomes local in vc707_pcie_x8_gen2_gt_top with formal parameter declaration list [/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.srcs/sources_1/ip/vc707_pcie_x8_gen2/vc707_pcie_x8_gen2/source/vc707_pcie_x8_gen2_gt_top.v:243]
-starting Rtl Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 202.914 ; gain = 86.438
+starting Rtl Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 202.945 ; gain = 86.438
 INFO: [Synth 8-638] synthesizing module 'xilinx_pcie_2_1_ep_7x' [/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.srcs/sources_1/imports/example_design/xilinx_pcie_2_1_ep_7x.v:60]
 	Parameter PL_FAST_TRAIN bound to: FALSE - type: string 
 	Parameter PCIE_EXT_CLK bound to: TRUE - type: string 
@@ -3004,8 +3004,8 @@ WARNING: [Synth 8-3848] Net icap_rdwrb in module/entity xilinx_pcie_2_1_ep_7x do
 WARNING: [Synth 8-3848] Net icap_i in module/entity xilinx_pcie_2_1_ep_7x does not have driver.
 INFO: [Synth 8-256] done synthesizing module 'xilinx_pcie_2_1_ep_7x' (54#68) [/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.srcs/sources_1/imports/example_design/xilinx_pcie_2_1_ep_7x.v:60]
 WARNING: [Synth 8-3331] design xilinx_pcie_2_1_ep_7x has unconnected port emcclk
-finished Rtl Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:07 . Memory (MB): peak = 262.664 ; gain = 146.188
-Start RTL Optimization : Time (s): cpu = 00:00:05 ; elapsed = 00:00:07 . Memory (MB): peak = 262.664 ; gain = 146.188
+finished Rtl Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 262.695 ; gain = 146.188
+Start RTL Optimization : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 262.695 ; gain = 146.188
 Report Check Netlist: 
 -----+-----------------+------+--------+------+-----------------
      |Item             |Errors|Warnings|Status|Description      
@@ -3132,17 +3132,17 @@ INFO: [Project 1-111] Unisim Transformation Summary:
 
 Phase 0 | Netlist Checksum: db198e93
 Xilinx IP preload is disabled
-Start RTL Optimization : Time (s): cpu = 00:00:29 ; elapsed = 00:00:35 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Start RTL Optimization : Time (s): cpu = 00:00:29 ; elapsed = 00:00:31 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 ---------------------------------------------------------------------------------
 Applying 'set_property' XDC Constraints...
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:30 ; elapsed = 00:00:37 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:29 ; elapsed = 00:00:32 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 ---------------------------------------------------------------------------------
-Finished Compilation : Time (s): cpu = 00:00:30 ; elapsed = 00:00:37 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished Compilation : Time (s): cpu = 00:00:29 ; elapsed = 00:00:32 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 INFO: [Synth 8-3888] merging register 'rxpmareset_reg' into 'txpmareset_reg' in module 'vc707_pcie_x8_gen2_pipe_rate' [/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.srcs/sources_1/ip/vc707_pcie_x8_gen2/vc707_pcie_x8_gen2/source/vc707_pcie_x8_gen2_pipe_rate.v:415]
@@ -3202,7 +3202,7 @@ Part Resources:
 DSPs: 2800 (col length:140)
 BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:38 ; elapsed = 00:00:45 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:37 ; elapsed = 00:00:40 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 
@@ -3240,67 +3240,67 @@ Detailed RTL Component Info :
 	                2 Bit    Registers := 147   
 	                1 Bit    Registers := 1405  
 +---Muxes : 
-	   4 Input     32 Bit        Muxes := 2     
 	   9 Input     32 Bit        Muxes := 1     
+	   4 Input     32 Bit        Muxes := 2     
 	   5 Input     22 Bit        Muxes := 8     
 	   2 Input     22 Bit        Muxes := 2     
-	   7 Input     19 Bit        Muxes := 8     
 	   2 Input     19 Bit        Muxes := 8     
-	   5 Input     18 Bit        Muxes := 8     
-	   7 Input     18 Bit        Muxes := 16    
+	   7 Input     19 Bit        Muxes := 8     
 	   2 Input     18 Bit        Muxes := 32    
+	   7 Input     18 Bit        Muxes := 16    
+	   5 Input     18 Bit        Muxes := 8     
 	   2 Input     16 Bit        Muxes := 33    
 	   2 Input     15 Bit        Muxes := 16    
 	   2 Input     14 Bit        Muxes := 16    
-	   2 Input     13 Bit        Muxes := 8     
 	   9 Input     13 Bit        Muxes := 1     
+	   2 Input     13 Bit        Muxes := 8     
 	   3 Input     12 Bit        Muxes := 1     
 	   2 Input     12 Bit        Muxes := 18    
 	   9 Input     11 Bit        Muxes := 1     
 	   2 Input     10 Bit        Muxes := 2     
 	  10 Input      9 Bit        Muxes := 2     
 	   2 Input      9 Bit        Muxes := 10    
-	   2 Input      8 Bit        Muxes := 44    
 	   9 Input      8 Bit        Muxes := 3     
+	   2 Input      8 Bit        Muxes := 44    
+	   6 Input      7 Bit        Muxes := 1     
 	   2 Input      7 Bit        Muxes := 3     
 	   8 Input      7 Bit        Muxes := 16    
-	   6 Input      7 Bit        Muxes := 1     
-	   2 Input      6 Bit        Muxes := 182   
 	   8 Input      6 Bit        Muxes := 18    
 	   7 Input      6 Bit        Muxes := 41    
 	   9 Input      6 Bit        Muxes := 1     
-	   6 Input      5 Bit        Muxes := 16    
-	   2 Input      5 Bit        Muxes := 145   
+	   2 Input      6 Bit        Muxes := 182   
 	   4 Input      5 Bit        Muxes := 8     
 	   8 Input      5 Bit        Muxes := 8     
+	   6 Input      5 Bit        Muxes := 16    
+	   2 Input      5 Bit        Muxes := 145   
 	   5 Input      5 Bit        Muxes := 1     
-	   7 Input      4 Bit        Muxes := 9     
-	   6 Input      4 Bit        Muxes := 8     
 	   2 Input      4 Bit        Muxes := 151   
+	   6 Input      4 Bit        Muxes := 8     
+	   7 Input      4 Bit        Muxes := 9     
 	   5 Input      4 Bit        Muxes := 8     
 	   2 Input      3 Bit        Muxes := 91    
-	  32 Input      3 Bit        Muxes := 8     
 	   4 Input      3 Bit        Muxes := 8     
-	  11 Input      3 Bit        Muxes := 1     
-	   5 Input      3 Bit        Muxes := 1     
 	   7 Input      3 Bit        Muxes := 16    
-	   8 Input      3 Bit        Muxes := 8     
+	   5 Input      3 Bit        Muxes := 1     
 	  10 Input      3 Bit        Muxes := 2     
-	   5 Input      2 Bit        Muxes := 1     
-	   2 Input      2 Bit        Muxes := 43    
-	   7 Input      2 Bit        Muxes := 8     
+	   8 Input      3 Bit        Muxes := 8     
+	  11 Input      3 Bit        Muxes := 1     
+	  32 Input      3 Bit        Muxes := 8     
 	  32 Input      2 Bit        Muxes := 8     
-	   7 Input      1 Bit        Muxes := 155   
-	  18 Input      1 Bit        Muxes := 7     
-	   6 Input      1 Bit        Muxes := 24    
+	   5 Input      2 Bit        Muxes := 1     
+	   7 Input      2 Bit        Muxes := 8     
+	   2 Input      2 Bit        Muxes := 43    
 	   8 Input      1 Bit        Muxes := 26    
-	  10 Input      1 Bit        Muxes := 6     
-	  13 Input      1 Bit        Muxes := 6     
-	   4 Input      1 Bit        Muxes := 16    
-	   5 Input      1 Bit        Muxes := 67    
 	   2 Input      1 Bit        Muxes := 268   
-	  32 Input      1 Bit        Muxes := 152   
+	   6 Input      1 Bit        Muxes := 24    
+	   5 Input      1 Bit        Muxes := 67    
 	   9 Input      1 Bit        Muxes := 14    
+	  10 Input      1 Bit        Muxes := 6     
+	  18 Input      1 Bit        Muxes := 7     
+	   7 Input      1 Bit        Muxes := 155   
+	   4 Input      1 Bit        Muxes := 16    
+	  13 Input      1 Bit        Muxes := 6     
+	  32 Input      1 Bit        Muxes := 152   
 
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
@@ -3314,63 +3314,35 @@ Module xilinx_pcie_2_1_ep_7x
 Detailed RTL Component Info : 
 +---Registers : 
 	                1 Bit    Registers := 2     
-Module pcie_app_7x 
-Detailed RTL Component Info : 
-+---Registers : 
-	                1 Bit    Registers := 1     
 Module EP_MEM 
 Detailed RTL Component Info : 
-Module vc707_pcie_x8_gen2_axi_basic_rx 
+Module vc707_pcie_x8_gen2_pcie_brams_7x 
+Detailed RTL Component Info : 
+Module pcie_7x_v2_1_core_top 
+Detailed RTL Component Info : 
++---Registers : 
+	                1 Bit    Registers := 5     
+Module vc707_pcie_x8_gen2_pcie_pipe_lane 
+Detailed RTL Component Info : 
++---Registers : 
+	               16 Bit    Registers := 2     
+	                3 Bit    Registers := 1     
+	                2 Bit    Registers := 3     
+	                1 Bit    Registers := 7     
+Module vc707_pcie_x8_gen2_axi_basic_top 
 Detailed RTL Component Info : 
 Module PIO_TO_CTRL 
 Detailed RTL Component Info : 
 +---Registers : 
 	                1 Bit    Registers := 2     
-Module vc707_pcie_x8_gen2_pipe_reset 
-Detailed RTL Component Info : 
-+---Adders : 
-	   2 Input      6 Bit       Adders := 1     
-+---Registers : 
-	                8 Bit    Registers := 16    
-	                6 Bit    Registers := 1     
-	                5 Bit    Registers := 1     
-	                1 Bit    Registers := 15    
-+---Muxes : 
-	   2 Input      8 Bit        Muxes := 1     
-	   2 Input      6 Bit        Muxes := 1     
-	   2 Input      5 Bit        Muxes := 3     
-	   2 Input      4 Bit        Muxes := 3     
-	   2 Input      3 Bit        Muxes := 3     
-	   2 Input      2 Bit        Muxes := 1     
-	  18 Input      1 Bit        Muxes := 7     
-	   2 Input      1 Bit        Muxes := 2     
-Module vc707_pcie_x8_gen2_pcie_top 
-Detailed RTL Component Info : 
-+---Registers : 
-	                8 Bit    Registers := 1     
-	                5 Bit    Registers := 1     
-	                3 Bit    Registers := 1     
-Module pcie_7x_v2_1_core_top 
-Detailed RTL Component Info : 
-+---Registers : 
-	                1 Bit    Registers := 5     
 Module vc707_pcie_x8_gen2_gt_wrapper 
 Detailed RTL Component Info : 
+Module PIO 
+Detailed RTL Component Info : 
++---Registers : 
+	                1 Bit    Registers := 1     
 Module vc707_pcie_x8_gen2 
 Detailed RTL Component Info : 
-Module vc707_pcie_x8_gen2_pipe_user 
-Detailed RTL Component Info : 
-+---Adders : 
-	   2 Input      4 Bit       Adders := 2     
-	   2 Input      2 Bit       Adders := 1     
-+---Registers : 
-	                8 Bit    Registers := 1     
-	                4 Bit    Registers := 2     
-	                2 Bit    Registers := 2     
-	                1 Bit    Registers := 32    
-+---Muxes : 
-	   2 Input      4 Bit        Muxes := 2     
-	   2 Input      1 Bit        Muxes := 3     
 Module vc707_pcie_x8_gen2_axi_basic_rx_pipeline 
 Detailed RTL Component Info : 
 +---Registers : 
@@ -3382,125 +3354,6 @@ Detailed RTL Component Info :
 +---Muxes : 
 	   2 Input     22 Bit        Muxes := 2     
 	   2 Input      1 Bit        Muxes := 8     
-Module vc707_pcie_x8_gen2_pcie_pipe_lane 
-Detailed RTL Component Info : 
-+---Registers : 
-	               16 Bit    Registers := 2     
-	                3 Bit    Registers := 1     
-	                2 Bit    Registers := 3     
-	                1 Bit    Registers := 7     
-Module BRAM_SDP_MACRO 
-Detailed RTL Component Info : 
-Module vc707_pcie_x8_gen2_axi_basic_rx_null_gen 
-Detailed RTL Component Info : 
-+---Adders : 
-	   2 Input     12 Bit       Adders := 2     
-+---Registers : 
-	               12 Bit    Registers := 1     
-	                1 Bit    Registers := 1     
-+---Muxes : 
-	   3 Input     12 Bit        Muxes := 1     
-	   2 Input     12 Bit        Muxes := 2     
-	   2 Input     10 Bit        Muxes := 1     
-	   5 Input      5 Bit        Muxes := 1     
-	   2 Input      2 Bit        Muxes := 2     
-	   2 Input      1 Bit        Muxes := 3     
-Module vc707_pcie_x8_gen2_pipe_rate 
-Detailed RTL Component Info : 
-+---Adders : 
-	   2 Input      4 Bit       Adders := 1     
-+---Registers : 
-	                5 Bit    Registers := 1     
-	                4 Bit    Registers := 1     
-	                3 Bit    Registers := 1     
-	                2 Bit    Registers := 3     
-	                1 Bit    Registers := 43    
-+---Muxes : 
-	   2 Input      6 Bit        Muxes := 10    
-	   2 Input      5 Bit        Muxes := 9     
-	   2 Input      4 Bit        Muxes := 2     
-	  32 Input      3 Bit        Muxes := 1     
-	  32 Input      2 Bit        Muxes := 1     
-	  32 Input      1 Bit        Muxes := 19    
-	   2 Input      1 Bit        Muxes := 6     
-Module vc707_pcie_x8_gen2_axi_basic_tx 
-Detailed RTL Component Info : 
-Module vc707_pcie_x8_gen2_pipe_sync 
-Detailed RTL Component Info : 
-+---Registers : 
-	                7 Bit    Registers := 1     
-	                6 Bit    Registers := 1     
-	                1 Bit    Registers := 40    
-+---Muxes : 
-	   2 Input      6 Bit        Muxes := 3     
-	   7 Input      6 Bit        Muxes := 1     
-	   2 Input      5 Bit        Muxes := 1     
-	   2 Input      4 Bit        Muxes := 1     
-	   2 Input      3 Bit        Muxes := 1     
-	   2 Input      2 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 2     
-	   7 Input      1 Bit        Muxes := 3     
-Module pcie_7x_v2_1_top 
-Detailed RTL Component Info : 
-Module vc707_pcie_x8_gen2_axi_basic_top 
-Detailed RTL Component Info : 
-Module vc707_pcie_x8_gen2_gt_top 
-Detailed RTL Component Info : 
-+---Registers : 
-	                6 Bit    Registers := 1     
-	                1 Bit    Registers := 2     
-Module vc707_pcie_x8_gen2_pipe_wrapper 
-Detailed RTL Component Info : 
-+---Registers : 
-	                1 Bit    Registers := 2     
-Module vc707_pcie_x8_gen2_pipe_eq 
-Detailed RTL Component Info : 
-+---Adders : 
-	   2 Input      3 Bit       Adders := 1     
-	   2 Input      2 Bit       Adders := 1     
-+---Registers : 
-	               19 Bit    Registers := 2     
-	               18 Bit    Registers := 4     
-	                6 Bit    Registers := 6     
-	                4 Bit    Registers := 5     
-	                3 Bit    Registers := 4     
-	                2 Bit    Registers := 5     
-	                1 Bit    Registers := 14    
-+---Muxes : 
-	   2 Input     19 Bit        Muxes := 1     
-	   7 Input     19 Bit        Muxes := 1     
-	   7 Input     18 Bit        Muxes := 2     
-	   2 Input     18 Bit        Muxes := 3     
-	   8 Input      7 Bit        Muxes := 2     
-	   7 Input      6 Bit        Muxes := 4     
-	   8 Input      6 Bit        Muxes := 2     
-	   2 Input      6 Bit        Muxes := 7     
-	   4 Input      5 Bit        Muxes := 1     
-	   2 Input      5 Bit        Muxes := 1     
-	   2 Input      4 Bit        Muxes := 2     
-	   7 Input      4 Bit        Muxes := 1     
-	   4 Input      3 Bit        Muxes := 1     
-	   7 Input      3 Bit        Muxes := 2     
-	   7 Input      2 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 9     
-	   7 Input      1 Bit        Muxes := 15    
-	   4 Input      1 Bit        Muxes := 2     
-Module vc707_pcie_x8_gen2_axi_basic_tx_thrtl_ctl 
-Detailed RTL Component Info : 
-+---Adders : 
-	   2 Input      3 Bit       Adders := 1     
-	   2 Input      2 Bit       Adders := 2     
-+---Registers : 
-	                6 Bit    Registers := 1     
-	                3 Bit    Registers := 2     
-	                2 Bit    Registers := 1     
-	                1 Bit    Registers := 17    
-+---Muxes : 
-	   2 Input      3 Bit        Muxes := 3     
-	   2 Input      2 Bit        Muxes := 2     
-	   2 Input      1 Bit        Muxes := 9     
-Module vc707_pcie_x8_gen2_pcie_bram_top_7x 
-Detailed RTL Component Info : 
 Module vc707_pcie_x8_gen2_rxeq_scan 
 Detailed RTL Component Info : 
 +---Adders : 
@@ -3515,8 +3368,8 @@ Detailed RTL Component Info :
 	                1 Bit    Registers := 9     
 +---Muxes : 
 	   5 Input     22 Bit        Muxes := 1     
-	   2 Input     18 Bit        Muxes := 1     
 	   5 Input     18 Bit        Muxes := 1     
+	   2 Input     18 Bit        Muxes := 1     
 	   2 Input      6 Bit        Muxes := 1     
 	   6 Input      5 Bit        Muxes := 1     
 	   5 Input      4 Bit        Muxes := 1     
@@ -3526,108 +3379,19 @@ Detailed RTL Component Info :
 	   2 Input      2 Bit        Muxes := 1     
 	   2 Input      1 Bit        Muxes := 4     
 	   5 Input      1 Bit        Muxes := 8     
-Module vc707_pcie_x8_gen2_gt_rx_valid_filter_7x 
-Detailed RTL Component Info : 
-+---Registers : 
-	               16 Bit    Registers := 1     
-	                5 Bit    Registers := 1     
-	                3 Bit    Registers := 1     
-	                2 Bit    Registers := 1     
-	                1 Bit    Registers := 4     
-+---Muxes : 
-	   2 Input      5 Bit        Muxes := 3     
-	   6 Input      5 Bit        Muxes := 1     
-	   2 Input      4 Bit        Muxes := 1     
-	   2 Input      3 Bit        Muxes := 3     
-	   2 Input      1 Bit        Muxes := 1     
-	   6 Input      1 Bit        Muxes := 3     
-Module vc707_pcie_x8_gen2_pcie_bram_7x 
-Detailed RTL Component Info : 
-Module vc707_pcie_x8_gen2_pcie_pipe_pipeline 
-Detailed RTL Component Info : 
-Module PIO_EP_MEM_ACCESS 
-Detailed RTL Component Info : 
-+---Registers : 
-	               32 Bit    Registers := 2     
-	                3 Bit    Registers := 1     
-	                1 Bit    Registers := 1     
-+---Muxes : 
-	   4 Input     32 Bit        Muxes := 2     
-	   2 Input      8 Bit        Muxes := 4     
-	   2 Input      3 Bit        Muxes := 1     
-	   5 Input      3 Bit        Muxes := 1     
-	   5 Input      1 Bit        Muxes := 3     
-	   2 Input      1 Bit        Muxes := 1     
-Module vc707_pcie_x8_gen2_pcie_pipe_misc 
-Detailed RTL Component Info : 
-+---Registers : 
-	                3 Bit    Registers := 1     
-	                1 Bit    Registers := 5     
-Module vc707_pcie_x8_gen2_pipe_clock 
-Detailed RTL Component Info : 
-+---Registers : 
-	                8 Bit    Registers := 2     
-	                1 Bit    Registers := 3     
-Module vc707_pcie_x8_gen2_qpll_reset 
-Detailed RTL Component Info : 
-+---Registers : 
-	                8 Bit    Registers := 6     
-	                4 Bit    Registers := 1     
-	                2 Bit    Registers := 6     
-	                1 Bit    Registers := 5     
-+---Muxes : 
-	   2 Input      5 Bit        Muxes := 4     
-	   2 Input      4 Bit        Muxes := 3     
-	  13 Input      1 Bit        Muxes := 6     
-Module PIO_TX_ENGINE 
-Detailed RTL Component Info : 
-+---Registers : 
-	              128 Bit    Registers := 1     
-	               16 Bit    Registers := 1     
-	                4 Bit    Registers := 1     
-	                1 Bit    Registers := 6     
-+---Muxes : 
-	   6 Input      7 Bit        Muxes := 1     
-	   2 Input      7 Bit        Muxes := 1     
-	  11 Input      3 Bit        Muxes := 1     
-	   2 Input      1 Bit        Muxes := 2     
-Module vc707_pcie_x8_gen2_qpll_drp 
+Module vc707_pcie_x8_gen2_pipe_user 
 Detailed RTL Component Info : 
 +---Adders : 
-	   2 Input      6 Bit       Adders := 1     
-	   2 Input      3 Bit       Adders := 1     
+	   2 Input      4 Bit       Adders := 2     
 	   2 Input      2 Bit       Adders := 1     
 +---Registers : 
-	               16 Bit    Registers := 3     
-	                9 Bit    Registers := 1     
 	                8 Bit    Registers := 1     
-	                6 Bit    Registers := 1     
-	                3 Bit    Registers := 1     
-	                2 Bit    Registers := 1     
-	                1 Bit    Registers := 12    
+	                4 Bit    Registers := 2     
+	                2 Bit    Registers := 2     
+	                1 Bit    Registers := 32    
 +---Muxes : 
-	   2 Input      9 Bit        Muxes := 5     
-	  10 Input      9 Bit        Muxes := 1     
-	   2 Input      8 Bit        Muxes := 2     
-	   2 Input      7 Bit        Muxes := 1     
-	   8 Input      6 Bit        Muxes := 1     
-	   2 Input      5 Bit        Muxes := 1     
-	  10 Input      3 Bit        Muxes := 1     
-	   2 Input      3 Bit        Muxes := 1     
-	   2 Input      2 Bit        Muxes := 2     
-	   2 Input      1 Bit        Muxes := 1     
-	  10 Input      1 Bit        Muxes := 3     
-	   8 Input      1 Bit        Muxes := 1     
-Module vc707_pcie_x8_gen2_pcie_brams_7x 
-Detailed RTL Component Info : 
-Module vc707_pcie_x8_gen2_qpll_wrapper 
-Detailed RTL Component Info : 
-Module PIO 
-Detailed RTL Component Info : 
-+---Registers : 
-	                1 Bit    Registers := 1     
-Module vc707_pcie_x8_gen2_pcie_7x 
-Detailed RTL Component Info : 
+	   2 Input      4 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 3     
 Module PIO_RX_ENGINE 
 Detailed RTL Component Info : 
 +---Registers : 
@@ -3646,26 +3410,21 @@ Detailed RTL Component Info :
 	   9 Input     13 Bit        Muxes := 1     
 	   9 Input     11 Bit        Muxes := 1     
 	   2 Input     10 Bit        Muxes := 1     
-	   2 Input      8 Bit        Muxes := 3     
 	   9 Input      8 Bit        Muxes := 3     
+	   2 Input      8 Bit        Muxes := 3     
 	   9 Input      6 Bit        Muxes := 1     
-	   7 Input      6 Bit        Muxes := 1     
 	   2 Input      6 Bit        Muxes := 13    
+	   7 Input      6 Bit        Muxes := 1     
 	   7 Input      4 Bit        Muxes := 1     
 	   2 Input      4 Bit        Muxes := 1     
 	   2 Input      3 Bit        Muxes := 2     
 	   5 Input      2 Bit        Muxes := 1     
 	   2 Input      2 Bit        Muxes := 2     
-	   9 Input      1 Bit        Muxes := 14    
-	   2 Input      1 Bit        Muxes := 25    
 	   7 Input      1 Bit        Muxes := 11    
-Module vc707_pcie_x8_gen2_axi_basic_tx_pipeline 
+	   2 Input      1 Bit        Muxes := 25    
+	   9 Input      1 Bit        Muxes := 14    
+Module pcie_7x_v2_1_top 
 Detailed RTL Component Info : 
-+---Registers : 
-	              128 Bit    Registers := 1     
-	               16 Bit    Registers := 1     
-	                4 Bit    Registers := 1     
-	                1 Bit    Registers := 6     
 Module vc707_pcie_x8_gen2_pipe_drp 
 Detailed RTL Component Info : 
 +---Adders : 
@@ -3693,8 +3452,249 @@ Detailed RTL Component Info :
 	   2 Input      2 Bit        Muxes := 2     
 	   2 Input      1 Bit        Muxes := 2     
 	   8 Input      1 Bit        Muxes := 3     
+Module PIO_EP_MEM_ACCESS 
+Detailed RTL Component Info : 
++---Registers : 
+	               32 Bit    Registers := 2     
+	                3 Bit    Registers := 1     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   4 Input     32 Bit        Muxes := 2     
+	   2 Input      8 Bit        Muxes := 4     
+	   2 Input      3 Bit        Muxes := 1     
+	   5 Input      3 Bit        Muxes := 1     
+	   5 Input      1 Bit        Muxes := 3     
+	   2 Input      1 Bit        Muxes := 1     
+Module vc707_pcie_x8_gen2_axi_basic_tx_thrtl_ctl 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      3 Bit       Adders := 1     
+	   2 Input      2 Bit       Adders := 2     
++---Registers : 
+	                6 Bit    Registers := 1     
+	                3 Bit    Registers := 2     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 17    
++---Muxes : 
+	   2 Input      3 Bit        Muxes := 3     
+	   2 Input      2 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 9     
+Module vc707_pcie_x8_gen2_pcie_bram_7x 
+Detailed RTL Component Info : 
+Module vc707_pcie_x8_gen2_pipe_clock 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 2     
+	                1 Bit    Registers := 3     
+Module vc707_pcie_x8_gen2_pcie_7x 
+Detailed RTL Component Info : 
+Module PIO_TX_ENGINE 
+Detailed RTL Component Info : 
++---Registers : 
+	              128 Bit    Registers := 1     
+	               16 Bit    Registers := 1     
+	                4 Bit    Registers := 1     
+	                1 Bit    Registers := 6     
++---Muxes : 
+	   6 Input      7 Bit        Muxes := 1     
+	   2 Input      7 Bit        Muxes := 1     
+	  11 Input      3 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 2     
+Module vc707_pcie_x8_gen2_pipe_wrapper 
+Detailed RTL Component Info : 
++---Registers : 
+	                1 Bit    Registers := 2     
+Module BRAM_SDP_MACRO 
+Detailed RTL Component Info : 
+Module vc707_pcie_x8_gen2_gt_rx_valid_filter_7x 
+Detailed RTL Component Info : 
++---Registers : 
+	               16 Bit    Registers := 1     
+	                5 Bit    Registers := 1     
+	                3 Bit    Registers := 1     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 4     
++---Muxes : 
+	   2 Input      5 Bit        Muxes := 3     
+	   6 Input      5 Bit        Muxes := 1     
+	   2 Input      4 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 3     
+	   2 Input      1 Bit        Muxes := 1     
+	   6 Input      1 Bit        Muxes := 3     
+Module vc707_pcie_x8_gen2_pipe_reset 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      6 Bit       Adders := 1     
++---Registers : 
+	                8 Bit    Registers := 16    
+	                6 Bit    Registers := 1     
+	                5 Bit    Registers := 1     
+	                1 Bit    Registers := 15    
++---Muxes : 
+	   2 Input      8 Bit        Muxes := 1     
+	   2 Input      6 Bit        Muxes := 1     
+	   2 Input      5 Bit        Muxes := 3     
+	   2 Input      4 Bit        Muxes := 3     
+	   2 Input      3 Bit        Muxes := 3     
+	   2 Input      2 Bit        Muxes := 1     
+	  18 Input      1 Bit        Muxes := 7     
+	   2 Input      1 Bit        Muxes := 2     
+Module vc707_pcie_x8_gen2_pipe_sync 
+Detailed RTL Component Info : 
++---Registers : 
+	                7 Bit    Registers := 1     
+	                6 Bit    Registers := 1     
+	                1 Bit    Registers := 40    
++---Muxes : 
+	   2 Input      6 Bit        Muxes := 3     
+	   7 Input      6 Bit        Muxes := 1     
+	   2 Input      5 Bit        Muxes := 1     
+	   2 Input      4 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 2     
+	   7 Input      1 Bit        Muxes := 3     
+Module vc707_pcie_x8_gen2_axi_basic_rx 
+Detailed RTL Component Info : 
+Module vc707_pcie_x8_gen2_axi_basic_tx 
+Detailed RTL Component Info : 
+Module vc707_pcie_x8_gen2_pipe_rate 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      4 Bit       Adders := 1     
++---Registers : 
+	                5 Bit    Registers := 1     
+	                4 Bit    Registers := 1     
+	                3 Bit    Registers := 1     
+	                2 Bit    Registers := 3     
+	                1 Bit    Registers := 43    
++---Muxes : 
+	   2 Input      6 Bit        Muxes := 10    
+	   2 Input      5 Bit        Muxes := 9     
+	   2 Input      4 Bit        Muxes := 2     
+	  32 Input      3 Bit        Muxes := 1     
+	  32 Input      2 Bit        Muxes := 1     
+	  32 Input      1 Bit        Muxes := 19    
+	   2 Input      1 Bit        Muxes := 6     
+Module vc707_pcie_x8_gen2_axi_basic_tx_pipeline 
+Detailed RTL Component Info : 
++---Registers : 
+	              128 Bit    Registers := 1     
+	               16 Bit    Registers := 1     
+	                4 Bit    Registers := 1     
+	                1 Bit    Registers := 6     
+Module vc707_pcie_x8_gen2_pcie_pipe_pipeline 
+Detailed RTL Component Info : 
+Module vc707_pcie_x8_gen2_pipe_eq 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      3 Bit       Adders := 1     
+	   2 Input      2 Bit       Adders := 1     
++---Registers : 
+	               19 Bit    Registers := 2     
+	               18 Bit    Registers := 4     
+	                6 Bit    Registers := 6     
+	                4 Bit    Registers := 5     
+	                3 Bit    Registers := 4     
+	                2 Bit    Registers := 5     
+	                1 Bit    Registers := 14    
++---Muxes : 
+	   2 Input     19 Bit        Muxes := 1     
+	   7 Input     19 Bit        Muxes := 1     
+	   2 Input     18 Bit        Muxes := 3     
+	   7 Input     18 Bit        Muxes := 2     
+	   8 Input      7 Bit        Muxes := 2     
+	   8 Input      6 Bit        Muxes := 2     
+	   2 Input      6 Bit        Muxes := 7     
+	   7 Input      6 Bit        Muxes := 4     
+	   4 Input      5 Bit        Muxes := 1     
+	   2 Input      5 Bit        Muxes := 1     
+	   2 Input      4 Bit        Muxes := 2     
+	   7 Input      4 Bit        Muxes := 1     
+	   7 Input      3 Bit        Muxes := 2     
+	   4 Input      3 Bit        Muxes := 1     
+	   7 Input      2 Bit        Muxes := 1     
+	   2 Input      1 Bit        Muxes := 9     
+	   7 Input      1 Bit        Muxes := 15    
+	   4 Input      1 Bit        Muxes := 2     
+Module vc707_pcie_x8_gen2_qpll_wrapper 
+Detailed RTL Component Info : 
+Module vc707_pcie_x8_gen2_pcie_pipe_misc 
+Detailed RTL Component Info : 
++---Registers : 
+	                3 Bit    Registers := 1     
+	                1 Bit    Registers := 5     
+Module vc707_pcie_x8_gen2_gt_top 
+Detailed RTL Component Info : 
++---Registers : 
+	                6 Bit    Registers := 1     
+	                1 Bit    Registers := 2     
 Module PIO_EP 
 Detailed RTL Component Info : 
+Module vc707_pcie_x8_gen2_axi_basic_rx_null_gen 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input     12 Bit       Adders := 2     
++---Registers : 
+	               12 Bit    Registers := 1     
+	                1 Bit    Registers := 1     
++---Muxes : 
+	   3 Input     12 Bit        Muxes := 1     
+	   2 Input     12 Bit        Muxes := 2     
+	   2 Input     10 Bit        Muxes := 1     
+	   5 Input      5 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 3     
+Module vc707_pcie_x8_gen2_qpll_reset 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 6     
+	                4 Bit    Registers := 1     
+	                2 Bit    Registers := 6     
+	                1 Bit    Registers := 5     
++---Muxes : 
+	   2 Input      5 Bit        Muxes := 4     
+	   2 Input      4 Bit        Muxes := 3     
+	  13 Input      1 Bit        Muxes := 6     
+Module pcie_app_7x 
+Detailed RTL Component Info : 
++---Registers : 
+	                1 Bit    Registers := 1     
+Module vc707_pcie_x8_gen2_pcie_bram_top_7x 
+Detailed RTL Component Info : 
+Module vc707_pcie_x8_gen2_pcie_top 
+Detailed RTL Component Info : 
++---Registers : 
+	                8 Bit    Registers := 1     
+	                5 Bit    Registers := 1     
+	                3 Bit    Registers := 1     
+Module vc707_pcie_x8_gen2_qpll_drp 
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input      6 Bit       Adders := 1     
+	   2 Input      3 Bit       Adders := 1     
+	   2 Input      2 Bit       Adders := 1     
++---Registers : 
+	               16 Bit    Registers := 3     
+	                9 Bit    Registers := 1     
+	                8 Bit    Registers := 1     
+	                6 Bit    Registers := 1     
+	                3 Bit    Registers := 1     
+	                2 Bit    Registers := 1     
+	                1 Bit    Registers := 12    
++---Muxes : 
+	  10 Input      9 Bit        Muxes := 1     
+	   2 Input      9 Bit        Muxes := 5     
+	   2 Input      8 Bit        Muxes := 2     
+	   2 Input      7 Bit        Muxes := 1     
+	   8 Input      6 Bit        Muxes := 1     
+	   2 Input      5 Bit        Muxes := 1     
+	   2 Input      3 Bit        Muxes := 1     
+	  10 Input      3 Bit        Muxes := 1     
+	   2 Input      2 Bit        Muxes := 2     
+	   2 Input      1 Bit        Muxes := 1     
+	  10 Input      1 Bit        Muxes := 3     
+	   8 Input      1 Bit        Muxes := 1     
 
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics
@@ -3769,7 +3769,7 @@ WARNING: [Synth 8-3332] Sequential element (\app/PIO/PIO_EP_inst/EP_RX_inst/pio_
 WARNING: [Synth 8-3332] Sequential element (\app/PIO/PIO_EP_inst/EP_RX_inst/pio_rx_sm_128.req_be_reg[4] ) is unused and will be removed from module xilinx_pcie_2_1_ep_7x.
 WARNING: [Synth 8-3331] design xilinx_pcie_2_1_ep_7x has unconnected port emcclk
 ---------------------------------------------------------------------------------
-Finished Cross Boundary Optimization : Time (s): cpu = 00:00:41 ; elapsed = 00:00:48 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished Cross Boundary Optimization : Time (s): cpu = 00:00:40 ; elapsed = 00:00:43 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 ---------------------------------------------------------------------------------
@@ -3822,7 +3822,7 @@ WARNING: [Synth 8-3332] Sequential element (\rxeq_scan_i/new_txcoeff_reg[13] ) i
 WARNING: [Synth 8-3332] Sequential element (\rxeq_scan_i/new_txcoeff_reg[12] ) is unused and will be removed from module vc707_pcie_x8_gen2_pipe_eq__1.
 INFO: [Common 17-14] Message 'Synth 8-3332' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_limit to change the current settings.
 ---------------------------------------------------------------------------------
-Finished Area Optimization : Time (s): cpu = 00:00:57 ; elapsed = 00:01:05 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished Area Optimization : Time (s): cpu = 00:00:56 ; elapsed = 00:00:59 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 
@@ -3836,7 +3836,7 @@ Applying XDC Timing Constraints
 info: Moved 1 constraints on hierarchical pins to their respective driving/loading pins:
              vc707_pcie_x8_gen2_i/inst/pipe_txoutclk_out to {vc707_pcie_x8_gen2_i/inst/\inst/gt_top_i/pipe_wrapper_i /\pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i /TXOUTCLK}
 ---------------------------------------------------------------------------------
-Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:58 ; elapsed = 00:01:07 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:57 ; elapsed = 00:01:01 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 info: (0) optimizing 'vc707_pcie_x8_gen2_i/inst/\inst/pcie_top_i/axi_basic_top/rx_inst/rx_pipeline_inst/m_axis_rx_tuser_reg[21] /D' (path group default) @ 53.0ps(1/1) (1 secs)
@@ -3847,7 +3847,7 @@ info: start optimizing sub-critical range ...
 info: done optimizing sub-critical range for path group default.
 info: done optimizing sub-critical range.
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:01:00 ; elapsed = 00:01:08 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished Timing Optimization : Time (s): cpu = 00:00:59 ; elapsed = 00:01:02 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 
@@ -3858,7 +3858,7 @@ Start control sets optimization
 INFO: [Synth 8-4428] Reached the limit for maximum flops that can be modified (87). You can increase this by setting the parameter controlSetsOptMaxFlops
 Finished control sets optimization. Modified 86 flops. Number of control sets: before: 237 after: 157
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:01:28 ; elapsed = 00:01:36 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished Technology Mapping : Time (s): cpu = 00:01:25 ; elapsed = 00:01:29 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 
@@ -3896,7 +3896,7 @@ WARNING: [Synth 8-3295] tying undriven pin \inst/gt_top_i/pipe_wrapper_i/pipe_la
 WARNING: [Synth 8-3295] tying undriven pin \inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_eq.pipe_eq_i/rxeq_scan_i/txpreset_reg1_reg[2] :D to constant 0
 INFO: [Common 17-14] Message 'Synth 8-3295' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_limit to change the current settings.
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:01:35 ; elapsed = 00:01:44 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished IO Insertion : Time (s): cpu = 00:01:32 ; elapsed = 00:01:36 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 Report Check Netlist: 
@@ -3910,7 +3910,7 @@ Report Check Netlist:
 Start renaming generated instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:01:35 ; elapsed = 00:01:44 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:32 ; elapsed = 00:01:36 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 
@@ -3918,7 +3918,7 @@ Finished Renaming Generated Instances : Time (s): cpu = 00:01:35 ; elapsed = 00:
 Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:36 ; elapsed = 00:01:44 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:33 ; elapsed = 00:01:37 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 ---------------------------------------------------------------------------------
@@ -3982,11 +3982,11 @@ Report Instance Areas:
 12   |      PIO_TO_inst       |PIO_TO_CTRL                  |    3
 -----+------------------------+-----------------------------+-----
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:01:36 ; elapsed = 00:01:45 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:33 ; elapsed = 00:01:37 . Memory (MB): peak = 1072.621 ; gain = 956.113
 ---------------------------------------------------------------------------------
 
 Synthesis finished with 0 errors, 0 critical warnings and 3256 warnings.
-Synthesis Optimization Complete : Time (s): cpu = 00:01:36 ; elapsed = 00:01:45 . Memory (MB): peak = 1072.621 ; gain = 956.145
+Synthesis Optimization Complete : Time (s): cpu = 00:01:33 ; elapsed = 00:01:37 . Memory (MB): peak = 1072.621 ; gain = 956.113
 INFO: [Netlist 29-17] Analyzing 28 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 WARNING: [Netlist 29-101] Netlist 'xilinx_pcie_2_1_ep_7x' is not ideal for floorplanning, since the cellview 'pcie_7x_v2_1_top' contains a large number of primitives.  Please consider enabling hierarchy in synthesis if you want to do floorplanning.
@@ -3998,8 +3998,8 @@ INFO: [Project 1-111] Unisim Transformation Summary:
 Phase 0 | Netlist Checksum: beef07b5
 155 Infos, 267 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:01:40 ; elapsed = 00:01:49 . Memory (MB): peak = 1330.914 ; gain = 1164.086
+synth_design: Time (s): cpu = 00:01:38 ; elapsed = 00:01:41 . Memory (MB): peak = 1330.914 ; gain = 1164.055
 # write_checkpoint xilinx_pcie_2_1_ep_7x.dcp
 # report_utilization -file xilinx_pcie_2_1_ep_7x_utilization_synth.rpt -pb xilinx_pcie_2_1_ep_7x_utilization_synth.pb
-report_utilization: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.17 . Memory (MB): peak = 1330.914 ; gain = 0.000
-INFO: [Common 17-206] Exiting Vivado at Sat Sep 28 13:44:26 2013...
+report_utilization: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.19 . Memory (MB): peak = 1330.914 ; gain = 0.000
+INFO: [Common 17-206] Exiting Vivado at Sat Oct  5 16:03:48 2013...

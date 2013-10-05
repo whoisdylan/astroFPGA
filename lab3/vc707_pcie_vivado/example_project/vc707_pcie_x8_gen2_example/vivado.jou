@@ -1,8 +1,8 @@
 #-----------------------------------------------------------
 # Vivado v2013.2 (64-bit)
 # Build 272601 by xbuild on Sat Jun 15 11:11:11 MDT 2013
-# Start of session at: Sat Sep 28 13:36:45 2013
-# Process ID: 31453
+# Start of session at: Sat Oct  5 16:00:58 2013
+# Process ID: 15126
 # Log file: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vivado.log
 # Journal file: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vivado.jou
 #-----------------------------------------------------------
@@ -18,3 +18,25 @@ launch_runs impl_1
 wait_on_run impl_1
 launch_runs impl_1 -to_step write_bitstream
 wait_on_run impl_1
+open_run impl_1
+launch_impact 
+open_hw
+connect_hw_server -host localhost -port 60001
+current_hw_target [get_hw_targets */xilinx_tcf/Digilent/210203336442A]
+open_hw_target
+set_property PROGRAM.FILE {/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/xilinx_pcie_2_1_ep_7x.bit} [lindex [get_hw_devices] 0]
+set_property PROBES.FILE {/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/debug_nets.ltx} [lindex [get_hw_devices] 0]
+current_hw_device [lindex [get_hw_devices] 0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices] 0]
+close_hw
+launch_impact 
+open_hw
+connect_hw_server -host localhost -port 60001
+current_hw_target [get_hw_targets */xilinx_tcf/Digilent/210203336442A]
+open_hw_target
+set_property PROGRAM.FILE {/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/xilinx_pcie_2_1_ep_7x.bit} [lindex [get_hw_devices] 0]
+set_property PROBES.FILE {/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/debug_nets.ltx} [lindex [get_hw_devices] 0]
+current_hw_device [lindex [get_hw_devices] 0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices] 0]
+launch_impact 
+close_hw

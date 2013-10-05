@@ -4,10 +4,11 @@
 	<FileSet Dir="sources_1" File="fileset.xml"/>
 	<FileSet Dir="constrs_1" File="fileset.xml"/>
 	<FileSet Dir="sim_1" File="fileset.xml"/>
+	<HWSession Dir="hw" File="hwsession_1.xml"/>
 	<RunSet Dir="runs" File="runs.xml"/>
 	<DefaultLaunch Dir="$PRUNDIR"/>
 	<Config>
-		<Option Name="Id" Val="aeb94fc3b58b4a63818f639f44dee476"/>
+		<Option Name="Id" Val="2ecca7e675294096b853196525fa00df"/>
 		<Option Name="Part" Val="xc7vx485tffg1761-2"/>
 		<Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
 		<Option Name="Board" Val=""/>

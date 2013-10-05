@@ -1,7 +1,7 @@
 Copyright 1986-1999, 2001-2013 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2013.2 (lin64) Build 272601 Sat Jun 15 11:11:11 MDT 2013
-| Date             : Sat Sep 28 13:47:11 2013
+| Date             : Sat Oct  5 16:06:31 2013
 | Host             : chinook.ece.cmu.edu running 64-bit Red Hat Enterprise Linux Server release 6.4 (Santiago)
 | Command          : report_power -file xilinx_pcie_2_1_ep_7x_power_routed.rpt -pb xilinx_pcie_2_1_ep_7x_power_summary_routed.pb
 | Design           : xilinx_pcie_2_1_ep_7x

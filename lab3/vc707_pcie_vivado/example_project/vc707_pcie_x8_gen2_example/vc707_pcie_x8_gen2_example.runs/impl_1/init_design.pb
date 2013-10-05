@@ -91,12 +91,12 @@ $Parsing XDC File [%s] for cell '%s'
 %Done setting XDC timing constraints.
 35*timing2Î
 É/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.srcs/constrs_1/imports/example_design/xilinx_pcie_7x_ep_x8g2_VC707.xdc2
-958@Z38-35
+968@Z38-35
 Œ
 Deriving generated clocks
 2*timing2Î
 É/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.srcs/constrs_1/imports/example_design/xilinx_pcie_7x_ep_x8g2_VC707.xdc2
-958@Z38-2
+968@Z38-2
 Œ
 Finished Parsing XDC File [%s]
 178*designutils2Ì
@@ -104,11 +104,11 @@ $Parsing XDC File [%s] for cell '%s'
 Œ
 Parsing XDC File [%s]
 179*designutils2Õ
-Ò/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-32378-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x.xdcZ20-179
+Ò/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-15378-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x.xdcZ20-179
 •
 Finished Parsing XDC File [%s]
 178*designutils2Õ
-Ò/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-32378-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x.xdcZ20-178
+Ò/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/.Xil/Vivado-15378-chinook.ece.cmu.edu/dcp/xilinx_pcie_2_1_ep_7x.xdcZ20-178
 c
 !Unisim Transformation Summary:
 %s111*project2'
@@ -125,8 +125,8 @@ I%sTime (s): cpu = %s ; elapsed = %s . Memory (MB): peak = %s ; gain = %s
 00:00:212
 
 00:00:222	
-989.7542	
-838.082Z17-268
+990.7542	
+839.082Z17-268
 
 
 End Record

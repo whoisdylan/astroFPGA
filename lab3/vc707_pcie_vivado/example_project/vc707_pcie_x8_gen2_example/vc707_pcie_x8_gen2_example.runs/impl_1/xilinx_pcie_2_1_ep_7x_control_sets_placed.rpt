@@ -1,7 +1,7 @@
 Copyright 1986-1999, 2001-2013 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2013.2 (lin64) Build 272601 Sat Jun 15 11:11:11 MDT 2013
-| Date         : Sat Sep 28 13:45:25 2013
+| Date         : Sat Oct  5 16:04:47 2013
 | Host         : chinook.ece.cmu.edu running 64-bit Red Hat Enterprise Linux Server release 6.4 (Santiago)
 | Command      : report_control_sets -verbose -file xilinx_pcie_2_1_ep_7x_control_sets_placed.rpt
 | Design       : xilinx_pcie_2_1_ep_7x
@@ -81,14 +81,14 @@ Table of Contents
 |  ext_clk.pipe_clock_i/pipe_userclk2_in | vc707_pcie_x8_gen2_i/inst/n_0_cfg_bus_number_d_reg[7]_i_2                           | vc707_pcie_x8_gen2_i/inst/n_0_cfg_bus_number_d_reg[7]_i_1                                        |                4 |             16 |
 |  ext_clk.pipe_clock_i/pipe_dclk_in     |                                                                                     |                                                                                                  |                7 |             16 |
 |  ext_clk.pipe_clock_i/pipe_userclk2_in | app/PIO/PIO_EP_inst/EP_RX_inst/n_0_pio_rx_sm_128.tlp_type_reg[7]_i_1                | app/PIO/PIO_EP_inst/EP_RX_inst/SR[0]                                                             |               11 |             18 |
-|  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[1].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1__0                                         |                6 |             22 |
-|  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[2].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1__1                                         |                6 |             22 |
-|  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1__3                                         |                6 |             22 |
 |  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[3].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1__2                                         |                6 |             22 |
+|  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[2].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1__1                                         |                6 |             22 |
+|  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[1].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1__0                                         |                6 |             22 |
+|  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1                                            |                6 |             22 |
 |  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[5].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1__4                                         |                6 |             22 |
 |  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[6].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1__5                                         |                6 |             22 |
 |  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[7].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1__6                                         |                6 |             22 |
-|  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1                                            |                6 |             22 |
+|  ext_clk.pipe_clock_i/pipe_oobclk_in   | vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_user_i/sel | vc707_pcie_x8_gen2_i/inst/n_0_converge_cnt_reg[0]_i_1__3                                         |                6 |             22 |
 |  ext_clk.pipe_clock_i/pipe_userclk2_in | app/PIO/PIO_EP_inst/EP_RX_inst/n_0_pio_rx_sm_128.req_attr_reg[1]_i_1                | app/PIO/PIO_EP_inst/EP_RX_inst/SR[0]                                                             |               16 |             31 |
 |  ext_clk.pipe_clock_i/pipe_userclk2_in | app/PIO/PIO_EP_inst/EP_MEM_inst/n_0_pre_wr_data_reg[31]_i_1                         | app/PIO/PIO_EP_inst/EP_RX_inst/SR[0]                                                             |               10 |             32 |
 |  ext_clk.pipe_clock_i/pipe_userclk2_in | app/PIO/PIO_EP_inst/EP_MEM_inst/n_0_post_wr_data_reg[31]_i_1                        | app/PIO/PIO_EP_inst/EP_RX_inst/SR[0]                                                             |                6 |             32 |

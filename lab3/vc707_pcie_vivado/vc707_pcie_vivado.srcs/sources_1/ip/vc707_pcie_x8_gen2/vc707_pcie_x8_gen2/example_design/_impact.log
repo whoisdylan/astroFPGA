@@ -1,0 +1,200 @@
+iMPACT Version: 14.2
+
+iMPACT log file Started on Sat Oct  5 16:07:59 2013
+
+Welcome to iMPACT
+iMPACT Version: 14.2
+Project: /afs/ece.cmu.edu/usr/wtabib/18545/lab3//auto_project.ipf created.
+// *** BATCH CMD : setMode -pff
+// *** BATCH CMD : addConfigDevice  -name "vc707_pcie_x8_gen2" -path"/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/ready_for_download"
+// *** BATCH CMD : setSubmode -pffbpi
+// *** BATCH CMD : setAttribute -configdevice -attr multibootBpiType -value"TYPE_BPI"
+// *** BATCH CMD : setAttribute -configdevice -attr multibootBpichainType -value"PARALLEL"
+// *** BATCH CMD : addDesign -version 0 -name "0"
+// *** BATCH CMD : setMode -pff
+// *** BATCH CMD : addDeviceChain -index 0
+// *** BATCH CMD : setMode -pff
+// *** BATCH CMD : addDeviceChain -index 0
+Override chain at index 0.
+Overriding chain at index 0.
+// *** BATCH CMD : setAttribute -configdevice -attr compressed -value "FALSE"
+// *** BATCH CMD : setAttribute -configdevice -attr autoSize -value "FALSE"
+// *** BATCH CMD : setAttribute -configdevice -attr fileFormat -value "mcs"
+// *** BATCH CMD : setAttribute -configdevice -attr fillValue -value "FF"
+// *** BATCH CMD : setAttribute -configdevice -attr swapBit -value "FALSE"
+// *** BATCH CMD : setAttribute -configdevice -attr dir -value "UP"
+// *** BATCH CMD : setAttribute -configdevice -attr multiboot -value "FALSE"
+// *** BATCH CMD : setAttribute -configdevice -attr spiSelected -value "FALSE"
+// *** BATCH CMD : setAttribute -configdevice -attr ironhorsename -value "1"
+// *** BATCH CMD : setAttribute -configdevice -attr flashDataWidth -value "16"
+// *** BATCH CMD : setCurrentDesign -version 0
+// *** BATCH CMD : setAttribute -design -attr RSPin -value ""
+// *** BATCH CMD : setCurrentDesign -version 0
+// *** BATCH CMD : addPromDevice -p 1 -size 128 -name 128K
+'1': Added Device 128K successfully.
+----------------------------------------------------------------------
+// *** BATCH CMD : setMode -pff
+// *** BATCH CMD : addDeviceChain -index 0
+Override chain at index 0.
+Overriding chain at index 0.
+// *** BATCH CMD : setMode -pff
+// *** BATCH CMD : addDeviceChain -index 0
+Override chain at index 0.
+Overriding chain at index 0.
+// *** BATCH CMD : setMode -pff
+// *** BATCH CMD : setSubmode -pffbpi
+// *** BATCH CMD : setMode -pff
+------------------------  GUI: Wizard Data Report  ---------------------------
+      Compression : false
+      Fill Value : FF
+      Output Format : mcs
+      Swap Bits : false
+      LoadDirection : UP
+      PROM Basename : vc707_pcie_x8_gen2
+      File Location :/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/ready_for_download/
+      Auto Selcet : false
+      Number of Revisions : 1
+      Number of PROMs : 1
+      PROM Name : 128K,   PROM Size : 131072 Bytes
+-------------------------- END of Report ----------------------------
+// *** BATCH CMD : setAttribute -design -attr RSPin -value "00"
+// *** BATCH CMD : addDevice -p 1 -file"/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/xilinx_pcie_2_1_ep_7x.bit"
+'1': Loading file'/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/xilinx_pcie_2_1_ep_7x.bit' ...
+INFO:iMPACT - Elapsed time =      2 sec.
+done.
+INFO:iMPACT:501 - '1': Added Device xc7vx485t successfully.
+----------------------------------------------------------------------
+file :/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.runs/impl_1/xilinx_pcie_2_1_ep_7x.bit  used size : 19760288
+Add one device.// *** BATCH CMD : setAttribute -design -attr RSPinMsb -value "1"
+// *** BATCH CMD : setAttribute -design -attr name -value "0"
+// *** BATCH CMD : setAttribute -design -attr RSPin -value "00"
+// *** BATCH CMD : setAttribute -design -attr endAddress -value "25b093"
+// *** BATCH CMD : addPromDevice -p 2 -size 131072 -name 128M
+'2': Added Device 128M successfully.
+----------------------------------------------------------------------
+// *** BATCH CMD : deletePromDevice -position 1
+----------------------------------------------------------------------
+INFO:iMPACT - Current time: 10/5/13 4:15 PM
+// *** BATCH CMD : setMode -pff
+// *** BATCH CMD : setSubmode -pffbpi
+Total configuration bit size = 19760288  bits.
+Total configuration byte size = 2470036 bytes.
+// *** BATCH CMD : generate
+INFO:Bitstream:181 - The start address provided has been multiplied by a factor   of 2 due to the use of the x16 data width
+0x25b094 (2470036) bytes loaded up from 0x0
+Using user-specified prom size of 131072K
+Writing file"/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/ready_for_download/vc707_pcie_x8_gen2.mcs".
+Writing file"/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/ready_for_download/vc707_pcie_x8_gen2.prm".
+Writing file"/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/ready_for_download/vc707_pcie_x8_gen2.cfi".
+// *** BATCH CMD : setCurrentDesign -version 0
+// *** BATCH CMD : setMode -bs
+GUI --- Auto connect to cable...
+// *** BATCH CMD : setCable -port auto
+AutoDetecting cable. Please wait.
+PROGRESS_START - Starting Operation.
+If you are using the Platform Cable USB, please refer to the USB CableInstallation Guide (UG344) to install the libusb package.
+Connecting to cable (Usb Port - USB21).
+Checking cable driver.
+File version of/afs/ece.cmu.edu/support/xilinx/xilinx.release/14.2/ISE_DS/ISE/bin/lin64/xusbdfwu.hex = 1030.
+File version of /usr/share/xusbdfwu.hex = 1030.
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport0).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+ parport0: baseAddress=0x378, ecpAddress=0x778
+ LPT base address = 0378h.
+ ECP base address = 0778h.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport1).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport2).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport3).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+PROGRESS_END - End Operation.
+Elapsed time =      2 sec.
+Cable autodetection failed.
+WARNING:iMPACT:923 - Can not find cable, check cable setup !GUI --- Auto connect to cable...
+// *** BATCH CMD : setCable -port auto
+AutoDetecting cable. Please wait.
+PROGRESS_START - Starting Operation.
+If you are using the Platform Cable USB, please refer to the USB CableInstallation Guide (UG344) to install the libusb package.
+Connecting to cable (Usb Port - USB21).
+Checking cable driver.
+File version of/afs/ece.cmu.edu/support/xilinx/xilinx.release/14.2/ISE_DS/ISE/bin/lin64/xusbdfwu.hex = 1030.
+File version of /usr/share/xusbdfwu.hex = 1030.
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport0).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+ LPT base address = 0378h.
+ ECP base address = 0778h.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport1).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport2).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport3).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+PROGRESS_END - End Operation.
+Elapsed time =      2 sec.
+Cable autodetection failed.
+WARNING:iMPACT:923 - Can not find cable, check cable setup !GUI --- Auto connect to cable...
+// *** BATCH CMD : setCable -port auto
+AutoDetecting cable. Please wait.
+PROGRESS_START - Starting Operation.
+If you are using the Platform Cable USB, please refer to the USB CableInstallation Guide (UG344) to install the libusb package.
+Connecting to cable (Usb Port - USB21).
+Checking cable driver.
+File version of/afs/ece.cmu.edu/support/xilinx/xilinx.release/14.2/ISE_DS/ISE/bin/lin64/xusbdfwu.hex = 1030.
+File version of /usr/share/xusbdfwu.hex = 1030.
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport0).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+ LPT base address = 0378h.
+ ECP base address = 0778h.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport1).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport2).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+Connecting to cable (Parallel Port - parport3).
+ WinDriver v10.31 Jungo (c) 1997 - 2011 Build Date: May 24 2011 x86_64 64bit18:13:19.
+Cable connection failed.
+PROGRESS_END - End Operation.
+Elapsed time =      2 sec.
+Cable autodetection failed.
+WARNING:iMPACT:923 - Can not find cable, check cable setup !Project: '/afs/ece.cmu.edu/usr/wtabib/18545/lab3//auto_project.ipf' created.
+// *** BATCH CMD : setMode -bs
+// *** BATCH CMD : setMode -ss
+// *** BATCH CMD : setMode -sm
+// *** BATCH CMD : setMode -hw140
+// *** BATCH CMD : setMode -spi
+// *** BATCH CMD : setMode -acecf
+// *** BATCH CMD : setMode -acempm
+// *** BATCH CMD : setMode -pff
+// *** BATCH CMD : setMode -bs
+// *** BATCH CMD : saveProjectFile -file"/afs/ece.cmu.edu/usr/wtabib/18545/lab3//auto_project.ipf"
+INFO:iMPACT - User_EnvOsname: 'RedHatEnterpriseServer'
+INFO:iMPACT - User_EnvOsrelease: 'Red Hat Enterprise Linux Server release 6.4   (Santiago)'
+// *** BATCH CMD : setMode -bs
+// *** BATCH CMD : setMode -pff
+INFO:iMPACT - Launching WebTalk, please refer to the webtalk log at   /afs/ece.cmu.edu/usr/wtabib/18545/lab3/webtalk.log for details.
+INFO:iMPACT - Running wbtc successfully.
+// *** BATCH CMD : setMode -bs
+// *** BATCH CMD : setMode -ss
+// *** BATCH CMD : setMode -sm
+// *** BATCH CMD : setMode -hw140
+// *** BATCH CMD : setMode -spi
+// *** BATCH CMD : setMode -acecf
+// *** BATCH CMD : setMode -acempm
+// *** BATCH CMD : setMode -pff

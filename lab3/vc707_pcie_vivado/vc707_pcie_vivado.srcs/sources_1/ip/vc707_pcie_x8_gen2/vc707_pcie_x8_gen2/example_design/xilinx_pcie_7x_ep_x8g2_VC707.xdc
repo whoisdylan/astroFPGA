@@ -70,6 +70,12 @@
 # User Physical Constraints
 ###############################################################################
 
+set_property IOSTANDARD LVCMOS18 [get_ports emcclk]
+set_property LOC AP37 [get_ports emcclk]
+
+set_property BITSTREAM.CONFIG.BPI_SYNC_MODE Type1 [current_design]
+set_property BITSTREAM.CONFIG.EXTMASTERCCLK_EN div-1 [current_design]
+set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design]
 
 ###############################################################################
 # Timing Constraints

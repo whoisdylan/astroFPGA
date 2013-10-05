@@ -90,7 +90,7 @@ Pparameter declaration becomes local in %s with formal parameter declaration lis
 2438@Z8-2507
 à
 %s*synth2y
-wstarting Rtl Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 202.914 ; gain = 86.438
+wstarting Rtl Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 202.945 ; gain = 86.438
 
 ú
 synthesizing module '%s'638*oasys2
@@ -12119,11 +12119,11 @@ l
 emcclkZ8-3331
 â
 %s*synth2z
-xfinished Rtl Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:07 . Memory (MB): peak = 262.664 ; gain = 146.188
+xfinished Rtl Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 262.695 ; gain = 146.188
 
 á
 %s*synth2x
-vStart RTL Optimization : Time (s): cpu = 00:00:05 ; elapsed = 00:00:07 . Memory (MB): peak = 262.664 ; gain = 146.188
+vStart RTL Optimization : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 262.695 ; gain = 146.188
 
 (
 %s*synth2
@@ -12737,15 +12737,15 @@ Z1-111
 *common
 à
 %s*synth2y
-wStart RTL Optimization : Time (s): cpu = 00:00:29 ; elapsed = 00:00:35 . Memory (MB): peak = 1072.621 ; gain = 956.145
+wStart RTL Optimization : Time (s): cpu = 00:00:29 ; elapsed = 00:00:31 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 §
 %s*synth2î
-ëFinished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:30 ; elapsed = 00:00:37 . Memory (MB): peak = 1072.621 ; gain = 956.145
+ëFinished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:29 ; elapsed = 00:00:32 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 Ü
 %s*synth2w
-uFinished Compilation : Time (s): cpu = 00:00:30 ; elapsed = 00:00:37 . Memory (MB): peak = 1072.621 ; gain = 956.145
+uFinished Compilation : Time (s): cpu = 00:00:29 ; elapsed = 00:00:32 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 Ä
 .merging register '%s' into '%s' in module '%s'3438*oasys2
@@ -12972,7 +12972,7 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 †
 %s*synth2ê
-çFinished Loading Part and Timing Information : Time (s): cpu = 00:00:38 ; elapsed = 00:00:45 . Memory (MB): peak = 1072.621 ; gain = 956.145
+çFinished Loading Part and Timing Information : Time (s): cpu = 00:00:37 ; elapsed = 00:00:40 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 0
 %s*synth2!
@@ -13100,11 +13100,11 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	   4 Input     32 Bit        Muxes := 2     
+.	   9 Input     32 Bit        Muxes := 1     
 
 ?
 %s*synth20
-.	   9 Input     32 Bit        Muxes := 1     
+.	   4 Input     32 Bit        Muxes := 2     
 
 ?
 %s*synth20
@@ -13116,15 +13116,15 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	   7 Input     19 Bit        Muxes := 8     
-
-?
-%s*synth20
 .	   2 Input     19 Bit        Muxes := 8     
 
 ?
 %s*synth20
-.	   5 Input     18 Bit        Muxes := 8     
+.	   7 Input     19 Bit        Muxes := 8     
+
+?
+%s*synth20
+.	   2 Input     18 Bit        Muxes := 32    
 
 ?
 %s*synth20
@@ -13132,7 +13132,7 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	   2 Input     18 Bit        Muxes := 32    
+.	   5 Input     18 Bit        Muxes := 8     
 
 ?
 %s*synth20
@@ -13148,11 +13148,11 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	   2 Input     13 Bit        Muxes := 8     
+.	   9 Input     13 Bit        Muxes := 1     
 
 ?
 %s*synth20
-.	   9 Input     13 Bit        Muxes := 1     
+.	   2 Input     13 Bit        Muxes := 8     
 
 ?
 %s*synth20
@@ -13180,11 +13180,15 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
+.	   9 Input      8 Bit        Muxes := 3     
+
+?
+%s*synth20
 .	   2 Input      8 Bit        Muxes := 44    
 
 ?
 %s*synth20
-.	   9 Input      8 Bit        Muxes := 3     
+.	   6 Input      7 Bit        Muxes := 1     
 
 ?
 %s*synth20
@@ -13193,14 +13197,6 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 ?
 %s*synth20
 .	   8 Input      7 Bit        Muxes := 16    
-
-?
-%s*synth20
-.	   6 Input      7 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      6 Bit        Muxes := 182   
 
 ?
 %s*synth20
@@ -13216,11 +13212,7 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	   6 Input      5 Bit        Muxes := 16    
-
-?
-%s*synth20
-.	   2 Input      5 Bit        Muxes := 145   
+.	   2 Input      6 Bit        Muxes := 182   
 
 ?
 %s*synth20
@@ -13232,11 +13224,19 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
+.	   6 Input      5 Bit        Muxes := 16    
+
+?
+%s*synth20
+.	   2 Input      5 Bit        Muxes := 145   
+
+?
+%s*synth20
 .	   5 Input      5 Bit        Muxes := 1     
 
 ?
 %s*synth20
-.	   7 Input      4 Bit        Muxes := 9     
+.	   2 Input      4 Bit        Muxes := 151   
 
 ?
 %s*synth20
@@ -13244,7 +13244,7 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	   2 Input      4 Bit        Muxes := 151   
+.	   7 Input      4 Bit        Muxes := 9     
 
 ?
 %s*synth20
@@ -13256,19 +13256,7 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	  32 Input      3 Bit        Muxes := 8     
-
-?
-%s*synth20
 .	   4 Input      3 Bit        Muxes := 8     
-
-?
-%s*synth20
-.	  11 Input      3 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   5 Input      3 Bit        Muxes := 1     
 
 ?
 %s*synth20
@@ -13276,7 +13264,7 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	   8 Input      3 Bit        Muxes := 8     
+.	   5 Input      3 Bit        Muxes := 1     
 
 ?
 %s*synth20
@@ -13284,15 +13272,15 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	   5 Input      2 Bit        Muxes := 1     
+.	   8 Input      3 Bit        Muxes := 8     
 
 ?
 %s*synth20
-.	   2 Input      2 Bit        Muxes := 43    
+.	  11 Input      3 Bit        Muxes := 1     
 
 ?
 %s*synth20
-.	   7 Input      2 Bit        Muxes := 8     
+.	  32 Input      3 Bit        Muxes := 8     
 
 ?
 %s*synth20
@@ -13300,15 +13288,15 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	   7 Input      1 Bit        Muxes := 155   
+.	   5 Input      2 Bit        Muxes := 1     
 
 ?
 %s*synth20
-.	  18 Input      1 Bit        Muxes := 7     
+.	   7 Input      2 Bit        Muxes := 8     
 
 ?
 %s*synth20
-.	   6 Input      1 Bit        Muxes := 24    
+.	   2 Input      2 Bit        Muxes := 43    
 
 ?
 %s*synth20
@@ -13316,15 +13304,11 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	  10 Input      1 Bit        Muxes := 6     
+.	   2 Input      1 Bit        Muxes := 268   
 
 ?
 %s*synth20
-.	  13 Input      1 Bit        Muxes := 6     
-
-?
-%s*synth20
-.	   4 Input      1 Bit        Muxes := 16    
+.	   6 Input      1 Bit        Muxes := 24    
 
 ?
 %s*synth20
@@ -13332,15 +13316,31 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	   2 Input      1 Bit        Muxes := 268   
+.	   9 Input      1 Bit        Muxes := 14    
+
+?
+%s*synth20
+.	  10 Input      1 Bit        Muxes := 6     
+
+?
+%s*synth20
+.	  18 Input      1 Bit        Muxes := 7     
+
+?
+%s*synth20
+.	   7 Input      1 Bit        Muxes := 155   
+
+?
+%s*synth20
+.	   4 Input      1 Bit        Muxes := 16    
+
+?
+%s*synth20
+.	  13 Input      1 Bit        Muxes := 6     
 
 ?
 %s*synth20
 .	  32 Input      1 Bit        Muxes := 152   
-
-?
-%s*synth20
-.	   9 Input      1 Bit        Muxes := 14    
 
 4
 %s*synth2%
@@ -13362,9 +13362,25 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 %s*synth20
 .	                1 Bit    Registers := 2     
 
-%
-%s*synth2
-Module pcie_app_7x 
+ 
+%s*synth2
+Module EP_MEM 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+:
+%s*synth2+
+)Module vc707_pcie_x8_gen2_pcie_brams_7x 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+/
+%s*synth2 
+Module pcie_7x_v2_1_core_top 
 
 0
 %s*synth2!
@@ -13376,19 +13392,39 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 ?
 %s*synth20
-.	                1 Bit    Registers := 1     
+.	                1 Bit    Registers := 5     
 
- 
-%s*synth2
-Module EP_MEM 
+;
+%s*synth2,
+*Module vc707_pcie_x8_gen2_pcie_pipe_lane 
 
 0
 %s*synth2!
 Detailed RTL Component Info : 
 
-9
-%s*synth2*
-(Module vc707_pcie_x8_gen2_axi_basic_rx 
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	               16 Bit    Registers := 2     
+
+?
+%s*synth20
+.	                3 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                2 Bit    Registers := 3     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 7     
+
+:
+%s*synth2+
+)Module vc707_pcie_x8_gen2_axi_basic_top 
 
 0
 %s*synth2!
@@ -13412,123 +13448,27 @@ BRAMs: 2060 (col length: RAMB8 0 RAMB16 0 RAMB18 140 RAMB36 70)
 
 7
 %s*synth2(
-&Module vc707_pcie_x8_gen2_pipe_reset 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-
-%s*synth2
-+---Adders : 
-
-?
-%s*synth20
-.	   2 Input      6 Bit       Adders := 1     
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                8 Bit    Registers := 16    
-
-?
-%s*synth20
-.	                6 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                5 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 15    
-
-
-%s*synth2
-+---Muxes : 
-
-?
-%s*synth20
-.	   2 Input      8 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      6 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      5 Bit        Muxes := 3     
-
-?
-%s*synth20
-.	   2 Input      4 Bit        Muxes := 3     
-
-?
-%s*synth20
-.	   2 Input      3 Bit        Muxes := 3     
-
-?
-%s*synth20
-.	   2 Input      2 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	  18 Input      1 Bit        Muxes := 7     
-
-?
-%s*synth20
-.	   2 Input      1 Bit        Muxes := 2     
-
-5
-%s*synth2&
-$Module vc707_pcie_x8_gen2_pcie_top 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                8 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                5 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                3 Bit    Registers := 1     
-
-/
-%s*synth2 
-Module pcie_7x_v2_1_core_top 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                1 Bit    Registers := 5     
-
-7
-%s*synth2(
 &Module vc707_pcie_x8_gen2_gt_wrapper 
 
 0
 %s*synth2!
 Detailed RTL Component Info : 
+
+
+%s*synth2
+Module PIO 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                1 Bit    Registers := 1     
 
 ,
 %s*synth2
@@ -13537,58 +13477,6 @@ $Module vc707_pcie_x8_gen2_pcie_top
 0
 %s*synth2!
 Detailed RTL Component Info : 
-
-6
-%s*synth2'
-%Module vc707_pcie_x8_gen2_pipe_user 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-
-%s*synth2
-+---Adders : 
-
-?
-%s*synth20
-.	   2 Input      4 Bit       Adders := 2     
-
-?
-%s*synth20
-.	   2 Input      2 Bit       Adders := 1     
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                8 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                4 Bit    Registers := 2     
-
-?
-%s*synth20
-.	                2 Bit    Registers := 2     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 32    
-
-
-%s*synth2
-+---Muxes : 
-
-?
-%s*synth20
-.	   2 Input      4 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   2 Input      1 Bit        Muxes := 3     
 
 B
 %s*synth23
@@ -13633,482 +13521,6 @@ B
 ?
 %s*synth20
 .	   2 Input      1 Bit        Muxes := 8     
-
-;
-%s*synth2,
-*Module vc707_pcie_x8_gen2_pcie_pipe_lane 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	               16 Bit    Registers := 2     
-
-?
-%s*synth20
-.	                3 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                2 Bit    Registers := 3     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 7     
-
-(
-%s*synth2
-Module BRAM_SDP_MACRO 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-B
-%s*synth23
-1Module vc707_pcie_x8_gen2_axi_basic_rx_null_gen 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-
-%s*synth2
-+---Adders : 
-
-?
-%s*synth20
-.	   2 Input     12 Bit       Adders := 2     
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	               12 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 1     
-
-
-%s*synth2
-+---Muxes : 
-
-?
-%s*synth20
-.	   3 Input     12 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input     12 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   2 Input     10 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   5 Input      5 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      2 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   2 Input      1 Bit        Muxes := 3     
-
-6
-%s*synth2'
-%Module vc707_pcie_x8_gen2_pipe_rate 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-
-%s*synth2
-+---Adders : 
-
-?
-%s*synth20
-.	   2 Input      4 Bit       Adders := 1     
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                5 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                4 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                3 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                2 Bit    Registers := 3     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 43    
-
-
-%s*synth2
-+---Muxes : 
-
-?
-%s*synth20
-.	   2 Input      6 Bit        Muxes := 10    
-
-?
-%s*synth20
-.	   2 Input      5 Bit        Muxes := 9     
-
-?
-%s*synth20
-.	   2 Input      4 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	  32 Input      3 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	  32 Input      2 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	  32 Input      1 Bit        Muxes := 19    
-
-?
-%s*synth20
-.	   2 Input      1 Bit        Muxes := 6     
-
-9
-%s*synth2*
-(Module vc707_pcie_x8_gen2_axi_basic_tx 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-6
-%s*synth2'
-%Module vc707_pcie_x8_gen2_pipe_sync 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                7 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                6 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 40    
-
-
-%s*synth2
-+---Muxes : 
-
-?
-%s*synth20
-.	   2 Input      6 Bit        Muxes := 3     
-
-?
-%s*synth20
-.	   7 Input      6 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      5 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      4 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      3 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      2 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      1 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   7 Input      1 Bit        Muxes := 3     
-
-*
-%s*synth2
-Module pcie_7x_v2_1_top 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-:
-%s*synth2+
-)Module vc707_pcie_x8_gen2_axi_basic_top 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-3
-%s*synth2$
-"Module vc707_pcie_x8_gen2_gt_top 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                6 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 2     
-
-9
-%s*synth2*
-(Module vc707_pcie_x8_gen2_pipe_wrapper 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                1 Bit    Registers := 2     
-
-4
-%s*synth2%
-#Module vc707_pcie_x8_gen2_pipe_eq 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-
-%s*synth2
-+---Adders : 
-
-?
-%s*synth20
-.	   2 Input      3 Bit       Adders := 1     
-
-?
-%s*synth20
-.	   2 Input      2 Bit       Adders := 1     
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	               19 Bit    Registers := 2     
-
-?
-%s*synth20
-.	               18 Bit    Registers := 4     
-
-?
-%s*synth20
-.	                6 Bit    Registers := 6     
-
-?
-%s*synth20
-.	                4 Bit    Registers := 5     
-
-?
-%s*synth20
-.	                3 Bit    Registers := 4     
-
-?
-%s*synth20
-.	                2 Bit    Registers := 5     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 14    
-
-
-%s*synth2
-+---Muxes : 
-
-?
-%s*synth20
-.	   2 Input     19 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   7 Input     19 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   7 Input     18 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   2 Input     18 Bit        Muxes := 3     
-
-?
-%s*synth20
-.	   8 Input      7 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   7 Input      6 Bit        Muxes := 4     
-
-?
-%s*synth20
-.	   8 Input      6 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   2 Input      6 Bit        Muxes := 7     
-
-?
-%s*synth20
-.	   4 Input      5 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      5 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      4 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   7 Input      4 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   4 Input      3 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   7 Input      3 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   7 Input      2 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      1 Bit        Muxes := 9     
-
-?
-%s*synth20
-.	   7 Input      1 Bit        Muxes := 15    
-
-?
-%s*synth20
-.	   4 Input      1 Bit        Muxes := 2     
-
-C
-%s*synth24
-2Module vc707_pcie_x8_gen2_axi_basic_tx_thrtl_ctl 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-
-%s*synth2
-+---Adders : 
-
-?
-%s*synth20
-.	   2 Input      3 Bit       Adders := 1     
-
-?
-%s*synth20
-.	   2 Input      2 Bit       Adders := 2     
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                6 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                3 Bit    Registers := 2     
-
-?
-%s*synth20
-.	                2 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 17    
-
-
-%s*synth2
-+---Muxes : 
-
-?
-%s*synth20
-.	   2 Input      3 Bit        Muxes := 3     
-
-?
-%s*synth20
-.	   2 Input      2 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   2 Input      1 Bit        Muxes := 9     
-
-=
-%s*synth2.
-,Module vc707_pcie_x8_gen2_pcie_bram_top_7x 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
 
 6
 %s*synth2'
@@ -14168,11 +13580,11 @@ C
 
 ?
 %s*synth20
-.	   2 Input     18 Bit        Muxes := 1     
+.	   5 Input     18 Bit        Muxes := 1     
 
 ?
 %s*synth20
-.	   5 Input     18 Bit        Muxes := 1     
+.	   2 Input     18 Bit        Muxes := 1     
 
 ?
 %s*synth20
@@ -14210,269 +13622,9 @@ C
 %s*synth20
 .	   5 Input      1 Bit        Muxes := 8     
 
-B
-%s*synth23
-1Module vc707_pcie_x8_gen2_gt_rx_valid_filter_7x 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	               16 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                5 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                3 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                2 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 4     
-
-
-%s*synth2
-+---Muxes : 
-
-?
-%s*synth20
-.	   2 Input      5 Bit        Muxes := 3     
-
-?
-%s*synth20
-.	   6 Input      5 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      4 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      3 Bit        Muxes := 3     
-
-?
-%s*synth20
-.	   2 Input      1 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   6 Input      1 Bit        Muxes := 3     
-
-9
-%s*synth2*
-(Module vc707_pcie_x8_gen2_pcie_bram_7x 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-?
-%s*synth20
-.Module vc707_pcie_x8_gen2_pcie_pipe_pipeline 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-+
-%s*synth2
-Module PIO_EP_MEM_ACCESS 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	               32 Bit    Registers := 2     
-
-?
-%s*synth20
-.	                3 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 1     
-
-
-%s*synth2
-+---Muxes : 
-
-?
-%s*synth20
-.	   4 Input     32 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   2 Input      8 Bit        Muxes := 4     
-
-?
-%s*synth20
-.	   2 Input      3 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   5 Input      3 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   5 Input      1 Bit        Muxes := 3     
-
-?
-%s*synth20
-.	   2 Input      1 Bit        Muxes := 1     
-
-;
-%s*synth2,
-*Module vc707_pcie_x8_gen2_pcie_pipe_misc 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                3 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 5     
-
-7
-%s*synth2(
-&Module vc707_pcie_x8_gen2_pipe_clock 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                8 Bit    Registers := 2     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 3     
-
-7
-%s*synth2(
-&Module vc707_pcie_x8_gen2_qpll_reset 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                8 Bit    Registers := 6     
-
-?
-%s*synth20
-.	                4 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                2 Bit    Registers := 6     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 5     
-
-
-%s*synth2
-+---Muxes : 
-
-?
-%s*synth20
-.	   2 Input      5 Bit        Muxes := 4     
-
-?
-%s*synth20
-.	   2 Input      4 Bit        Muxes := 3     
-
-?
-%s*synth20
-.	  13 Input      1 Bit        Muxes := 6     
-
-'
-%s*synth2
-Module PIO_TX_ENGINE 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	              128 Bit    Registers := 1     
-
-?
-%s*synth20
-.	               16 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                4 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 6     
-
-
-%s*synth2
-+---Muxes : 
-
-?
-%s*synth20
-.	   6 Input      7 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      7 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	  11 Input      3 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      1 Bit        Muxes := 2     
-
-5
-%s*synth2&
-$Module vc707_pcie_x8_gen2_qpll_drp 
+6
+%s*synth2'
+%Module vc707_pcie_x8_gen2_pipe_user 
 
 0
 %s*synth2!
@@ -14484,11 +13636,7 @@ $Module vc707_pcie_x8_gen2_qpll_drp
 
 ?
 %s*synth20
-.	   2 Input      6 Bit       Adders := 1     
-
-?
-%s*synth20
-.	   2 Input      3 Bit       Adders := 1     
+.	   2 Input      4 Bit       Adders := 2     
 
 ?
 %s*synth20
@@ -14500,31 +13648,19 @@ $Module vc707_pcie_x8_gen2_qpll_drp
 
 ?
 %s*synth20
-.	               16 Bit    Registers := 3     
-
-?
-%s*synth20
-.	                9 Bit    Registers := 1     
-
-?
-%s*synth20
 .	                8 Bit    Registers := 1     
 
 ?
 %s*synth20
-.	                6 Bit    Registers := 1     
+.	                4 Bit    Registers := 2     
 
 ?
 %s*synth20
-.	                3 Bit    Registers := 1     
+.	                2 Bit    Registers := 2     
 
 ?
 %s*synth20
-.	                2 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 12    
+.	                1 Bit    Registers := 32    
 
 
 %s*synth2
@@ -14532,91 +13668,11 @@ $Module vc707_pcie_x8_gen2_qpll_drp
 
 ?
 %s*synth20
-.	   2 Input      9 Bit        Muxes := 5     
+.	   2 Input      4 Bit        Muxes := 2     
 
 ?
 %s*synth20
-.	  10 Input      9 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      8 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   2 Input      7 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   8 Input      6 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      5 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	  10 Input      3 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      3 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	   2 Input      2 Bit        Muxes := 2     
-
-?
-%s*synth20
-.	   2 Input      1 Bit        Muxes := 1     
-
-?
-%s*synth20
-.	  10 Input      1 Bit        Muxes := 3     
-
-?
-%s*synth20
-.	   8 Input      1 Bit        Muxes := 1     
-
-:
-%s*synth2+
-)Module vc707_pcie_x8_gen2_pcie_brams_7x 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-9
-%s*synth2*
-(Module vc707_pcie_x8_gen2_qpll_wrapper 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-
-%s*synth2
-Module PIO 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	                1 Bit    Registers := 1     
-
-4
-%s*synth2%
-#Module vc707_pcie_x8_gen2_pcie_7x 
-
-0
-%s*synth2!
-Detailed RTL Component Info : 
+.	   2 Input      1 Bit        Muxes := 3     
 
 '
 %s*synth2
@@ -14692,11 +13748,11 @@ $Module vc707_pcie_x8_gen2_qpll_drp
 
 ?
 %s*synth20
-.	   2 Input      8 Bit        Muxes := 3     
+.	   9 Input      8 Bit        Muxes := 3     
 
 ?
 %s*synth20
-.	   9 Input      8 Bit        Muxes := 3     
+.	   2 Input      8 Bit        Muxes := 3     
 
 ?
 %s*synth20
@@ -14704,11 +13760,11 @@ $Module vc707_pcie_x8_gen2_qpll_drp
 
 ?
 %s*synth20
-.	   7 Input      6 Bit        Muxes := 1     
+.	   2 Input      6 Bit        Muxes := 13    
 
 ?
 %s*synth20
-.	   2 Input      6 Bit        Muxes := 13    
+.	   7 Input      6 Bit        Muxes := 1     
 
 ?
 %s*synth20
@@ -14732,7 +13788,7 @@ $Module vc707_pcie_x8_gen2_qpll_drp
 
 ?
 %s*synth20
-.	   9 Input      1 Bit        Muxes := 14    
+.	   7 Input      1 Bit        Muxes := 11    
 
 ?
 %s*synth20
@@ -14740,35 +13796,15 @@ $Module vc707_pcie_x8_gen2_qpll_drp
 
 ?
 %s*synth20
-.	   7 Input      1 Bit        Muxes := 11    
+.	   9 Input      1 Bit        Muxes := 14    
 
-B
-%s*synth23
-1Module vc707_pcie_x8_gen2_axi_basic_tx_pipeline 
+*
+%s*synth2
+Module pcie_7x_v2_1_top 
 
 0
 %s*synth2!
 Detailed RTL Component Info : 
-
-"
-%s*synth2
-+---Registers : 
-
-?
-%s*synth20
-.	              128 Bit    Registers := 1     
-
-?
-%s*synth20
-.	               16 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                4 Bit    Registers := 1     
-
-?
-%s*synth20
-.	                1 Bit    Registers := 6     
 
 5
 %s*synth2&
@@ -14878,6 +13914,714 @@ $Module vc707_pcie_x8_gen2_pipe_drp
 %s*synth20
 .	   8 Input      1 Bit        Muxes := 3     
 
++
+%s*synth2
+Module PIO_EP_MEM_ACCESS 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	               32 Bit    Registers := 2     
+
+?
+%s*synth20
+.	                3 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 1     
+
+
+%s*synth2
++---Muxes : 
+
+?
+%s*synth20
+.	   4 Input     32 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   2 Input      8 Bit        Muxes := 4     
+
+?
+%s*synth20
+.	   2 Input      3 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   5 Input      3 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   5 Input      1 Bit        Muxes := 3     
+
+?
+%s*synth20
+.	   2 Input      1 Bit        Muxes := 1     
+
+C
+%s*synth24
+2Module vc707_pcie_x8_gen2_axi_basic_tx_thrtl_ctl 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+
+%s*synth2
++---Adders : 
+
+?
+%s*synth20
+.	   2 Input      3 Bit       Adders := 1     
+
+?
+%s*synth20
+.	   2 Input      2 Bit       Adders := 2     
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                6 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                3 Bit    Registers := 2     
+
+?
+%s*synth20
+.	                2 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 17    
+
+
+%s*synth2
++---Muxes : 
+
+?
+%s*synth20
+.	   2 Input      3 Bit        Muxes := 3     
+
+?
+%s*synth20
+.	   2 Input      2 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   2 Input      1 Bit        Muxes := 9     
+
+9
+%s*synth2*
+(Module vc707_pcie_x8_gen2_pcie_bram_7x 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+7
+%s*synth2(
+&Module vc707_pcie_x8_gen2_pipe_clock 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                8 Bit    Registers := 2     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 3     
+
+4
+%s*synth2%
+#Module vc707_pcie_x8_gen2_pcie_7x 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+'
+%s*synth2
+Module PIO_TX_ENGINE 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	              128 Bit    Registers := 1     
+
+?
+%s*synth20
+.	               16 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                4 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 6     
+
+
+%s*synth2
++---Muxes : 
+
+?
+%s*synth20
+.	   6 Input      7 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      7 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	  11 Input      3 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      1 Bit        Muxes := 2     
+
+9
+%s*synth2*
+(Module vc707_pcie_x8_gen2_pipe_wrapper 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                1 Bit    Registers := 2     
+
+(
+%s*synth2
+Module BRAM_SDP_MACRO 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+B
+%s*synth23
+1Module vc707_pcie_x8_gen2_gt_rx_valid_filter_7x 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	               16 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                5 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                3 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                2 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 4     
+
+
+%s*synth2
++---Muxes : 
+
+?
+%s*synth20
+.	   2 Input      5 Bit        Muxes := 3     
+
+?
+%s*synth20
+.	   6 Input      5 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      4 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      3 Bit        Muxes := 3     
+
+?
+%s*synth20
+.	   2 Input      1 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   6 Input      1 Bit        Muxes := 3     
+
+7
+%s*synth2(
+&Module vc707_pcie_x8_gen2_pipe_reset 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+
+%s*synth2
++---Adders : 
+
+?
+%s*synth20
+.	   2 Input      6 Bit       Adders := 1     
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                8 Bit    Registers := 16    
+
+?
+%s*synth20
+.	                6 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                5 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 15    
+
+
+%s*synth2
++---Muxes : 
+
+?
+%s*synth20
+.	   2 Input      8 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      6 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      5 Bit        Muxes := 3     
+
+?
+%s*synth20
+.	   2 Input      4 Bit        Muxes := 3     
+
+?
+%s*synth20
+.	   2 Input      3 Bit        Muxes := 3     
+
+?
+%s*synth20
+.	   2 Input      2 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	  18 Input      1 Bit        Muxes := 7     
+
+?
+%s*synth20
+.	   2 Input      1 Bit        Muxes := 2     
+
+6
+%s*synth2'
+%Module vc707_pcie_x8_gen2_pipe_sync 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                7 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                6 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 40    
+
+
+%s*synth2
++---Muxes : 
+
+?
+%s*synth20
+.	   2 Input      6 Bit        Muxes := 3     
+
+?
+%s*synth20
+.	   7 Input      6 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      5 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      4 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      3 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      2 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      1 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   7 Input      1 Bit        Muxes := 3     
+
+9
+%s*synth2*
+(Module vc707_pcie_x8_gen2_axi_basic_rx 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+9
+%s*synth2*
+(Module vc707_pcie_x8_gen2_axi_basic_tx 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+6
+%s*synth2'
+%Module vc707_pcie_x8_gen2_pipe_rate 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+
+%s*synth2
++---Adders : 
+
+?
+%s*synth20
+.	   2 Input      4 Bit       Adders := 1     
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                5 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                4 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                3 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                2 Bit    Registers := 3     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 43    
+
+
+%s*synth2
++---Muxes : 
+
+?
+%s*synth20
+.	   2 Input      6 Bit        Muxes := 10    
+
+?
+%s*synth20
+.	   2 Input      5 Bit        Muxes := 9     
+
+?
+%s*synth20
+.	   2 Input      4 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	  32 Input      3 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	  32 Input      2 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	  32 Input      1 Bit        Muxes := 19    
+
+?
+%s*synth20
+.	   2 Input      1 Bit        Muxes := 6     
+
+B
+%s*synth23
+1Module vc707_pcie_x8_gen2_axi_basic_tx_pipeline 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	              128 Bit    Registers := 1     
+
+?
+%s*synth20
+.	               16 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                4 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 6     
+
+?
+%s*synth20
+.Module vc707_pcie_x8_gen2_pcie_pipe_pipeline 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+4
+%s*synth2%
+#Module vc707_pcie_x8_gen2_pipe_eq 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+
+%s*synth2
++---Adders : 
+
+?
+%s*synth20
+.	   2 Input      3 Bit       Adders := 1     
+
+?
+%s*synth20
+.	   2 Input      2 Bit       Adders := 1     
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	               19 Bit    Registers := 2     
+
+?
+%s*synth20
+.	               18 Bit    Registers := 4     
+
+?
+%s*synth20
+.	                6 Bit    Registers := 6     
+
+?
+%s*synth20
+.	                4 Bit    Registers := 5     
+
+?
+%s*synth20
+.	                3 Bit    Registers := 4     
+
+?
+%s*synth20
+.	                2 Bit    Registers := 5     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 14    
+
+
+%s*synth2
++---Muxes : 
+
+?
+%s*synth20
+.	   2 Input     19 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   7 Input     19 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input     18 Bit        Muxes := 3     
+
+?
+%s*synth20
+.	   7 Input     18 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   8 Input      7 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   8 Input      6 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   2 Input      6 Bit        Muxes := 7     
+
+?
+%s*synth20
+.	   7 Input      6 Bit        Muxes := 4     
+
+?
+%s*synth20
+.	   4 Input      5 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      5 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      4 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   7 Input      4 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   7 Input      3 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   4 Input      3 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   7 Input      2 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      1 Bit        Muxes := 9     
+
+?
+%s*synth20
+.	   7 Input      1 Bit        Muxes := 15    
+
+?
+%s*synth20
+.	   4 Input      1 Bit        Muxes := 2     
+
+9
+%s*synth2*
+(Module vc707_pcie_x8_gen2_qpll_wrapper 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+;
+%s*synth2,
+*Module vc707_pcie_x8_gen2_pcie_pipe_misc 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                3 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 5     
+
+3
+%s*synth2$
+"Module vc707_pcie_x8_gen2_gt_top 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                6 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 2     
+
  
 %s*synth2
 Module PIO_EP 
@@ -14885,6 +14629,262 @@ $Module vc707_pcie_x8_gen2_pipe_drp
 0
 %s*synth2!
 Detailed RTL Component Info : 
+
+B
+%s*synth23
+1Module vc707_pcie_x8_gen2_axi_basic_rx_null_gen 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+
+%s*synth2
++---Adders : 
+
+?
+%s*synth20
+.	   2 Input     12 Bit       Adders := 2     
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	               12 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 1     
+
+
+%s*synth2
++---Muxes : 
+
+?
+%s*synth20
+.	   3 Input     12 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input     12 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   2 Input     10 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   5 Input      5 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      2 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   2 Input      1 Bit        Muxes := 3     
+
+7
+%s*synth2(
+&Module vc707_pcie_x8_gen2_qpll_reset 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                8 Bit    Registers := 6     
+
+?
+%s*synth20
+.	                4 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                2 Bit    Registers := 6     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 5     
+
+
+%s*synth2
++---Muxes : 
+
+?
+%s*synth20
+.	   2 Input      5 Bit        Muxes := 4     
+
+?
+%s*synth20
+.	   2 Input      4 Bit        Muxes := 3     
+
+?
+%s*synth20
+.	  13 Input      1 Bit        Muxes := 6     
+
+%
+%s*synth2
+Module pcie_app_7x 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                1 Bit    Registers := 1     
+
+=
+%s*synth2.
+,Module vc707_pcie_x8_gen2_pcie_bram_top_7x 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+5
+%s*synth2&
+$Module vc707_pcie_x8_gen2_pcie_top 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	                8 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                5 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                3 Bit    Registers := 1     
+
+5
+%s*synth2&
+$Module vc707_pcie_x8_gen2_qpll_drp 
+
+0
+%s*synth2!
+Detailed RTL Component Info : 
+
+
+%s*synth2
++---Adders : 
+
+?
+%s*synth20
+.	   2 Input      6 Bit       Adders := 1     
+
+?
+%s*synth20
+.	   2 Input      3 Bit       Adders := 1     
+
+?
+%s*synth20
+.	   2 Input      2 Bit       Adders := 1     
+
+"
+%s*synth2
++---Registers : 
+
+?
+%s*synth20
+.	               16 Bit    Registers := 3     
+
+?
+%s*synth20
+.	                9 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                8 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                6 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                3 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                2 Bit    Registers := 1     
+
+?
+%s*synth20
+.	                1 Bit    Registers := 12    
+
+
+%s*synth2
++---Muxes : 
+
+?
+%s*synth20
+.	  10 Input      9 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      9 Bit        Muxes := 5     
+
+?
+%s*synth20
+.	   2 Input      8 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   2 Input      7 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   8 Input      6 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      5 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      3 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	  10 Input      3 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	   2 Input      2 Bit        Muxes := 2     
+
+?
+%s*synth20
+.	   2 Input      1 Bit        Muxes := 1     
+
+?
+%s*synth20
+.	  10 Input      1 Bit        Muxes := 3     
+
+?
+%s*synth20
+.	   8 Input      1 Bit        Muxes := 1     
 
 é
 ESequential element (%s) is unused and will be removed from module %s.3332*oasys2!
@@ -15159,7 +15159,7 @@ ESequential element (%s) is unused and will be removed from module %s.3332*
 emcclkZ8-3331
 ò
 %s*synth2à
-ÖFinished Cross Boundary Optimization : Time (s): cpu = 00:00:41 ; elapsed = 00:00:48 . Memory (MB): peak = 1072.621 ; gain = 956.145
+ÖFinished Cross Boundary Optimization : Time (s): cpu = 00:00:40 ; elapsed = 00:00:43 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 ê
 %s*synth2Ä
@@ -15338,7 +15338,7 @@ ESequential element (%s) is unused and will be removed from module %s.3332*
 100Z17-14
 å
 %s*synth2}
-{Finished Area Optimization : Time (s): cpu = 00:00:57 ; elapsed = 00:01:05 . Memory (MB): peak = 1072.621 ; gain = 956.145
+{Finished Area Optimization : Time (s): cpu = 00:00:56 ; elapsed = 00:00:59 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 j
 %s*synth2[
@@ -15350,7 +15350,7 @@ Yinfo: Moved 1 constraints on hierarchical pins to their respective driving/load
 
 ú
 %s*synth2å
-âFinished Applying XDC Timing Constraints : Time (s): cpu = 00:00:58 ; elapsed = 00:01:07 . Memory (MB): peak = 1072.621 ; gain = 956.145
+âFinished Applying XDC Timing Constraints : Time (s): cpu = 00:00:57 ; elapsed = 00:01:01 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 √
 %s*synth2≥
@@ -15382,7 +15382,7 @@ Ainfo: done optimizing sub-critical range for path group default.
 
 é
 %s*synth2
-}Finished Timing Optimization : Time (s): cpu = 00:01:00 ; elapsed = 00:01:08 . Memory (MB): peak = 1072.621 ; gain = 956.145
+}Finished Timing Optimization : Time (s): cpu = 00:00:59 ; elapsed = 00:01:02 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 1
 %s*synth2"
@@ -15397,7 +15397,7 @@ fFinished control sets optimization. Modified 86 flops. Number of control sets: 
 
 ç
 %s*synth2~
-|Finished Technology Mapping : Time (s): cpu = 00:01:28 ; elapsed = 00:01:36 . Memory (MB): peak = 1072.621 ; gain = 956.145
+|Finished Technology Mapping : Time (s): cpu = 00:01:25 ; elapsed = 00:01:29 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 Y
 %s*synth2J
@@ -15470,7 +15470,7 @@ K\inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_sync_i/rxsyncdone_reg2_reg 2
 100Z17-14
 á
 %s*synth2x
-vFinished IO Insertion : Time (s): cpu = 00:01:35 ; elapsed = 00:01:44 . Memory (MB): peak = 1072.621 ; gain = 956.145
+vFinished IO Insertion : Time (s): cpu = 00:01:32 ; elapsed = 00:01:36 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 (
 %s*synth2
@@ -15498,11 +15498,11 @@ A-----+-----------------+------+--------+------+-----------------
 
 ô
 %s*synth2â
-ÜFinished Renaming Generated Instances : Time (s): cpu = 00:01:35 ; elapsed = 00:01:44 . Memory (MB): peak = 1072.621 ; gain = 956.145
+ÜFinished Renaming Generated Instances : Time (s): cpu = 00:01:32 ; elapsed = 00:01:36 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 ñ
 %s*synth2Ü
-ÉFinished Rebuilding User Hierarchy : Time (s): cpu = 00:01:36 ; elapsed = 00:01:44 . Memory (MB): peak = 1072.621 ; gain = 956.145
+ÉFinished Rebuilding User Hierarchy : Time (s): cpu = 00:01:33 ; elapsed = 00:01:37 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 ê
 %s*synth2Ä
@@ -15724,7 +15724,7 @@ C-----+------------------------+-----------------------------+-----
 
 ï
 %s*synth2Ö
-ÇFinished Writing Synthesis Report : Time (s): cpu = 00:01:36 ; elapsed = 00:01:45 . Memory (MB): peak = 1072.621 ; gain = 956.145
+ÇFinished Writing Synthesis Report : Time (s): cpu = 00:01:33 ; elapsed = 00:01:37 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 Z
 %s*synth2K
@@ -15732,7 +15732,7 @@ ISynthesis finished with 0 errors, 0 critical warnings and 3256 warnings.
 
 ì
 %s*synth2É
-ÄSynthesis Optimization Complete : Time (s): cpu = 00:01:36 ; elapsed = 00:01:45 . Memory (MB): peak = 1072.621 ; gain = 956.145
+ÄSynthesis Optimization Complete : Time (s): cpu = 00:01:33 ; elapsed = 00:01:37 . Memory (MB): peak = 1072.621 ; gain = 956.113
 
 K
 -Analyzing %s Unisim elements for replacement
@@ -15776,18 +15776,18 @@ I%sTime (s): cpu = %s ; elapsed = %s . Memory (MB): peak = %s ; gain = %s
 268*common2
 synth_design: 2
 
-00:01:402
+00:01:382
 
-00:01:492
+00:01:412
 
 1330.9142
 
-1164.086Z17-268
+1164.055Z17-268
 Ç
-vreport_utilization: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.17 . Memory (MB): peak = 1330.914 ; gain = 0.000
+vreport_utilization: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.19 . Memory (MB): peak = 1330.914 ; gain = 0.000
 *common
 S
 Exiting %s at %s...
 206*common2
 Vivado2
-Sat Sep 28 13:44:26 2013Z17-206
+Sat Oct  5 16:03:48 2013Z17-206

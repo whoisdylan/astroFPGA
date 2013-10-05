@@ -72,7 +72,7 @@ module xilinx_pcie_2_1_ep_7x # (
   output                                      led_1,
   output                                      led_2,
   output                                      led_3,
-  
+
   input                                       emcclk,
 
   input                                       sys_clk_p,

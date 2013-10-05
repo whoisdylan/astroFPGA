@@ -7168,7 +7168,7 @@
         <xilinx:canUpgradeFrom>xilinx.com:ip:pcie_7x:1.8</xilinx:canUpgradeFrom>
         <xilinx:canUpgradeFrom>xilinx.com:ip:pcie_7x:2.0</xilinx:canUpgradeFrom>
       </xilinx:upgrades>
-      <xilinx:coreCreationDateTime>2013-09-28T13:37:15</xilinx:coreCreationDateTime>
+      <xilinx:coreCreationDateTime>2013-10-05T16:01:29</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2013.2</xilinx:xilinxVersion>

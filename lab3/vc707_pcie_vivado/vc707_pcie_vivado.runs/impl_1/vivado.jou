@@ -1,0 +1,9 @@
+#-----------------------------------------------------------
+# Vivado v2013.2 (64-bit)
+# Build 272601 by xbuild on Sat Jun 15 11:11:11 MDT 2013
+# Start of session at: Sat Oct  5 15:58:54 2013
+# Process ID: 15026
+# Log file: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.runs/impl_1/vc707_pcie_x8_gen2.rdi
+# Journal file: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.runs/impl_1/vivado.jou
+#-----------------------------------------------------------
+source vc707_pcie_x8_gen2.tcl -notrace
