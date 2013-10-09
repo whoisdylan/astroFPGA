@@ -1,17 +1,42 @@
 module ncc
 	#(parameter descSize = 2048,
-	 parameter numPixelsDesc = 256);
+	 parameter numPixelsDesc = 256,
+	 parameter windowSize = 640,
+	 parameter );
 	(input logic clk, rst,
 	 input bit [7:0] pciIn,
 	output logic iWishIKnew);
 
 	enum logic {WAIT, LOAD_DESC} currStateDesc, nextStateDesc;
 	logic loadDesc, currStateDesc, nextStateDesc, enDescCounter, shiftDescReg, doneLoadingDesc;
+	logic windowWriteA, windowWriteB;
 	bit [descSize-1:0] descriptor;
 	bit [$clog2(descSize)-1:0] descCount;
 
 	assign enDescCounter = shiftDescReg || loadDesc;
 	assign doneLoadingDesc = descCount == numPixelsDesc;
+
+	bit [9:0][15:0] windowAddrA;
+	bit [9:0] windowAddrA1, windowAddrA2, windowAddrA3, windowAddrA4, windowAddrA5, windowAddrA6,
+			  windowAddrA7, windowAddrA8, windowAddrA9, windowAddrA10, windowAddrA11,
+			  windowAddrA12, windowAddrA13, windowAddrA14, windowAddrA15, windowAddrA16;
+
+	assign windowAddrA[9:0][0] = windowAddrA1;
+	assign windowAddrA[9:0][1] = windowAddrA2;
+	assign windowAddrA[9:0][2] = windowAddrA3;
+	assign windowAddrA[9:0][3] = windowAddrA4;
+	assign windowAddrA[9:0][4] = windowAddrA5;
+	assign windowAddrA[9:0][5] = windowAddrA6;
+	assign windowAddrA[9:0][6] = windowAddrA7;
+	assign windowAddrA[9:0][7] = windowAddrA8;
+	assign windowAddrA[9:0][8] = windowAddrA9;
+	assign windowAddrA[9:0][9] = windowAddrA10;
+	assign windowAddrA[9:0][10] = windowAddrA11;
+	assign windowAddrA[9:0][11] = windowAddrA12;
+	assign windowAddrA[9:0][12] = windowAddrA13;
+	assign windowAddrA[9:0][13] = windowAddrA14;
+	assign windowAddrA[9:0][14] = windowAddrA15;
+	assign windowAddrA[9:0][15] = windowAddrA16;
 
 	//counter for loading descriptor
 	counter #(numPixelsDesc) descCounter(.clk(clk), .rst(rst), .enable(enDescCounter),
@@ -19,6 +44,13 @@ module ncc
 	//descriptor register
 	shiftRegister #(descSize) descReg(.clk(clk), .rst(rst), .load(loadDescReg), 
 									  .shift(shiftDescReg), .in(pciIn), .out(descriptor));
+	//bram for window, one per row = 16 brams, 80 pixels per bram
+	generate
+		for (i='d0; i<'d16; i++) begin
+			bram_tdbp #('d8, 10) windowRowBram(.a_clk(clk), .a_wr(windowWriteA),
+				.a_ddr(windowAddrA), .a_din(
+		end
+	endgenerate
 
 	//descriptor shift register fsm
 	always_comb begin
