@@ -1,7 +1,8 @@
 module ncc
-	#(parameter descSize = 256)
+	#(parameter descSize = 2048,
+	 parameter numPixelsDesc = 256);
 	(input logic clk, rst,
-	 input bit   pciIn,
+	 input bit [7:0] pciIn,
 	output logic iWishIKnew);
 
 	enum logic {WAIT, LOAD_DESC} currStateDesc, nextStateDesc;
@@ -10,10 +11,10 @@ module ncc
 	bit [$clog2(descSize)-1:0] descCount;
 
 	assign enDescCounter = shiftDescReg || loadDesc;
-	assign doneLoadingDesc = descCount == descSize;
+	assign doneLoadingDesc = descCount == numPixelsDesc;
 
 	//counter for loading descriptor
-	counter #(descSize) descCounter(.clk(clk), .rst(rst), .enable(enDescCounter),
+	counter #(numPixelsDesc) descCounter(.clk(clk), .rst(rst), .enable(enDescCounter),
 									.count(descCount));
 	//descriptor register
 	shiftRegister #(descSize) descReg(.clk(clk), .rst(rst), .load(loadDescReg), 
@@ -59,9 +60,9 @@ module ncc
 endmodule: ncc
 
 module shiftRegister
-	#(parameter w = 256)
+	#(parameter w = 2048)
 	 (input logic clk, rst, load, shift,
-	  input bit in,
+	  input bit [7:0] in,
 	 output bit [w-1:0] out);
 
 	 bit [w-1:0] val;
@@ -72,10 +73,10 @@ module shiftRegister
 			val <= 'd0;
 		end
 		else if (load) begin
-			val <= in;
+			val[7:0] <= in;
 		end
 		else if (shift) begin
-			val <= val << 1;
+			val <= val << 'd8;
 		end
 	end
 endmodule: shiftRegister
