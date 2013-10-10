@@ -9,34 +9,56 @@ module ncc
 
 	enum logic {WAIT, LOAD_DESC} currStateDesc, nextStateDesc;
 	logic loadDesc, currStateDesc, nextStateDesc, enDescCounter, shiftDescReg, doneLoadingDesc;
-	logic windowWriteA, windowWriteB;
+	logic winWriteA, winWriteB;
 	bit [descSize-1:0] descriptor;
 	bit [$clog2(descSize)-1:0] descCount;
 
 	assign enDescCounter = shiftDescReg || loadDesc;
 	assign doneLoadingDesc = descCount == numPixelsDesc;
 
-	bit [9:0][15:0] windowAddrA;
-	bit [9:0] windowAddrA1, windowAddrA2, windowAddrA3, windowAddrA4, windowAddrA5, windowAddrA6,
-			  windowAddrA7, windowAddrA8, windowAddrA9, windowAddrA10, windowAddrA11,
-			  windowAddrA12, windowAddrA13, windowAddrA14, windowAddrA15, windowAddrA16;
+	bit [7:0][15:0] winDataInA, winDataInB, winDataOutA, winDataOutB;
+	bit [9:0][15:0] winAddrA, winAddrB;
+	/*bit [9:0] winAddrA1, winAddrA2, winAddrA3, winAddrA4, winAddrA5, winAddrA6,*/
+	/*		  winAddrA7, winAddrA8, winAddrA9, winAddrA10, winAddrA11,*/
+	/*		  winAddrA12, winAddrA13, winAddrA14, winAddrA15, winAddrA16;*/
+	/*bit [9:0] winAddrB1, winAddrB2, winAddrB3, winAddrB4, winAddrB5, winAddrB6,*/
+	/*		  winAddrB7, winAddrB8, winAddrB9, winAddrB10, winAddrB11,*/
+	/*		  winAddrB12, winAddrB13, winAddrB14, winAddrB15, winAddrB16;*/
 
-	assign windowAddrA[9:0][0] = windowAddrA1;
-	assign windowAddrA[9:0][1] = windowAddrA2;
-	assign windowAddrA[9:0][2] = windowAddrA3;
-	assign windowAddrA[9:0][3] = windowAddrA4;
-	assign windowAddrA[9:0][4] = windowAddrA5;
-	assign windowAddrA[9:0][5] = windowAddrA6;
-	assign windowAddrA[9:0][6] = windowAddrA7;
-	assign windowAddrA[9:0][7] = windowAddrA8;
-	assign windowAddrA[9:0][8] = windowAddrA9;
-	assign windowAddrA[9:0][9] = windowAddrA10;
-	assign windowAddrA[9:0][10] = windowAddrA11;
-	assign windowAddrA[9:0][11] = windowAddrA12;
-	assign windowAddrA[9:0][12] = windowAddrA13;
-	assign windowAddrA[9:0][13] = windowAddrA14;
-	assign windowAddrA[9:0][14] = windowAddrA15;
-	assign windowAddrA[9:0][15] = windowAddrA16;
+
+	/*assign winAddrA[0] = winAddrA1;*/
+	/*assign winAddrA[1] = winAddrA2;*/
+	/*assign winAddrA[2] = winAddrA3;*/
+	/*assign winAddrA[3] = winAddrA4;*/
+	/*assign winAddrA[4] = winAddrA5;*/
+	/*assign winAddrA[5] = winAddrA6;*/
+	/*assign winAddrA[6] = winAddrA7;*/
+	/*assign winAddrA[7] = winAddrA8;*/
+	/*assign winAddrA[8] = winAddrA9;*/
+	/*assign winAddrA[9] = winAddrA10;*/
+	/*assign winAddrA[10] = winAddrA11;*/
+	/*assign winAddrA[11] = winAddrA12;*/
+	/*assign winAddrA[12] = winAddrA13;*/
+	/*assign winAddrA[13] = winAddrA14;*/
+	/*assign winAddrA[14] = winAddrA15;*/
+	/*assign winAddrA[15] = winAddrA16;*/
+
+	/*assign winAddrB[0] = winAddrB1;*/
+	/*assign winAddrB[1] = winAddrB2;*/
+	/*assign winAddrB[2] = winAddrB3;*/
+	/*assign winAddrB[3] = winAddrB4;*/
+	/*assign winAddrB[4] = winAddrB5;*/
+	/*assign winAddrB[5] = winAddrB6;*/
+	/*assign winAddrB[6] = winAddrB7;*/
+	/*assign winAddrB[7] = winAddrB8;*/
+	/*assign winAddrB[8] = winAddrB9;*/
+	/*assign winAddrB[9] = winAddrB10;*/
+	/*assign winAddrB[10] = winAddrB11;*/
+	/*assign winAddrB[11] = winAddrB12;*/
+	/*assign winAddrB[12] = winAddrB13;*/
+	/*assign winAddrB[13] = winAddrB14;*/
+	/*assign winAddrB[14] = winAddrB15;*/
+	/*assign winAddrB[15] = winAddrB16;*/
 
 	//counter for loading descriptor
 	counter #(numPixelsDesc) descCounter(.clk(clk), .rst(rst), .enable(enDescCounter),
@@ -47,8 +69,10 @@ module ncc
 	//bram for window, one per row = 16 brams, 80 pixels per bram
 	generate
 		for (i='d0; i<'d16; i++) begin
-			bram_tdbp #('d8, 10) windowRowBram(.a_clk(clk), .a_wr(windowWriteA),
-				.a_ddr(windowAddrA), .a_din(
+			bram_tdbp #(8, 10) windowRowBram(.a_clk(clk), .a_wr(winWriteA),
+				.a_ddr(winAddrA[i]), .a_din(winDataInA[i]), .a_dout(winDataOutA[i]), .b_clk(clk),
+				.b_wr(winWriteB), .b_addr(winAddrB[i]), .b_din(winDataInB[i]),
+				.b_dout(winDataOutB[i]));
 		end
 	endgenerate
 
