@@ -1,0 +1,81 @@
+;/*++
+; Copyright Xilinx Inc. 2009
+; All Rights Reserved.
+;--*/
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System
+ClassGuid={4D36E97D-E325-11CE-BFC1-08002BE10318}
+Provider=Xilinx
+DriverVer=3/13/2009, 0.2.0.0
+
+[DestinationDirs]
+DefaultDestDir = 12        ; DIRID_DRIVERS
+
+[SourceDisksNames]
+1 = %DiskId1%,,,""
+
+[SourceDisksFiles]
+xilinx_pcie_block.sys  = 1,,
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+Xilinx=Standard
+
+[Standard]
+Xilinx PCI Express Endpoint Block=XILINXPCIe, root\xilinxpcie
+; Use this to become the driver for a given PCI device:
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_0007
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_0505
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_0506
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_0507
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_5050
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_5051
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_5052
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_5054
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_5058
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_5060
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_5061
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_5062
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_5064
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_5068
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_0007
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_6001
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_6004
+Xilinx PCI Express Endpoint Block=XILINXPCIe,PCI\VEN_10EE&DEV_6008
+
+[XILINXPCIe.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+xilinx_pcie_block.sys
+
+;-------------- Service installation
+[XILINXPCIe.NT.Services]
+AddService = xilinx_pcie_block, %SPSVCINST_ASSOCSERVICE%, xilinxpcie_Service_Inst, xilinxpcie_EventLog_Inst
+
+; -------------- driver install sections
+[xilinxpcie_Service_Inst]
+DisplayName    = Xilinx PCIE block
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START (may need 1=system start)
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\xilinx_pcie_block.sys
+LoadOrderGroup = Extended Base
+
+[xilinxpcie_EventLog_Inst]
+AddReg = xilinxpcie_EventLog_Inst.AddReg 
+ 
+[xilinxpcie_EventLog_Inst.AddReg] 
+HKR,,EventMessageFile,%REG_EXPAND_SZ%,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\Drivers\xilinx_pcie_block.sys" 
+HKR,,TypesSupported,%REG_DWORD%,7
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+DiskId1 = "Xilinx PCI Express Driver Disk"
+REG_EXPAND_SZ = 0x00020000 
+REG_DWORD = 0x00010001 

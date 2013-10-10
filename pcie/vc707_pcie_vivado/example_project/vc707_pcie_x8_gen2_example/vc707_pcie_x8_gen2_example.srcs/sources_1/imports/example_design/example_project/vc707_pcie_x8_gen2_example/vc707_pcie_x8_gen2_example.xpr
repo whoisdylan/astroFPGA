@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--Product Version: Vivado v2013.2 (64-bit)-->
+<Project Version="6" Minor="11" Path="/afs/ece.cmu.edu/usr/wtabib/astroFPGA/pcie/vc707_pcie_vivado/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.srcs/sources_1/imports/example_design/example_project/vc707_pcie_x8_gen2_example/vc707_pcie_x8_gen2_example.xpr">
+	<FileSet Dir="sources_1" File="fileset.xml"/>
+	<FileSet Dir="constrs_1" File="fileset.xml"/>
+	<FileSet Dir="sim_1" File="fileset.xml"/>
+	<RunSet Dir="runs" File="runs.xml"/>
+	<DefaultLaunch Dir="$PRUNDIR"/>
+	<Config>
+		<Option Name="Id" Val="8be1c0c00aa34c899ee61474765256b6"/>
+		<Option Name="Part" Val="xc7vx485tffg1761-2"/>
+		<Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
+		<Option Name="Board" Val=""/>
+		<Option Name="ActiveSimSet" Val="sim_1"/>
+	</Config>
+</Project>
+

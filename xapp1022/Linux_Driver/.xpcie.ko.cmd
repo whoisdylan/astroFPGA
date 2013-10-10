@@ -1,0 +1,1 @@
+cmd_/afs/ece.cmu.edu/usr/wtabib/Downloads/xapp1022/Linux_Driver/xpcie.ko := cp /afs/ece.cmu.edu/usr/wtabib/Downloads/xapp1022/Linux_Driver/xpcie.ko.unsigned /afs/ece.cmu.edu/usr/wtabib/Downloads/xapp1022/Linux_Driver/xpcie.ko
