@@ -151,3 +151,49 @@ module counter
 		end
 	end
 endmodule: counter
+
+module log2It
+	#(parameter w = 32)
+	(input bit [w-1:0] dataIn,
+	output bit [w-1:0] dataOut)
+
+
+endmodule: log2It
+
+module findFirstOne
+	#(parameter w = 32)
+	(input bit [w-1:0] dataIn,
+	output bit [$clog2(w)-1:0] index);
+
+	bit [w-1:0] zeros;
+	bit [w-1:0] temp = dataIn;
+
+	assign index = w - 'd1 - zeros;
+
+	always_comb begin
+		if (temp == 'd0) begin
+			zeros = 'd31;
+		end
+		else begin
+			if (temp <= 'hffff) begin
+			zeros = zeros + 'd16;
+			temp = temp << 'd16;
+			end
+			if (temp <= 'hffffff) begin
+				zeros = zeros + 'd8;
+				temp = temp << 'd8
+			end
+			if (temp <= 'hfffffff) begin
+				zeros = zeros + 'd4;
+				temp = temp << 'd4;
+			end
+			if (temp <= 'h3fffffff) begin
+				zeros = zeros + 'd2;
+				temp = temp << 'd2;
+			end
+			if (temp <= 'h7fffffff) begin
+				zeros = zeros + 'd1;
+			end
+		end
+	end
+endmodule: findFirstOne
