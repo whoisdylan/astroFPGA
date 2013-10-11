@@ -1,0 +1,18 @@
+PROMGEN: Xilinx Prom Generator J.38
+Copyright (c) 1995-2007 Xilinx, Inc.  All rights reserved.
+
+promgen -w -p mcs -c FF -o C:/ISE_RUNS/ML555_solution/impact//Block_Plus_x4_x8_vhdl -ver 0 C:/ISE_RUNS/ML555_solution/impact/routed_x4_vhdl_20.bit -ver 1 C:/ISE_RUNS/ML555_solution/impact/routed_x8_vhdl_20.bit -x xcf32p 
+
+PROM C:/ISE_RUNS/ML555_solution/impact//Block_Plus_x4_x8_vhdl.prm map: Fri Aug 24 14:22:22 2007
+
+Calculating PROM checksum with fill value ff
+
+Format        Mcs86 (32-bit)
+Size          4096K
+PROM start    0000:0000
+PROM end      003f:ffff
+PROM checksum 0b11dc82
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    001a:cd7f     Aug 23 14:07:02 2007 C:/ISE_RUNS/ML555_solution/impact/routed_x4_vhdl_20.bit
+    0020:0000    003a:cd7f     Aug 23 14:46:20 2007 C:/ISE_RUNS/ML555_solution/impact/routed_x8_vhdl_20.bit

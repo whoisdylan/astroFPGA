@@ -1,0 +1,1708 @@
+Copyright 1986-1999, 2001-2013 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2013.2 (lin64) Build 272601 Sat Jun 15 11:11:11 MDT 2013
+| Date         : Wed Oct  9 20:40:57 2013
+| Host         : chinook.ece.cmu.edu running 64-bit Red Hat Enterprise Linux Server release 6.4 (Santiago)
+| Command      : report_timing_summary -file xilinx_pcie_2_1_ep_7x_timing_summary_routed.rpt -pb xilinx_pcie_2_1_ep_7x_timing_summary_routed.pb
+| Design       : xilinx_pcie_2_1_ep_7x
+| Device       : 7vx485t-ffg1761
+| Speed File   : -2  PRODUCTION 1.09 2013-03-11
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Summary Report
+
+------------------------------------------------------------------------------------------------
+| Timer Settings
+| --------------
+------------------------------------------------------------------------------------------------
+
+  Enable Multi Corner Analysis               :  Yes
+  Enable Pessimism Removal                   :  Yes
+  Pessimism Removal Resolution               :  Nearest Common Node
+  Enable Input Delay Default Clock           :  No
+  Enable Preset / Clear Arcs                 :  No
+  Disable Flight Delays                      :  No
+
+  Corner  Analyze    Analyze    
+  Name    Max Paths  Min Paths  
+  ------  ---------  ---------  
+  Slow    Yes        Yes        
+  Fast    Yes        Yes        
+
+
+------------------------------------------------------------------------------------------------
+| Check Timing
+| ------------
+------------------------------------------------------------------------------------------------
+
+
+Checking 'no_clock'.
+ There are 0 register/latch pins with no clock.
+ There are 0 register/latch pins with constant_clock.
+
+Checking 'unconstrained_internal_endpoints'.
+ There are 0 pins that are not constrained for maximum delay.
+ There are 0 pins that are not constrained for maximum delay due to constant clock.
+
+Checking 'no_input_delay'.
+ There is 1 input port with no input delay specified.
+
+Checking 'no_output_delay'.
+ There are 3 ports with no output delay specified.
+
+Checking 'multiple_clock'.
+ There are 0 register/latch pins with related clocks.
+ There are 1804 register/latch pins with exclusive clocks.
+
+Checking 'generated_clocks'.
+ There are 0 generated clocks that are not connected to a clock source.
+
+Checking 'loops'.
+ There are 0 combinational loops in the design.
+
+Checking 'partial_input_delay'.
+ There are 0 input ports with partial input delay specified.
+
+Checking 'partial_output_delay'.
+ There are 0 ports with partial output delay specified.
+
+Checking 'unexpandable_clocks'.
+ There are 0 related clock pairs.
+ There are 0 User Ignored clock pairs.
+
+Checking 'latch_loops'.
+ There are 0 combinational latch loops in the design through latch input
+
+------------------------------------------------------------------------------------------------
+| Design Timing Summary
+| ---------------------
+------------------------------------------------------------------------------------------------
+
+    WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+    -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+      0.100        0.000                      0                 8516        0.025        0.000                      0                 8516        0.000        0.000                       0                  3377  
+
+
+All user specified timing constraints are met.
+
+
+------------------------------------------------------------------------------------------------
+| Clock Summary
+| -------------
+------------------------------------------------------------------------------------------------
+
+Clock                            Waveform(ns)         Period(ns)      Frequency(MHz)
+-----                            ------------         ----------      --------------
+sys_clk                          {0.000 5.000}        10.000          100.000         
+vc707_pcie_x8_gen2_txoutclk_out  {0.000 5.000}        10.000          100.000         
+  clk_125mhz                     {0.000 4.000}        8.000           125.000         
+    clk_125mhz_mux               {0.000 4.000}        8.000           125.000         
+  clk_250mhz                     {0.000 2.000}        4.000           250.000         
+    clk_250mhz_mux               {0.000 2.000}        4.000           250.000         
+  mmcm_fb                        {0.000 5.000}        10.000          100.000         
+  userclk1                       {0.000 1.000}        2.000           500.000         
+  userclk2                       {0.000 2.000}        4.000           250.000         
+
+
+------------------------------------------------------------------------------------------------
+| Intra Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+Clock                                WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints     WPWS(ns)     TPWS(ns)  TPWS Failing Endpoints  TPWS Total Endpoints  
+-----                                -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------     --------     --------  ----------------------  --------------------  
+vc707_pcie_x8_gen2_txoutclk_out                                                                                                                                                    3.000        0.000                       0                     7  
+  clk_125mhz                           3.132        0.000                      0                 1779        0.084        0.000                      0                 1779        2.286        0.000                       0                   767  
+    clk_125mhz_mux                     4.204        0.000                      0                 3934        0.055        0.000                      0                 3934        3.600        0.000                       0                  1796  
+  clk_250mhz                                                                                                                                                                       2.592        0.000                       0                     2  
+    clk_250mhz_mux                     0.204        0.000                      0                 3934        0.055        0.000                      0                 3934        0.000        0.000                       0                  1796  
+  mmcm_fb                                                                                                                                                                          8.929        0.000                       0                     1  
+  userclk1                             0.100        0.000                      0                  362        0.025        0.000                      0                  362        0.000        0.000                       0                    11  
+  userclk2                             0.389        0.000                      0                 2392        0.063        0.000                      0                 2392        0.000        0.000                       0                   798  
+
+
+------------------------------------------------------------------------------------------------
+| Inter Clock Table
+| -----------------
+------------------------------------------------------------------------------------------------
+
+From Clock      To Clock            WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
+----------      --------            -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
+clk_125mhz_mux  clk_125mhz            4.978        0.000                      0                   29        0.316        0.000                      0                   29  
+clk_250mhz_mux  clk_125mhz            0.978        0.000                      0                   29        0.125        0.000                      0                   29  
+clk_125mhz      clk_125mhz_mux        5.606        0.000                      0                   18        0.290        0.000                      0                   18  
+clk_125mhz      clk_250mhz_mux        1.606        0.000                      0                   18        0.099        0.000                      0                   18  
+
+
+------------------------------------------------------------------------------------------------
+| Path Group Table
+| ----------------
+------------------------------------------------------------------------------------------------
+
+Path Group         From Clock         To Clock               WNS(ns)      TNS(ns)  TNS Failing Endpoints  TNS Total Endpoints      WHS(ns)      THS(ns)  THS Failing Endpoints  THS Total Endpoints  
+----------         ----------         --------               -------      -------  ---------------------  -------------------      -------      -------  ---------------------  -------------------  
+**async_default**  userclk2           userclk2                 2.933        0.000                      0                    2        0.409        0.000                      0                    2  
+
+
+------------------------------------------------------------------------------------------------
+| Timing Details
+| --------------
+------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  vc707_pcie_x8_gen2_txoutclk_out
+  To Clock:  vc707_pcie_x8_gen2_txoutclk_out
+
+Setup :               Failing Endpoints,  Worst Slack               ,  Total Violation             
+Hold  :               Failing Endpoints,  Worst Slack               ,  Total Violation             
+PW    :            0  Failing Endpoints,  Worst Slack        3.000ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         vc707_pcie_x8_gen2_txoutclk_out
+Waveform:           { 0 5 }
+Period:             10.000
+Sources:            { vc707_pcie_x8_gen2_i/inst/pipe_txoutclk_out }
+
+Check Type        Corner  Lib Pin            Reference Pin  Required  Actual  Slack   Location         Pin
+Min Period        n/a     BUFG/I             n/a            1.408     10.000  8.592   BUFGCTRL_X0Y4    ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/I
+Max Period        n/a     MMCME2_ADV/CLKIN1  n/a            100.000   10.000  90.000  MMCME2_ADV_X0Y3  ext_clk.pipe_clock_i/mmcm_i/CLKIN1
+Low Pulse Width   Fast    MMCME2_ADV/CLKIN1  n/a            2.000     5.000   3.000   MMCME2_ADV_X0Y3  ext_clk.pipe_clock_i/mmcm_i/CLKIN1
+High Pulse Width  Slow    MMCME2_ADV/CLKIN1  n/a            2.000     5.000   3.000   MMCME2_ADV_X0Y3  ext_clk.pipe_clock_i/mmcm_i/CLKIN1
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_125mhz
+  To Clock:  clk_125mhz
+
+Setup :            0  Failing Endpoints,  Worst Slack        3.132ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.084ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        2.286ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             3.132ns  (required time - arrival time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/dclk_rst_reg2_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/di_reg_reg[0]/R
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             clk_125mhz
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            8.000ns  (clk_125mhz rise@8.000ns - clk_125mhz rise@0.000ns)
+  Data Path Delay:        4.198ns  (logic 0.223ns (5.312%)  route 3.975ns (94.688%))
+  Logic Levels:           0  
+  Clock Path Skew:        -0.295ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    6.271ns = ( 14.271 - 8.000 ) 
+    Source Clock Delay      (SCD):    7.002ns
+    Clock Pessimism Removal (CPR):    0.436ns
+  Clock Uncertainty:      0.071ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.124ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_125mhz rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           2.018     2.018    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.093     2.111 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.428     3.539    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.077     3.616 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           1.458     5.074    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.093     5.167 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         1.835     7.002    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X211Y94                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/dclk_rst_reg2_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X211Y94        FDRE (Prop_fdre_C_Q)         0.223     7.225 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/dclk_rst_reg2_reg/Q
+                         net (fo=748, routed)         3.975    11.200    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/dclk_rst_reg2
+    SLICE_X219Y144       FDRE                                         r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/di_reg_reg[0]/R
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_125mhz rise edge)
+                                                      8.000     8.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     8.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           1.885     9.885    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.083     9.968 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.273    11.241    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.073    11.314 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           1.349    12.663    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.083    12.746 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         1.525    14.271    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X219Y144                                                    r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/di_reg_reg[0]/C
+                         clock pessimism              0.436    14.707    
+                         clock uncertainty           -0.071    14.636    
+    SLICE_X219Y144       FDRE (Setup_fdre_C_R)       -0.304    14.332    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/di_reg_reg[0]
+  -------------------------------------------------------------------
+                         required time                         14.332    
+                         arrival time                         -11.200    
+  -------------------------------------------------------------------
+                         slack                                  3.132    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.084ns  (arrival time - required time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/crscode_reg[5]/C
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/di_reg[15]/D
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             clk_125mhz
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_125mhz rise@0.000ns - clk_125mhz rise@0.000ns)
+  Data Path Delay:        0.182ns  (logic 0.128ns (70.512%)  route 0.054ns (29.488%))
+  Logic Levels:           1  (LUT6=1)
+  Clock Path Skew:        0.011ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    3.588ns
+    Source Clock Delay      (SCD):    2.981ns
+    Clock Pessimism Removal (CPR):    0.596ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_125mhz rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.902     0.902    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.026     0.928 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.608     1.536    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.050     1.586 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           0.570     2.156    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.026     2.182 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         0.799     2.981    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X217Y73                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/crscode_reg[5]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X217Y73        FDRE (Prop_fdre_C_Q)         0.100     3.081 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/crscode_reg[5]/Q
+                         net (fo=1, routed)           0.054     3.135    vc707_pcie_x8_gen2_i/inst/n_0_inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/crscode_reg[5]
+    SLICE_X216Y73        LUT6 (Prop_lut6_I5_O)        0.028     3.163 r  vc707_pcie_x8_gen2_i/inst/di_reg[15]_i_1__0/O
+                         net (fo=1, routed)           0.000     3.163    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/di[15]
+    SLICE_X216Y73        FDRE                                         r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/di_reg[15]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_125mhz rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.986     0.986    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.030     1.016 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.818     1.834    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.053     1.887 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           0.632     2.519    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.030     2.549 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         1.039     3.588    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X216Y73                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/di_reg[15]/C
+                         clock pessimism             -0.596     2.992    
+    SLICE_X216Y73        FDRE (Hold_fdre_C_D)         0.087     3.079    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/di_reg[15]
+  -------------------------------------------------------------------
+                         required time                         -3.079    
+                         arrival time                           3.163    
+  -------------------------------------------------------------------
+                         slack                                  0.084    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_125mhz
+Waveform:           { 0 4 }
+Period:             8.000
+Sources:            { ext_clk.pipe_clock_i/mmcm_i/CLKOUT0 }
+
+Check Type        Corner  Lib Pin               Reference Pin  Required  Actual  Slack    Location             Pin
+Min Period        n/a     GTXE2_CHANNEL/DRPCLK  n/a            5.714     8.000   2.286    GTXE2_CHANNEL_X1Y11  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/DRPCLK
+Max Period        n/a     MMCME2_ADV/CLKOUT0    n/a            213.360   8.000   205.360  MMCME2_ADV_X0Y3      ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+Low Pulse Width   Slow    FDRE/C                n/a            0.400     4.000   3.600    SLICE_X215Y140       vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/do_reg1_reg[11]/C
+High Pulse Width  Fast    FDRE/C                n/a            0.350     4.000   3.650    SLICE_X220Y141       vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/addr_reg_reg[0]/C
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_125mhz_mux
+  To Clock:  clk_125mhz_mux
+
+Setup :            0  Failing Endpoints,  Worst Slack        4.204ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.055ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        3.600ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             4.204ns  (required time - arrival time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXUSRCLK2
+                            (rising edge-triggered cell GTXE2_CHANNEL clocked by clk_125mhz_mux  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[7].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXCHBONDI[4]
+                            (rising edge-triggered cell GTXE2_CHANNEL clocked by clk_125mhz_mux  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             clk_125mhz_mux
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            8.000ns  (clk_125mhz_mux rise@8.000ns - clk_125mhz_mux rise@0.000ns)
+  Data Path Delay:        3.473ns  (logic 0.902ns (25.975%)  route 2.571ns (74.025%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.044ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    6.611ns = ( 14.611 - 8.000 ) 
+    Source Clock Delay      (SCD):    7.003ns
+    Clock Pessimism Removal (CPR):    0.436ns
+  Clock Uncertainty:      0.065ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.108ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_125mhz_mux rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           2.018     2.018    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.093     2.111 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.428     3.539    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.077     3.616 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           1.458     5.074    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
+                                                      0.093     5.167 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        1.836     7.003    vc707_pcie_x8_gen2_i/inst/pipe_rxusrclk_in
+    GTXE2_CHANNEL_X1Y11                                               r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXUSRCLK2
+  -------------------------------------------------------------------    -------------------
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL (Prop_gtxe2_channel_RXUSRCLK2_RXCHBONDO[4])
+                                                      0.902     7.905 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXCHBONDO[4]
+                         net (fo=7, routed)           2.571    10.476    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/gt_rxchbondo[1][4]
+    GTXE2_CHANNEL_X1Y4   GTXE2_CHANNEL                                r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[7].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXCHBONDI[4]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_125mhz_mux rise edge)
+                                                      8.000     8.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     8.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           1.885     9.885    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.083     9.968 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.273    11.241    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.073    11.314 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           1.349    12.663    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
+                                                      0.083    12.746 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        1.865    14.611    vc707_pcie_x8_gen2_i/inst/pipe_rxusrclk_in
+    GTXE2_CHANNEL_X1Y4                                                r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[7].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXUSRCLK2
+                         clock pessimism              0.436    15.047    
+                         clock uncertainty           -0.065    14.983    
+    GTXE2_CHANNEL_X1Y4   GTXE2_CHANNEL (Setup_gtxe2_channel_RXUSRCLK2_RXCHBONDI[4])
+                                                     -0.303    14.680    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[7].gt_wrapper_i/gtx_channel.gtxe2_channel_i
+  -------------------------------------------------------------------
+                         required time                         14.680    
+                         arrival time                         -10.476    
+  -------------------------------------------------------------------
+                         slack                                  4.204    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.055ns  (arrival time - required time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_pipe_pipeline_i/pipe_4_lane.pipe_lane_2_i/pipe_stages_1.pipe_rx_data_q_reg[12]/C
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz_mux  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/PIPERX2DATA[12]
+                            (rising edge-triggered cell PCIE_2_1 clocked by clk_125mhz_mux  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             clk_125mhz_mux
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_125mhz_mux rise@0.000ns - clk_125mhz_mux rise@0.000ns)
+  Data Path Delay:        0.593ns  (logic 0.118ns (19.912%)  route 0.475ns (80.088%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.038ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    3.530ns
+    Source Clock Delay      (SCD):    2.937ns
+    Clock Pessimism Removal (CPR):    0.555ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_125mhz_mux rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.902     0.902    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.026     0.928 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.608     1.536    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.050     1.586 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           0.570     2.156    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
+                                                      0.026     2.182 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        0.755     2.937    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    SLICE_X216Y115                                                    r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_pipe_pipeline_i/pipe_4_lane.pipe_lane_2_i/pipe_stages_1.pipe_rx_data_q_reg[12]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X216Y115       FDRE (Prop_fdre_C_Q)         0.118     3.055 r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_pipe_pipeline_i/pipe_4_lane.pipe_lane_2_i/pipe_stages_1.pipe_rx_data_q_reg[12]/Q
+                         net (fo=1, routed)           0.475     3.530    vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pipe_rx2_data[12]
+    PCIE_X1Y0            PCIE_2_1                                     r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/PIPERX2DATA[12]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_125mhz_mux rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.986     0.986    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.030     1.016 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.818     1.834    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.053     1.887 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           0.632     2.519    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
+                                                      0.030     2.549 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        0.981     3.530    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    PCIE_X1Y0                                                         r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/PIPECLK
+                         clock pessimism             -0.555     2.975    
+    PCIE_X1Y0            PCIE_2_1 (Hold_pcie_2_1_PIPECLK_PIPERX2DATA[12])
+                                                      0.500     3.475    vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i
+  -------------------------------------------------------------------
+                         required time                         -3.475    
+                         arrival time                           3.530    
+  -------------------------------------------------------------------
+                         slack                                  0.055    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_125mhz_mux
+Waveform:           { 0 4 }
+Period:             8.000
+Sources:            { ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O }
+
+Check Type        Corner  Lib Pin           Reference Pin  Required  Actual  Slack  Location        Pin
+Min Period        n/a     PCIE_2_1/PIPECLK  n/a            4.000     8.000   4.000  PCIE_X1Y0       vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/PIPECLK
+Low Pulse Width   Slow    FDRE/C            n/a            0.400     4.000   3.600  SLICE_X202Y100  ext_clk.pipe_clock_i/pclk_sel_reg1_reg[0]/C
+High Pulse Width  Slow    FDRE/C            n/a            0.350     4.000   3.650  SLICE_X202Y84   ext_clk.pipe_clock_i/pclk_sel_reg1_reg[7]/C
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_250mhz
+  To Clock:  clk_250mhz
+
+Setup :               Failing Endpoints,  Worst Slack               ,  Total Violation             
+Hold  :               Failing Endpoints,  Worst Slack               ,  Total Violation             
+PW    :            0  Failing Endpoints,  Worst Slack        2.592ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_250mhz
+Waveform:           { 0 2 }
+Period:             4.000
+Sources:            { ext_clk.pipe_clock_i/mmcm_i/CLKOUT1 }
+
+Check Type  Corner  Lib Pin             Reference Pin  Required  Actual  Slack    Location         Pin
+Min Period  n/a     BUFGCTRL/I1         n/a            1.408     4.000   2.592    BUFGCTRL_X0Y0    ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/I1
+Max Period  n/a     MMCME2_ADV/CLKOUT1  n/a            213.360   4.000   209.360  MMCME2_ADV_X0Y3  ext_clk.pipe_clock_i/mmcm_i/CLKOUT1
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_250mhz_mux
+  To Clock:  clk_250mhz_mux
+
+Setup :            0  Failing Endpoints,  Worst Slack        0.204ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.055ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        0.000ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.204ns  (required time - arrival time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXUSRCLK2
+                            (rising edge-triggered cell GTXE2_CHANNEL clocked by clk_250mhz_mux  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[7].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXCHBONDI[4]
+                            (rising edge-triggered cell GTXE2_CHANNEL clocked by clk_250mhz_mux  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk_250mhz_mux
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk_250mhz_mux rise@4.000ns - clk_250mhz_mux rise@0.000ns)
+  Data Path Delay:        3.473ns  (logic 0.902ns (25.975%)  route 2.571ns (74.025%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.044ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    6.611ns = ( 10.611 - 4.000 ) 
+    Source Clock Delay      (SCD):    7.003ns
+    Clock Pessimism Removal (CPR):    0.436ns
+  Clock Uncertainty:      0.065ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.108ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_250mhz_mux rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           2.018     2.018    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.093     2.111 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.428     3.539    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
+                                                      0.077     3.616 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT1
+                         net (fo=1, routed)           1.458     5.074    ext_clk.pipe_clock_i/clk_250mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I1_O)
+                                                      0.093     5.167 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        1.836     7.003    vc707_pcie_x8_gen2_i/inst/pipe_rxusrclk_in
+    GTXE2_CHANNEL_X1Y11                                               r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXUSRCLK2
+  -------------------------------------------------------------------    -------------------
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL (Prop_gtxe2_channel_RXUSRCLK2_RXCHBONDO[4])
+                                                      0.902     7.905 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXCHBONDO[4]
+                         net (fo=7, routed)           2.571    10.476    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/gt_rxchbondo[1][4]
+    GTXE2_CHANNEL_X1Y4   GTXE2_CHANNEL                                r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[7].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXCHBONDI[4]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_250mhz_mux rise edge)
+                                                      4.000     4.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     4.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           1.885     5.885    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.083     5.968 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.273     7.241    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
+                                                      0.073     7.314 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT1
+                         net (fo=1, routed)           1.349     8.663    ext_clk.pipe_clock_i/clk_250mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I1_O)
+                                                      0.083     8.746 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        1.865    10.611    vc707_pcie_x8_gen2_i/inst/pipe_rxusrclk_in
+    GTXE2_CHANNEL_X1Y4                                                r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[7].gt_wrapper_i/gtx_channel.gtxe2_channel_i/RXUSRCLK2
+                         clock pessimism              0.436    11.047    
+                         clock uncertainty           -0.065    10.983    
+    GTXE2_CHANNEL_X1Y4   GTXE2_CHANNEL (Setup_gtxe2_channel_RXUSRCLK2_RXCHBONDI[4])
+                                                     -0.303    10.680    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[7].gt_wrapper_i/gtx_channel.gtxe2_channel_i
+  -------------------------------------------------------------------
+                         required time                         10.680    
+                         arrival time                         -10.476    
+  -------------------------------------------------------------------
+                         slack                                  0.204    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.055ns  (arrival time - required time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_pipe_pipeline_i/pipe_4_lane.pipe_lane_2_i/pipe_stages_1.pipe_rx_data_q_reg[12]/C
+                            (rising edge-triggered cell FDRE clocked by clk_250mhz_mux  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/PIPERX2DATA[12]
+                            (rising edge-triggered cell PCIE_2_1 clocked by clk_250mhz_mux  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk_250mhz_mux
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_250mhz_mux rise@0.000ns - clk_250mhz_mux rise@0.000ns)
+  Data Path Delay:        0.593ns  (logic 0.118ns (19.912%)  route 0.475ns (80.088%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.038ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    3.530ns
+    Source Clock Delay      (SCD):    2.937ns
+    Clock Pessimism Removal (CPR):    0.555ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_250mhz_mux rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.902     0.902    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.026     0.928 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.608     1.536    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
+                                                      0.050     1.586 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT1
+                         net (fo=1, routed)           0.570     2.156    ext_clk.pipe_clock_i/clk_250mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I1_O)
+                                                      0.026     2.182 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        0.755     2.937    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    SLICE_X216Y115                                                    r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_pipe_pipeline_i/pipe_4_lane.pipe_lane_2_i/pipe_stages_1.pipe_rx_data_q_reg[12]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X216Y115       FDRE (Prop_fdre_C_Q)         0.118     3.055 r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_pipe_pipeline_i/pipe_4_lane.pipe_lane_2_i/pipe_stages_1.pipe_rx_data_q_reg[12]/Q
+                         net (fo=1, routed)           0.475     3.530    vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pipe_rx2_data[12]
+    PCIE_X1Y0            PCIE_2_1                                     r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/PIPERX2DATA[12]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_250mhz_mux rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.986     0.986    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.030     1.016 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.818     1.834    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
+                                                      0.053     1.887 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT1
+                         net (fo=1, routed)           0.632     2.519    ext_clk.pipe_clock_i/clk_250mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I1_O)
+                                                      0.030     2.549 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        0.981     3.530    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    PCIE_X1Y0                                                         r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/PIPECLK
+                         clock pessimism             -0.555     2.975    
+    PCIE_X1Y0            PCIE_2_1 (Hold_pcie_2_1_PIPECLK_PIPERX2DATA[12])
+                                                      0.500     3.475    vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i
+  -------------------------------------------------------------------
+                         required time                         -3.475    
+                         arrival time                           3.530    
+  -------------------------------------------------------------------
+                         slack                                  0.055    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         clk_250mhz_mux
+Waveform:           { 0 2 }
+Period:             4.000
+Sources:            { ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O }
+
+Check Type        Corner  Lib Pin           Reference Pin  Required  Actual  Slack  Location        Pin
+Min Period        n/a     PCIE_2_1/PIPECLK  n/a            4.000     4.000   0.000  PCIE_X1Y0       vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/PIPECLK
+Low Pulse Width   Slow    FDRE/C            n/a            0.400     2.000   1.600  SLICE_X215Y132  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/gt_rx_valid_filter[0].GT_RX_VALID_FILTER_7x_inst/gt_rx_status_q_reg[1]/C
+High Pulse Width  Slow    FDRE/C            n/a            0.350     2.000   1.650  SLICE_X194Y101  ext_clk.pipe_clock_i/pclk_sel_reg1_reg[3]/C
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  mmcm_fb
+  To Clock:  mmcm_fb
+
+Setup :               Failing Endpoints,  Worst Slack               ,  Total Violation             
+Hold  :               Failing Endpoints,  Worst Slack               ,  Total Violation             
+PW    :            0  Failing Endpoints,  Worst Slack        8.929ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         mmcm_fb
+Waveform:           { 0 5 }
+Period:             10.000
+Sources:            { ext_clk.pipe_clock_i/mmcm_i/CLKFBOUT }
+
+Check Type  Corner  Lib Pin              Reference Pin  Required  Actual  Slack    Location         Pin
+Min Period  n/a     MMCME2_ADV/CLKFBOUT  n/a            1.071     10.000  8.929    MMCME2_ADV_X0Y3  ext_clk.pipe_clock_i/mmcm_i/CLKFBOUT
+Max Period  n/a     MMCME2_ADV/CLKFBOUT  n/a            213.360   10.000  203.360  MMCME2_ADV_X0Y3  ext_clk.pipe_clock_i/mmcm_i/CLKFBOUT
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  userclk1
+  To Clock:  userclk1
+
+Setup :            0  Failing Endpoints,  Worst Slack        0.100ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.025ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        0.000ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.100ns  (required time - arrival time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/USERCLK
+                            (rising edge-triggered cell PCIE_2_1 clocked by userclk1  {rise@0.000ns fall@1.000ns period=2.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_bram_top/pcie_brams_tx/brams[0].ram/use_sdp.ramb36sdp/genblk3_0.bram36_dp_bl.bram36_tdp_bl/DIBDI[8]
+                            (rising edge-triggered cell RAMB36E1 clocked by userclk1  {rise@0.000ns fall@1.000ns period=2.000ns})
+  Path Group:             userclk1
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            2.000ns  (userclk1 rise@2.000ns - userclk1 rise@0.000ns)
+  Data Path Delay:        1.276ns  (logic 0.497ns (38.953%)  route 0.779ns (61.047%))
+  Logic Levels:           0  
+  Clock Path Skew:        -0.022ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    6.297ns = ( 8.297 - 2.000 ) 
+    Source Clock Delay      (SCD):    6.828ns
+    Clock Pessimism Removal (CPR):    0.509ns
+  Clock Uncertainty:      0.059ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.095ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock userclk1 rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           2.018     2.018    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.093     2.111 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.428     3.539    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT2)
+                                                      0.077     3.616 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT2
+                         net (fo=1, routed)           1.458     5.074    ext_clk.pipe_clock_i/userclk1
+    BUFGCTRL_X0Y3        BUFG (Prop_bufg_I_O)         0.093     5.167 r  ext_clk.pipe_clock_i/userclk1_i1.usrclk1_i1/O
+                         net (fo=9, routed)           1.661     6.828    vc707_pcie_x8_gen2_i/inst/pipe_userclk1_in
+    PCIE_X1Y0                                                         r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/USERCLK
+  -------------------------------------------------------------------    -------------------
+    PCIE_X1Y0            PCIE_2_1 (Prop_pcie_2_1_USERCLK_MIMTXWDATA[8])
+                                                      0.497     7.325 r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/MIMTXWDATA[8]
+                         net (fo=1, routed)           0.779     8.104    vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/mim_tx_wdata[8]
+    RAMB36_X13Y21        RAMB36E1                                     r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_bram_top/pcie_brams_tx/brams[0].ram/use_sdp.ramb36sdp/genblk3_0.bram36_dp_bl.bram36_tdp_bl/DIBDI[8]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock userclk1 rise edge)
+                                                      2.000     2.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     2.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           1.885     3.885    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.083     3.968 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.273     5.241    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT2)
+                                                      0.073     5.314 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT2
+                         net (fo=1, routed)           1.349     6.663    ext_clk.pipe_clock_i/userclk1
+    BUFGCTRL_X0Y3        BUFG (Prop_bufg_I_O)         0.083     6.746 r  ext_clk.pipe_clock_i/userclk1_i1.usrclk1_i1/O
+                         net (fo=9, routed)           1.551     8.297    vc707_pcie_x8_gen2_i/inst/pipe_userclk1_in
+    RAMB36_X13Y21                                                     r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_bram_top/pcie_brams_tx/brams[0].ram/use_sdp.ramb36sdp/genblk3_0.bram36_dp_bl.bram36_tdp_bl/CLKBWRCLK
+                         clock pessimism              0.509     8.806    
+                         clock uncertainty           -0.059     8.746    
+    RAMB36_X13Y21        RAMB36E1 (Setup_ramb36e1_CLKBWRCLK_DIBDI[8])
+                                                     -0.543     8.203    vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_bram_top/pcie_brams_tx/brams[0].ram/use_sdp.ramb36sdp/genblk3_0.bram36_dp_bl.bram36_tdp_bl
+  -------------------------------------------------------------------
+                         required time                          8.203    
+                         arrival time                          -8.104    
+  -------------------------------------------------------------------
+                         slack                                  0.100    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.025ns  (arrival time - required time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/USERCLK
+                            (rising edge-triggered cell PCIE_2_1 clocked by userclk1  {rise@0.000ns fall@1.000ns period=2.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_bram_top/pcie_brams_tx/brams[0].ram/use_sdp.ramb36sdp/genblk3_0.bram36_dp_bl.bram36_tdp_bl/DIBDI[28]
+                            (rising edge-triggered cell RAMB36E1 clocked by userclk1  {rise@0.000ns fall@1.000ns period=2.000ns})
+  Path Group:             userclk1
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (userclk1 rise@0.000ns - userclk1 rise@0.000ns)
+  Data Path Delay:        0.386ns  (logic 0.032ns (8.290%)  route 0.354ns (91.710%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.065ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    3.558ns
+    Source Clock Delay      (SCD):    2.938ns
+    Clock Pessimism Removal (CPR):    0.555ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock userclk1 rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.902     0.902    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.026     0.928 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.608     1.536    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT2)
+                                                      0.050     1.586 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT2
+                         net (fo=1, routed)           0.570     2.156    ext_clk.pipe_clock_i/userclk1
+    BUFGCTRL_X0Y3        BUFG (Prop_bufg_I_O)         0.026     2.182 r  ext_clk.pipe_clock_i/userclk1_i1.usrclk1_i1/O
+                         net (fo=9, routed)           0.756     2.938    vc707_pcie_x8_gen2_i/inst/pipe_userclk1_in
+    PCIE_X1Y0                                                         r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/USERCLK
+  -------------------------------------------------------------------    -------------------
+    PCIE_X1Y0            PCIE_2_1 (Prop_pcie_2_1_USERCLK_MIMTXWDATA[28])
+                                                      0.032     2.970 r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/MIMTXWDATA[28]
+                         net (fo=1, routed)           0.354     3.324    vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/mim_tx_wdata[28]
+    RAMB36_X13Y21        RAMB36E1                                     r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_bram_top/pcie_brams_tx/brams[0].ram/use_sdp.ramb36sdp/genblk3_0.bram36_dp_bl.bram36_tdp_bl/DIBDI[28]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock userclk1 rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.986     0.986    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.030     1.016 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.818     1.834    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT2)
+                                                      0.053     1.887 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT2
+                         net (fo=1, routed)           0.632     2.519    ext_clk.pipe_clock_i/userclk1
+    BUFGCTRL_X0Y3        BUFG (Prop_bufg_I_O)         0.030     2.549 r  ext_clk.pipe_clock_i/userclk1_i1.usrclk1_i1/O
+                         net (fo=9, routed)           1.009     3.558    vc707_pcie_x8_gen2_i/inst/pipe_userclk1_in
+    RAMB36_X13Y21                                                     r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_bram_top/pcie_brams_tx/brams[0].ram/use_sdp.ramb36sdp/genblk3_0.bram36_dp_bl.bram36_tdp_bl/CLKBWRCLK
+                         clock pessimism             -0.555     3.003    
+    RAMB36_X13Y21        RAMB36E1 (Hold_ramb36e1_CLKBWRCLK_DIBDI[28])
+                                                      0.296     3.299    vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_bram_top/pcie_brams_tx/brams[0].ram/use_sdp.ramb36sdp/genblk3_0.bram36_dp_bl.bram36_tdp_bl
+  -------------------------------------------------------------------
+                         required time                         -3.299    
+                         arrival time                           3.324    
+  -------------------------------------------------------------------
+                         slack                                  0.025    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         userclk1
+Waveform:           { 0 1 }
+Period:             2.000
+Sources:            { ext_clk.pipe_clock_i/mmcm_i/CLKOUT2 }
+
+Check Type  Corner  Lib Pin             Reference Pin      Required  Actual  Slack    Location         Pin
+Min Period  n/a     PCIE_2_1/USERCLK    n/a                2.000     2.000   0.000    PCIE_X1Y0        vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/USERCLK
+Max Period  n/a     MMCME2_ADV/CLKOUT2  n/a                213.360   2.000   211.360  MMCME2_ADV_X0Y3  ext_clk.pipe_clock_i/mmcm_i/CLKOUT2
+Max Skew    Fast    PCIE_2_1/USERCLK    PCIE_2_1/USERCLK2  0.560     0.474   0.086    PCIE_X1Y0        vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/USERCLK
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  userclk2
+  To Clock:  userclk2
+
+Setup :            0  Failing Endpoints,  Worst Slack        0.389ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.063ns,  Total Violation        0.000ns
+PW    :            0  Failing Endpoints,  Worst Slack        0.000ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.389ns  (required time - arrival time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/user_reset_out_reg/C
+                            (rising edge-triggered cell FDPE clocked by userclk2  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/axi_basic_top/rx_inst/rx_pipeline_inst/trn_rd_prev_reg[44]/R
+                            (rising edge-triggered cell FDRE clocked by userclk2  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             userclk2
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (userclk2 rise@4.000ns - userclk2 rise@0.000ns)
+  Data Path Delay:        3.145ns  (logic 0.236ns (7.505%)  route 2.909ns (92.495%))
+  Logic Levels:           0  
+  Clock Path Skew:        -0.018ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    6.257ns = ( 10.257 - 4.000 ) 
+    Source Clock Delay      (SCD):    6.784ns
+    Clock Pessimism Removal (CPR):    0.509ns
+  Clock Uncertainty:      0.065ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.108ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock userclk2 rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           2.018     2.018    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.093     2.111 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.428     3.539    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT3)
+                                                      0.077     3.616 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT3
+                         net (fo=1, routed)           1.458     5.074    ext_clk.pipe_clock_i/userclk2
+    BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.093     5.167 r  ext_clk.pipe_clock_i/userclk2_i1.usrclk2_i1/O
+                         net (fo=796, routed)         1.617     6.784    vc707_pcie_x8_gen2_i/inst/pipe_userclk2_in
+    SLICE_X200Y108                                                    r  vc707_pcie_x8_gen2_i/inst/inst/user_reset_out_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X200Y108       FDPE (Prop_fdpe_C_Q)         0.236     7.020 r  vc707_pcie_x8_gen2_i/inst/inst/user_reset_out_reg/Q
+                         net (fo=434, routed)         2.909     9.929    vc707_pcie_x8_gen2_i/inst/user_reset_out
+    SLICE_X206Y128       FDRE                                         r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/axi_basic_top/rx_inst/rx_pipeline_inst/trn_rd_prev_reg[44]/R
+  -------------------------------------------------------------------    -------------------
+
+                         (clock userclk2 rise edge)
+                                                      4.000     4.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     4.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           1.885     5.885    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.083     5.968 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.273     7.241    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT3)
+                                                      0.073     7.314 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT3
+                         net (fo=1, routed)           1.349     8.663    ext_clk.pipe_clock_i/userclk2
+    BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.083     8.746 r  ext_clk.pipe_clock_i/userclk2_i1.usrclk2_i1/O
+                         net (fo=796, routed)         1.511    10.257    vc707_pcie_x8_gen2_i/inst/pipe_userclk2_in
+    SLICE_X206Y128                                                    r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/axi_basic_top/rx_inst/rx_pipeline_inst/trn_rd_prev_reg[44]/C
+                         clock pessimism              0.509    10.766    
+                         clock uncertainty           -0.065    10.701    
+    SLICE_X206Y128       FDRE (Setup_fdre_C_R)       -0.384    10.317    vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/axi_basic_top/rx_inst/rx_pipeline_inst/trn_rd_prev_reg[44]
+  -------------------------------------------------------------------
+                         required time                         10.317    
+                         arrival time                          -9.929    
+  -------------------------------------------------------------------
+                         slack                                  0.389    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.063ns  (arrival time - required time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/axi_basic_top/tx_inst/tx_pipeline_inst/throttle_ctl_pipeline.reg_tdata_reg[33]/C
+                            (rising edge-triggered cell FDRE clocked by userclk2  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/TRNTD[65]
+                            (rising edge-triggered cell PCIE_2_1 clocked by userclk2  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             userclk2
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (userclk2 rise@0.000ns - userclk2 rise@0.000ns)
+  Data Path Delay:        0.600ns  (logic 0.118ns (19.655%)  route 0.482ns (80.345%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.038ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    3.528ns
+    Source Clock Delay      (SCD):    2.935ns
+    Clock Pessimism Removal (CPR):    0.555ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock userclk2 rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.902     0.902    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.026     0.928 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.608     1.536    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT3)
+                                                      0.050     1.586 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT3
+                         net (fo=1, routed)           0.570     2.156    ext_clk.pipe_clock_i/userclk2
+    BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.026     2.182 r  ext_clk.pipe_clock_i/userclk2_i1.usrclk2_i1/O
+                         net (fo=796, routed)         0.753     2.935    vc707_pcie_x8_gen2_i/inst/pipe_userclk2_in
+    SLICE_X204Y112                                                    r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/axi_basic_top/tx_inst/tx_pipeline_inst/throttle_ctl_pipeline.reg_tdata_reg[33]/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X204Y112       FDRE (Prop_fdre_C_Q)         0.118     3.053 r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/axi_basic_top/tx_inst/tx_pipeline_inst/throttle_ctl_pipeline.reg_tdata_reg[33]/Q
+                         net (fo=1, routed)           0.482     3.535    vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/trn_td[65]
+    PCIE_X1Y0            PCIE_2_1                                     r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/TRNTD[65]
+  -------------------------------------------------------------------    -------------------
+
+                         (clock userclk2 rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.986     0.986    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.030     1.016 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.818     1.834    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT3)
+                                                      0.053     1.887 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT3
+                         net (fo=1, routed)           0.632     2.519    ext_clk.pipe_clock_i/userclk2
+    BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.030     2.549 r  ext_clk.pipe_clock_i/userclk2_i1.usrclk2_i1/O
+                         net (fo=796, routed)         0.979     3.528    vc707_pcie_x8_gen2_i/inst/pipe_userclk2_in
+    PCIE_X1Y0                                                         r  vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/USERCLK2
+                         clock pessimism             -0.555     2.973    
+    PCIE_X1Y0            PCIE_2_1 (Hold_pcie_2_1_USERCLK2_TRNTD[65])
+                                                      0.500     3.473    vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i
+  -------------------------------------------------------------------
+                         required time                         -3.473    
+                         arrival time                           3.535    
+  -------------------------------------------------------------------
+                         slack                                  0.063    
+
+
+
+
+
+Pulse Width Checks
+--------------------------------------------------------------------------------------
+Clock Name:         userclk2
+Waveform:           { 0 2 }
+Period:             4.000
+Sources:            { ext_clk.pipe_clock_i/mmcm_i/CLKOUT3 }
+
+Check Type        Corner  Lib Pin             Reference Pin  Required  Actual  Slack    Location         Pin
+Min Period        n/a     PCIE_2_1/USERCLK2   n/a            4.000     4.000   0.000    PCIE_X1Y0        vc707_pcie_x8_gen2_i/inst/inst/pcie_top_i/pcie_7x_i/pcie_block_i/USERCLK2
+Max Period        n/a     MMCME2_ADV/CLKOUT3  n/a            213.360   4.000   209.360  MMCME2_ADV_X0Y3  ext_clk.pipe_clock_i/mmcm_i/CLKOUT3
+Low Pulse Width   Slow    FDRE/C              n/a            0.400     2.000   1.600    SLICE_X200Y109   app/PIO/PIO_EP_inst/EP_TX_inst/gen_cpl_128.s_axis_tx_tdata_reg[5]/C
+High Pulse Width  Slow    FDRE/C              n/a            0.350     2.000   1.650    SLICE_X196Y120   app/PIO/PIO_EP_inst/EP_RX_inst/FSM_onehot_pio_rx_sm_128.state_reg[1]/C
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_125mhz_mux
+  To Clock:  clk_125mhz
+
+Setup :            0  Failing Endpoints,  Worst Slack        4.978ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.316ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             4.978ns  (required time - arrival time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_rate.pipe_rate_i/drp_x16_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz_mux  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/x16_reg1_reg/D
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             clk_125mhz
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            8.000ns  (clk_125mhz rise@8.000ns - clk_125mhz_mux rise@0.000ns)
+  Data Path Delay:        2.388ns  (logic 0.266ns (11.138%)  route 2.122ns (88.862%))
+  Logic Levels:           1  (LUT2=1)
+  Clock Path Skew:        -0.433ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    6.266ns = ( 14.266 - 8.000 ) 
+    Source Clock Delay      (SCD):    7.001ns
+    Clock Pessimism Removal (CPR):    0.302ns
+  Clock Uncertainty:      0.191ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.124ns
+    Phase Error              (PE):    0.120ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_125mhz_mux rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           2.018     2.018    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.093     2.111 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.428     3.539    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.077     3.616 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           1.458     5.074    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
+                                                      0.093     5.167 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        1.834     7.001    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    SLICE_X209Y98                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_rate.pipe_rate_i/drp_x16_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X209Y98        FDRE (Prop_fdre_C_Q)         0.223     7.224 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_rate.pipe_rate_i/drp_x16_reg/Q
+                         net (fo=1, routed)           0.465     7.689    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_rate.pipe_rate_i76_in
+    SLICE_X212Y93        LUT2 (Prop_lut2_I1_O)        0.043     7.732 r  vc707_pcie_x8_gen2_i/inst/x16_reg1_reg_i_1/O
+                         net (fo=1, routed)           1.657     9.389    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/DRP_X16077_out
+    SLICE_X213Y138       FDRE                                         r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/x16_reg1_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_125mhz rise edge)
+                                                      8.000     8.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     8.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           1.885     9.885    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.083     9.968 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.273    11.241    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.073    11.314 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           1.349    12.663    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.083    12.746 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         1.520    14.266    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X213Y138                                                    r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/x16_reg1_reg/C
+                         clock pessimism              0.302    14.568    
+                         clock uncertainty           -0.191    14.377    
+    SLICE_X213Y138       FDRE (Setup_fdre_C_D)       -0.010    14.367    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/x16_reg1_reg
+  -------------------------------------------------------------------
+                         required time                         14.367    
+                         arrival time                          -9.389    
+  -------------------------------------------------------------------
+                         slack                                  4.978    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.316ns  (arrival time - required time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/ovrd_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz_mux  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/ovrd_reg1_reg/D
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             clk_125mhz
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_125mhz rise@0.000ns - clk_125mhz_mux rise@0.000ns)
+  Data Path Delay:        0.660ns  (logic 0.118ns (17.872%)  route 0.542ns (82.128%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.300ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    3.590ns
+    Source Clock Delay      (SCD):    2.989ns
+    Clock Pessimism Removal (CPR):    0.301ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_125mhz_mux rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.902     0.902    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.026     0.928 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.608     1.536    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.050     1.586 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           0.570     2.156    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
+                                                      0.026     2.182 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        0.807     2.989    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    SLICE_X208Y92                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/ovrd_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X208Y92        FDRE (Prop_fdre_C_Q)         0.118     3.107 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/ovrd_reg/Q
+                         net (fo=3, routed)           0.542     3.649    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qrst_ovrd
+    SLICE_X217Y77        FDRE                                         r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/ovrd_reg1_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_125mhz rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.986     0.986    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.030     1.016 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.818     1.834    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.053     1.887 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           0.632     2.519    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.030     2.549 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         1.041     3.590    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X217Y77                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/ovrd_reg1_reg/C
+                         clock pessimism             -0.301     3.289    
+    SLICE_X217Y77        FDRE (Hold_fdre_C_D)         0.044     3.333    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/ovrd_reg1_reg
+  -------------------------------------------------------------------
+                         required time                         -3.333    
+                         arrival time                           3.649    
+  -------------------------------------------------------------------
+                         slack                                  0.316    
+
+
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_250mhz_mux
+  To Clock:  clk_125mhz
+
+Setup :            0  Failing Endpoints,  Worst Slack        0.978ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.125ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.978ns  (required time - arrival time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_rate.pipe_rate_i/drp_x16_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_250mhz_mux  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/x16_reg1_reg/D
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             clk_125mhz
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk_125mhz rise@8.000ns - clk_250mhz_mux rise@4.000ns)
+  Data Path Delay:        2.388ns  (logic 0.266ns (11.138%)  route 2.122ns (88.862%))
+  Logic Levels:           1  (LUT2=1)
+  Clock Path Skew:        -0.433ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    6.266ns = ( 14.266 - 8.000 ) 
+    Source Clock Delay      (SCD):    7.001ns = ( 11.001 - 4.000 ) 
+    Clock Pessimism Removal (CPR):    0.302ns
+  Clock Uncertainty:      0.191ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.124ns
+    Phase Error              (PE):    0.120ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_250mhz_mux rise edge)
+                                                      4.000     4.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     4.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           2.018     6.018    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.093     6.111 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.428     7.539    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
+                                                      0.077     7.616 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT1
+                         net (fo=1, routed)           1.458     9.074    ext_clk.pipe_clock_i/clk_250mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I1_O)
+                                                      0.093     9.167 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        1.834    11.001    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    SLICE_X209Y98                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_rate.pipe_rate_i/drp_x16_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X209Y98        FDRE (Prop_fdre_C_Q)         0.223    11.224 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_rate.pipe_rate_i/drp_x16_reg/Q
+                         net (fo=1, routed)           0.465    11.689    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_rate.pipe_rate_i76_in
+    SLICE_X212Y93        LUT2 (Prop_lut2_I1_O)        0.043    11.732 r  vc707_pcie_x8_gen2_i/inst/x16_reg1_reg_i_1/O
+                         net (fo=1, routed)           1.657    13.389    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/DRP_X16077_out
+    SLICE_X213Y138       FDRE                                         r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/x16_reg1_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_125mhz rise edge)
+                                                      8.000     8.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     8.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           1.885     9.885    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.083     9.968 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.273    11.241    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.073    11.314 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           1.349    12.663    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.083    12.746 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         1.520    14.266    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X213Y138                                                    r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/x16_reg1_reg/C
+                         clock pessimism              0.302    14.568    
+                         clock uncertainty           -0.191    14.377    
+    SLICE_X213Y138       FDRE (Setup_fdre_C_D)       -0.010    14.367    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].pipe_drp.pipe_drp_i/x16_reg1_reg
+  -------------------------------------------------------------------
+                         required time                         14.367    
+                         arrival time                         -13.389    
+  -------------------------------------------------------------------
+                         slack                                  0.978    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.125ns  (arrival time - required time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/ovrd_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_250mhz_mux  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/ovrd_reg1_reg/D
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             clk_125mhz
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_125mhz rise@0.000ns - clk_250mhz_mux rise@0.000ns)
+  Data Path Delay:        0.660ns  (logic 0.118ns (17.872%)  route 0.542ns (82.128%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.300ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    3.590ns
+    Source Clock Delay      (SCD):    2.989ns
+    Clock Pessimism Removal (CPR):    0.301ns
+  Clock Uncertainty:      0.191ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.124ns
+    Phase Error              (PE):    0.120ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_250mhz_mux rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.902     0.902    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.026     0.928 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.608     1.536    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
+                                                      0.050     1.586 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT1
+                         net (fo=1, routed)           0.570     2.156    ext_clk.pipe_clock_i/clk_250mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I1_O)
+                                                      0.026     2.182 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        0.807     2.989    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    SLICE_X208Y92                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/ovrd_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X208Y92        FDRE (Prop_fdre_C_Q)         0.118     3.107 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/ovrd_reg/Q
+                         net (fo=3, routed)           0.542     3.649    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qrst_ovrd
+    SLICE_X217Y77        FDRE                                         r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/ovrd_reg1_reg/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_125mhz rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.986     0.986    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.030     1.016 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.818     1.834    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.053     1.887 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           0.632     2.519    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.030     2.549 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         1.041     3.590    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X217Y77                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/ovrd_reg1_reg/C
+                         clock pessimism             -0.301     3.289    
+                         clock uncertainty            0.191     3.480    
+    SLICE_X217Y77        FDRE (Hold_fdre_C_D)         0.044     3.524    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/ovrd_reg1_reg
+  -------------------------------------------------------------------
+                         required time                         -3.524    
+                         arrival time                           3.649    
+  -------------------------------------------------------------------
+                         slack                                  0.125    
+
+
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_125mhz
+  To Clock:  clk_125mhz_mux
+
+Setup :            0  Failing Endpoints,  Worst Slack        5.606ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.290ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             5.606ns  (required time - arrival time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[1].pipe_drp.pipe_drp_i/done_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/drp_done_reg1_reg[1]/D
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz_mux  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             clk_125mhz_mux
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            8.000ns  (clk_125mhz_mux rise@8.000ns - clk_125mhz rise@0.000ns)
+  Data Path Delay:        2.120ns  (logic 0.223ns (10.519%)  route 1.897ns (89.481%))
+  Logic Levels:           0  
+  Clock Path Skew:        -0.073ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    6.440ns = ( 14.440 - 8.000 ) 
+    Source Clock Delay      (SCD):    6.815ns
+    Clock Pessimism Removal (CPR):    0.302ns
+  Clock Uncertainty:      0.191ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.124ns
+    Phase Error              (PE):    0.120ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_125mhz rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           2.018     2.018    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.093     2.111 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.428     3.539    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.077     3.616 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           1.458     5.074    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.093     5.167 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         1.648     6.815    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X214Y127                                                    r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[1].pipe_drp.pipe_drp_i/done_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X214Y127       FDRE (Prop_fdre_C_Q)         0.223     7.038 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[1].pipe_drp.pipe_drp_i/done_reg/Q
+                         net (fo=2, routed)           1.897     8.935    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[1].pipe_drp.pipe_drp_i240_out
+    SLICE_X210Y95        FDRE                                         r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/drp_done_reg1_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_125mhz_mux rise edge)
+                                                      8.000     8.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     8.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           1.885     9.885    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.083     9.968 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.273    11.241    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.073    11.314 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           1.349    12.663    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
+                                                      0.083    12.746 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        1.694    14.440    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    SLICE_X210Y95                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/drp_done_reg1_reg[1]/C
+                         clock pessimism              0.302    14.742    
+                         clock uncertainty           -0.191    14.551    
+    SLICE_X210Y95        FDRE (Setup_fdre_C_D)       -0.010    14.541    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/drp_done_reg1_reg[1]
+  -------------------------------------------------------------------
+                         required time                         14.541    
+                         arrival time                          -8.935    
+  -------------------------------------------------------------------
+                         slack                                  5.606    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.290ns  (arrival time - required time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/done_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/drp_done_reg1_reg[1]/D
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz_mux  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Path Group:             clk_125mhz_mux
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_125mhz_mux rise@0.000ns - clk_125mhz rise@0.000ns)
+  Data Path Delay:        0.658ns  (logic 0.100ns (15.191%)  route 0.558ns (84.809%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.321ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    3.600ns
+    Source Clock Delay      (SCD):    2.978ns
+    Clock Pessimism Removal (CPR):    0.301ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_125mhz rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.902     0.902    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.026     0.928 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.608     1.536    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.050     1.586 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           0.570     2.156    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.026     2.182 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         0.796     2.978    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X210Y75                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/done_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X210Y75        FDRE (Prop_fdre_C_Q)         0.100     3.078 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/done_reg/Q
+                         net (fo=1, routed)           0.558     3.636    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i
+    SLICE_X209Y91        FDRE                                         r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/drp_done_reg1_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_125mhz_mux rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.986     0.986    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.030     1.016 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.818     1.834    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.053     1.887 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           0.632     2.519    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I0_O)
+                                                      0.030     2.549 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        1.051     3.600    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    SLICE_X209Y91                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/drp_done_reg1_reg[1]/C
+                         clock pessimism             -0.301     3.299    
+    SLICE_X209Y91        FDRE (Hold_fdre_C_D)         0.047     3.346    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/drp_done_reg1_reg[1]
+  -------------------------------------------------------------------
+                         required time                         -3.346    
+                         arrival time                           3.636    
+  -------------------------------------------------------------------
+                         slack                                  0.290    
+
+
+
+
+
+---------------------------------------------------------------------------------------------------
+From Clock:  clk_125mhz
+  To Clock:  clk_250mhz_mux
+
+Setup :            0  Failing Endpoints,  Worst Slack        1.606ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.099ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             1.606ns  (required time - arrival time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[1].pipe_drp.pipe_drp_i/done_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/drp_done_reg1_reg[1]/D
+                            (rising edge-triggered cell FDRE clocked by clk_250mhz_mux  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk_250mhz_mux
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk_250mhz_mux rise@4.000ns - clk_125mhz rise@0.000ns)
+  Data Path Delay:        2.120ns  (logic 0.223ns (10.519%)  route 1.897ns (89.481%))
+  Logic Levels:           0  
+  Clock Path Skew:        -0.073ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    6.440ns = ( 10.440 - 4.000 ) 
+    Source Clock Delay      (SCD):    6.815ns
+    Clock Pessimism Removal (CPR):    0.302ns
+  Clock Uncertainty:      0.191ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.124ns
+    Phase Error              (PE):    0.120ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_125mhz rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           2.018     2.018    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.093     2.111 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.428     3.539    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.077     3.616 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           1.458     5.074    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.093     5.167 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         1.648     6.815    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X214Y127                                                    r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[1].pipe_drp.pipe_drp_i/done_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X214Y127       FDRE (Prop_fdre_C_Q)         0.223     7.038 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[1].pipe_drp.pipe_drp_i/done_reg/Q
+                         net (fo=2, routed)           1.897     8.935    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[1].pipe_drp.pipe_drp_i240_out
+    SLICE_X210Y95        FDRE                                         r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/drp_done_reg1_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_250mhz_mux rise edge)
+                                                      4.000     4.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     4.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           1.885     5.885    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.083     5.968 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.273     7.241    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
+                                                      0.073     7.314 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT1
+                         net (fo=1, routed)           1.349     8.663    ext_clk.pipe_clock_i/clk_250mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I1_O)
+                                                      0.083     8.746 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        1.694    10.440    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    SLICE_X210Y95                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/drp_done_reg1_reg[1]/C
+                         clock pessimism              0.302    10.742    
+                         clock uncertainty           -0.191    10.551    
+    SLICE_X210Y95        FDRE (Setup_fdre_C_D)       -0.010    10.541    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_reset.pipe_reset_i/drp_done_reg1_reg[1]
+  -------------------------------------------------------------------
+                         required time                         10.541    
+                         arrival time                          -8.935    
+  -------------------------------------------------------------------
+                         slack                                  1.606    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.099ns  (arrival time - required time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/done_reg/C
+                            (rising edge-triggered cell FDRE clocked by clk_125mhz  {rise@0.000ns fall@4.000ns period=8.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/drp_done_reg1_reg[1]/D
+                            (rising edge-triggered cell FDRE clocked by clk_250mhz_mux  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk_250mhz_mux
+  Path Type:              Hold (Min at Fast Process Corner)
+  Requirement:            0.000ns  (clk_250mhz_mux rise@0.000ns - clk_125mhz rise@0.000ns)
+  Data Path Delay:        0.658ns  (logic 0.100ns (15.191%)  route 0.558ns (84.809%))
+  Logic Levels:           0  
+  Clock Path Skew:        0.321ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    3.600ns
+    Source Clock Delay      (SCD):    2.978ns
+    Clock Pessimism Removal (CPR):    0.301ns
+  Clock Uncertainty:      0.191ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.124ns
+    Phase Error              (PE):    0.120ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk_125mhz rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.902     0.902    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.026     0.928 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.608     1.536    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT0)
+                                                      0.050     1.586 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT0
+                         net (fo=2, routed)           0.570     2.156    ext_clk.pipe_clock_i/clk_125mhz
+    BUFGCTRL_X0Y2        BUFG (Prop_bufg_I_O)         0.026     2.182 r  ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i/O
+                         net (fo=764, routed)         0.796     2.978    vc707_pcie_x8_gen2_i/inst/pipe_dclk_in
+    SLICE_X210Y75                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/done_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X210Y75        FDRE (Prop_fdre_C_Q)         0.100     3.078 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i/done_reg/Q
+                         net (fo=1, routed)           0.558     3.636    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[4].pipe_quad.pipe_common.qpll_drp_i
+    SLICE_X209Y91        FDRE                                         r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/drp_done_reg1_reg[1]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk_250mhz_mux rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.986     0.986    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.030     1.016 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.818     1.834    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT1)
+                                                      0.053     1.887 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT1
+                         net (fo=1, routed)           0.632     2.519    ext_clk.pipe_clock_i/clk_250mhz
+    BUFGCTRL_X0Y0        BUFGCTRL (Prop_bufgctrl_I1_O)
+                                                      0.030     2.549 r  ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1/O
+                         net (fo=1812, routed)        1.051     3.600    vc707_pcie_x8_gen2_i/inst/pipe_pclk_in
+    SLICE_X209Y91                                                     r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/drp_done_reg1_reg[1]/C
+                         clock pessimism             -0.301     3.299    
+                         clock uncertainty            0.191     3.490    
+    SLICE_X209Y91        FDRE (Hold_fdre_C_D)         0.047     3.537    vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/qpll_reset.qpll_reset_i/drp_done_reg1_reg[1]
+  -------------------------------------------------------------------
+                         required time                         -3.537    
+                         arrival time                           3.636    
+  -------------------------------------------------------------------
+                         slack                                  0.099    
+
+
+
+
+
+---------------------------------------------------------------------------------------------------
+Path Group:  **async_default**
+From Clock:  userclk2
+  To Clock:  userclk2
+
+Setup :            0  Failing Endpoints,  Worst Slack        2.933ns,  Total Violation        0.000ns
+Hold  :            0  Failing Endpoints,  Worst Slack        0.409ns,  Total Violation        0.000ns
+---------------------------------------------------------------------------------------------------
+
+
+Max Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             2.933ns  (required time - arrival time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/pl_received_hot_rst_q_reg/C
+                            (rising edge-triggered cell FDRE clocked by userclk2  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/user_reset_int_reg/PRE
+                            (recovery check against rising-edge clock userclk2  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             **async_default**
+  Path Type:              Recovery (Max at Slow Process Corner)
+  Requirement:            4.000ns  (userclk2 rise@4.000ns - userclk2 rise@0.000ns)
+  Data Path Delay:        0.790ns  (logic 0.359ns (45.465%)  route 0.431ns (54.535%))
+  Logic Levels:           1  (LUT2=1)
+  Clock Path Skew:        -0.026ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    6.225ns = ( 10.225 - 4.000 ) 
+    Source Clock Delay      (SCD):    6.785ns
+    Clock Pessimism Removal (CPR):    0.534ns
+  Clock Uncertainty:      0.065ns  ((TSJ^2 + DJ^2)^1/2) / 2 + PE
+    Total System Jitter     (TSJ):    0.071ns
+    Discrete Jitter          (DJ):    0.108ns
+    Phase Error              (PE):    0.000ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock userclk2 rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           2.018     2.018    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.093     2.111 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.428     3.539    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT3)
+                                                      0.077     3.616 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT3
+                         net (fo=1, routed)           1.458     5.074    ext_clk.pipe_clock_i/userclk2
+    BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.093     5.167 r  ext_clk.pipe_clock_i/userclk2_i1.usrclk2_i1/O
+                         net (fo=796, routed)         1.618     6.785    vc707_pcie_x8_gen2_i/inst/pipe_userclk2_in
+    SLICE_X200Y107                                                    r  vc707_pcie_x8_gen2_i/inst/inst/pl_received_hot_rst_q_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X200Y107       FDRE (Prop_fdre_C_Q)         0.236     7.021 f  vc707_pcie_x8_gen2_i/inst/inst/pl_received_hot_rst_q_reg/Q
+                         net (fo=1, routed)           0.105     7.126    vc707_pcie_x8_gen2_i/inst/pl_received_hot_rst
+    SLICE_X200Y107       LUT2 (Prop_lut2_I0_O)        0.123     7.249 f  vc707_pcie_x8_gen2_i/inst/user_reset_out_reg_i_1/O
+                         net (fo=2, routed)           0.326     7.575    vc707_pcie_x8_gen2_i/inst/n_0_user_reset_out_reg_i_1
+    SLICE_X200Y108       FDPE                                         f  vc707_pcie_x8_gen2_i/inst/inst/user_reset_int_reg/PRE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock userclk2 rise edge)
+                                                      4.000     4.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     4.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           1.885     5.885    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.083     5.968 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           1.273     7.241    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT3)
+                                                      0.073     7.314 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT3
+                         net (fo=1, routed)           1.349     8.663    ext_clk.pipe_clock_i/userclk2
+    BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.083     8.746 r  ext_clk.pipe_clock_i/userclk2_i1.usrclk2_i1/O
+                         net (fo=796, routed)         1.479    10.225    vc707_pcie_x8_gen2_i/inst/pipe_userclk2_in
+    SLICE_X200Y108                                                    r  vc707_pcie_x8_gen2_i/inst/inst/user_reset_int_reg/C
+                         clock pessimism              0.534    10.759    
+                         clock uncertainty           -0.065    10.694    
+    SLICE_X200Y108       FDPE (Recov_fdpe_C_PRE)     -0.187    10.507    vc707_pcie_x8_gen2_i/inst/inst/user_reset_int_reg
+  -------------------------------------------------------------------
+                         required time                         10.507    
+                         arrival time                          -7.575    
+  -------------------------------------------------------------------
+                         slack                                  2.933    
+
+
+
+
+
+Min Delay Paths
+--------------------------------------------------------------------------------------
+Slack (MET) :             0.409ns  (arrival time - required time)
+  Source:                 vc707_pcie_x8_gen2_i/inst/inst/pl_received_hot_rst_q_reg/C
+                            (rising edge-triggered cell FDRE clocked by userclk2  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            vc707_pcie_x8_gen2_i/inst/inst/user_reset_int_reg/PRE
+                            (removal check against rising-edge clock userclk2  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             **async_default**
+  Path Type:              Removal (Min at Fast Process Corner)
+  Requirement:            0.000ns  (userclk2 rise@0.000ns - userclk2 rise@0.000ns)
+  Data Path Delay:        0.371ns  (logic 0.171ns (46.138%)  route 0.200ns (53.862%))
+  Logic Levels:           1  (LUT2=1)
+  Clock Path Skew:        0.014ns (DCD - SCD - CPR)
+    Destination Clock Delay (DCD):    3.503ns
+    Source Clock Delay      (SCD):    2.913ns
+    Clock Pessimism Removal (CPR):    0.576ns
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock userclk2 rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11  GTXE2_CHANNEL                0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.902     0.902    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.026     0.928 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.608     1.536    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT3)
+                                                      0.050     1.586 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT3
+                         net (fo=1, routed)           0.570     2.156    ext_clk.pipe_clock_i/userclk2
+    BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.026     2.182 r  ext_clk.pipe_clock_i/userclk2_i1.usrclk2_i1/O
+                         net (fo=796, routed)         0.731     2.913    vc707_pcie_x8_gen2_i/inst/pipe_userclk2_in
+    SLICE_X200Y107                                                    r  vc707_pcie_x8_gen2_i/inst/inst/pl_received_hot_rst_q_reg/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X200Y107       FDRE (Prop_fdre_C_Q)         0.107     3.020 f  vc707_pcie_x8_gen2_i/inst/inst/pl_received_hot_rst_q_reg/Q
+                         net (fo=1, routed)           0.053     3.073    vc707_pcie_x8_gen2_i/inst/pl_received_hot_rst
+    SLICE_X200Y107       LUT2 (Prop_lut2_I0_O)        0.064     3.137 f  vc707_pcie_x8_gen2_i/inst/user_reset_out_reg_i_1/O
+                         net (fo=2, routed)           0.147     3.284    vc707_pcie_x8_gen2_i/inst/n_0_user_reset_out_reg_i_1
+    SLICE_X200Y108       FDPE                                         f  vc707_pcie_x8_gen2_i/inst/inst/user_reset_int_reg/PRE
+  -------------------------------------------------------------------    -------------------
+
+                         (clock userclk2 rise edge)
+                                                      0.000     0.000 r  
+    GTXE2_CHANNEL_X1Y11                               0.000     0.000 r  vc707_pcie_x8_gen2_i/inst/inst/gt_top_i/pipe_wrapper_i/pipe_lane[0].gt_wrapper_i/gtx_channel.gtxe2_channel_i/TXOUTCLK
+                         net (fo=1, routed)           0.986     0.986    ext_clk.pipe_clock_i/pipe_txoutclk_out
+    BUFGCTRL_X0Y4        BUFG (Prop_bufg_I_O)         0.030     1.016 r  ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i/O
+                         net (fo=1, routed)           0.818     1.834    ext_clk.pipe_clock_i/refclk
+    MMCME2_ADV_X0Y3      MMCME2_ADV (Prop_mmcme2_adv_CLKIN1_CLKOUT3)
+                                                      0.053     1.887 r  ext_clk.pipe_clock_i/mmcm_i/CLKOUT3
+                         net (fo=1, routed)           0.632     2.519    ext_clk.pipe_clock_i/userclk2
+    BUFGCTRL_X0Y1        BUFG (Prop_bufg_I_O)         0.030     2.549 r  ext_clk.pipe_clock_i/userclk2_i1.usrclk2_i1/O
+                         net (fo=796, routed)         0.954     3.503    vc707_pcie_x8_gen2_i/inst/pipe_userclk2_in
+    SLICE_X200Y108                                                    r  vc707_pcie_x8_gen2_i/inst/inst/user_reset_int_reg/C
+                         clock pessimism             -0.576     2.927    
+    SLICE_X200Y108       FDPE (Remov_fdpe_C_PRE)     -0.052     2.875    vc707_pcie_x8_gen2_i/inst/inst/user_reset_int_reg
+  -------------------------------------------------------------------
+                         required time                         -2.875    
+                         arrival time                           3.284    
+  -------------------------------------------------------------------
+                         slack                                  0.409    
+
+
+
+
+

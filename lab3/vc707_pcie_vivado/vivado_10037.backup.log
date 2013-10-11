@@ -1,0 +1,25 @@
+#-----------------------------------------------------------
+# Vivado v2013.2 (64-bit)
+# Build 272601 by xbuild on Sat Jun 15 11:11:11 MDT 2013
+# Start of session at: Tue Oct  8 20:32:33 2013
+# Process ID: 9931
+# Log file: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vivado.log
+# Journal file: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vivado.jou
+#-----------------------------------------------------------
+INFO: [Common 17-78] Attempting to get a license: Implementation
+INFO: [Common 17-81] Feature available: Implementation
+INFO: [Common 17-78] Attempting to get a license: Synthesis
+INFO: [Common 17-81] Feature available: Synthesis
+INFO: [Device 21-36] Loading parts and site information from /afs/ece/support/xilinx/xilinx.release/Vivado-2013.2/Vivado/2013.2/data/parts/arch.xml
+Parsing RTL primitives file [/afs/ece/support/xilinx/xilinx.release/Vivado-2013.2/Vivado/2013.2/data/parts/xilinx/rtl/prims/rtl_prims.xml]
+Finished parsing RTL primitives file [/afs/ece/support/xilinx/xilinx.release/Vivado-2013.2/Vivado/2013.2/data/parts/xilinx/rtl/prims/rtl_prims.xml]
+INFO: [Common 17-362] Using Tcl App repository from '/afs/ece/support/xilinx/xilinx.release/Vivado-2013.2/Vivado/2013.2/data/XilinxTclStore'.
+INFO: [Common 17-364] Updating Tcl app persistent manifest '/afs/ece.cmu.edu/usr/wtabib/.Xilinx/Vivado/tclapp/manifest.tcl'
+start_gui
+open_project /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado repository '/afs/ece/support/xilinx/xilinx.release/Vivado-2013.2/Vivado/2013.2/data/ip'.
+exit

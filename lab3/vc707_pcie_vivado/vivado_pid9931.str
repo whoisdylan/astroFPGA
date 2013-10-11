@@ -1,0 +1,41 @@
+/*
+
+Vivado v2013.2 (64-bit)
+Build 272601 by xbuild on Sat Jun 15 11:11:11 MDT 2013
+Process ID: 9931
+
+Current time: 10/8/13 8:32:44 PM
+Time zone: Eastern Standard Time (America/New_York)
+
+OS: Linux
+Version: 2.6.32-358.18.1.el6.x86_64
+Architecture: amd64
+Available processors (cores): 8
+
+DISPLAY: :0.0
+Screen size: 1600x1200
+Screen resolution (DPI): 96
+Available screens: 1
+
+Java version: 1.7.0_17 64-bit
+Java home: /afs/ece.cmu.edu/support/xilinx/xilinx.release/Vivado-2013.2/Vivado/2013.2/tps/lnx64/jre
+
+User name: wtabib
+User directory: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado
+User country: US
+User language: en
+User locale: en_US
+
+GUI Allocated memory:	122 mb
+GUI Max memory:		3,066 mb
+
+*/
+
+minimizeFrame (PAResourceItoP.PAViews_TCL_CONSOLE, "Tcl Console"); // av:DockableFrame (FrameContainer:JideTabbedPane, bG:JFrame)
+selectButton (PAResourceAtoH.GettingStartedView_OPEN_PROJECT, "Open Project"); // h:i (JPanel:JComponent, bG:JFrame)
+selectMenuItem (PAResourceAtoH.GettingStartedView_BROWSE_PROJECTS, "Browse Projects..."); // af:JMenuItem (aj:JPopupMenu, bG:JFrame)
+setFileChooser ("/afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.xpr");
+// bU:I (bG:JFrame):  Open Project : addNotify
+// Tcl: open_project /afs/ece.cmu.edu/usr/wtabib/astroFPGA/lab3/vc707_pcie_vivado/vc707_pcie_vivado.xpr
+// Tcl: Scanning sources...Finished scanning sources
+// Tcl: INFO: [IP_Flow 19-234] Refreshing IP repositoriesINFO: [IP_Flow 19-1704] No user repositories specifiedINFO: [IP_Flow 19-2313] Loaded Vivado repository '/afs/ece/support/xilinx/xilinx.release/Vivado-2013.2/Vivado/2013.2/data/ip'.

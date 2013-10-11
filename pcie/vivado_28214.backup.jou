@@ -1,0 +1,22 @@
+#-----------------------------------------------------------
+# Vivado v2013.2 (64-bit)
+# Build 272601 by xbuild on Sat Jun 15 11:11:11 MDT 2013
+# Start of session at: Wed Oct  9 10:48:27 2013
+# Process ID: 27981
+# Log file: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/pcie/vivado.log
+# Journal file: /afs/ece.cmu.edu/usr/wtabib/astroFPGA/pcie/vivado.jou
+#-----------------------------------------------------------
+start_gui
+create_project virtex-7 /afs/ece.cmu.edu/usr/wtabib/astroFPGA/pcie/virtex-7 -part xc7vx485tffg1761-2
+set_property board xilinx.com:virtex7:vc707:2.0 [current_project]
+create_ip -name pcie_7x -version 2.1 -vendor xilinx.com -library ip -module_name pcie_7x_0
+generate_target instantiation_template [get_files  /afs/ece.cmu.edu/usr/wtabib/astroFPGA/pcie/virtex-7/virtex-7.srcs/sources_1/ip/pcie_7x_0/pcie_7x_0.xci] -force
+update_compile_order -fileset sources_1
+update_compile_order -fileset sim_1
+generate_target all [get_files  /afs/ece.cmu.edu/usr/wtabib/astroFPGA/pcie/virtex-7/virtex-7.srcs/sources_1/ip/pcie_7x_0/pcie_7x_0.xci]
+set_property -dict [list CONFIG.Maximum_Link_Width {X8} CONFIG.Bar0_Scale {Megabytes} CONFIG.Xlnx_Ref_Board {VC707}] [get_ips pcie_7x_0]
+generate_target instantiation_template [get_files  /afs/ece.cmu.edu/usr/wtabib/astroFPGA/pcie/virtex-7/virtex-7.srcs/sources_1/ip/pcie_7x_0/pcie_7x_0.xci] -force
+generate_target all [get_files  /afs/ece.cmu.edu/usr/wtabib/astroFPGA/pcie/virtex-7/virtex-7.srcs/sources_1/ip/pcie_7x_0/pcie_7x_0.xci]
+set_property -dict [list CONFIG.Bar0_Size {1}] [get_ips pcie_7x_0]
+generate_target instantiation_template [get_files  /afs/ece.cmu.edu/usr/wtabib/astroFPGA/pcie/virtex-7/virtex-7.srcs/sources_1/ip/pcie_7x_0/pcie_7x_0.xci] -force
+generate_target all [get_files  /afs/ece.cmu.edu/usr/wtabib/astroFPGA/pcie/virtex-7/virtex-7.srcs/sources_1/ip/pcie_7x_0/pcie_7x_0.xci]
