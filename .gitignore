@@ -2,6 +2,8 @@
 
 *.un*
 *.swp*
+pcie/*
+!pcie/*/
 lab*/*
 !lab*/*/
 !*.sv
