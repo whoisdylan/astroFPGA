@@ -11,25 +11,24 @@ module findFirstOne
 	output bit [$clog2(32)-1:0] index);
 
 	bit [4:0] zeros, zeros1, zeros2, zeros3, zeros4, zeros5;
-	bit [31:0] temp1, temp2, temp3, temp4, temp5;
+	bit [31:0] temp2, temp3, temp4, temp5;
 
-	assign index = 'd32 - 'd1 - zeros;
-	assign temp1 = dataIn;
+	assign index = 'd32 - zeros;
 	assign zeros = zeros1 + zeros2 + zeros3 + zeros4 + zeros5;
 
 	always_comb begin
-		if (temp1 == 'd0) begin
-			zeros1 = 'd31;
+		if (dataIn == 'd0) begin
+			zeros1 = 'd32;
 			temp2 = 'hffffffff;
 		end
 		else begin
-			if (temp1 <= 'hffff) begin
+			if (dataIn <= 'hffff) begin
 				zeros1 = 'd16;
-				temp2 = temp1 << 'd16;
+				temp2 = dataIn << 'd16;
 			end
 			else begin
 				zeros1 = 'd0;
-				temp2 = temp1;
+				temp2 = dataIn;
 			end
 		end
 	end
@@ -66,6 +65,9 @@ module findFirstOne
 	always_comb begin
 		if (temp5 <= 'h7fffffff) begin
 			zeros5 = 'd1;
+		end
+		else begin
+			zeros5 = 'd0;
 		end
 	end
 endmodule: findFirstOne
