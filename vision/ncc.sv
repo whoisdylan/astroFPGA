@@ -177,7 +177,7 @@ module findFirstOne
 
 	always_comb begin
 		if (dataIn == 'd0) begin
-			zeros1 = 'd32;
+			zeros1 = 'd31;
 			temp2 = 'hffffffff;
 		end
 		else begin
