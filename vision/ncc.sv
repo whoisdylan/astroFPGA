@@ -1,17 +1,16 @@
 module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
-	 parameter windowSize = 640,
-	 parameter );
+	 parameter windowSize = 640)
 	(input logic clk, rst,
 	 input bit [7:0] pciIn,
 	output logic iWishIKnew);
 
 	enum logic {WAIT, LOAD_DESC} currStateDesc, nextStateDesc;
-	logic loadDesc, currStateDesc, nextStateDesc, enDescCounter, shiftDescReg, doneLoadingDesc;
+	logic loadDesc, enDescCounter, shiftDescReg, doneLoadingDesc, startLoadingDesc;
 	logic winWriteA, winWriteB;
 	bit [descSize-1:0] descriptor;
-	bit [$clog2(descSize)-1:0] descCount;
+	bit [$clog2(numPixelsDesc)-1:0] descCount;
 
 	assign enDescCounter = shiftDescReg || loadDesc;
 	assign doneLoadingDesc = descCount == numPixelsDesc;
@@ -67,6 +66,7 @@ module ncc
 	shiftRegister #(descSize) descReg(.clk(clk), .rst(rst), .load(loadDescReg), 
 									  .shift(shiftDescReg), .in(pciIn), .out(descriptor));
 	//bram for window, one per row = 16 brams, 80 pixels per bram
+	/*genvar i;
 	generate
 		for (i='d0; i<'d16; i++) begin
 			bram_tdbp #(8, 10) windowRowBram(.a_clk(clk), .a_wr(winWriteA),
@@ -74,7 +74,7 @@ module ncc
 				.b_wr(winWriteB), .b_addr(winAddrB[i]), .b_din(winDataInB[i]),
 				.b_dout(winDataOutB[i]));
 		end
-	endgenerate
+	endgenerate */
 
 	//descriptor shift register fsm
 	always_comb begin
@@ -93,7 +93,7 @@ module ncc
 			end
 			LOAD_DESC: begin
 				if (doneLoadingDesc) begin
-					nextStateDesc = WAIT
+					nextStateDesc = WAIT;
 				end
 				else begin
 					shiftDescReg = 1'd1;
@@ -155,12 +155,12 @@ endmodule: counter
 module log2It
 	#(parameter w = 32)
 	(input bit [w-1:0] dataIn,
-	output bit [4:-27] dataOut)
+	output bit [4:-27] dataOut);
 
 	bit [31:0] fraction;
 
 	bit [$clog2(w)-1:0] oneIndex;
-	findFirstOne #(32) firstOneFinder(dataIn, oneIndex)
+	findFirstOne #(32) firstOneFinder(dataIn, oneIndex);
 	
 	assign fraction = dataIn << (w-oneIndex);
 	assign dataOut = {oneIndex, fraction[31:5]};
@@ -168,7 +168,7 @@ module log2It
 endmodule: log2It
 
 module findFirstOne
-	#(parameter w = 32);
+	#(parameter w = 32)
 	(input bit [w-1:0] dataIn,
 	output bit [$clog2(w)-1:0] index);
 
