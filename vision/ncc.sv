@@ -155,12 +155,15 @@ endmodule: counter
 module log2It
 	#(parameter w = 32)
 	(input bit [w-1:0] dataIn,
-	output bit [w-1:0] dataOut)
+	output bit [4:-27] dataOut)
+
+	bit [31:0] fraction;
 
 	bit [$clog2(w)-1:0] oneIndex;
 	findFirstOne #(32) firstOneFinder(dataIn, oneIndex)
-
-	assign dataOu
+	
+	assign fraction = dataIn << (w-oneIndex);
+	assign dataOut = {oneIndex, fraction[31:5]};
 
 endmodule: log2It
 
