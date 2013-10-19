@@ -13,7 +13,7 @@ module findFirstOne
 	bit [4:0] zeros, zeros1, zeros2, zeros3, zeros4, zeros5;
 	bit [31:0] temp2, temp3, temp4, temp5;
 
-	assign index = 'd32 - zeros;
+	assign index = 'd31 - zeros;
 	assign zeros = zeros1 + zeros2 + zeros3 + zeros4 + zeros5;
 
 	always_comb begin

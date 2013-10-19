@@ -157,43 +157,76 @@ module log2It
 	(input bit [w-1:0] dataIn,
 	output bit [w-1:0] dataOut)
 
+	bit [$clog2(w)-1:0] oneIndex;
+	findFirstOne #(32) firstOneFinder(dataIn, oneIndex)
+
+	assign dataOu
 
 endmodule: log2It
 
 module findFirstOne
-	#(parameter w = 32)
+	#(parameter w = 32);
 	(input bit [w-1:0] dataIn,
 	output bit [$clog2(w)-1:0] index);
 
-	bit [w-1:0] zeros;
-	bit [w-1:0] temp = dataIn;
+	bit [$clog2(w)-1:0] zeros, zeros1, zeros2, zeros3, zeros4, zeros5;
+	bit [w-1:0] temp2, temp3, temp4, temp5;
 
-	assign index = w - 'd1 - zeros;
+	assign index = 'd31 - zeros;
+	assign zeros = zeros1 + zeros2 + zeros3 + zeros4 + zeros5;
 
 	always_comb begin
-		if (temp == 'd0) begin
-			zeros = 'd31;
+		if (dataIn == 'd0) begin
+			zeros1 = 'd32;
+			temp2 = 'hffffffff;
 		end
 		else begin
-			if (temp <= 'hffff) begin
-			zeros = zeros + 'd16;
-			temp = temp << 'd16;
+			if (dataIn <= 'hffff) begin
+				zeros1 = 'd16;
+				temp2 = dataIn << 'd16;
 			end
-			if (temp <= 'hffffff) begin
-				zeros = zeros + 'd8;
-				temp = temp << 'd8
+			else begin
+				zeros1 = 'd0;
+				temp2 = dataIn;
 			end
-			if (temp <= 'hfffffff) begin
-				zeros = zeros + 'd4;
-				temp = temp << 'd4;
-			end
-			if (temp <= 'h3fffffff) begin
-				zeros = zeros + 'd2;
-				temp = temp << 'd2;
-			end
-			if (temp <= 'h7fffffff) begin
-				zeros = zeros + 'd1;
-			end
+		end
+	end
+	always_comb begin
+		if (temp2 <= 'hffffff) begin
+			zeros2 = 'd8;
+			temp3 = temp2 << 'd8;
+		end
+		else begin
+			zeros2 = 'd0;
+			temp3 = temp2;
+		end
+	end
+	always_comb begin
+		if (temp3 <= 'hfffffff) begin
+			zeros3 = 'd4;
+			temp4 = temp3 << 'd4;
+		end
+		else begin
+			zeros3 = 'd0;
+			temp4 = temp3;
+		end
+	end
+	always_comb begin
+		if (temp4 <= 'h3fffffff) begin
+			zeros4 = 'd2;
+			temp5 = temp4 << 'd2;
+		end
+		else begin
+			zeros4 = 'd0;
+			temp5 = temp4;
+		end
+	end
+	always_comb begin
+		if (temp5 <= 'h7fffffff) begin
+			zeros5 = 'd1;
+		end
+		else begin
+			zeros5 = 'd0;
 		end
 	end
 endmodule: findFirstOne
