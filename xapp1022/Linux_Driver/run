@@ -1,0 +1,6 @@
+sudo rmmod xpcie.ko
+make
+sudo ./make_device
+sudo insmod xpcie.ko
+sudo ./test
+

@@ -61,8 +61,8 @@ MODULE_LICENSE("Dual BSD/GPL");
 #define BUF_SIZE                  4096
 
 #define PCI_VENDOR_ID_XILINX      0x10ee
-#define PCI_DEVICE_ID_XILINX_PCIE 0x7028
-#define KINBURN_REGISTER_SIZE     (4*8)    // There are eight registers, and each is 4 bytes wide.
+#define PCI_DEVICE_ID_XILINX_PCIE 0x7018
+#define KINBURN_REGISTER_SIZE     (1024*1024)    // There are eight registers, and each is 4 bytes wide.
 #define HAVE_REGION               0x01     // I/O Memory region
 #define HAVE_IRQ                  0x02     // Interupt
 #define SUCCESS                   0
@@ -157,8 +157,11 @@ ssize_t XPCIe_Write(struct file *filp, const char *buf, size_t count,
                        loff_t *f_pos)
 {
 	int ret = SUCCESS;
-	memcpy((char *)gBaseVirt, buf, count);
+	//memcpy((char *)gBaseVirt, buf, count);
+    //iowrite32_rep(gBaseVirt, (const void *) buf, (unsigned long) count); 
+    memcpy_toio(gBaseVirt, (void *) buf, (unsigned int) count);
 	printk("%s: XPCIe_Write: %d bytes have been written...\n", gDrvrName, count);
+	printk("data in buf is %d %d\n", *((int *)gBaseVirt), *((int *)(gBaseVirt+4)));
 	return (ret);
 }
 
@@ -188,8 +191,11 @@ ssize_t XPCIe_Write(struct file *filp, const char *buf, size_t count,
  ****************************************************************************/
 ssize_t XPCIe_Read(struct file *filp, char *buf, size_t count, loff_t *f_pos)
 {
-	memcpy(buf, (char *)gBaseVirt, count);
+	//memcpy(buf, (char *)gBaseVirt, count);
+    //ioread32_rep(gBaseVirt, (void *) buf, (unsigned long) count);
+    memcpy_fromio((void *) buf, gBaseVirt, (unsigned int) count);
 	printk("%s: XPCIe_Read: %d bytes have been read...\n", gDrvrName, count);
+	printk("data in buf is %d %d\n", *((int *)gBaseVirt), *((int *)(gBaseVirt+4)));
 	return (0);
 }
 
@@ -217,6 +223,12 @@ int XPCIe_Ioctl(struct inode *inode, struct file *filp, unsigned int cmd,
     int ret = SUCCESS;
     return ret;
 }
+
+ssize_t* XPCIe_ReadMem(char *buf, size_t count);
+ssize_t XPCIe_WriteMem(const char *buf, size_t count);
+u32     XPCIe_ReadReg (u32 dw_offset);
+void    XPCIe_WriteReg (u32 dw_offset, u32 val);
+
 struct file_operations XPCIe_Intf = {
     read:       XPCIe_Read,
     write:      XPCIe_Write,
@@ -231,8 +243,6 @@ struct file_operations XPCIe_Intf = {
 //-----------------------------------------------------------------------------
 void    XPCIe_IRQHandler (int irq, void *dev_id, struct pt_regs *regs);
 void    initcode(void);
-u32     XPCIe_ReadReg (u32 dw_offset);
-void    XPCIe_WriteReg (u32 dw_offset, u32 val);
 
 static int XPCIe_init(void)
 {
