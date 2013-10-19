@@ -6,6 +6,6 @@ obj-m := xpcie.o
 
 all:
 	make -C /lib/modules/$(XPCIE_KVER)/build M=$(XPCIE_HOME) modules
-	g++ met.cpp -o met
+	g++ test.cpp -o test 
 clean:
 	make -C /lib/modules/$(XPCIE_KVER)/build M=$(XPCIE_HOME) clean
