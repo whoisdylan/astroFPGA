@@ -152,7 +152,7 @@ module counter
 	end
 endmodule: counter
 
-module log2It
+module log2
 	#(parameter w = 32)
 	(input bit [w-1:0] dataIn,
 	output bit [4:-27] dataOut);
@@ -165,7 +165,18 @@ module log2It
 	assign fraction = dataIn << (w-oneIndex);
 	assign dataOut = {oneIndex, fraction[31:5]};
 
-endmodule: log2It
+endmodule: log2
+
+module ilog2
+	(input bit [4:-27] dataIn,
+	output bit [31:0] dataOut);
+	always_comb begin
+		dataOut = 32'd1 << dataIn[4:0];
+		if (dataIn[4:0]) begin
+			dataOut[dataIn[4:0]:0] = dataIn[-1:-1+dataIn[4:0]];
+		end
+	end
+endmodule: ilog2
 
 module findFirstOne
 	#(parameter w = 32)
@@ -233,3 +244,13 @@ module findFirstOne
 		end
 	end
 endmodule: findFirstOne
+
+module absoluteValue
+	(input bit [31:0] dataIn,
+	output bit [31:0] dataOut,
+	output bit dataSign);
+
+	assign dataSign = dataIn[31];
+	assign dataOut = (dataIn[31]) ? ~dataIn + 1 : dataIn;
+
+endmodule: absoluteValue
