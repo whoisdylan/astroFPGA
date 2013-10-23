@@ -170,10 +170,12 @@ endmodule: log2
 module ilog2
 	(input bit [4:-27] dataIn,
 	output bit [31:0] dataOut);
+	bit [4:0] oneIndex;
 	always_comb begin
 		dataOut = 32'd1 << dataIn[4:0];
 		if (dataIn[4:0]) begin
-			dataOut[dataIn[4:0]:0] = dataIn[-1:-1+dataIn[4:0]];
+			oneIndex = dataIn[4:0];
+			dataOut[oneIndex:0] = dataIn[-1:-1-dataIn[4:0]];
 		end
 	end
 endmodule: ilog2
