@@ -203,70 +203,70 @@ module ilog2
 			5'd9: begin
 				dataOut[8:0] = dataIn[-1:-9];
 			end
-			5'd10 begin
+			5'd10: begin
 				dataOut[9:0] = dataIn[-1:-10];
 			end
-			5'd11 begin
+			5'd11: begin
 				dataOut[10:0] = dataIn[-1:-11];
 			end
-			5'd12 begin
+			5'd12: begin
 				dataOut[11:0] = dataIn[-1:-12];
 			end
-			5'd13 begin
+			5'd13: begin
 				dataOut[12:0] = dataIn[-1:-13];
 			end
-			5'd14 begin
+			5'd14: begin
 				dataOut[13:0] = dataIn[-1:-14];
 			end
-			5'd15 begin
+			5'd15: begin
 				dataOut[14:0] = dataIn[-1:-15];
 			end
-			5'd16 begin
+			5'd16: begin
 				dataOut[15:0] = dataIn[-1:-16];
 			end
-			5'd17 begin
+			5'd17: begin
 				dataOut[16:0] = dataIn[-1:-17];
 			end
-			5'd18 begin
+			5'd18: begin
 				dataOut[17:0] = dataIn[-1:-18];
 			end
-			5'd19 begin
+			5'd19: begin
 				dataOut[18:0] = dataIn[-1:-19];
 			end
-			5'd20 begin
+			5'd20: begin
 				dataOut[19:0] = dataIn[-1:-20];
 			end
-			5'd21 begin
+			5'd21: begin
 				dataOut[20:0] = dataIn[-1:-21];
 			end
-			5'd22 begin
+			5'd22: begin
 				dataOut[21:0] = dataIn[-1:-22];
 			end
-			5'd23 begin
+			5'd23: begin
 				dataOut[22:0] = dataIn[-1:-23];
 			end
-			5'd24 begin
+			5'd24: begin
 				dataOut[23:0] = dataIn[-1:-24];
 			end
-			5'd25 begin
+			5'd25: begin
 				dataOut[24:0] = dataIn[-1:-25];
 			end
-			5'd26 begin
+			5'd26: begin
 				dataOut[25:0] = dataIn[-1:-26];
 			end
-			5'd27 begin
+			5'd27: begin
 				dataOut[26:0] = dataIn[-1:-27];
 			end
-			5'd28 begin
+			5'd28: begin
 				dataOut[27:0] = dataIn[-1:-28];
 			end
-			5'd29 begin
+			5'd29: begin
 				dataOut[28:0] = dataIn[-1:-29];
 			end
-			5'd30 begin
+			5'd30: begin
 				dataOut[29:0] = dataIn[-1:-30];
 			end
-			5'd31 begin
+			5'd31: begin
 				dataOut[30:0] = dataIn[-1:-31];
 			end
 		endcase
