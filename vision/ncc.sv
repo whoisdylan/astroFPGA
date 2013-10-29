@@ -258,16 +258,16 @@ module ilog2
 				dataOut[26:0] = dataIn[-1:-27];
 			end
 			5'd28: begin
-				dataOut[27:0] = dataIn[-1:-28];
+				dataOut[27:0] = {dataIn[-1:-27], 1'd0};
 			end
 			5'd29: begin
-				dataOut[28:0] = dataIn[-1:-29];
+				dataOut[28:0] = {dataIn[-1:-27], 2'd0};
 			end
 			5'd30: begin
-				dataOut[29:0] = dataIn[-1:-30];
+				dataOut[29:0] = {dataIn[-1:-27], 3'd0};
 			end
 			5'd31: begin
-				dataOut[30:0] = dataIn[-1:-31];
+				dataOut[30:0] = {dataIn[-1:-27], 4'd0};
 			end
 		endcase
 	end
