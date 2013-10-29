@@ -170,6 +170,7 @@ endmodule: log2
 module ilog2
 	(input bit [4:-27] dataIn,
 	output bit [31:0] dataOut);
+	bit [4:0] oneIndex;
 	always_comb begin
 		dataOut = 32'd1 << dataIn[4:0];
 		unique case (dataIn[4:0]) begin
