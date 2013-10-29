@@ -173,7 +173,7 @@ module ilog2
 	bit [4:0] oneIndex;
 	always_comb begin
 		dataOut = 32'd1 << dataIn[4:0];
-		unique case (dataIn[4:0]) begin
+		unique case (dataIn[4:0])
 			5'd0: begin
 			end
 			5'd1: begin
