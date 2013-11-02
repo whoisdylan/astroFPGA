@@ -152,18 +152,44 @@ module counter
 	end
 endmodule: counter
 
+module processingElement
+	(input bit	[4:-27]	descPixel,
+	 input bit	[5:-27]	windowPixelIn,
+	 input bit			descSignBit,
+	 input bit			clk, rst, loadWinReg, loadAccSumReg,
+	 input bit	[7:0]	accIn,
+	 output bit	[7:0]	accOut,
+	 output bit	[5:-27] windowPixelOut);
+	
+	bit [4:-27] tempSumLog2, accSumLog2;
+	bit [31:0] tempSum;
+
+	ilog2 ilog2_inst (tempSumLog2, tempSum);
+
+	//register for storing "LTC"
+	registerLog2 #(5) windowReg (windowPixelIn, clk, rst, loadWinReg, windowPixelOut);
+	//register for "ACCin + ltc*f
+	register #(8) accReg (accSum, clk, rst, loadAccSumReg, accOut);
+
+	assign tempSumLog2 = descPixel + windowPixelOut[4:-27];
+	assign accSum = (descSignBit ^ windowPixelOut[5]) ?
+					(accIn - tempSum[7:0]) : (accIn + tempSum[7:0]);
+
+endmodule: processingElement
+
 module log2
-	#(parameter w = 32)
-	(input bit [w-1:0] dataIn,
-	output bit [4:-27] dataOut);
+	(input bit [31:0] dataIn,
+	output bit [4:-27] dataOut,
+	output bit		   signBit);
 
 	bit [31:0] fraction;
 
-	bit [$clog2(w)-1:0] oneIndex;
+	bit [4:0] oneIndex;
 	findFirstOne #(32) firstOneFinder(dataIn, oneIndex);
 	
-	assign fraction = dataIn << (w-oneIndex);
+	assign fraction = dataIn << (32-oneIndex);
 	assign dataOut = {oneIndex, fraction[31:5]};
+	assign signBit = dataIn[w-1];
 
 endmodule: log2
 
@@ -360,3 +386,37 @@ module absoluteValue
 	assign dataOut = (dataIn[31]) ? ~dataIn + 1 : dataIn;
 
 endmodule: absoluteValue
+
+module register
+	#(parameter w = 32)
+	(input bit	[w-1:0]	dataIn,
+	 input bit			clk, rst, load,
+	 output bit	[w-1:0] dataOut);
+
+	always_ff @(posedge clk, posedge rst) begin
+		if (rst) begin
+			dataOut = 'd0;
+		end
+		else if (load) begin
+			dataOut = dataIn;
+		end
+	end
+
+endmodule: register
+
+module registerLog2
+	#(parameter w = 5)
+	(input bit	[w:-27]	dataIn,
+	 input bit			clk, rst, load,
+	 output bit	[w:-27] dataOut);
+
+	always_ff @(posedge clk, posedge rst) begin
+		if (rst) begin
+			dataOut = 'd0;
+		end
+		else if (load) begin
+			dataOut = dataIn;
+		end
+	end
+
+endmodule: registerLog2
