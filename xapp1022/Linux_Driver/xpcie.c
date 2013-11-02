@@ -61,7 +61,7 @@ MODULE_LICENSE("Dual BSD/GPL");
 #define BUF_SIZE                  4096
 
 #define PCI_VENDOR_ID_XILINX      0x10ee
-#define PCI_DEVICE_ID_XILINX_PCIE 0x7018
+#define PCI_DEVICE_ID_XILINX_PCIE 0x7028
 #define KINBURN_REGISTER_SIZE     (1024*1024)    // There are eight registers, and each is 4 bytes wide.
 #define HAVE_REGION               0x01     // I/O Memory region
 #define HAVE_IRQ                  0x02     // Interupt

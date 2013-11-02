@@ -21,28 +21,31 @@ using namespace std;
 char devname[] = "/dev/xpcie";
 int g_devFile = -1;
 
-#define NUM_ROWS    1600
-#define NUM_COLS    256
+//#define NUM_ROWS    1000000
+//#define NUM_COLS    524288
+#define NUM_ROWS    1
+#define NUM_COLS    512
 #define TIMER
 #define DDEBUG
 
 struct TransferData  {
 
-    unsigned int data[2048];
+    //unsigned int data[524288];
+    unsigned int data[NUM_COLS];
 
 } *gReadData, *gWriteData;
 
 
-int WriteData(char* buff, int size)
+int WriteData(char* buff, int size, off_t offset)
 {
-    int ret = write(g_devFile, buff, size);
+    int ret = pwrite(g_devFile, buff, size, offset);
 
     return (ret);
 }
 
-int ReadData(char *buff, int size)
+int ReadData(char *buff, int size, off_t offset)
 {
-    int ret = read(g_devFile, buff, size);
+    int ret = pread(g_devFile, buff, size, offset);
 
     return (ret);
 }
@@ -54,7 +57,7 @@ int main()
     ifstream inputFile("file.txt");
     string line;
     istringstream ss;
-
+    off_t offset = 16;
 
     char* devfilename = devname;
     g_devFile = open(devfilename, O_RDWR);
@@ -77,9 +80,9 @@ int main()
             //ss >> gWriteData->data[0];
             gWriteData->data[i]=i;
         }
-        WriteData((char*) gWriteData, 4*NUM_COLS);
-        ReadData((char *) gReadData, 4*NUM_COLS);
-        for(i=0; i<NUM_COLS; i++) {
+        WriteData((char*) gWriteData, 2*NUM_COLS, offset);
+        ReadData((char *) gReadData, 2*NUM_COLS, offset);
+        for(i=0; i<NUM_COLS/2; i++) {
             if (gReadData->data[i] != gWriteData->data[i])
                 printf("DWORD miscompare [%d] -> expected %x : found %x \n", i, gWriteData->data[i], gReadData->data[i]);
         }
