@@ -59,12 +59,6 @@ module ncc
 	/*assign winAddrB[14] = winAddrB15;*/
 	/*assign winAddrB[15] = winAddrB16;*/
 
-	//counter for loading descriptor
-	counter #(numPixelsDesc) descCounter(.clk(clk), .rst(rst), .enable(enDescCounter),
-									.count(descCount));
-	//descriptor register
-	shiftRegister #(descSize) descReg(.clk(clk), .rst(rst), .load(loadDescReg), 
-									  .shift(shiftDescReg), .in(pciIn), .out(descriptor));
 	//bram for window, one per row = 16 brams, 80 pixels per bram
 	/*genvar i;
 	generate
@@ -76,6 +70,27 @@ module ncc
 		end
 	endgenerate */
 
+	// create PE array
+	bit [7:0][15:0][15:0] accIn, accOut;
+
+	genvar i, j;
+	generate
+		for (i='d0; i < 'd16; i++) begin
+			for (j='d0; j < 'd16; j++) begin
+				if (j == 0) begin
+					processingElement(desc[i][4:-27], windowRows[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, 'd0, accIn[i+1], window[i-1],
+				end
+				else if (i == 'd15) begin
+					processingElement(desc[i][4:-27], window[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, accIn[i], , window[i-1],
+				end
+				else if (i%
+				else begin
+					processingElement(desc[i][4:-27], window[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, accIn[i], accIn[i+1], window[i-1],
+				end
+			end
+		end
+
+	endgenerate
 	//descriptor shift register fsm
 	always_comb begin
 		loadDesc = 1'd0;
