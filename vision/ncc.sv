@@ -1,17 +1,16 @@
 module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
-	 parameter windowSize = 640,
-	 parameter );
+	 parameter windowSize = 640)
 	(input logic clk, rst,
 	 input bit [7:0] pciIn,
 	output logic iWishIKnew);
 
 	enum logic {WAIT, LOAD_DESC} currStateDesc, nextStateDesc;
-	logic loadDesc, currStateDesc, nextStateDesc, enDescCounter, shiftDescReg, doneLoadingDesc;
+	logic loadDesc, enDescCounter, shiftDescReg, doneLoadingDesc, startLoadingDesc;
 	logic winWriteA, winWriteB;
 	bit [descSize-1:0] descriptor;
-	bit [$clog2(descSize)-1:0] descCount;
+	bit [$clog2(numPixelsDesc)-1:0] descCount;
 
 	assign enDescCounter = shiftDescReg || loadDesc;
 	assign doneLoadingDesc = descCount == numPixelsDesc;
@@ -67,6 +66,7 @@ module ncc
 	shiftRegister #(descSize) descReg(.clk(clk), .rst(rst), .load(loadDescReg), 
 									  .shift(shiftDescReg), .in(pciIn), .out(descriptor));
 	//bram for window, one per row = 16 brams, 80 pixels per bram
+	/*genvar i;
 	generate
 		for (i='d0; i<'d16; i++) begin
 			bram_tdbp #(8, 10) windowRowBram(.a_clk(clk), .a_wr(winWriteA),
@@ -74,7 +74,7 @@ module ncc
 				.b_wr(winWriteB), .b_addr(winAddrB[i]), .b_din(winDataInB[i]),
 				.b_dout(winDataOutB[i]));
 		end
-	endgenerate
+	endgenerate */
 
 	//descriptor shift register fsm
 	always_comb begin
@@ -93,7 +93,7 @@ module ncc
 			end
 			LOAD_DESC: begin
 				if (doneLoadingDesc) begin
-					nextStateDesc = WAIT
+					nextStateDesc = WAIT;
 				end
 				else begin
 					shiftDescReg = 1'd1;
@@ -152,20 +152,166 @@ module counter
 	end
 endmodule: counter
 
-module log2It
-	#(parameter w = 32)
-	(input bit [w-1:0] dataIn,
-	output bit [w-1:0] dataOut)
+module processingElement
+	(input bit	[4:-27]	descPixel,
+	 input bit	[5:-27]	windowPixelIn,
+	 input bit			descSignBit,
+	 input bit			clk, rst, loadWinReg, loadAccSumReg,
+	 input bit	[7:0]	accIn,
+	 output bit	[7:0]	accOut,
+	 output bit	[5:-27] windowPixelOut);
+	
+	bit [4:-27] tempSumLog2, accSumLog2;
+	bit [31:0] tempSum;
 
-	bit [$clog2(w)-1:0] oneIndex;
-	findFirstOne #(32) firstOneFinder(dataIn, oneIndex)
+	ilog2 ilog2_inst (tempSumLog2, tempSum);
 
-	assign dataOu
+	//register for storing "LTC"
+	registerLog2 #(5) windowReg (windowPixelIn, clk, rst, loadWinReg, windowPixelOut);
+	//register for "ACCin + ltc*f
+	register #(8) accReg (accSum, clk, rst, loadAccSumReg, accOut);
 
-endmodule: log2It
+	assign tempSumLog2 = descPixel + windowPixelOut[4:-27];
+	assign accSum = (descSignBit ^ windowPixelOut[5]) ?
+					(accIn - tempSum[7:0]) : (accIn + tempSum[7:0]);
+
+endmodule: processingElement
+
+module log2
+	(input bit [31:0] dataIn,
+	output bit [4:-27] dataOut,
+	output bit		   signBit);
+
+	bit [31:0] fraction;
+
+	bit [4:0] oneIndex;
+	findFirstOne #(32) firstOneFinder(dataIn, oneIndex);
+	
+	assign fraction = dataIn << (32-oneIndex);
+	assign dataOut = {oneIndex, fraction[31:5]};
+	assign signBit = dataIn[w-1];
+
+endmodule: log2
+
+module ilog2
+	(input bit [4:-27] dataIn,
+	output bit [31:0] dataOut);
+	bit [4:0] oneIndex;
+	always_comb begin
+		dataOut = 32'd1 << dataIn[4:0];
+		unique case (dataIn[4:0])
+			5'd0: begin
+			end
+			5'd1: begin
+				dataOut[0] = dataIn[-1];
+			end
+			5'd2: begin
+				dataOut[1:0] = dataIn[-1:-2];
+			end
+			5'd3: begin
+				dataOut[2:0] = dataIn[-1:-3];
+			end
+			5'd4: begin
+				dataOut[3:0] = dataIn[-1:-4];
+			end
+			5'd5: begin
+				dataOut[4:0] = dataIn[-1:-5];
+			end
+			5'd6: begin
+				dataOut[5:0] = dataIn[-1:-6];
+			end
+			5'd7: begin
+				dataOut[6:0] = dataIn[-1:-7];
+			end
+			5'd8: begin
+				dataOut[7:0] = dataIn[-1:-8];
+			end
+			5'd9: begin
+				dataOut[8:0] = dataIn[-1:-9];
+			end
+			5'd10: begin
+				dataOut[9:0] = dataIn[-1:-10];
+			end
+			5'd11: begin
+				dataOut[10:0] = dataIn[-1:-11];
+			end
+			5'd12: begin
+				dataOut[11:0] = dataIn[-1:-12];
+			end
+			5'd13: begin
+				dataOut[12:0] = dataIn[-1:-13];
+			end
+			5'd14: begin
+				dataOut[13:0] = dataIn[-1:-14];
+			end
+			5'd15: begin
+				dataOut[14:0] = dataIn[-1:-15];
+			end
+			5'd16: begin
+				dataOut[15:0] = dataIn[-1:-16];
+			end
+			5'd17: begin
+				dataOut[16:0] = dataIn[-1:-17];
+			end
+			5'd18: begin
+				dataOut[17:0] = dataIn[-1:-18];
+			end
+			5'd19: begin
+				dataOut[18:0] = dataIn[-1:-19];
+			end
+			5'd20: begin
+				dataOut[19:0] = dataIn[-1:-20];
+			end
+			5'd21: begin
+				dataOut[20:0] = dataIn[-1:-21];
+			end
+			5'd22: begin
+				dataOut[21:0] = dataIn[-1:-22];
+			end
+			5'd23: begin
+				dataOut[22:0] = dataIn[-1:-23];
+			end
+			5'd24: begin
+				dataOut[23:0] = dataIn[-1:-24];
+			end
+			5'd25: begin
+				dataOut[24:0] = dataIn[-1:-25];
+			end
+			5'd26: begin
+				dataOut[25:0] = dataIn[-1:-26];
+			end
+			5'd27: begin
+				dataOut[26:0] = dataIn[-1:-27];
+			end
+			5'd28: begin
+				dataOut[27:0] = {dataIn[-1:-27], 1'd0};
+			end
+			5'd29: begin
+				dataOut[28:0] = {dataIn[-1:-27], 2'd0};
+			end
+			5'd30: begin
+				dataOut[29:0] = {dataIn[-1:-27], 3'd0};
+			end
+			5'd31: begin
+				dataOut[30:0] = {dataIn[-1:-27], 4'd0};
+			end
+		endcase
+	end
+endmodule: ilog2
+
+/*module ilog2*/
+/*	(input bit [4:-27] dataIn,*/
+/*	output bit [31:0] dataOut);*/
+/*	always_comb begin*/
+/*		dataOut = 32'd1 << dataIn[4:0];*/
+/*		if (dataIn[4:0]) begin*/
+/*			dataOut[dataIn[4:0]:0] = dataIn[-1:-1+dataIn[4:0]];*/
+/*		end*/
+/*	end*/
+/*endmodule: ilog2*/
 
 module findFirstOne
-	#(parameter w = 32);
+	#(parameter w = 32)
 	(input bit [w-1:0] dataIn,
 	output bit [$clog2(w)-1:0] index);
 
@@ -230,3 +376,47 @@ module findFirstOne
 		end
 	end
 endmodule: findFirstOne
+
+module absoluteValue
+	(input bit [31:0] dataIn,
+	output bit [31:0] dataOut,
+	output bit dataSign);
+
+	assign dataSign = dataIn[31];
+	assign dataOut = (dataIn[31]) ? ~dataIn + 1 : dataIn;
+
+endmodule: absoluteValue
+
+module register
+	#(parameter w = 32)
+	(input bit	[w-1:0]	dataIn,
+	 input bit			clk, rst, load,
+	 output bit	[w-1:0] dataOut);
+
+	always_ff @(posedge clk, posedge rst) begin
+		if (rst) begin
+			dataOut = 'd0;
+		end
+		else if (load) begin
+			dataOut = dataIn;
+		end
+	end
+
+endmodule: register
+
+module registerLog2
+	#(parameter w = 5)
+	(input bit	[w:-27]	dataIn,
+	 input bit			clk, rst, load,
+	 output bit	[w:-27] dataOut);
+
+	always_ff @(posedge clk, posedge rst) begin
+		if (rst) begin
+			dataOut = 'd0;
+		end
+		else if (load) begin
+			dataOut = dataIn;
+		end
+	end
+
+endmodule: registerLog2
