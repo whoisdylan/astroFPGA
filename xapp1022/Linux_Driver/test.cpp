@@ -27,6 +27,23 @@ int g_devFile = -1;
 #define NUM_COLS    512
 #define TIMER
 #define DDEBUG
+#define OFFSET_INST 2097144
+
+typedef struct dataSet{
+// 64 bits reserved for flags and stuff.
+	unsigned int instruction;
+
+// 16x16 pixels
+// 16x16/4. 4 pixels per int.
+	 unsigned int descriptor[64];
+// 80x80/4 pixels window
+//
+	unsigned int window[1600];
+
+// 1665 *4 = 6660B
+// 999000B per image
+}dataSet; 
+
 
 struct TransferData  {
 
@@ -36,18 +53,32 @@ struct TransferData  {
 } *gReadData, *gWriteData;
 
 
-int WriteData(char* buff, int size, off_t offset)
+int WriteData(char* buff, int size, loff_t offset)
 {
     int ret = pwrite(g_devFile, buff, size, offset);
 
     return (ret);
 }
 
-int ReadData(char *buff, int size, off_t offset)
+int ReadData(char *buff, int size, loff_t offset)
 {
     int ret = pread(g_devFile, buff, size, offset);
 
     return (ret);
+}
+
+
+void set_instruction(uint64_t *instruction){
+	// for sending instruction
+	
+	int ret = pwrite(g_devFile, instruction ,sizeof(uint64_t),OFFSET_INST);
+
+}
+
+void get_instruction(uint64_t *instruction){
+
+	int ret = pread(g_devFile, instruction, sizeof(uint64_t),OFFSET_INST);
+
 }
 
 int main()
@@ -57,7 +88,8 @@ int main()
     ifstream inputFile("file.txt");
     string line;
     istringstream ss;
-    off_t offset = 16;
+    loff_t offset = 16;
+	uint64_t
 
     char* devfilename = devname;
     g_devFile = open(devfilename, O_RDWR);
