@@ -2,9 +2,9 @@ module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
-	(input logic clk, rst,
-	 input bit [7:0] pciIn,
-	output logic iWishIKnew);
+	(input logic clk, rst, loadAccSumReg, loadWinReg;
+	input bit[5:-27] desc[16], window[16],
+	output bit[7:0] accOut[16]);
 
 	enum logic {WAIT, LOAD_DESC} currStateDesc, nextStateDesc;
 	logic loadDesc, enDescCounter, shiftDescReg, doneLoadingDesc, startLoadingDesc;
@@ -15,8 +15,8 @@ module ncc
 	assign enDescCounter = shiftDescReg || loadDesc;
 	assign doneLoadingDesc = descCount == numPixelsDesc;
 
-	bit [7:0][15:0] winDataInA, winDataInB, winDataOutA, winDataOutB;
-	bit [9:0][15:0] winAddrA, winAddrB;
+	/*bit [7:0][15:0] winDataInA, winDataInB, winDataOutA, winDataOutB;*/
+	/*bit [9:0][15:0] winAddrA, winAddrB;*/
 	/*bit [9:0] winAddrA1, winAddrA2, winAddrA3, winAddrA4, winAddrA5, winAddrA6,*/
 	/*		  winAddrA7, winAddrA8, winAddrA9, winAddrA10, winAddrA11,*/
 	/*		  winAddrA12, winAddrA13, winAddrA14, winAddrA15, winAddrA16;*/
@@ -91,7 +91,7 @@ module ncc
 	/*	end*/
 	/*endgenerate*/
 
-	genvar i,
+	genvar i;
 	generate
 		for (i='d0; i < 'd16; i++) begin
 			if (i == 'd0) begin
