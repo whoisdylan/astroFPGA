@@ -3,7 +3,7 @@ module ncc
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
 	(input logic clk, rst, loadAccSumReg, loadWinReg,
-	inout bit[5:-27] desc[15:0], window[15:0],
+	input bit[5:-27] desc[15:0], windowIn,
 	output bit[7:0] accOut[15:0]);
 
 	enum logic {WAIT, LOAD_DESC} currStateDesc, nextStateDesc;
@@ -40,7 +40,7 @@ module ncc
 	generate
 		for (i='d0; i < 'd16; i++) begin
 			if (i == 'd0) begin
-				processingElement PE_inst(.clk, .rst, .descPixel(desc[i][4:-27]), .windowPixelIn(windowRows[0]), .descSignBit(desc[i][5]), .loadWinReg, .loadAccSumReg, .accIn('d0), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				processingElement PE_inst(.clk, .rst, .descPixel(desc[i][4:-27]), .windowPixelIn(windowIn), .descSignBit(desc[i][5]), .loadWinReg, .loadAccSumReg, .accIn('d0), .accOut(accOut[i]), .windowPixelOut(window[i]));
 			end
 			else if (i == 'd15) begin
 				processingElement PE_inst(.clk, .rst, .descPixel(desc[i][4:-27]), .windowPixelIn(window[i-1]), .descSignBit(desc[i][5]), .loadWinReg, .loadAccSumReg, .accIn(accOut[i-1]), .accOut(accOut[i]));
