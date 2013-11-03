@@ -1,8 +1,8 @@
 module tb();
-	bit[7:0][15:0] accOut;
-	bit[7:0][15:0] desc;
-	bit[7:0][15:0] window;
-	bit[5:-27][15:0] descLog, windowLog;
+	bit[7:0] accOut[16];
+	bit[7:0] desc[16];
+	bit[7:0] window[16];
+	bit[5:-27] descLog[16], windowLog[16];
 	bit[4:-27] dataOut, dataOut2;
 	bit[7:0] dataIn, dataIn2;
 	bit signOut, signOut2;
