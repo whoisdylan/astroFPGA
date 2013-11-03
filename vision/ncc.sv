@@ -3,7 +3,7 @@ module ncc
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
 	(input logic clk, rst, loadAccSumReg, loadWinReg,
-	input bit[5:-27] desc[16], window[16],
+	inout bit[5:-27] desc[16], window[16],
 	output bit[7:0] accOut[16]);
 
 	enum logic {WAIT, LOAD_DESC} currStateDesc, nextStateDesc;
@@ -14,61 +14,6 @@ module ncc
 
 	assign enDescCounter = shiftDescReg || loadDesc;
 	assign doneLoadingDesc = descCount == numPixelsDesc;
-
-	/*bit [7:0][15:0] winDataInA, winDataInB, winDataOutA, winDataOutB;*/
-	/*bit [9:0][15:0] winAddrA, winAddrB;*/
-	/*bit [9:0] winAddrA1, winAddrA2, winAddrA3, winAddrA4, winAddrA5, winAddrA6,*/
-	/*		  winAddrA7, winAddrA8, winAddrA9, winAddrA10, winAddrA11,*/
-	/*		  winAddrA12, winAddrA13, winAddrA14, winAddrA15, winAddrA16;*/
-	/*bit [9:0] winAddrB1, winAddrB2, winAddrB3, winAddrB4, winAddrB5, winAddrB6,*/
-	/*		  winAddrB7, winAddrB8, winAddrB9, winAddrB10, winAddrB11,*/
-	/*		  winAddrB12, winAddrB13, winAddrB14, winAddrB15, winAddrB16;*/
-
-
-	/*assign winAddrA[0] = winAddrA1;*/
-	/*assign winAddrA[1] = winAddrA2;*/
-	/*assign winAddrA[2] = winAddrA3;*/
-	/*assign winAddrA[3] = winAddrA4;*/
-	/*assign winAddrA[4] = winAddrA5;*/
-	/*assign winAddrA[5] = winAddrA6;*/
-	/*assign winAddrA[6] = winAddrA7;*/
-	/*assign winAddrA[7] = winAddrA8;*/
-	/*assign winAddrA[8] = winAddrA9;*/
-	/*assign winAddrA[9] = winAddrA10;*/
-	/*assign winAddrA[10] = winAddrA11;*/
-	/*assign winAddrA[11] = winAddrA12;*/
-	/*assign winAddrA[12] = winAddrA13;*/
-	/*assign winAddrA[13] = winAddrA14;*/
-	/*assign winAddrA[14] = winAddrA15;*/
-	/*assign winAddrA[15] = winAddrA16;*/
-
-	/*assign winAddrB[0] = winAddrB1;*/
-	/*assign winAddrB[1] = winAddrB2;*/
-	/*assign winAddrB[2] = winAddrB3;*/
-	/*assign winAddrB[3] = winAddrB4;*/
-	/*assign winAddrB[4] = winAddrB5;*/
-	/*assign winAddrB[5] = winAddrB6;*/
-	/*assign winAddrB[6] = winAddrB7;*/
-	/*assign winAddrB[7] = winAddrB8;*/
-	/*assign winAddrB[8] = winAddrB9;*/
-	/*assign winAddrB[9] = winAddrB10;*/
-	/*assign winAddrB[10] = winAddrB11;*/
-	/*assign winAddrB[11] = winAddrB12;*/
-	/*assign winAddrB[12] = winAddrB13;*/
-	/*assign winAddrB[13] = winAddrB14;*/
-	/*assign winAddrB[14] = winAddrB15;*/
-	/*assign winAddrB[15] = winAddrB16;*/
-
-	//bram for window, one per row = 16 brams, 80 pixels per bram
-	/*genvar i;
-	generate
-		for (i='d0; i<'d16; i++) begin
-			bram_tdbp #(8, 10) windowRowBram(.a_clk(clk), .a_wr(winWriteA),
-				.a_ddr(winAddrA[i]), .a_din(winDataInA[i]), .a_dout(winDataOutA[i]), .b_clk(clk),
-				.b_wr(winWriteB), .b_addr(winAddrB[i]), .b_din(winDataInB[i]),
-				.b_dout(winDataOutB[i]));
-		end
-	endgenerate */
 
 	// create PE array
 	/*bit [7:0][15:0][15:0] accIn, accOut;*/
