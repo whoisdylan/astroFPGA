@@ -73,24 +73,37 @@ module ncc
 	// create PE array
 	bit [7:0][15:0][15:0] accIn, accOut;
 
-	genvar i, j;
+	/*genvar i, j;*/
+	/*generate*/
+	/*	for (i='d0; i < 'd16; i++) begin*/
+	/*		for (j='d0; j < 'd16; j++) begin*/
+	/*			if (j == 0) begin*/
+	/*				processingElement(desc[i][4:-27], windowRows[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, 'd0, accIn[i+1], window[i-1],*/
+	/*			end*/
+	/*			else if (i == 'd15) begin*/
+	/*				processingElement(desc[i][4:-27], window[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, accIn[i], , window[i-1],*/
+	/*			end*/
+	/*			else if (i%*/
+	/*			else begin*/
+	/*				processingElement(desc[i][4:-27], window[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, accIn[i], accIn[i+1], window[i-1],*/
+	/*			end*/
+	/*		end*/
+	/*	end*/
+	/*endgenerate*/
+
+	genvar i,
 	generate
 		for (i='d0; i < 'd16; i++) begin
-			for (j='d0; j < 'd16; j++) begin
-				if (j == 0) begin
-					processingElement(desc[i][4:-27], windowRows[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, 'd0, accIn[i+1], window[i-1],
-				end
-				else if (i == 'd15) begin
-					processingElement(desc[i][4:-27], window[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, accIn[i], , window[i-1],
-				end
-				else if (i%
-				else begin
-					processingElement(desc[i][4:-27], window[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, accIn[i], accIn[i+1], window[i-1],
-				end
+			if (i == 'd0) begin
+				processingElement PE_inst(.clk, .rst, .descPixel(desc[i][4:-27]), .windowPixelIn(windowRows[0]), .descSignBit(desc[i][5]), .loadWinReg, .loadAccSumReg, .accIn('d0), .accOut(accOut[i]), .windowPixelOut(window[i]));
 			end
-		end
+			else if (i == 'd15) begin
+				processingElement PE_inst(.clk, .rst, .descPixel(desc[i][4:-27]), .windowPixelIn(window[i-1]), .descSignBit(desc[i][5]), .loadWinReg, .loadAccSumReg, .accIn(accOut[i-1]), .accOut(accOut[i]), );
+			end
+			else begin
+				processingElement PE_inst(.clk, .rst, .descPixel(desc[i][4:-27]), .windowPixelIn(window[i-1]), .descSignBit(desc[i][5]), .loadWinReg, .loadAccSumReg, .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+			end
 
-	endgenerate
 	//descriptor shift register fsm
 	always_comb begin
 		loadDesc = 1'd0;
