@@ -3,7 +3,7 @@ module ncc
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
 	(input logic clk, rst, loadAccSumReg, loadWinReg,
-	input bit[5:-27] desc[16], window[16],
+	inout bit[5:-27] desc[16], window[16],
 	output bit[7:0] accOut[16]);
 
 	enum logic {WAIT, LOAD_DESC} currStateDesc, nextStateDesc;
