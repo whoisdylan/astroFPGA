@@ -2,7 +2,7 @@ module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
-	(input logic clk, rst, loadAccSumReg, loadWinReg;
+	(input logic clk, rst, loadAccSumReg, loadWinReg,
 	input bit[5:-27] desc[16], window[16],
 	output bit[7:0] accOut[16]);
 
@@ -103,6 +103,8 @@ module ncc
 			else begin
 				processingElement PE_inst(.clk, .rst, .descPixel(desc[i][4:-27]), .windowPixelIn(window[i-1]), .descSignBit(desc[i][5]), .loadWinReg, .loadAccSumReg, .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
 			end
+		end
+	endgenerate
 
 	//descriptor shift register fsm
 	always_comb begin
@@ -217,7 +219,7 @@ module log2
 	
 	assign fraction = dataIn << (32-oneIndex);
 	assign dataOut = {oneIndex, fraction[31:5]};
-	assign signBit = dataIn[w-1];
+	assign signBit = dataIn[31];
 
 endmodule: log2
 
