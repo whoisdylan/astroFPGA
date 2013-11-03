@@ -25,7 +25,7 @@ module tb();
 		for (int i = 0; i < 15; i++) begin
 			dataIn = desc[i];
 			dataIn2 = window[i];
-			#5
+			#5;
 			descLog[i][4:-27] = dataOut;
 			descLog[i][5] = signOut;
 			windowLog[i][4:-27] = dataOut2;
