@@ -71,7 +71,7 @@ module ncc
 	endgenerate */
 
 	// create PE array
-	bit [7:0][15:0][15:0] accIn, accOut;
+	/*bit [7:0][15:0][15:0] accIn, accOut;*/
 
 	/*genvar i, j;*/
 	/*generate*/
