@@ -159,7 +159,7 @@ ssize_t XPCIe_Write(struct file *filp, const char *buf, size_t count,
 	int ret = SUCCESS;
 	//memcpy((char *)gBaseVirt, buf, count);
     //iowrite32_rep(gBaseVirt, (const void *) buf, (unsigned long) count); 
-    memcpy_toio(gBaseVirt, (void *) buf, (unsigned int) count);
+    memcpy_toio(gBaseVirt + *f_pos, (void *) buf, (unsigned int) count);
 	printk("%s: XPCIe_Write: %d bytes have been written...\n", gDrvrName, count);
 	printk("data in buf is %d %d\n", *((int *)gBaseVirt), *((int *)(gBaseVirt+4)));
 	return (ret);
@@ -193,7 +193,7 @@ ssize_t XPCIe_Read(struct file *filp, char *buf, size_t count, loff_t *f_pos)
 {
 	//memcpy(buf, (char *)gBaseVirt, count);
     //ioread32_rep(gBaseVirt, (void *) buf, (unsigned long) count);
-    memcpy_fromio((void *) buf, gBaseVirt, (unsigned int) count);
+    memcpy_fromio((void *) buf, gBaseVirt + *f_pos, (unsigned int) count);
 	printk("%s: XPCIe_Read: %d bytes have been read...\n", gDrvrName, count);
 	printk("data in buf is %d %d\n", *((int *)gBaseVirt), *((int *)(gBaseVirt+4)));
 	return (0);
