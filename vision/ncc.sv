@@ -1,3 +1,4 @@
+`default_nettype none
 module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
@@ -10,57 +11,6 @@ module ncc
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	logic winWriteA, winWriteB;
 
-	// create PE array
-	/*bit [7:0][15:0][15:0] accIn, accOut;*/
-
-	/*genvar i, j;*/
-	/*generate*/
-	/*	for (i='d0; i < 'd16; i++) begin*/
-	/*		for (j='d0; j < 'd16; j++) begin*/
-	/*			if (j == 0) begin*/
-	/*				processingElement(desc[i][4:-27], windowRows[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, 'd0, accIn[i+1], window[i-1],*/
-	/*			end*/
-	/*			else if (i == 'd15) begin*/
-	/*				processingElement(desc[i][4:-27], window[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, accIn[i], , window[i-1],*/
-	/*			end*/
-	/*			else if (i%*/
-	/*			else begin*/
-	/*				processingElement(desc[i][4:-27], window[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, accIn[i], accIn[i+1], window[i-1],*/
-	/*			end*/
-	/*		end*/
-	/*	end*/
-	/*endgenerate*/
-
-	//generate 16x16 PE grid
-	genvar i, j;
-	generate
-		for (i = 0; i < 16; i++) begin
-			for (j = 0; j < 16; j++) begin
-				int k = j/4;
-				if (j == 0) begin
-					//set accIn = 0 for first PE in row
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn('d0), .accOut(accOut[i]), .windowPixelOut(window[i]));
-				end
-				else if (j == 'd15) begin
-					//dont connect windowPixelOut for last PE in row
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]));
-				end
-				else if (j%4 == 0) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
-				end
-				else if (j%4 == 1) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_2), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
-				end
-				else if (j%4 == 2) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
-				end
-				else if (j%4 == 3) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
-				end
-			end
-		end
-	endgenerate
-
 	//descriptor loading datapath hardware
 	logic incDescRowC, incDescColC, loadDescGroup1, loadDescGroup2, loadDescGroup3, loadDescGroup4;
 	logic loadDescNow, desc_data_ready, done_with_desc_data
@@ -68,6 +18,7 @@ module ncc
 	logic [3:0] loadColGroup;
 	bit [3:0] descRowC;
 	bit [1:0] descColC;
+	bit [5:-27] descLog2_1, descLog2_2, descLog2_3, descLog2_4;
 	assign incDescRowC = descColC == 'd3 ? 1 : 0;
 	counter #(4) descRowCounter(clk, rst, incDescRowC, descRowC);
 	counter #(2) descColCounter(clk, rst, incDescColC, descColC);
@@ -79,6 +30,36 @@ module ncc
 
 	decoder #(4) desc_decoder_col(descColC, loadColGroup);
 	decoder #(16) desc_decoder_row(descRowC, loadRow);
+
+	//generate 16x16 PE grid
+	genvar i, j;
+	generate
+		for (i = 0; i < 16; i++) begin
+			for (j = 0; j < 16; j++) begin
+				int k = j/4;
+				if (j == 0) begin
+					//set accIn = 0 for first PE in row
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn('d0), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
+				else if (j == 'd15) begin
+					//dont connect windowPixelOut for last PE in row
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]));
+				end
+				else if (j%4 == 0) begin
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
+				else if (j%4 == 1) begin
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_2), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
+				else if (j%4 == 2) begin
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
+				else if (j%4 == 3) begin
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
+			end
+		end
+	endgenerate
 
 	//descriptor loading fsm
 	always_comb begin
@@ -137,8 +118,7 @@ module decoder
 	output bit [w-1:0] out);
 
 	always_comb begin
-		out = 'd0;
-		out[sel] = 1'b1;
+		out = 'd1 << sel;
 	end
 
 endmodule: decoder
@@ -146,7 +126,7 @@ endmodule: decoder
 module counter
 	#(parameter w = 256)
 	(input logic clk, rst, enable,
-	output bit [$clog2(w)-1:0] count);
+	output bit [w-1:0] count);
 
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
@@ -169,6 +149,7 @@ module processingElement
 	bit [4:-27] tempSumLog2, accSumLog2;
 	bit [5:-27] descPixelOut;
 	bit [31:0] tempSum;
+	bit [7:0] accSum;
 	bit descSignBit;
 	assign descSignBit = descPixelOut[5];
 
