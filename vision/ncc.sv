@@ -121,15 +121,15 @@ module mux
 
 endmodule: mux
 
-module demux
-	#(parameter w = 4)
-	(input bit in,
-	input bit [$clog2(w)-1:0] sel,
-	output bit [w-1:0] out);
-
-	assign out[sel] = in;
-
-endmodule: demux
+/*module demux*/
+/*	#(parameter w = 4)*/
+/*	(input bit in,*/
+/*	input bit [$clog2(w)-1:0] sel,*/
+/*	output bit [w-1:0] out);*/
+/**/
+/*	assign out[sel] = in;*/
+/**/
+/*endmodule: demux*/
 
 module decoder
 	#(parameter w = 4)
