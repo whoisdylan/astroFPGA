@@ -3,8 +3,9 @@ module ncc
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
 	(input logic clk, rst, loadAccSumReg, loadWinReg,
-	input bit[5:-27] desc[15:0], windowIn,
-	output bit[7:0] accOut[15:0]);
+	input bit [31:0] desc_data_in,
+	input bit [5:-27] windowIn,
+	output bit [7:0] accOut[15:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	logic winWriteA, winWriteB;
@@ -42,10 +43,19 @@ module ncc
 				end
 				else if (j == 'd15) begin
 					//dont connect windowPixelOut for last PE in row
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut);
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]));
 				end
-				else begin
+				else if (j%4 == 0) begin
 					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
+				else if (j%4 == 1) begin
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_2), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
+				else if (j%4 == 2) begin
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
+				else if (j%4 == 3) begin
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
 				end
 			end
 		end
@@ -179,8 +189,7 @@ endmodule: processingElement
 
 module log2
 	(input bit [31:0] dataIn,
-	output bit [4:-27] dataOut,
-	output bit		   signBit);
+	output bit [5:-27] dataOut);
 
 	bit [31:0] fraction;
 
@@ -188,8 +197,7 @@ module log2
 	findFirstOne #(32) firstOneFinder(dataIn, oneIndex);
 	
 	assign fraction = dataIn << (32-oneIndex);
-	assign dataOut = {oneIndex, fraction[31:5]};
-	assign signBit = dataIn[31];
+	assign dataOut = {dataIn[31], oneIndex, fraction[31:5]};
 
 endmodule: log2
 
