@@ -24,8 +24,8 @@ int g_devFile = -1;
 
 //#define NUM_ROWS    1000000
 //#define NUM_COLS    524288
-#define NUM_ROWS    5
-#define NUM_COLS    262144//524288
+#define NUM_ROWS    100
+#define NUM_COLS    249750//524288
 #define TIMER
 #define DDEBUG
 #define OFFSET_INST 2097144
@@ -115,32 +115,32 @@ int main()
             //ss >> gWriteData->data[0];
             gWriteData->data[i]=i+1;
         }
-        WriteData((char*) gWriteData, 2*NUM_COLS, offset);
+        WriteData((char*) gWriteData, 4*NUM_COLS, offset);
 		flag = 1;
 		*instruction = 0x00000100;
 
 		set_instruction(instruction);
 		
 		while(flag == 1){
-			sleep(1);
 			get_instruction(instruction);
-			printf("instruction = %x\n", *instruction);
-			if(*instruction == 0x00010000){
+			//printf("instruction = %x\n", *instruction);
+			if(*instruction == 0x04000000){
 				flag =0;
 			}
 		}
 	
 
 
-        ReadData((char *) gReadData, 2*NUM_COLS, offset);
+        ReadData((char *) gReadData, 4*NUM_COLS, offset);
 		*instruction = 0x00000000;
 		set_instruction(instruction);
-
-        for(i=0; i<NUM_COLS/2; i++) {
+/*
+        for(i=0; i<NUM_COLS; i++) {
 			//printf("read value at [%d] is %x\n", i, gReadData->data[i]);
-            if (gReadData->data[i] != gWriteData->data[i])
+            if (gReadData->data[i] != gWriteData->data[i]+1)
                 printf("DWORD miscompare [%d] -> expected %x : found %x \n", i, gWriteData->data[i], gReadData->data[i]);
         }
+*/
     }
     time_t end = time(NULL);
     int time = end-start;
