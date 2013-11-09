@@ -3,7 +3,7 @@ module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
-	(input logic clk, rst, loadAccSumReg, loadWinReg,
+	(input logic clk, rst, loadAccSumReg, desc_data_ready,
 	input bit [31:0] desc_data_in, 
 	input bit [5:-27] windowIn,
 	output bit [5:-27] descPixelOut[63:0]);
@@ -13,7 +13,7 @@ module ncc
 
 	//descriptor loading datapath hardware
 	logic incDescRowC, incDescColC, loadDescGroup1, loadDescGroup2, loadDescGroup3, loadDescGroup4;
-	logic loadDescNow, done_with_desc_data, desc_data_ready;
+	logic loadDescNow, done_with_desc_data, loadWinReg;
 	logic [15:0] loadRow;
 	logic [3:0] loadColGroup;
 	bit [3:0] descRowC;
@@ -148,7 +148,7 @@ module processingElement
 	 output bit [5:-27] descPixelOut);
 	
 	bit [4:-27] tempSumLog2, accSumLog2;
-	bit [5:-27] descPixelOut;
+	//bit [5:-27] descPixelOut;
 	bit [31:0] tempSum;
 	bit [7:0] accSum;
 	bit descSignBit;
