@@ -6,7 +6,7 @@ module ncc
 	(input logic clk, rst, loadAccSumReg, loadWinReg,
 	input bit [31:0] desc_data_in, 
 	input bit [5:-27] windowIn,
-	output bit [7:0] accOut [15:0]);
+	output bit [5:-27] descPixelOut[63:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	logic winWriteA, winWriteB;
@@ -39,23 +39,23 @@ module ncc
 				int k = j/4;
 				if (j == 0) begin
 					//set accIn = 0 for first PE in row
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .descPixelOut(descPixelOut[16*i+j]));
 				end
 				else if (j == 'd15) begin
 					//dont connect windowPixelOut for last PE in row
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .descPixelOut(descPixelOut[16*i+j]));
 				end
 				else if (j%4 == 0) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .descPixelOut(descPixelOut[16*i+j]));
 				end
 				else if (j%4 == 1) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_2), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_2), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .descPixelOut(descPixelOut[16*i+j]));
 				end
 				else if (j%4 == 2) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .descPixelOut(descPixelOut[16*i+j]));
 				end
 				else if (j%4 == 3) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .descPixelOut(descPixelOut[16*i+j]));
 				end
 			end
 		end
@@ -144,7 +144,8 @@ module processingElement
 	 input bit			clk, rst, loadDescReg, loadWinReg, loadAccSumReg,
 	 input bit	[7:0]	accIn,
 	 output bit	[7:0]	accOut,
-	 output bit	[5:-27] windowPixelOut);
+	 output bit	[5:-27] windowPixelOut,
+	 output bit [5:-27] descPixelOut);
 	
 	bit [4:-27] tempSumLog2, accSumLog2;
 	bit [5:-27] descPixelOut;
