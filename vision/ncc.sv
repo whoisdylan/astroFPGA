@@ -30,13 +30,6 @@ module ncc
 	/*	end*/
 	/*endgenerate*/
 
-module processingElement
-	(input bit	[5:-27]	descPixelIn,
-	 input bit	[5:-27]	windowPixelIn,
-	 input bit			clk, rst, loadDescReg, loadWinReg, loadAccSumReg,
-	 input bit	[7:0]	accIn,
-	 output bit	[7:0]	accOut,
-	 output bit	[5:-27] windowPixelOut);
 	//generate 16x16 PE grid
 	genvar i, j, k;
 	generate
