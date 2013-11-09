@@ -5,8 +5,7 @@ module ncc
 	 parameter windowSize = 640)
 	(input logic clk, rst, loadAccSumReg, loadWinReg,
 	input bit [31:0] desc_data_in, 
-	input bit [5:-27] windowIn,
-	output bit [7:0] accOut [15:0]);
+	input bit [5:-27] windowIn);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	logic winWriteA, winWriteB;
