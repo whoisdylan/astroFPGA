@@ -13,7 +13,6 @@ module ncc
 	genvar i, j, k;
 	generate
 		for (i = 0; i < 16; i++) begin
-			k = 0;
 			for (j = 0; j < 16; j++) begin
 				k = j/4;
 				if (j == 0) begin
