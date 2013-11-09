@@ -10,11 +10,11 @@ module ncc
 	logic winWriteA, winWriteB;
 
 	//generate 16x16 PE grid
-	genvar i, j, k;
+	genvar i, j;
 	generate
 		for (i = 0; i < 16; i++) begin
 			for (j = 0; j < 16; j++) begin
-				k = j/4;
+				int k = j/4;
 				if (j == 0) begin
 					//set accIn = 0 for first PE in row
 					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn('d0), .accOut(accOut[i]), .windowPixelOut(window[i]));
@@ -32,7 +32,7 @@ module ncc
 
 	//descriptor loading datapath hardware
 	logic incDescRowC, incDescColC, loadDescGroup1, loadDescGroup2, loadDescGroup3, loadDescGroup4;
-	logic loadDescNow;
+	logic loadDescNow, done_with_desc_data, desc_data_ready;
 	logic [15:0] loadRow;
 	logic [3:0] loadColGroup;
 	bit [3:0] descRowC;
@@ -55,15 +55,15 @@ module ncc
 		loadDescNow = 1'b0;
 		incDescColC = 1'b0;
 		case (currStateDesc)
-			WAIT: begin
+			DESC_WAIT: begin
 				if (desc_data_ready) begin
 					loadDescNow = 1'b1;
-					nextStateDesc = LOAD_DESC;
+					nextStateDesc = DESC_LOAD;
 				end
 			end
-			LOAD_DESC: begin
+			DESC_LOAD: begin
 				incDescColC = 1'b1;
-				nextStateDesc = WAIT;
+				nextStateDesc = DESC_WAIT;
 			end
 		endcase
 	end
@@ -71,7 +71,7 @@ module ncc
 	//state register
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
-			currStateDesc <= WAIT;
+			currStateDesc <= DESC_WAIT;
 		end
 		else begin
 			currStateDesc <= nextStateDesc;
@@ -84,7 +84,7 @@ module mux
 	#(parameter w = 4)
 	(input bit [w-1:0] in,
 	input bit [$clog2(w)-1:0] sel,
-	output bit out)
+	output bit out);
 	
 	assign out = in[sel];
 
@@ -94,7 +94,7 @@ module demux
 	#(parameter w = 4)
 	(input bit in,
 	input bit [$clog2(w)-1:0] sel,
-	output bit [w-1:-] out)
+	output bit [w-1:0] out);
 
 	assign out[sel] = in;
 
@@ -103,7 +103,7 @@ endmodule: demux
 module decoder
 	#(parameter w = 4)
 	(input bit [$clog2(w)-1:0] sel,
-	output bit [w-1:0] out)
+	output bit [w-1:0] out);
 
 	always_comb begin
 		out = 'd0;
