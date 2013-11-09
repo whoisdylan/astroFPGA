@@ -30,122 +30,69 @@ module ncc
 	/*	end*/
 	/*endgenerate*/
 
-	genvar i;
+module processingElement
+	(input bit	[5:-27]	descPixelIn,
+	 input bit	[5:-27]	windowPixelIn,
+	 input bit			clk, rst, loadDescReg, loadWinReg, loadAccSumReg,
+	 input bit	[7:0]	accIn,
+	 output bit	[7:0]	accOut,
+	 output bit	[5:-27] windowPixelOut);
+	//generate 16x16 PE grid
+	genvar i, j, k;
 	generate
-		for (i='d0; i < 'd16; i++) begin
-			if (i == 'd0) begin
-				processingElement PE_inst(.clk, .rst, .descPixel(desc[i][4:-27]), .windowPixelIn(windowIn), .descSignBit(desc[i][5]), .loadWinReg, .loadAccSumReg, .accIn('d0), .accOut(accOut[i]), .windowPixelOut(window[i]));
-			end
-			else if (i == 'd15) begin
-				processingElement PE_inst(.clk, .rst, .descPixel(desc[i][4:-27]), .windowPixelIn(window[i-1]), .descSignBit(desc[i][5]), .loadWinReg, .loadAccSumReg, .accIn(accOut[i-1]), .accOut(accOut[i]));
-			end
-			else begin
-				processingElement PE_inst(.clk, .rst, .descPixel(desc[i][4:-27]), .windowPixelIn(window[i-1]), .descSignBit(desc[i][5]), .loadWinReg, .loadAccSumReg, .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+		for (i = 0; i < 16; i++) begin
+			k = 0;
+			for (j = 0; j < 16; j++) begin
+				k = j/4;
+				if (j == 0) begin
+					//set accIn = 0 for first PE in row
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn('d0), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
+				else if (j == 'd15) begin
+					//dont connect windowPixelOut for last PE in row
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut);
+				end
+				else begin
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
 			end
 		end
 	endgenerate
 
 	//descriptor loading datapath hardware
-	logic enDescRowC, enDescColC, loadDescGroup1, loadDescGroup2, loadDescGroup3, loadDescGroup4;
+	logic incDescRowC, incDescColC, loadDescGroup1, loadDescGroup2, loadDescGroup3, loadDescGroup4;
+	logic loadDescNow;
+	logic [15:0] loadRow;
+	logic [3:0] loadColGroup;
 	bit [3:0] descRowC;
 	bit [1:0] descColC;
-	counter #(4) descRowCounter(clk, rst, enDescRowC, descRowC);
-	counter #(2) descColCounter(clk, rst, enDescColC, descColC);
+	assign incDescRowC = descColC == 'd3 ? 1 : 0;
+	counter #(4) descRowCounter(clk, rst, incDescRowC, descRowC);
+	counter #(2) descColCounter(clk, rst, incDescColC, descColC);
 
 	log2 descLog2_inst1({24'd0, desc_data_in[31:24]}, descLog2_1);
 	log2 descLog2_inst2({24'd0, desc_data_in[23:16]}, descLog2_2);
 	log2 descLog2_inst3({24'd0, desc_data_in[15:8]}, descLog2_3);
 	log2 descLog2_inst4({24'd0, desc_data_in[7:0]}, descLog2_4);
 
-	decoder #(4) desc_decoder(descColC, {load1, load2, load3, load4});
-	decoder #(16) desc_row_decoder_1(descRowC,
-	mux #(2) desc_mux_1({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_2({load2, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_3({load3, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_4({load4, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_5({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_6({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_7({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_8({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_9({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_10({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_11({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_12({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_13({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_14({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_15({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_16({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_17({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_18({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_19({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_20({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_21({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_22({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_23({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_24({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_25({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_26({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_27({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_28({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_29({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_30({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_31({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_32({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_33({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_34({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_35({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_36({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_37({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_38({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_39({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_40({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_41({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_42({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_43({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_44({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_45({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_46({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_47({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_48({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_49({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_50({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_51({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_52({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_53({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_54({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_55({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_56({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_57({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_58({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_59({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_60({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_61({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_62({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_63({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	mux #(2) desc_mux_64({load1, 1'b0}, descRowC == 4'd0, loadDescGroup1);
-	//descriptor shift register fsm
+	decoder #(4) desc_decoder_col(descColC, loadColGroup);
+	decoder #(16) desc_decoder_row(descRowC, loadRow);
+
+	//descriptor loading fsm
 	always_comb begin
-		loadDesc = 1'd0;
-		shiftDescReg = 1'd0;
+		done_with_desc_data = 1'b0;
+		loadDescNow = 1'b0;
+		incDescColC = 1'b0;
 		case (currStateDesc)
 			WAIT: begin
-				if (startLoadingDesc) begin
-					loadDesc = 1'd1;
-					enDescCounter = 1'd1;
+				if (desc_data_ready) begin
+					loadDescNow = 1'b1;
 					nextStateDesc = LOAD_DESC;
-				end
-				else begin
-					nextStateDesc = WAIT;
 				end
 			end
 			LOAD_DESC: begin
-				if (doneLoadingDesc) begin
-					nextStateDesc = WAIT;
-				end
-				else begin
-					shiftDescReg = 1'd1;
-					nextStateDesc = LOAD_DESC;
-				end
+				incDescColC = 1'b1;
+				nextStateDesc = WAIT;
 			end
 		endcase
 	end
@@ -210,26 +157,29 @@ module counter
 endmodule: counter
 
 module processingElement
-	(input bit	[5:-27]	descPixel,
+	(input bit	[5:-27]	descPixelIn,
 	 input bit	[5:-27]	windowPixelIn,
-	 input bit			clk, rst, loadWinReg, loadAccSumReg,
+	 input bit			clk, rst, loadDescReg, loadWinReg, loadAccSumReg,
 	 input bit	[7:0]	accIn,
 	 output bit	[7:0]	accOut,
 	 output bit	[5:-27] windowPixelOut);
 	
 	bit [4:-27] tempSumLog2, accSumLog2;
+	bit [5:-27] descPixelOut;
 	bit [31:0] tempSum;
 	bit descSignBit;
-	assign descSignBit = descPixel[5];
+	assign descSignBit = descPixelOut[5];
 
 	ilog2 ilog2_inst (tempSumLog2, tempSum);
 
+	//register for descriptor pixel
+	registerLog2 #(5) descReg (descPixelIn, clk, rst, loadDescReg, descPixelOut);
 	//register for storing "LTC"
 	registerLog2 #(5) windowReg (windowPixelIn, clk, rst, loadWinReg, windowPixelOut);
 	//register for "ACCin + ltc*f
 	register #(8) accReg (accSum, clk, rst, loadAccSumReg, accOut);
 
-	assign tempSumLog2 = descPixel + windowPixelOut[4:-27];
+	assign tempSumLog2 = descPixelOut[4:-27] + windowPixelOut[4:-27];
 	assign accSum = (descSignBit ^ windowPixelOut[5]) ?
 					(accIn - tempSum[7:0]) : (accIn + tempSum[7:0]);
 
