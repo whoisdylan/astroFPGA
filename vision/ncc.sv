@@ -2,103 +2,97 @@ module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
-	(input logic clk, rst,
-	 input bit [7:0] pciIn,
-	output logic iWishIKnew);
+	(input logic clk, rst, loadAccSumReg, loadWinReg,
+	input bit[5:-27] desc[15:0], windowIn,
+	output bit[7:0] accOut[15:0]);
 
-	enum logic {WAIT, LOAD_DESC} currStateDesc, nextStateDesc;
-	logic loadDesc, enDescCounter, shiftDescReg, doneLoadingDesc, startLoadingDesc;
+	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	logic winWriteA, winWriteB;
-	bit [descSize-1:0] descriptor;
-	bit [$clog2(numPixelsDesc)-1:0] descCount;
 
-	assign enDescCounter = shiftDescReg || loadDesc;
-	assign doneLoadingDesc = descCount == numPixelsDesc;
+	// create PE array
+	/*bit [7:0][15:0][15:0] accIn, accOut;*/
 
-	bit [7:0][15:0] winDataInA, winDataInB, winDataOutA, winDataOutB;
-	bit [9:0][15:0] winAddrA, winAddrB;
-	/*bit [9:0] winAddrA1, winAddrA2, winAddrA3, winAddrA4, winAddrA5, winAddrA6,*/
-	/*		  winAddrA7, winAddrA8, winAddrA9, winAddrA10, winAddrA11,*/
-	/*		  winAddrA12, winAddrA13, winAddrA14, winAddrA15, winAddrA16;*/
-	/*bit [9:0] winAddrB1, winAddrB2, winAddrB3, winAddrB4, winAddrB5, winAddrB6,*/
-	/*		  winAddrB7, winAddrB8, winAddrB9, winAddrB10, winAddrB11,*/
-	/*		  winAddrB12, winAddrB13, winAddrB14, winAddrB15, winAddrB16;*/
+	/*genvar i, j;*/
+	/*generate*/
+	/*	for (i='d0; i < 'd16; i++) begin*/
+	/*		for (j='d0; j < 'd16; j++) begin*/
+	/*			if (j == 0) begin*/
+	/*				processingElement(desc[i][4:-27], windowRows[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, 'd0, accIn[i+1], window[i-1],*/
+	/*			end*/
+	/*			else if (i == 'd15) begin*/
+	/*				processingElement(desc[i][4:-27], window[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, accIn[i], , window[i-1],*/
+	/*			end*/
+	/*			else if (i%*/
+	/*			else begin*/
+	/*				processingElement(desc[i][4:-27], window[i], desc[i][5], clk, rst, loadWinRegs, loadAccSumRegs, accIn[i], accIn[i+1], window[i-1],*/
+	/*			end*/
+	/*		end*/
+	/*	end*/
+	/*endgenerate*/
 
-
-	/*assign winAddrA[0] = winAddrA1;*/
-	/*assign winAddrA[1] = winAddrA2;*/
-	/*assign winAddrA[2] = winAddrA3;*/
-	/*assign winAddrA[3] = winAddrA4;*/
-	/*assign winAddrA[4] = winAddrA5;*/
-	/*assign winAddrA[5] = winAddrA6;*/
-	/*assign winAddrA[6] = winAddrA7;*/
-	/*assign winAddrA[7] = winAddrA8;*/
-	/*assign winAddrA[8] = winAddrA9;*/
-	/*assign winAddrA[9] = winAddrA10;*/
-	/*assign winAddrA[10] = winAddrA11;*/
-	/*assign winAddrA[11] = winAddrA12;*/
-	/*assign winAddrA[12] = winAddrA13;*/
-	/*assign winAddrA[13] = winAddrA14;*/
-	/*assign winAddrA[14] = winAddrA15;*/
-	/*assign winAddrA[15] = winAddrA16;*/
-
-	/*assign winAddrB[0] = winAddrB1;*/
-	/*assign winAddrB[1] = winAddrB2;*/
-	/*assign winAddrB[2] = winAddrB3;*/
-	/*assign winAddrB[3] = winAddrB4;*/
-	/*assign winAddrB[4] = winAddrB5;*/
-	/*assign winAddrB[5] = winAddrB6;*/
-	/*assign winAddrB[6] = winAddrB7;*/
-	/*assign winAddrB[7] = winAddrB8;*/
-	/*assign winAddrB[8] = winAddrB9;*/
-	/*assign winAddrB[9] = winAddrB10;*/
-	/*assign winAddrB[10] = winAddrB11;*/
-	/*assign winAddrB[11] = winAddrB12;*/
-	/*assign winAddrB[12] = winAddrB13;*/
-	/*assign winAddrB[13] = winAddrB14;*/
-	/*assign winAddrB[14] = winAddrB15;*/
-	/*assign winAddrB[15] = winAddrB16;*/
-
-	//counter for loading descriptor
-	counter #(numPixelsDesc) descCounter(.clk(clk), .rst(rst), .enable(enDescCounter),
-									.count(descCount));
-	//descriptor register
-	shiftRegister #(descSize) descReg(.clk(clk), .rst(rst), .load(loadDescReg), 
-									  .shift(shiftDescReg), .in(pciIn), .out(descriptor));
-	//bram for window, one per row = 16 brams, 80 pixels per bram
-	/*genvar i;
+module processingElement
+	(input bit	[5:-27]	descPixelIn,
+	 input bit	[5:-27]	windowPixelIn,
+	 input bit			clk, rst, loadDescReg, loadWinReg, loadAccSumReg,
+	 input bit	[7:0]	accIn,
+	 output bit	[7:0]	accOut,
+	 output bit	[5:-27] windowPixelOut);
+	//generate 16x16 PE grid
+	genvar i, j, k;
 	generate
-		for (i='d0; i<'d16; i++) begin
-			bram_tdbp #(8, 10) windowRowBram(.a_clk(clk), .a_wr(winWriteA),
-				.a_ddr(winAddrA[i]), .a_din(winDataInA[i]), .a_dout(winDataOutA[i]), .b_clk(clk),
-				.b_wr(winWriteB), .b_addr(winAddrB[i]), .b_din(winDataInB[i]),
-				.b_dout(winDataOutB[i]));
-		end
-	endgenerate */
-
-	//descriptor shift register fsm
-	always_comb begin
-		loadDesc = 1'd0;
-		shiftDescReg = 1'd0;
-		case (currStateDesc)
-			WAIT: begin
-				if (startLoadingDesc) begin
-					loadDesc = 1'd1;
-					enDescCounter = 1'd1;
-					nextStateDesc = LOAD_DESC;
+		for (i = 0; i < 16; i++) begin
+			k = 0;
+			for (j = 0; j < 16; j++) begin
+				k = j/4;
+				if (j == 0) begin
+					//set accIn = 0 for first PE in row
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn('d0), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
+				else if (j == 'd15) begin
+					//dont connect windowPixelOut for last PE in row
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut);
 				end
 				else begin
-					nextStateDesc = WAIT;
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&load_desc_now), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+				end
+			end
+		end
+	endgenerate
+
+	//descriptor loading datapath hardware
+	logic incDescRowC, incDescColC, loadDescGroup1, loadDescGroup2, loadDescGroup3, loadDescGroup4;
+	logic loadDescNow;
+	logic [15:0] loadRow;
+	logic [3:0] loadColGroup;
+	bit [3:0] descRowC;
+	bit [1:0] descColC;
+	assign incDescRowC = descColC == 'd3 ? 1 : 0;
+	counter #(4) descRowCounter(clk, rst, incDescRowC, descRowC);
+	counter #(2) descColCounter(clk, rst, incDescColC, descColC);
+
+	log2 descLog2_inst1({24'd0, desc_data_in[31:24]}, descLog2_1);
+	log2 descLog2_inst2({24'd0, desc_data_in[23:16]}, descLog2_2);
+	log2 descLog2_inst3({24'd0, desc_data_in[15:8]}, descLog2_3);
+	log2 descLog2_inst4({24'd0, desc_data_in[7:0]}, descLog2_4);
+
+	decoder #(4) desc_decoder_col(descColC, loadColGroup);
+	decoder #(16) desc_decoder_row(descRowC, loadRow);
+
+	//descriptor loading fsm
+	always_comb begin
+		done_with_desc_data = 1'b0;
+		loadDescNow = 1'b0;
+		incDescColC = 1'b0;
+		case (currStateDesc)
+			WAIT: begin
+				if (desc_data_ready) begin
+					loadDescNow = 1'b1;
+					nextStateDesc = LOAD_DESC;
 				end
 			end
 			LOAD_DESC: begin
-				if (doneLoadingDesc) begin
-					nextStateDesc = WAIT;
-				end
-				else begin
-					shiftDescReg = 1'd1;
-					nextStateDesc = LOAD_DESC;
-				end
+				incDescColC = 1'b1;
+				nextStateDesc = WAIT;
 			end
 		endcase
 	end
@@ -115,27 +109,37 @@ module ncc
 
 endmodule: ncc
 
-module shiftRegister
-	#(parameter w = 2048)
-	 (input logic clk, rst, load, shift,
-	  input bit [7:0] in,
-	 output bit [w-1:0] out);
+module mux
+	#(parameter w = 4)
+	(input bit [w-1:0] in,
+	input bit [$clog2(w)-1:0] sel,
+	output bit out)
+	
+	assign out = in[sel];
 
-	 bit [w-1:0] val;
-	 assign out = val;
+endmodule: mux
 
-	 always_ff @(posedge clk, posedge rst) begin
-		if (rst) begin
-			val <= 'd0;
-		end
-		else if (load) begin
-			val[7:0] <= in;
-		end
-		else if (shift) begin
-			val <= val << 'd8;
-		end
+module demux
+	#(parameter w = 4)
+	(input bit in,
+	input bit [$clog2(w)-1:0] sel,
+	output bit [w-1:-] out)
+
+	assign out[sel] = in;
+
+endmodule: demux
+
+module decoder
+	#(parameter w = 4)
+	(input bit [$clog2(w)-1:0] sel,
+	output bit [w-1:0] out)
+
+	always_comb begin
+		out = 'd0;
+		out[sel] = 1'b1;
 	end
-endmodule: shiftRegister
+
+endmodule: decoder
 
 module counter
 	#(parameter w = 256)
@@ -153,25 +157,29 @@ module counter
 endmodule: counter
 
 module processingElement
-	(input bit	[4:-27]	descPixel,
+	(input bit	[5:-27]	descPixelIn,
 	 input bit	[5:-27]	windowPixelIn,
-	 input bit			descSignBit,
-	 input bit			clk, rst, loadWinReg, loadAccSumReg,
+	 input bit			clk, rst, loadDescReg, loadWinReg, loadAccSumReg,
 	 input bit	[7:0]	accIn,
 	 output bit	[7:0]	accOut,
 	 output bit	[5:-27] windowPixelOut);
 	
 	bit [4:-27] tempSumLog2, accSumLog2;
+	bit [5:-27] descPixelOut;
 	bit [31:0] tempSum;
+	bit descSignBit;
+	assign descSignBit = descPixelOut[5];
 
 	ilog2 ilog2_inst (tempSumLog2, tempSum);
 
+	//register for descriptor pixel
+	registerLog2 #(5) descReg (descPixelIn, clk, rst, loadDescReg, descPixelOut);
 	//register for storing "LTC"
 	registerLog2 #(5) windowReg (windowPixelIn, clk, rst, loadWinReg, windowPixelOut);
 	//register for "ACCin + ltc*f
 	register #(8) accReg (accSum, clk, rst, loadAccSumReg, accOut);
 
-	assign tempSumLog2 = descPixel + windowPixelOut[4:-27];
+	assign tempSumLog2 = descPixelOut[4:-27] + windowPixelOut[4:-27];
 	assign accSum = (descSignBit ^ windowPixelOut[5]) ?
 					(accIn - tempSum[7:0]) : (accIn + tempSum[7:0]);
 
@@ -189,7 +197,7 @@ module log2
 	
 	assign fraction = dataIn << (32-oneIndex);
 	assign dataOut = {oneIndex, fraction[31:5]};
-	assign signBit = dataIn[w-1];
+	assign signBit = dataIn[31];
 
 endmodule: log2
 
