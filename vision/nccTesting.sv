@@ -3,22 +3,21 @@ module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
-	(input logic clk, rst, loadAccSumReg, loadWinReg,
-	input bit [31:0] desc_data_in,
-	input bit [5:-27] windowIn,
-	output bit [7:0] accOut[15:0]);
+	(input logic clk, rst, desc_data_ready,
+	input bit [31:0] desc_data_in, 
+	output bit [5:-27] descPixelOut[63:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
-	logic winWriteA, winWriteB;
 
 	//descriptor loading datapath hardware
 	logic incDescRowC, incDescColC, loadDescGroup1, loadDescGroup2, loadDescGroup3, loadDescGroup4;
-	logic loadDescNow, desc_data_ready, done_with_desc_data
+	logic loadDescNow, done_with_desc_data, loadWinReg;
 	logic [15:0] loadRow;
 	logic [3:0] loadColGroup;
 	bit [3:0] descRowC;
 	bit [1:0] descColC;
 	bit [5:-27] descLog2_1, descLog2_2, descLog2_3, descLog2_4;
+	//assign incDescRowC = descColC == 'd3 ? 1 : 0;
 	counter #(4) descRowCounter(clk, rst, incDescRowC, descRowC);
 	counter #(2) descColCounter(clk, rst, incDescColC, descColC);
 
@@ -38,23 +37,23 @@ module ncc
 				int k = j/4;
 				if (j == 0) begin
 					//set accIn = 0 for first PE in row
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn('d0), .accOut(accOut[i]), .windowPixelOut(window[i]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .descPixelOut(descPixelOut[16*i+j]));
 				end
 				else if (j == 'd15) begin
 					//dont connect windowPixelOut for last PE in row
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .descPixelOut(descPixelOut[16*i+j]));
 				end
 				else if (j%4 == 0) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .descPixelOut(descPixelOut[16*i+j]));
 				end
 				else if (j%4 == 1) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_2), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_2), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .descPixelOut(descPixelOut[16*i+j]));
 				end
 				else if (j%4 == 2) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .descPixelOut(descPixelOut[16*i+j]));
 				end
 				else if (j%4 == 3) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .loadAccSumReg(loadAccSumReg), .accIn(accOut[i-1]), .accOut(accOut[i]), .windowPixelOut(window[i]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .descPixelOut(descPixelOut[16*i+j]));
 				end
 			end
 		end
@@ -131,7 +130,7 @@ module decoder
 endmodule: decoder
 
 module counter
-	#(parameter w = 256)
+	#(parameter w = 16)
 	(input logic clk, rst, enable,
 	output bit [w-1:0] count);
 
@@ -147,31 +146,19 @@ endmodule: counter
 
 module processingElement
 	(input bit	[5:-27]	descPixelIn,
-	 input bit	[5:-27]	windowPixelIn,
-	 input bit			clk, rst, loadDescReg, loadWinReg, loadAccSumReg,
-	 input bit	[7:0]	accIn,
-	 output bit	[7:0]	accOut,
-	 output bit	[5:-27] windowPixelOut);
+	 input bit			clk, rst, loadDescReg,
+	 output bit [5:-27] descPixelOut);
 	
 	bit [4:-27] tempSumLog2, accSumLog2;
-	bit [5:-27] descPixelOut;
+	//bit [5:-27] descPixelOut;
 	bit [31:0] tempSum;
 	bit [7:0] accSum;
 	bit descSignBit;
 	assign descSignBit = descPixelOut[5];
 
-	ilog2 ilog2_inst (tempSumLog2, tempSum);
-
 	//register for descriptor pixel
 	registerLog2 #(5) descReg (descPixelIn, clk, rst, loadDescReg, descPixelOut);
 	//register for storing "LTC"
-	registerLog2 #(5) windowReg (windowPixelIn, clk, rst, loadWinReg, windowPixelOut);
-	//register for "ACCin + ltc*f
-	register #(8) accReg (accSum, clk, rst, loadAccSumReg, accOut);
-
-	assign tempSumLog2 = descPixelOut[4:-27] + windowPixelOut[4:-27];
-	assign accSum = (descSignBit ^ windowPixelOut[5]) ?
-					(accIn - tempSum[7:0]) : (accIn + tempSum[7:0]);
 
 endmodule: processingElement
 
