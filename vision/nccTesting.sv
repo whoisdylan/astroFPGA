@@ -78,6 +78,7 @@ module ncc
 			DESC_LOAD: begin
 				if (descColC == 'd3) begin
 					incDescRowC = 1'b1;
+				end
 				incDescColC = 1'b1;
 				nextStateDesc = DESC_WAIT;
 			end
