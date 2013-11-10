@@ -17,7 +17,7 @@ module ncc
 	bit [3:0] descRowC;
 	bit [1:0] descColC;
 	bit [5:-27] descLog2_1, descLog2_2, descLog2_3, descLog2_4;
-	assign incDescRowC = descColC == 'd3 ? 1 : 0;
+	//assign incDescRowC = descColC == 'd3 ? 1 : 0;
 	counter #(4) descRowCounter(clk, rst, incDescRowC, descRowC);
 	counter #(2) descColCounter(clk, rst, incDescColC, descColC);
 
@@ -64,6 +64,7 @@ module ncc
 		done_with_desc_data = 1'b0;
 		loadDescNow = 1'b0;
 		incDescColC = 1'b0;
+		incDescRowC = 1'b0;
 		case (currStateDesc)
 			DESC_WAIT: begin
 				if (desc_data_ready) begin
@@ -75,6 +76,8 @@ module ncc
 				end
 			end
 			DESC_LOAD: begin
+				if (descColC == 'd3) begin
+					incDescRowC = 1'b1;
 				incDescColC = 1'b1;
 				nextStateDesc = DESC_WAIT;
 			end
