@@ -72,11 +72,15 @@ module ncc
 					loadDescNow = 1'b1;
 					nextStateDesc = DESC_LOAD;
 				end
+				else begin
+					nextStateDesc = DESC_WAIT;
+				end
 			end
 			DESC_LOAD: begin
 				incDescColC = 1'b1;
 				nextStateDesc = DESC_WAIT;
 			end
+			default: nextStateDesc = DESC_WAIT;
 		endcase
 	end
 

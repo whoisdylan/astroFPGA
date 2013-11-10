@@ -1,9 +1,8 @@
 module tb();
-	logic clk, rst, loadAccReg, desc_data_ready;
+	logic clk, rst, desc_data_ready;
 	bit [31:0] desc_data_in;
 	bit [5:-27] descPixelOut [63:0];
-	bit [5:-27] window_in;
-	ncc ncc_inst(clk, rst, loadAccReg, desc_data_ready, desc_data_in, window_in, descPixelOut);
+	ncc ncc_inst(clk, rst, desc_data_ready, desc_data_in, descPixelOut);
 
 	initial begin
 		clk = 0;
