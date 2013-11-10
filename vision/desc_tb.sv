@@ -18,5 +18,7 @@ module tb();
 		desc_data_ready <= 1'b1;
 		@(posedge clk)
 		desc_data_ready <= 1'b0;
+		@(posedge clk)
+		$finish;
 	end
 endmodule: tb
