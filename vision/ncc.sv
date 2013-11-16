@@ -6,7 +6,7 @@ module ncc
 	(input logic clk, rst, loadAccSumReg, loadWinReg,
 	input bit [31:0] desc_data_in,
 	input bit [5:-27] windowIn,
-	output bit [7:0] accOut[15:0]);
+	output bit [31:0] accOut[15:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	logic winWriteA, winWriteB;
@@ -149,14 +149,14 @@ module processingElement
 	(input bit	[5:-27]	descPixelIn,
 	 input bit	[5:-27]	windowPixelIn,
 	 input bit			clk, rst, loadDescReg, loadWinReg, loadAccSumReg,
-	 input bit	[7:0]	accIn,
-	 output bit	[7:0]	accOut,
+	 input bit	[31:0]	accIn,
+	 output bit	[31:0]	accOut,
 	 output bit	[5:-27] windowPixelOut);
 	
-	bit [4:-27] tempSumLog2, accSumLog2;
+	bit [4:-27] tempSumLog2;
 	bit [5:-27] descPixelOut;
 	bit [31:0] tempSum;
-	bit [7:0] accSum;
+	bit [31:0] accSum;
 	bit descSignBit;
 	assign descSignBit = descPixelOut[5];
 
@@ -167,11 +167,11 @@ module processingElement
 	//register for storing "LTC"
 	registerLog2 #(5) windowReg (windowPixelIn, clk, rst, loadWinReg, windowPixelOut);
 	//register for "ACCin + ltc*f
-	register #(8) accReg (accSum, clk, rst, loadAccSumReg, accOut);
+	register #(32) accReg (accSum, clk, rst, loadAccSumReg, accOut);
 
 	assign tempSumLog2 = descPixelOut[4:-27] + windowPixelOut[4:-27];
 	assign accSum = (descSignBit ^ windowPixelOut[5]) ?
-					(accIn - tempSum[7:0]) : (accIn + tempSum[7:0]);
+					(accIn - tempSum) : (accIn + tempSum);
 
 endmodule: processingElement
 
