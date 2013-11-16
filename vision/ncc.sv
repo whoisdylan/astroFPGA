@@ -3,11 +3,11 @@ module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
-	(input logic clk, rst, window_data_ready,
+	(input logic clk, rst, window_data_ready, desc_data_ready,
 	input bit [31:0] desc_data_in,
 	input bit [7:0] window_data_in [15:0] [15:0],
-	output logic done_with_window_data,
-	output bit [31:0] accRowTotal[15:0]);
+	output logic done_with_window_data, done_with_desc_data,
+	output bit [31:0] greatestNCC);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	enum logic {WIN_WAIT, WIN_LOAD} currStateWin, nextStateWin;
@@ -15,13 +15,14 @@ module ncc
 
 	//descriptor loading datapath hardware
 	logic incDescRowC, incDescColC, loadDescGroup1, loadDescGroup2, loadDescGroup3, loadDescGroup4;
-	logic loadDescNow, desc_data_ready, done_with_desc_data;
+	logic loadDescNow;
 	logic [15:0] loadRow;
 	logic [3:0] loadColGroup;
 	bit [31:0] accOut [239:0];
 	bit [3:0] descRowC;
 	bit [1:0] descColC;
 	/*bit [5:-27] descLog2_1, descLog2_2, descLog2_3, descLog2_4;*/
+	bit [31:0] accRowTotal [15:0];
 	bit [5:-27] descLog2 [3:0];
 	bit [5:-27] windowLog2 [15:0] [15:0];
 	counter #(4) descRowCounter(clk, rst, incDescRowC, descRowC);
@@ -77,7 +78,7 @@ module ncc
 	endgenerate
 
 
-	bit [31:0] accPatchSum, greatestNCC;
+	bit [31:0] accPatchSum;
 	/*bit [31:0] accTotalSum;*/
 
 	assign accPatchSum = accOut[0] + accOut[1] + accOut[2] + accOut[3] + accOut[4] + accOut[5] + accOut[6] + accOut[7] + accOut[8] + accOut[9] + accOut[10] + accOut[11] + accOut[12] + accOut[13] + accOut[14] + accOut[15];
