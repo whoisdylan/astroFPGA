@@ -100,19 +100,23 @@ module ncc
 			DESC_WAIT: begin
 				if (desc_data_ready) begin
 					loadDescNow = 1'b1;
-					nextStateDesc = DESC_LOAD;
+					incDescColC = 1'b1;
+					if (descColC == 'd3) begin
+						incDescRowC = 1'b1;
+					end
+					nextStateDesc = DESC_WAIT;
 				end
 				else begin
 					nextStateDesc = DESC_WAIT;
 				end
 			end
-			DESC_LOAD: begin
-				if (descColC == 'd3) begin
-					incDescRowC = 1'b1;
-				end
-				incDescColC = 1'b1;
-				nextStateDesc = DESC_WAIT;
-			end
+			/*DESC_LOAD: begin*/
+			/*	if (descColC == 'd3) begin*/
+			/*		incDescRowC = 1'b1;*/
+			/*	end*/
+			/*	incDescColC = 1'b1;*/
+			/*	nextStateDesc = DESC_WAIT;*/
+			/*end*/
 			default: nextStateDesc = DESC_WAIT;
 		endcase
 	end
