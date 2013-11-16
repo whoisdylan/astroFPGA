@@ -13,7 +13,7 @@ module ncc
 
 	//descriptor loading datapath hardware
 	logic incDescRowC, incDescColC, loadDescGroup1, loadDescGroup2, loadDescGroup3, loadDescGroup4;
-	logic loadDescNow, desc_data_ready, done_with_desc_data
+	logic loadDescNow, desc_data_ready, done_with_desc_data;
 	logic [15:0] loadRow;
 	logic [3:0] loadColGroup;
 	bit [3:0] descRowC;
