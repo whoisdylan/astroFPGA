@@ -3,12 +3,14 @@ module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
-	(input logic clk, rst, loadAccSumReg, window_data_ready,
+	(input logic clk, rst, window_data_ready,
 	input bit [31:0] desc_data_in,
-	input bit [7:0] [15:0] [15:0] window_data_in,
+	input bit [7:0] window_data_in [15:0] [15:0],
+	output logic done_with_window_data,
 	output bit [31:0] accRowTotal[15:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
+	enum logic {WIN_WAIT, WIN_LOAD} currStateWin, nextStateWin;
 	logic winWriteA, winWriteB;
 
 	//descriptor loading datapath hardware
@@ -19,11 +21,13 @@ module ncc
 	bit [31:0] accOut [239:0];
 	bit [3:0] descRowC;
 	bit [1:0] descColC;
-	bit [5:-27] descLog2_1, descLog2_2, descLog2_3, descLog2_4;
+	/*bit [5:-27] descLog2_1, descLog2_2, descLog2_3, descLog2_4;*/
 	bit [5:-27] descLog2 [3:0];
+	bit [5:-27] windowLog2 [15:0] [15:0];
 	counter #(4) descRowCounter(clk, rst, incDescRowC, descRowC);
 	counter #(2) descColCounter(clk, rst, incDescColC, descColC);
 
+	//descriptor log2 hardware
 	log2 descLog2_inst1({24'd0, desc_data_in[31:24]}, descLog2[0]);
 	log2 descLog2_inst2({24'd0, desc_data_in[23:16]}, descLog2[1]);
 	log2 descLog2_inst3({24'd0, desc_data_in[15:8]}, descLog2[2]);
@@ -32,43 +36,58 @@ module ncc
 	decoder #(4) desc_decoder_col(descColC, loadColGroup);
 	decoder #(16) desc_decoder_row(descRowC, loadRow);
 
-	//generate 16x16 PE grid
+	//window log2 hardware
 	genvar i, j;
+	generate
+		for (i = 0; i < 16; i++) begin
+			for (j = 0; j < 16; j++) begin
+				log2 windowLog2_inst({24'd0, window_data_in[i][j]}, windowLog2[i][j]);
+			end
+		end
+	endgenerate
+
+	//generate 16x16 PE grid
 	generate
 		for (i = 0; i < 16; i++) begin
 			for (j = 0; j < 16; j++) begin
 				int k = j/4;
 				if (j == 0) begin
 					//set accIn = 0 for first PE in row
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(window_data_in[), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn('d0), .accOut(accOut[j+i*16]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn('d0), .accOut(accOut[j+i*16]));
 				end
 				else if (j == 'd15) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accRowTotal[i]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accRowTotal[i]));
 				end
 				else
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));
-				else if (j%4 == 0) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));
-				end
-				else if (j%4 == 1) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_2), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));
-				end
-				else if (j%4 == 2) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));
-				end
-				else if (j%4 == 3) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));
+				/*else if (j%4 == 0) begin*/
+				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
+				/*end*/
+				/*else if (j%4 == 1) begin*/
+				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_2), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
+				/*end*/
+				/*else if (j%4 == 2) begin*/
+				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
+				/*end*/
+				/*else if (j%4 == 3) begin*/
+				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
 				end
 			end
 		end
 	endgenerate
 
-	bit [31:0] accPatchSum, accTotalSum;
+
+	bit [31:0] accPatchSum, greatestNCC;
+	/*bit [31:0] accTotalSum;*/
 
 	assign accPatchSum = accOut[0] + accOut[1] + accOut[2] + accOut[3] + accOut[4] + accOut[5] + accOut[6] + accOut[7] + accOut[8] + accOut[9] + accOut[10] + accOut[11] + accOut[12] + accOut[13] + accOut[14] + accOut[15];
 	
 	//register to store the entire patch acc total sum
-	register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
+	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
+
+	// TODO: CHANGE TO NUM/DENOM, NOT JUST NUM
+	//register to store greatest NCC value
+	priorityRegister #(32) greatestNCCReg (accPatchSum, clk, rst, loadGreatestReg, greatestNCC);
 
 	//descriptor loading fsm
 	always_comb begin
@@ -97,13 +116,58 @@ module ncc
 		endcase
 	end
 
+	logic loadWinReg, loadGreatestReg;
+
+	//window loading fsm
+	always_comb begin
+		done_with_window_data = 1'b0;
+		loadWinReg = 1'b0;
+		loadGreatestReg = 1'b0;
+		case (currStateWin)
+			WIN_WAIT: begin
+				if (window_data_ready) begin
+					loadWinReg = 1'b1;
+					nextStateWin = WIN_LOAD;
+				end
+				else begin
+					nextStateWin = WIN_WAIT;
+				end
+			end
+			WIN_LOAD: begin
+				loadGreatestReg = 1'b1;
+				done_with_window_data = 1'b1;
+				nextStateWin = WIN_WAIT;
+			end
+			default: nextStateWin = WIN_WAIT;
+		endcase
+	end
+
+	// greatest ncc reg fsm
+	/*always_comb begin*/
+	/*	loadGreatestReg = 1'b0;*/
+	/*	case (currStatePrio)*/
+	/*		PRIO_WAIT: begin*/
+	/*			if (loadAccReg) begin*/
+	/*				loadGreatestReg = 1'b1;*/
+	/*				nextStatePrio = PRIO_WAIT;*/
+	/*			end*/
+	/*			else*/
+	/*				nextStatePrio = PRIO_WAIT;*/
+	/*			end*/
+	/*		end*/
+	/*		default: nextStatePrio = PRIO_WAIT;*/
+	/*	endcase*/
+	/*end*/
+
 	//state register
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
 			currStateDesc <= DESC_WAIT;
+			currStateWin <= WIN_WAIT;
 		end
 		else begin
 			currStateDesc <= nextStateDesc;
+			currStateWin <= nextStateWin;
 		end
 	end
 
@@ -409,6 +473,24 @@ module register
 	end
 
 endmodule: register
+
+module priorityRegister
+	#(parameter w = 32)
+	(input bit [w-1:0] dataIn,
+	input bit		   clk, rst, load,
+	output bit [w-1:0] dataOut);
+
+	bit [w-1:0] data;
+	assign data = (dataIn > dataOut) ? dataIn : dataOut;
+	always_ff @(posedge clk, posedge rst) begin
+		if (rst) begin
+			dataOut = 'd0;
+		else if (load) begin
+			dataOut = (dataIn > dataOut) ? dataIn : dataOut;
+			dataOut = data;
+		end
+	end
+endmodule: priorityRegister
 
 module registerLog2
 	#(parameter w = 5)
