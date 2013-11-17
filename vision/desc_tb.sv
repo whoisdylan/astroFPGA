@@ -16,26 +16,31 @@ module tb();
 		rst <= 0;
 		@(posedge clk)
 		desc_data_ready <= 1'b1;
-		@(posedge clk)
-		desc_data_ready <= 1'b0;
-		desc_data_in <= {8'd8, 8'd16, 8'd32, 8'd64};
-		@(posedge clk)
-		desc_data_ready <= 1'b1;
-		@(posedge clk)
+		repeat (10) @(posedge clk);
 		desc_data_ready <= 1'b0;
 		@(posedge clk)
-		desc_data_ready <= 1'b1;
-		@(posedge clk)
-		desc_data_ready <= 1'b0;
-		@(posedge clk)
-		desc_data_ready <= 1'b1;
-		@(posedge clk)
-		desc_data_ready <= 1'b0;
-		@(posedge clk)
-		desc_data_ready <= 1'b1;
-		@(posedge clk)
-		desc_data_ready <= 1'b0;
-		@(posedge clk)
+		//@(posedge clk)
+		//desc_data_ready <= 1'b1;
+		//@(posedge clk)
+		//desc_data_ready <= 1'b0;
+		//desc_data_in <= {8'd8, 8'd16, 8'd32, 8'd64};
+		//@(posedge clk)
+		//desc_data_ready <= 1'b1;
+		//@(posedge clk)
+		//desc_data_ready <= 1'b0;
+		//@(posedge clk)
+		//desc_data_ready <= 1'b1;
+		//@(posedge clk)
+		//desc_data_ready <= 1'b0;
+		//@(posedge clk)
+		//desc_data_ready <= 1'b1;
+		//@(posedge clk)
+		//desc_data_ready <= 1'b0;
+		//@(posedge clk)
+		//desc_data_ready <= 1'b1;
+		//@(posedge clk)
+		//desc_data_ready <= 1'b0;
+		//@(posedge clk)
 		$finish;
 	end
 endmodule: tb

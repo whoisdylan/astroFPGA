@@ -7,7 +7,8 @@ module ncc
 	input bit [31:0] desc_data_in,
 	input bit [7:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
-	output bit [31:0] greatestNCC);
+	output bit [31:0] greatestNCC,
+	output bit [31:0] accRowTotal [15:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	enum logic {WIN_WAIT, WIN_LOAD} currStateWin, nextStateWin;
@@ -15,14 +16,13 @@ module ncc
 
 	//descriptor loading datapath hardware
 	logic incDescRowC, incDescColC, loadDescGroup1, loadDescGroup2, loadDescGroup3, loadDescGroup4;
-	logic loadDescNow;
+	logic loadDescNow, loadWinReg;
 	logic [15:0] loadRow;
 	logic [3:0] loadColGroup;
 	bit [31:0] accOut [239:0];
 	bit [3:0] descRowC;
 	bit [1:0] descColC;
 	/*bit [5:-27] descLog2_1, descLog2_2, descLog2_3, descLog2_4;*/
-	bit [31:0] accRowTotal [15:0];
 	bit [5:-27] descLog2 [3:0];
 	bit [5:-27] windowLog2 [15:0] [15:0];
 	counter #(4) descRowCounter(clk, rst, incDescRowC, descRowC);
@@ -54,13 +54,14 @@ module ncc
 				int k = j/4;
 				if (j == 0) begin
 					//set accIn = 0 for first PE in row
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn('d0), .accOut(accOut[j+i*16]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn('d0), .accOut(accOut[j+i*15]));
 				end
 				else if (j == 'd15) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accRowTotal[i]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*15]), .accOut(accRowTotal[i]));
 				end
-				else
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));
+				else begin
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*15]), .accOut(accOut[j+i*15]));
+				end
 				/*else if (j%4 == 0) begin*/
 				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
 				/*end*/
@@ -71,8 +72,8 @@ module ncc
 				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
 				/*end*/
 				/*else if (j%4 == 3) begin*/
-				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
-				end
+				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));
+				end*/
 			end
 		end
 	endgenerate
@@ -81,12 +82,13 @@ module ncc
 	bit [31:0] accPatchSum;
 	/*bit [31:0] accTotalSum;*/
 
-	assign accPatchSum = accOut[0] + accOut[1] + accOut[2] + accOut[3] + accOut[4] + accOut[5] + accOut[6] + accOut[7] + accOut[8] + accOut[9] + accOut[10] + accOut[11] + accOut[12] + accOut[13] + accOut[14] + accOut[15];
+	assign accPatchSum = accRowTotal[0] + accRowTotal[1] + accRowTotal[2] + accRowTotal[3] + accRowTotal[4] + accRowTotal[5] + accRowTotal[6] + accRowTotal[7] + accRowTotal[8] + accRowTotal[9] + accRowTotal[10] + accRowTotal[11] + accRowTotal[12] + accRowTotal[13] + accRowTotal[14] + accRowTotal[15];
 	
 	//register to store the entire patch acc total sum
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
 
 	// TODO: CHANGE TO NUM/DENOM, NOT JUST NUM
+	logic loadGreatestReg;
 	//register to store greatest NCC value
 	priorityRegister #(32) greatestNCCReg (accPatchSum, clk, rst, loadGreatestReg, greatestNCC);
 
@@ -120,8 +122,6 @@ module ncc
 			default: nextStateDesc = DESC_WAIT;
 		endcase
 	end
-
-	logic loadWinReg, loadGreatestReg;
 
 	//window loading fsm
 	always_comb begin
@@ -490,6 +490,7 @@ module priorityRegister
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
 			dataOut = 'd0;
+		end
 		else if (load) begin
 			dataOut = (dataIn > dataOut) ? dataIn : dataOut;
 			dataOut = data;
