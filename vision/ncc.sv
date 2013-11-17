@@ -1,4 +1,5 @@
 `default_nettype none
+`define NUM_WINDOWS 150
 module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
@@ -8,6 +9,7 @@ module ncc
 	input bit [7:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
 	output bit [31:0] greatestNCC,
+	output bit [8:0] greatestWindowIndex,
 	output bit [31:0] accRowTotal [15:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
@@ -25,8 +27,8 @@ module ncc
 	/*bit [5:-27] descLog2_1, descLog2_2, descLog2_3, descLog2_4;*/
 	bit [5:-27] descLog2 [3:0];
 	bit [5:-27] windowLog2 [15:0] [15:0];
-	counter #(4) descRowCounter(clk, rst, incDescRowC, descRowC);
-	counter #(2) descColCounter(clk, rst, incDescColC, descColC);
+	counter #(4) descRowCounter(clk, rst, .clr(), incDescRowC, descRowC);
+	counter #(2) descColCounter(clk, rst, .clr(), incDescColC, descColC);
 
 	//descriptor log2 hardware
 	log2 descLog2_inst1({24'd0, desc_data_in[31:24]}, descLog2[0]);
@@ -62,18 +64,6 @@ module ncc
 				else begin
 					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*15]), .accOut(accOut[j+i*15]));
 				end
-				/*else if (j%4 == 0) begin*/
-				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
-				/*end*/
-				/*else if (j%4 == 1) begin*/
-				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_2), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
-				/*end*/
-				/*else if (j%4 == 2) begin*/
-				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
-				/*end*/
-				/*else if (j%4 == 3) begin*/
-				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));
-				end*/
 			end
 		end
 	endgenerate
@@ -88,9 +78,10 @@ module ncc
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
 
 	// TODO: CHANGE TO NUM/DENOM, NOT JUST NUM
-	logic loadGreatestReg;
+	logic loadGreatestReg, clearWinCount;
 	//register to store greatest NCC value
-	priorityRegister #(32) greatestNCCReg (accPatchSum, clk, rst, loadGreatestReg, greatestNCC);
+	priorityRegister #(32,9) greatestNCCReg (accPatchSum, windowCount, clk, rst, loadGreatestReg, greatestNCC, greatestWindowIndex);
+	counter #(9) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
 
 	//descriptor loading fsm
 	always_comb begin
@@ -128,6 +119,7 @@ module ncc
 		done_with_window_data = 1'b0;
 		loadWinReg = 1'b0;
 		loadGreatestReg = 1'b0;
+		clearWinCount = 1'b0;
 		case (currStateWin)
 			WIN_WAIT: begin
 				if (window_data_ready) begin
@@ -141,6 +133,9 @@ module ncc
 			WIN_LOAD: begin
 				loadGreatestReg = 1'b1;
 				done_with_window_data = 1'b1;
+				if (windowCount >= (NUM_WINDOWS-1)) begin
+					clearWinCount = 1'b1;
+				end
 				nextStateWin = WIN_WAIT;
 			end
 			default: nextStateWin = WIN_WAIT;
@@ -211,11 +206,14 @@ endmodule: decoder
 
 module counter
 	#(parameter w = 256)
-	(input logic clk, rst, enable,
+	(input logic clk, rst, clr, enable,
 	output bit [w-1:0] count);
 
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
+			count <= 'd0;
+		end
+		else if (clr) begin
 			count <= 'd0;
 		end
 		else if (enable) begin
@@ -470,30 +468,37 @@ module register
 
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
-			dataOut = 'd0;
+			dataOut <= 'd0;
 		end
 		else if (load) begin
-			dataOut = dataIn;
+			dataOut <= dataIn;
 		end
 	end
 
 endmodule: register
 
 module priorityRegister
-	#(parameter w = 32)
-	(input bit [w-1:0] dataIn,
-	input bit		   clk, rst, load,
-	output bit [w-1:0] dataOut);
+	#(parameter w = 32,
+	parameter w2 = 9)
+	(input bit	[w-1:0] dataIn,
+	input bit	[w2-1:0] dataIn2,
+	input bit	clk, rst, load,
+	output bit	[w-1:0] dataOut,
+	output bit	[w2-1:0] dataOut2);
 
 	bit [w-1:0] data;
+	bit [w2-1:0] data2;
 	assign data = (dataIn > dataOut) ? dataIn : dataOut;
+	assign data2 = (dataIn > dataOut) ? dataIn2 : dataOut2;
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
-			dataOut = 'd0;
+			dataOut <= 'd0;
+			dataOut2 <= 'd0;
 		end
 		else if (load) begin
-			dataOut = (dataIn > dataOut) ? dataIn : dataOut;
-			dataOut = data;
+			/*dataOut = (dataIn > dataOut) ? dataIn : dataOut;*/
+			dataOut <= data;
+			dataOut2 <= data2;
 		end
 	end
 endmodule: priorityRegister
@@ -506,11 +511,10 @@ module registerLog2
 
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
-			dataOut = 'd0;
+			dataOut <= 'd0;
 		end
 		else if (load) begin
-			dataOut = dataIn;
+			dataOut <= dataIn;
 		end
 	end
-
 endmodule: registerLog2
