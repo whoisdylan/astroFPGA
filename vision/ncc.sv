@@ -1,5 +1,4 @@
 `default_nettype none
-`define NUM_WINDOWS 150
 module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
@@ -10,6 +9,7 @@ module ncc
 	output logic done_with_window_data, done_with_desc_data,
 	output bit [31:0] greatestNCC,
 	output bit [8:0] greatestWindowIndex,
+	output bit [4:-27] numLog2, denLog2,
 	output bit [31:0] accRowTotal [15:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
@@ -27,10 +27,10 @@ module ncc
 	/*bit [5:-27] descLog2_1, descLog2_2, descLog2_3, descLog2_4;*/
 	bit [5:-27] descLog2 [3:0];
 	bit [5:-27] windowLog2 [15:0] [15:0];
-	bit [4:-27] descLog2Out [255:0];
-	bit [4:-27] winLog2Out [255:0];
-	counter #(4) descRowCounter(clk, rst, .clr(), incDescRowC, descRowC);
-	counter #(2) descColCounter(clk, rst, .clr(), incDescColC, descColC);
+	bit [31:0] descLog2Out [255:0];
+	bit [31:0] winLog2Out [255:0];
+	counter #(4) descRowCounter(clk, rst, 1'b0, incDescRowC, descRowC);
+	counter #(2) descColCounter(clk, rst, 1'b0, incDescColC, descColC);
 
 	//descriptor log2 hardware
 	log2 descLog2_inst1({24'd0, desc_data_in[31:24]}, descLog2[0]);
@@ -58,21 +58,23 @@ module ncc
 				int k = j/4;
 				if (j == 0) begin
 					//set accIn = 0 for first PE in row
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn('d0), descLog2Out[j+i*16], winLog2Out[j+i*16], .accOut(accOut[j+i*15]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn('d0), .descPixelLog2Out(descLog2Out[j+i*16]), .windowPixelLog2Out(winLog2Out[j+i*16]), .accOut(accOut[j+i*15]));
 				end
 				else if (j == 'd15) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*15]), descLog2Out[j+i*16], winLog2Out[j+i*16], .accOut(accRowTotal[i]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*15]), .descPixelLog2Out(descLog2Out[j+i*16]), .windowPixelLog2Out(winLog2Out[j+i*16]), .accOut(accRowTotal[i]));
 				end
 				else begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*15]), descLog2Out[j+i*16], winLog2Out[j+i*16], .accOut(accOut[j+i*15]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*15]), .descPixelLog2Out(descLog2Out[j+i*16]), .windowPixelLog2Out(winLog2Out[j+i*16]), .accOut(accOut[j+i*15]));
 				end
 			end
 		end
 	endgenerate
 
-
 	bit [31:0] accPatchSum, correlationCoefficient;
-	bit [4:-27] descSumOfSquares, winSumOfSquares, denomLog2, numeratorLog2;
+	bit [4:-27] denomLog2, corrCoeffLog2;
+	bit [31:0] descSumOfSquares, winSumOfSquares;
+	bit [5:-27] descSumOfSquaresLog2, winSumOfSquaresLog2;
+	bit [5:-27] numeratorLog2;
 	/*bit [31:0] accTotalSum;*/
 
 	assign accPatchSum = accRowTotal[0] + accRowTotal[1] + accRowTotal[2] + accRowTotal[3] + accRowTotal[4] + accRowTotal[5] + accRowTotal[6] + accRowTotal[7] + accRowTotal[8] + accRowTotal[9] + accRowTotal[10] + accRowTotal[11] + accRowTotal[12] + accRowTotal[13] + accRowTotal[14] + accRowTotal[15];
@@ -80,26 +82,36 @@ module ncc
 
 	//compute denominator
 	//compute sum of squares for denominator
-	int rowI, colI;
 	always_comb begin
-		for (rowI = 0; rowI < 16; rowI++) begin
-			for (colI = 0; colI < 16; colI++) begin
-				descSumOfSquares += descLog2Out[rowI*'d16 + colI] << 1;
-				winSumOfSquares += winLog2Out[rowI*'d16 + colI] << 1;
+		descSumOfSquares = 0;
+		winSumOfSquares = 0;
+		for (int rowI = 0; rowI < 16; rowI++) begin
+			for (int colI = 0; colI < 16; colI++) begin
+				//$display("descVal=%b\nwinVal=%b",descLog2Out[rowI*16+colI],winLog2Out[rowI*16+colI]);
+				descSumOfSquares = descSumOfSquares + descLog2Out[rowI*16 + colI];
+				winSumOfSquares = winSumOfSquares + winLog2Out[rowI*16 + colI];
+				//$display("dsos=%b\nwsos=%b",descSumOfSquares,winSumOfSquares);
 			end
 		end
 	end
+	log2 denom_desc_log2_inst (descSumOfSquares, descSumOfSquaresLog2);
+	log2 denom_win_log2_inst (winSumOfSquares, winSumOfSquaresLog2);
 
 	//part 2 of denominator
-	assign denomLog2 = (descSumOfSquares + winSumOfSquares) >> 1;
+	assign denomLog2 = (descSumOfSquaresLog2[4:-27] + winSumOfSquaresLog2[4:-27]) >> 1;
 
-	assign corrCoeffLog2 = numeratorLog2 - denomLog2;
+	//for debugging
+	assign numLog2 = numeratorLog2[4:-27];
+	assign denLog2 = denomLog2;
+
+	assign corrCoeffLog2 = numeratorLog2[4:-27] - denomLog2;
 	ilog2 denom_ilog2_inst (corrCoeffLog2, correlationCoefficient);
 	
 	//register to store the entire patch acc total sum
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
 
 	logic loadGreatestReg, clearWinCount;
+	bit [8:0] windowCount;
 	//register to store greatest correlation coefficient and window index
 	priorityRegister #(32,9) greatestNCCReg (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, greatestNCC, greatestWindowIndex);
 	counter #(9) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
@@ -154,7 +166,7 @@ module ncc
 			WIN_LOAD: begin
 				loadGreatestReg = 1'b1;
 				done_with_window_data = 1'b1;
-				if (windowCount >= (NUM_WINDOWS-1)) begin
+				if (windowCount >= (149)) begin
 					clearWinCount = 1'b1;
 				end
 				nextStateWin = WIN_WAIT;
@@ -253,7 +265,7 @@ module processingElement
 	 output bit	[31:0]	accOut);
 	
 	bit [5:-27] windowPixelOut;
-	bit [4:-27] tempSumLog2;
+	bit [4:-27] tempSumLog2, descPixelLog2, windowPixelLog2;
 	bit [5:-27] descPixelOut;
 	bit [31:0] tempSum;
 	bit [31:0] accSum;
@@ -268,8 +280,12 @@ module processingElement
 	registerLog2 #(5) windowReg (windowPixelIn, clk, rst, loadWinReg, windowPixelOut);
 	//register for "ACCin + ltc*f
 	//register #(32) accReg (accSum, clk, rst, loadAccSumReg, accOut);
-	assign descPixelLog2Out = descPixelOut[4:-27];
-	assign windowPixelLog2Out = windowPixelOut[4:-27];
+
+	//output the ilog2 of the square of the pixels for denominator computation
+	assign descPixelLog2 = descPixelOut[4:-27] << 1;
+	assign windowPixelLog2 = windowPixelOut[4:-27] << 1;
+	ilog2 ilog2_desc_inst (descPixelLog2, descPixelLog2Out);
+	ilog2 ilog2_win_inst (windowPixelLog2, windowPixelLog2Out);
 
 	assign tempSumLog2 = descPixelOut[4:-27] + windowPixelOut[4:-27];
 	assign accOut = (descSignBit ^ windowPixelOut[5]) ?
