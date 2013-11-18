@@ -88,6 +88,7 @@ module ncc
 		for (int rowI = 0; rowI < 16; rowI++) begin
 			for (int colI = 0; colI < 16; colI++) begin
 				//$display("descVal=%b\nwinVal=%b",descPixelOut[rowI*16+colI],winPixelOut[rowI*16+colI]);
+				//$display("dval=%d\n",descPixelOut[rowI*16+colI]);
 				descSumOfSquares = descSumOfSquares + descPixelOut[rowI*16 + colI];
 				winSumOfSquares = winSumOfSquares + winPixelOut[rowI*16 + colI];
 				//$display("dsos=%b\nwsos=%b",descSumOfSquares,winSumOfSquares);
