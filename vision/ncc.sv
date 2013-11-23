@@ -7,7 +7,7 @@ module ncc
 	input bit [31:0] desc_data_in,
 	input bit [7:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
-	output bit [4:-27] greatestNCCLog2,
+	output bit [9:-54] greatestNCCLog2,
 	output bit [8:0] greatestWindowIndex,
 	output bit [31:0] accRowTotal [15:0]);
 
@@ -23,9 +23,9 @@ module ncc
 	bit [31:0] accOut [239:0];
 	bit [3:0] descRowC;
 	bit [1:0] descColC;
-	/*bit [5:-27] descLog2_1, descLog2_2, descLog2_3, descLog2_4;*/
-	bit [5:-27] descLog2 [3:0];
-	bit [5:-27] windowLog2 [15:0] [15:0];
+	/*bit [10:-54] descLog2_1, descLog2_2, descLog2_3, descLog2_4;*/
+	bit [10:-54] descLog2 [3:0];
+	bit [10:-54] windowLog2 [15:0] [15:0];
 	bit [31:0] descPixelOut [255:0];
 	bit [31:0] winPixelOut [255:0];
 	counter #(4) descRowCounter(clk, rst, 1'b0, incDescRowC, descRowC);
@@ -71,10 +71,10 @@ module ncc
 
 	bit [31:0] accPatchSum;
 	//bit [31:0] correlationCoefficient;
-	bit [4:-27] denomLog2, corrCoeffLog2;
+	bit [9:-54] denomLog2, corrCoeffLog2;
 	bit [31:0] descSumOfSquares, winSumOfSquares;
-	bit [5:-27] descSumOfSquaresLog2, winSumOfSquaresLog2;
-	bit [5:-27] numeratorLog2;
+	bit [10:-54] descSumOfSquaresLog2, winSumOfSquaresLog2;
+	bit [10:-54] numeratorLog2;
 	/*bit [31:0] accTotalSum;*/
 
 	assign accPatchSum = accRowTotal[0] + accRowTotal[1] + accRowTotal[2] + accRowTotal[3] + accRowTotal[4] + accRowTotal[5] + accRowTotal[6] + accRowTotal[7] + accRowTotal[8] + accRowTotal[9] + accRowTotal[10] + accRowTotal[11] + accRowTotal[12] + accRowTotal[13] + accRowTotal[14] + accRowTotal[15];
@@ -99,16 +99,16 @@ module ncc
 	log2 denom_win_log2_inst (winSumOfSquares, winSumOfSquaresLog2);
 
 	//part 2 of denominator
-	assign denomLog2 = (descSumOfSquaresLog2[4:-27] + winSumOfSquaresLog2[4:-27]) >> 1;
+	assign denomLog2 = (descSumOfSquaresLog2[9:-54] + winSumOfSquaresLog2[9:-54]) >> 1;
 
 	//final computation
 	always_comb begin
-		corrCoeffLog2 = numeratorLog2[4:-27] - denomLog2;
-		if (corrCoeffLog2 > numeratorLog2[4:-27]) begin
+		corrCoeffLog2 = numeratorLog2[9:-54] - denomLog2;
+		if (corrCoeffLog2 > numeratorLog2[9:-54]) begin
 			corrCoeffLog2 = 32'b1;
 		end
 	end
-	//assign corrCoeffLog2 = numeratorLog2[4:-27] - denomLog2;
+	//assign corrCoeffLog2 = numeratorLog2[9:-54] - denomLog2;
 	//ilog2 denom_ilog2_inst (corrCoeffLog2, correlationCoefficient);
 	
 	//register to store the entire patch acc total sum
@@ -260,45 +260,45 @@ module counter
 endmodule: counter
 
 module processingElement
-	(input bit	[5:-27]	descPixelLog2In,
-	 input bit	[5:-27]	windowPixelLog2In,
+	(input bit	[10:-54]	descPixelLog2In,
+	 input bit	[10:-54]	windowPixelLog2In,
 	 input bit			clk, rst, loadDescReg, loadWinReg,
 	 input bit	[31:0]	accIn,
 	 output bit [31:0] descPixelOut,
 	 output bit [31:0] windowPixelOut,
 	 output bit	[31:0]	accOut);
 	
-	bit [5:-27] descPixelLog2Out, windowPixelLog2Out;
-	bit [4:-27] tempSumLog2, descPixelLog2, windowPixelLog2;
+	bit [10:-54] descPixelLog2Out, windowPixelLog2Out;
+	bit [9:-54] tempSumLog2, descPixelLog2, windowPixelLog2;
 	bit [31:0] tempSum;
 	bit [31:0] accSum;
 	bit descSignBit;
-	assign descSignBit = descPixelLog2Out[5];
+	assign descSignBit = descPixelLog2Out[10];
 
 	ilog2 ilog2_inst (tempSumLog2, tempSum);
 
 	//register for descriptor pixel
-	registerLog2 #(5) descReg (descPixelLog2In, clk, rst, loadDescReg, descPixelLog2Out);
+	registerLog2 #(10) descReg (descPixelLog2In, clk, rst, loadDescReg, descPixelLog2Out);
 	//register for storing "LTC"
-	registerLog2 #(5) windowReg (windowPixelLog2In, clk, rst, loadWinReg, windowPixelLog2Out);
+	registerLog2 #(10) windowReg (windowPixelLog2In, clk, rst, loadWinReg, windowPixelLog2Out);
 	//register for "ACCin + ltc*f
 	//register #(32) accReg (accSum, clk, rst, loadAccSumReg, accOut);
 
 	//output the ilog2 of the square of the pixels for denominator computation
-	assign descPixelLog2 = descPixelLog2Out[4:-27] << 1;
-	assign windowPixelLog2 = windowPixelLog2Out[4:-27] << 1;
+	assign descPixelLog2 = descPixelLog2Out[9:-54] << 1;
+	assign windowPixelLog2 = windowPixelLog2Out[9:-54] << 1;
 	ilog2 ilog2_desc_inst (descPixelLog2, descPixelOut);
 	ilog2 ilog2_win_inst (windowPixelLog2, windowPixelOut);
 
-	assign tempSumLog2 = descPixelLog2Out[4:-27] + windowPixelLog2Out[4:-27];
-	assign accOut = (descSignBit ^ windowPixelLog2Out[5]) ?
+	assign tempSumLog2 = descPixelLog2Out[9:-54] + windowPixelLog2Out[9:-54];
+	assign accOut = (descSignBit ^ windowPixelLog2Out[10]) ?
 					(accIn - tempSum) : (accIn + tempSum);
 
 endmodule: processingElement
 
 module log2
 	(input bit [31:0] dataIn,
-	output bit [5:-27] dataOut);
+	output bit [10:-54] dataOut);
 
 	bit [31:0] fraction;
 
@@ -306,118 +306,117 @@ module log2
 	findFirstOne #(32) firstOneFinder(dataIn, oneIndex);
 	
 	assign fraction = dataIn << (32-oneIndex);
-	assign dataOut = {dataIn[31], oneIndex, fraction[31:5]};
+	assign dataOut = {dataIn[31], 5'd0, oneIndex, fraction, 22'd0};
 
 endmodule: log2
 
 module ilog2
-	(input bit [4:-27] dataIn,
+	(input bit [9:-54] dataIn,
 	output bit [31:0] dataOut);
-	bit [4:0] oneIndex;
 	always_comb begin
-		dataOut = 32'd1 << dataIn[4:0];
-		unique case (dataIn[4:0])
-			5'd0: begin
+		dataOut = 32'd1 << dataIn[9:0];
+		unique case (dataIn[9:0])
+			10'd0: begin
 			end
-			5'd1: begin
+			10'd1: begin
 				dataOut[0] = dataIn[-1];
 			end
-			5'd2: begin
+			10'd2: begin
 				dataOut[1:0] = dataIn[-1:-2];
 			end
-			5'd3: begin
+			10'd3: begin
 				dataOut[2:0] = dataIn[-1:-3];
 			end
-			5'd4: begin
+			10'd4: begin
 				dataOut[3:0] = dataIn[-1:-4];
 			end
-			5'd5: begin
+			10'd5: begin
 				dataOut[4:0] = dataIn[-1:-5];
 			end
-			5'd6: begin
+			10'd6: begin
 				dataOut[5:0] = dataIn[-1:-6];
 			end
-			5'd7: begin
+			10'd7: begin
 				dataOut[6:0] = dataIn[-1:-7];
 			end
-			5'd8: begin
+			10'd8: begin
 				dataOut[7:0] = dataIn[-1:-8];
 			end
-			5'd9: begin
+			10'd9: begin
 				dataOut[8:0] = dataIn[-1:-9];
 			end
-			5'd10: begin
+			10'd10: begin
 				dataOut[9:0] = dataIn[-1:-10];
 			end
-			5'd11: begin
+			10'd11: begin
 				dataOut[10:0] = dataIn[-1:-11];
 			end
-			5'd12: begin
+			10'd12: begin
 				dataOut[11:0] = dataIn[-1:-12];
 			end
-			5'd13: begin
+			10'd13: begin
 				dataOut[12:0] = dataIn[-1:-13];
 			end
-			5'd14: begin
+			10'd14: begin
 				dataOut[13:0] = dataIn[-1:-14];
 			end
-			5'd15: begin
+			10'd15: begin
 				dataOut[14:0] = dataIn[-1:-15];
 			end
-			5'd16: begin
+			10'd16: begin
 				dataOut[15:0] = dataIn[-1:-16];
 			end
-			5'd17: begin
+			10'd17: begin
 				dataOut[16:0] = dataIn[-1:-17];
 			end
-			5'd18: begin
+			10'd18: begin
 				dataOut[17:0] = dataIn[-1:-18];
 			end
-			5'd19: begin
+			10'd19: begin
 				dataOut[18:0] = dataIn[-1:-19];
 			end
-			5'd20: begin
+			10'd20: begin
 				dataOut[19:0] = dataIn[-1:-20];
 			end
-			5'd21: begin
+			10'd21: begin
 				dataOut[20:0] = dataIn[-1:-21];
 			end
-			5'd22: begin
+			10'd22: begin
 				dataOut[21:0] = dataIn[-1:-22];
 			end
-			5'd23: begin
+			10'd23: begin
 				dataOut[22:0] = dataIn[-1:-23];
 			end
-			5'd24: begin
+			10'd24: begin
 				dataOut[23:0] = dataIn[-1:-24];
 			end
-			5'd25: begin
+			10'd25: begin
 				dataOut[24:0] = dataIn[-1:-25];
 			end
-			5'd26: begin
+			10'd26: begin
 				dataOut[25:0] = dataIn[-1:-26];
 			end
-			5'd27: begin
+			10'd27: begin
 				dataOut[26:0] = dataIn[-1:-27];
 			end
-			5'd28: begin
-				dataOut[27:0] = {dataIn[-1:-27], 1'd0};
+			10'd28: begin
+				dataOut[27:0] = {dataIn[-1:-28]};
 			end
-			5'd29: begin
-				dataOut[28:0] = {dataIn[-1:-27], 2'd0};
+			10'd29: begin
+				dataOut[28:0] = {dataIn[-1:-29]};
 			end
-			5'd30: begin
-				dataOut[29:0] = {dataIn[-1:-27], 3'd0};
+			10'd30: begin
+				dataOut[29:0] = {dataIn[-1:-30]};
 			end
-			5'd31: begin
-				dataOut[30:0] = {dataIn[-1:-27], 4'd0};
+			10'd31: begin
+				dataOut[30:0] = {dataIn[-1:-31]};
 			end
 		endcase
 	end
 endmodule: ilog2
 
 /*module ilog2*/
-/*	(input bit [4:-27] dataIn,*/
+/*	(input bit [9:-54] dataIn,*/
 /*	output bit [31:0] dataOut);*/
 /*	always_comb begin*/
 /*		dataOut = 32'd1 << dataIn[4:0];*/
@@ -523,13 +522,13 @@ endmodule: register
 
 module priorityRegister
 	#(parameter w2 = 9)
-	(input bit	[4:-27] dataIn,
+	(input bit	[9:-54] dataIn,
 	input bit	[w2-1:0] dataIn2,
 	input bit	clk, rst, load,
-	output bit	[4:-27] dataOut,
+	output bit	[9:-54] dataOut,
 	output bit	[w2-1:0] dataOut2);
 
-	bit [4:-27] data;
+	bit [9:-54] data;
 	bit [w2-1:0] data2;
 	assign data = (dataIn > dataOut) ? dataIn : dataOut;
 	assign data2 = (dataIn > dataOut) ? dataIn2 : dataOut2;
@@ -547,10 +546,10 @@ module priorityRegister
 endmodule: priorityRegister
 
 module registerLog2
-	#(parameter w = 5)
-	(input bit	[w:-27]	dataIn,
+	#(parameter w = 10)
+	(input bit	[w:-54]	dataIn,
 	 input bit			clk, rst, load,
-	 output bit	[w:-27] dataOut);
+	 output bit	[w:-54] dataOut);
 
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
