@@ -101,7 +101,14 @@ module ncc
 	//part 2 of denominator
 	assign denomLog2 = (descSumOfSquaresLog2[4:-27] + winSumOfSquaresLog2[4:-27]) >> 1;
 
-	assign corrCoeffLog2 = numeratorLog2[4:-27] - denomLog2;
+	//final computation
+	always_comb begin
+		corrCoeffLog2 = numeratorLog2[4:-27] - denomLog2;
+		if (corrCoeffLog2 > numeratorLog2[4:-27]) begin
+			corrCoeffLog2 = 32'b1;
+		end
+	end
+	//assign corrCoeffLog2 = numeratorLog2[4:-27] - denomLog2;
 	//ilog2 denom_ilog2_inst (corrCoeffLog2, correlationCoefficient);
 	
 	//register to store the entire patch acc total sum
