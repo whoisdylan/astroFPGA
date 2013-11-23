@@ -7,7 +7,7 @@ module ncc
 	input bit [31:0] desc_data_in,
 	input bit [7:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
-	output bit [31:0] greatestNCC,
+	output bit [4:-27] greatestNCCLog2,
 	output bit [8:0] greatestWindowIndex,
 	output bit [4:-27] numLog2, denLog2,
 	output bit [31:0] accRowTotal [15:0]);
@@ -70,7 +70,8 @@ module ncc
 		end
 	endgenerate
 
-	bit [31:0] accPatchSum, correlationCoefficient;
+	bit [31:0] accPatchSum;
+	//bit [31:0] correlationCoefficient;
 	bit [4:-27] denomLog2, corrCoeffLog2;
 	bit [31:0] descSumOfSquares, winSumOfSquares;
 	bit [5:-27] descSumOfSquaresLog2, winSumOfSquaresLog2;
@@ -106,7 +107,7 @@ module ncc
 	assign denLog2 = denomLog2;
 
 	assign corrCoeffLog2 = numeratorLog2[4:-27] - denomLog2;
-	ilog2 denom_ilog2_inst (corrCoeffLog2, correlationCoefficient);
+	//ilog2 denom_ilog2_inst (corrCoeffLog2, correlationCoefficient);
 	
 	//register to store the entire patch acc total sum
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
@@ -114,7 +115,7 @@ module ncc
 	logic loadGreatestReg, clearWinCount;
 	bit [8:0] windowCount;
 	//register to store greatest correlation coefficient and window index
-	priorityRegister #(32,9) greatestNCCReg (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, greatestNCC, greatestWindowIndex);
+	priorityRegister #(9) greatestNCCReg (corrCoeffLog2, windowCount, clk, rst, loadGreatestReg, greatestNCCLog2, greatestWindowIndex);
 	counter #(9) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
 
 	//descriptor loading fsm
@@ -519,15 +520,14 @@ module register
 endmodule: register
 
 module priorityRegister
-	#(parameter w = 32,
-	parameter w2 = 9)
-	(input bit	[w-1:0] dataIn,
+	#(parameter w2 = 9)
+	(input bit	[4:-27] dataIn,
 	input bit	[w2-1:0] dataIn2,
 	input bit	clk, rst, load,
-	output bit	[w-1:0] dataOut,
+	output bit	[4:-27] dataOut,
 	output bit	[w2-1:0] dataOut2);
 
-	bit [w-1:0] data;
+	bit [4:-27] data;
 	bit [w2-1:0] data2;
 	assign data = (dataIn > dataOut) ? dataIn : dataOut;
 	assign data2 = (dataIn > dataOut) ? dataIn2 : dataOut2;
