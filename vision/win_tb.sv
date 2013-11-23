@@ -4,20 +4,20 @@ module tb();
 	logic clk, rst, desc_data_ready, window_data_ready, done_with_window_data, done_with_desc_data;
 	bit [31:0] descIn;
 	bit [7:0] windowIn [15:0] [15:0];
-	bit [31:0] greatestNCC;
+	bit [4:-27] greatestNCC;
 	bit [8:0] greatestWinIndex;
 	bit [31:0] accRowTotal [15:0];
 	bit [31:0] num, denom;
 
 	ncc ncc_inst(clk, rst, window_data_ready, desc_data_ready, descIn, windowIn, 
-		done_with_window_data, done_with_desc_data, greatestNCC, greatestWinIndex, num, denom, accRowTotal);
+		done_with_window_data, done_with_desc_data, greatestNCC, greatestWinIndex, accRowTotal);
 
 	initial begin
 		clk = 0;
 		forever #5 clk = ~clk;
 	end
 	initial begin
-		$monitor($stime,,"********************************************************************************\nart1=%d, art15=%d, art16=%d, numTot=%d, greatestNCC=%d, winIndex=%d\nnum=%b, denom=%b\ndsos=%d, wsos=%d", accRowTotal[0], accRowTotal[14], accRowTotal[15], ncc.accPatchSum, greatestNCC, greatestWinIndex, num, denom, ncc.descSumOfSquares, ncc.winSumOfSquares);
+		$monitor($stime,,"********************************************************************************\nart1=%d, art15=%d, art16=%d, numTot=%d, greatestNCC=%b, winIndex=%d\nnum=%b, denom=%b\ndsos=%d, wsos=%d", accRowTotal[0], accRowTotal[14], accRowTotal[15], ncc.accPatchSum, greatestNCC, greatestWinIndex, ncc.numeratorLog2[4:-27], ncc.denomLog2, ncc.descSumOfSquares, ncc.winSumOfSquares);
 		descIn[31:24] = 8'd3;
 		descIn[23:16] = 8'd4;
 		descIn[15:8] = 8'd5;
@@ -37,12 +37,6 @@ module tb();
 		window_data_ready = 1'b1;
 		@(posedge clk)
 		window_data_ready = 1'b0;
-		@(posedge clk)
-		@(posedge clk)
-		@(posedge clk)
-		@(posedge clk)
-		@(posedge clk)
-		@(posedge clk)
 		@(posedge clk)
 		@(posedge clk)
 		$finish;
