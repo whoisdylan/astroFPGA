@@ -1,0 +1,6 @@
+To get a compare your numerator and denominator, run the following commands:
+
+>> numerator_comparison(feature, window)
+>> denominator_comparison(feature, window)
+
+where feature and window are the same size
