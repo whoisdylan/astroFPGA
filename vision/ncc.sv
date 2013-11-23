@@ -7,7 +7,8 @@ module ncc
 	input bit [31:0] desc_data_in,
 	input bit [7:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
-	output bit [31:0] greatestNCC,
+	output bit [4:-27] greatestNCCLog2,
+	output bit [8:0] greatestWindowIndex,
 	output bit [31:0] accRowTotal [15:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
@@ -25,8 +26,10 @@ module ncc
 	/*bit [5:-27] descLog2_1, descLog2_2, descLog2_3, descLog2_4;*/
 	bit [5:-27] descLog2 [3:0];
 	bit [5:-27] windowLog2 [15:0] [15:0];
-	counter #(4) descRowCounter(clk, rst, incDescRowC, descRowC);
-	counter #(2) descColCounter(clk, rst, incDescColC, descColC);
+	bit [31:0] descPixelOut [255:0];
+	bit [31:0] winPixelOut [255:0];
+	counter #(4) descRowCounter(clk, rst, 1'b0, incDescRowC, descRowC);
+	counter #(2) descColCounter(clk, rst, 1'b0, incDescColC, descColC);
 
 	//descriptor log2 hardware
 	log2 descLog2_inst1({24'd0, desc_data_in[31:24]}, descLog2[0]);
@@ -54,43 +57,68 @@ module ncc
 				int k = j/4;
 				if (j == 0) begin
 					//set accIn = 0 for first PE in row
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn('d0), .accOut(accOut[j+i*15]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelLog2In(descLog2[j%4]), .windowPixelLog2In(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn('d0), .descPixelOut(descPixelOut[j+i*16]), .windowPixelOut(winPixelOut[j+i*16]), .accOut(accOut[j+i*15]));
 				end
 				else if (j == 'd15) begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*15]), .accOut(accRowTotal[i]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelLog2In(descLog2[j%4]), .windowPixelLog2In(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*15]), .descPixelOut(descPixelOut[j+i*16]), .windowPixelOut(winPixelOut[j+i*16]), .accOut(accRowTotal[i]));
 				end
 				else begin
-					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2[j%4]), .windowPixelIn(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*15]), .accOut(accOut[j+i*15]));
+					processingElement PE_inst(.clk(clk), .rst(rst), .descPixelLog2In(descLog2[j%4]), .windowPixelLog2In(windowLog2[i][j]), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*15]), .descPixelOut(descPixelOut[j+i*16]), .windowPixelOut(winPixelOut[j+i*16]), .accOut(accOut[j+i*15]));
 				end
-				/*else if (j%4 == 0) begin*/
-				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_1), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
-				/*end*/
-				/*else if (j%4 == 1) begin*/
-				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_2), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
-				/*end*/
-				/*else if (j%4 == 2) begin*/
-				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_3), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));*/
-				/*end*/
-				/*else if (j%4 == 3) begin*/
-				/*	processingElement PE_inst(.clk(clk), .rst(rst), .descPixelIn(descLog2_4), .windowPixelIn(windowIn), .loadDescReg(loadColGroup[k]&loadRow[i]&loadDescNow), .loadWinReg(loadWinReg), .accIn(accOut[j-1+i*16]), .accOut(accOut[j+i*16]));
-				end*/
 			end
 		end
 	endgenerate
 
-
 	bit [31:0] accPatchSum;
+	//bit [31:0] correlationCoefficient;
+	bit [4:-27] denomLog2, corrCoeffLog2;
+	bit [31:0] descSumOfSquares, winSumOfSquares;
+	bit [5:-27] descSumOfSquaresLog2, winSumOfSquaresLog2;
+	bit [5:-27] numeratorLog2;
 	/*bit [31:0] accTotalSum;*/
 
 	assign accPatchSum = accRowTotal[0] + accRowTotal[1] + accRowTotal[2] + accRowTotal[3] + accRowTotal[4] + accRowTotal[5] + accRowTotal[6] + accRowTotal[7] + accRowTotal[8] + accRowTotal[9] + accRowTotal[10] + accRowTotal[11] + accRowTotal[12] + accRowTotal[13] + accRowTotal[14] + accRowTotal[15];
+	log2 num_log2_inst (accPatchSum, numeratorLog2);
+
+	//compute denominator
+	//compute sum of squares for denominator
+	always_comb begin
+		descSumOfSquares = 0;
+		winSumOfSquares = 0;
+		for (int rowI = 0; rowI < 16; rowI++) begin
+			for (int colI = 0; colI < 16; colI++) begin
+				//$display("descVal=%b\nwinVal=%b",descPixelOut[rowI*16+colI],winPixelOut[rowI*16+colI]);
+				//$display("dval=%d\n",descPixelOut[rowI*16+colI]);
+				descSumOfSquares = descSumOfSquares + descPixelOut[rowI*16 + colI];
+				winSumOfSquares = winSumOfSquares + winPixelOut[rowI*16 + colI];
+				//$display("dsos=%b\nwsos=%b",descSumOfSquares,winSumOfSquares);
+			end
+		end
+	end
+	log2 denom_desc_log2_inst (descSumOfSquares, descSumOfSquaresLog2);
+	log2 denom_win_log2_inst (winSumOfSquares, winSumOfSquaresLog2);
+
+	//part 2 of denominator
+	assign denomLog2 = (descSumOfSquaresLog2[4:-27] + winSumOfSquaresLog2[4:-27]) >> 1;
+
+	//final computation
+	always_comb begin
+		corrCoeffLog2 = numeratorLog2[4:-27] - denomLog2;
+		if (corrCoeffLog2 > numeratorLog2[4:-27]) begin
+			corrCoeffLog2 = 32'b1;
+		end
+	end
+	//assign corrCoeffLog2 = numeratorLog2[4:-27] - denomLog2;
+	//ilog2 denom_ilog2_inst (corrCoeffLog2, correlationCoefficient);
 	
 	//register to store the entire patch acc total sum
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
 
-	// TODO: CHANGE TO NUM/DENOM, NOT JUST NUM
-	logic loadGreatestReg;
-	//register to store greatest NCC value
-	priorityRegister #(32) greatestNCCReg (accPatchSum, clk, rst, loadGreatestReg, greatestNCC);
+	logic loadGreatestReg, clearWinCount;
+	bit [8:0] windowCount;
+	//register to store greatest correlation coefficient and window index
+	priorityRegister #(9) greatestNCCReg (corrCoeffLog2, windowCount, clk, rst, loadGreatestReg, greatestNCCLog2, greatestWindowIndex);
+	counter #(9) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
 
 	//descriptor loading fsm
 	always_comb begin
@@ -128,6 +156,7 @@ module ncc
 		done_with_window_data = 1'b0;
 		loadWinReg = 1'b0;
 		loadGreatestReg = 1'b0;
+		clearWinCount = 1'b0;
 		case (currStateWin)
 			WIN_WAIT: begin
 				if (window_data_ready) begin
@@ -141,6 +170,9 @@ module ncc
 			WIN_LOAD: begin
 				loadGreatestReg = 1'b1;
 				done_with_window_data = 1'b1;
+				if (windowCount >= (149)) begin
+					clearWinCount = 1'b1;
+				end
 				nextStateWin = WIN_WAIT;
 			end
 			default: nextStateWin = WIN_WAIT;
@@ -211,11 +243,14 @@ endmodule: decoder
 
 module counter
 	#(parameter w = 256)
-	(input logic clk, rst, enable,
+	(input logic clk, rst, clr, enable,
 	output bit [w-1:0] count);
 
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
+			count <= 'd0;
+		end
+		else if (clr) begin
 			count <= 'd0;
 		end
 		else if (enable) begin
@@ -225,31 +260,38 @@ module counter
 endmodule: counter
 
 module processingElement
-	(input bit	[5:-27]	descPixelIn,
-	 input bit	[5:-27]	windowPixelIn,
+	(input bit	[5:-27]	descPixelLog2In,
+	 input bit	[5:-27]	windowPixelLog2In,
 	 input bit			clk, rst, loadDescReg, loadWinReg,
 	 input bit	[31:0]	accIn,
+	 output bit [31:0] descPixelOut,
+	 output bit [31:0] windowPixelOut,
 	 output bit	[31:0]	accOut);
 	
-	bit [5:-27] windowPixelOut;
-	bit [4:-27] tempSumLog2;
-	bit [5:-27] descPixelOut;
+	bit [5:-27] descPixelLog2Out, windowPixelLog2Out;
+	bit [4:-27] tempSumLog2, descPixelLog2, windowPixelLog2;
 	bit [31:0] tempSum;
 	bit [31:0] accSum;
 	bit descSignBit;
-	assign descSignBit = descPixelOut[5];
+	assign descSignBit = descPixelLog2Out[5];
 
 	ilog2 ilog2_inst (tempSumLog2, tempSum);
 
 	//register for descriptor pixel
-	registerLog2 #(5) descReg (descPixelIn, clk, rst, loadDescReg, descPixelOut);
+	registerLog2 #(5) descReg (descPixelLog2In, clk, rst, loadDescReg, descPixelLog2Out);
 	//register for storing "LTC"
-	registerLog2 #(5) windowReg (windowPixelIn, clk, rst, loadWinReg, windowPixelOut);
+	registerLog2 #(5) windowReg (windowPixelLog2In, clk, rst, loadWinReg, windowPixelLog2Out);
 	//register for "ACCin + ltc*f
 	//register #(32) accReg (accSum, clk, rst, loadAccSumReg, accOut);
 
-	assign tempSumLog2 = descPixelOut[4:-27] + windowPixelOut[4:-27];
-	assign accOut = (descSignBit ^ windowPixelOut[5]) ?
+	//output the ilog2 of the square of the pixels for denominator computation
+	assign descPixelLog2 = descPixelLog2Out[4:-27] << 1;
+	assign windowPixelLog2 = windowPixelLog2Out[4:-27] << 1;
+	ilog2 ilog2_desc_inst (descPixelLog2, descPixelOut);
+	ilog2 ilog2_win_inst (windowPixelLog2, windowPixelOut);
+
+	assign tempSumLog2 = descPixelLog2Out[4:-27] + windowPixelLog2Out[4:-27];
+	assign accOut = (descSignBit ^ windowPixelLog2Out[5]) ?
 					(accIn - tempSum) : (accIn + tempSum);
 
 endmodule: processingElement
@@ -470,30 +512,36 @@ module register
 
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
-			dataOut = 'd0;
+			dataOut <= 'd0;
 		end
 		else if (load) begin
-			dataOut = dataIn;
+			dataOut <= dataIn;
 		end
 	end
 
 endmodule: register
 
 module priorityRegister
-	#(parameter w = 32)
-	(input bit [w-1:0] dataIn,
-	input bit		   clk, rst, load,
-	output bit [w-1:0] dataOut);
+	#(parameter w2 = 9)
+	(input bit	[4:-27] dataIn,
+	input bit	[w2-1:0] dataIn2,
+	input bit	clk, rst, load,
+	output bit	[4:-27] dataOut,
+	output bit	[w2-1:0] dataOut2);
 
-	bit [w-1:0] data;
+	bit [4:-27] data;
+	bit [w2-1:0] data2;
 	assign data = (dataIn > dataOut) ? dataIn : dataOut;
+	assign data2 = (dataIn > dataOut) ? dataIn2 : dataOut2;
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
-			dataOut = 'd0;
+			dataOut <= 'd0;
+			dataOut2 <= 'd0;
 		end
 		else if (load) begin
-			dataOut = (dataIn > dataOut) ? dataIn : dataOut;
-			dataOut = data;
+			/*dataOut = (dataIn > dataOut) ? dataIn : dataOut;*/
+			dataOut <= data;
+			dataOut2 <= data2;
 		end
 	end
 endmodule: priorityRegister
@@ -506,11 +554,10 @@ module registerLog2
 
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
-			dataOut = 'd0;
+			dataOut <= 'd0;
 		end
 		else if (load) begin
-			dataOut = dataIn;
+			dataOut <= dataIn;
 		end
 	end
-
 endmodule: registerLog2
