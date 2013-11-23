@@ -9,7 +9,6 @@ module ncc
 	output logic done_with_window_data, done_with_desc_data,
 	output bit [4:-27] greatestNCCLog2,
 	output bit [8:0] greatestWindowIndex,
-	output bit [4:-27] numLog2, denLog2,
 	output bit [31:0] accRowTotal [15:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
@@ -101,10 +100,6 @@ module ncc
 
 	//part 2 of denominator
 	assign denomLog2 = (descSumOfSquaresLog2[4:-27] + winSumOfSquaresLog2[4:-27]) >> 1;
-
-	//for debugging
-	assign numLog2 = numeratorLog2[4:-27];
-	assign denLog2 = denomLog2;
 
 	assign corrCoeffLog2 = numeratorLog2[4:-27] - denomLog2;
 	//ilog2 denom_ilog2_inst (corrCoeffLog2, correlationCoefficient);
