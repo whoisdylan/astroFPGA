@@ -33,17 +33,18 @@ module user_FPGA_format( clk, rst_n, req, rd_wr, write_data,in_data,
 		logic			window_ack;
 		logic			window_receive;					// 1 indicate it can accept the next data.
 		logic			template_receive;				//
+		logic 			result_ready;					// computation result is ready.
 		
 		logic			data_ready;						// signal to Dylan
 		logic [7:0][15:0][15:0] window_data;			// 16x16 bytes for a patch.
-		logic [7:0]		set_count, set_count_new		// count how many sets have been done.
+		logic [7:0]		set_count, set_count_new;		// count how many sets have been done.
 		
-template_handler (.clk(clk),.rst_n(rst_n),.template_data(template_data), .template_ready(template_ready),
+template_handler do_temp(.clk(clk),.rst_n(rst_n),.template_data(template_data), .template_ready(template_ready),
 					.en(activate_template), .input_data(read_data), .row(template_row), .col(template_col),
 					.done(template_done), .ack(template_ack), .receive(template_receive)
 					);
 
-window_handler ( .clk(clk),.rst_n(rst_n),. window_data(window_data), .window_ready(window_ready),
+window_handler do_wind( .clk(clk),.rst_n(rst_n),. window_data(window_data), .window_ready(window_ready),
 				.en(activate_window),. input_data(read_data), .row(window_row),.col(window_col),
 				.done(window_done), .ack(window_ack), .receive(window_receive)
 				);
@@ -60,7 +61,6 @@ window_handler ( .clk(clk),.rst_n(rst_n),. window_data(window_data), .window_rea
 		col = 32'b0;
 		tem_win =1'b0;
 		req = 1'b0;
-		
 		case(cs)
 		INIT: begin
 			set_count_new = 8'b0;
@@ -99,7 +99,7 @@ window_handler ( .clk(clk),.rst_n(rst_n),. window_data(window_data), .window_rea
 		end
 		WIND: begin
 			if(window_done) begin
-				set_count_new = (window_done)? set_count + 8'b1; set_count;
+				set_count_new = (window_done)? set_count + 8'b1: set_count;
 				ns = WRIT;				 		//go to write back result.
 			end
 			else begin
@@ -108,9 +108,10 @@ window_handler ( .clk(clk),.rst_n(rst_n),. window_data(window_data), .window_rea
 				col = window_col;				//
 				tem_win = 1'b1;					// select template format
 				req = 1'b1;
+		      end
 		end
 		WRIT: begin // write operation here.
-			if()begin // dylan wants to write back.
+			if(result_ready)begin // dylan wants to write back.
 			
 				ns = (set_count == 8'd149)? DONE: WRIT; // finishes 150 sets?
 			end
@@ -122,8 +123,8 @@ window_handler ( .clk(clk),.rst_n(rst_n),. window_data(window_data), .window_rea
 			set_done = 1'b1;				//finish a frame.
 			ns = INIT;
 		end
-		
-	end
+		endcase
+end
 	
 	always_ff @(posedge clk, negedge rst_n) begin
 		if(~rst_n) begin

@@ -39,6 +39,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 		load = 1'b0;
 		row = store_row;
 		col = store_col;
+		done = 1'b0;
 		case(cs)
 			INIT0: begin
 				if(en) begin
@@ -46,14 +47,16 @@ module window_handler (clk,rst_n,window_data,window_ready,
 					row = 'd0;
 					col = 'd0;
 					load =1'b1;
-					row_offset_new = 'd0;
+					row_offset = 'd0;
+					window_offset = 'd0;
+					window_slider = 'd0;
 					
 				end
 				else begin
 				end
 			end
 			SETUP: begin
-					if(store_row == 'd15 && store_col == `d3)begin // first patch finished.
+					if(store_row == 'd15 && store_col == 'd3)begin // first patch finished.
 						load = 1'b1;
 						window_ready = 1'b1;// first patch is ready, 
 						window_offset = 'd0;// Dylan can load it.
@@ -63,7 +66,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 						col_mem = col;
 						ns = SHIFT;
 					end
-					else if(store_col == `d3) begin // hit the end of the column,
+					else if(store_col =='d3) begin // hit the end of the column,
 						load = 1'b1;				// move down a row.
 						window_offset = 'd0;
 						row = store_row +'d0;
@@ -101,7 +104,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 					window_slider = 'd3; //	doing it once here.
 					window_offet = store_window_offset +'d1;
 					window_ready = 1'b1; // signal Dylan once
-					
+				end	
 				else begin // within bound, keep going
 					load = 1'b1;
 					row = store_row+'d1;
@@ -110,7 +113,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 					col_mem = col;
 					ns = SHIFT;
 					if(store_window_slider !='d0) begin // keep sliding, until hit 0.
-						window_offset = store_window_offset+`d1;
+						window_offset = store_window_offset+'d1;
 						window_slider = store_window_slider -'d1;
 						window_ready = 1'b1;
 					end
@@ -118,7 +121,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 			end
 			EMPTY: begin // mindlessly shift out 3 windows.
 				if(store_window_slider !='d0) begin // keep sliding, until hit 0.
-					window_offset = store_window_offset+`d1;
+					window_offset = store_window_offset+'d1;
 					window_slider = store_window_slider -'d1;
 					window_ready = 1'b1;
 					ns = EMPTY;
@@ -130,7 +133,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 					new_row = 1'b1; 		//activate new row
 					row = store_row +'d1;	// store the new data into the last row.
 					col = 'd0;				// start at column 0.
-					row_mem = 'd16;			// 17th row.
+					row_mem = 'd15;			// 17th row.
 					col_mem = 'd0;			//
 				end
 			end
@@ -138,29 +141,70 @@ module window_handler (clk,rst_n,window_data,window_ready,
 						  // move on to RSHIFT after done.
 					if(store_col == 'd3) begin // complete loading of 4 chunks
 						// start shifting out window.
-					
-					
-					end
-					else begin // keep loading in the 4 chunks.
+						load = 1'b1; //keep loading
+						window_ready = 1'b1;
+						window_offset = 'd0;
 						
-						row = 
-						col = 
-						row_mem = 'd16;
+						// load in the next 4 column.
+						row = store_row;
+						col = store_col +'d1;
+						row_mem = 'd15;
 						col_mem = col;
-						
+						ns = RSHIFT;
+					end
+					else begin // keep loading in the other 3 chunks.
+						load = 1'b1;
+						row = store_row; 
+						col = store_col +'d1;
+						row_mem = 'd15;
+						col_mem = col;
+						ns = NXTROW;
 					end
 			
 			
 			end
-			RSHIFT: begin
-			
+			RSHIFT: begin // first 4 column sets are in. load in the rest
+						  // and keep shifting window
+				if(store_col == 'd19 && store_window_offset == 'd63)begin
+						if(store_row == 'd79) begin // last row
+							load = 1'b0;
+							ns = INIT0;
+							done =1'b1;
+							
+						end
+						else begin // move to next row if not on last row
+							load = 1'b1;
+							ns = NXTROW;
+							new_row = 1'b1; 		//activate new row
+							row = store_row +'d1;	// store the new data into the last row.
+							col = 'd0;				// start at column 0.
+							row_mem = 'd15;			// 17th row.
+							col_mem = 'd0;			//
+						end
+				end
+				else if(store_col == 'd19) begin	// finish loading in all the column.
+					load =1'b0;
+					row = store_row;
+					col = store_col;
+					row_mem = 'd15;
+					col_mem = col;
+					
+					// keep doing the window
+					window_offset = store_window_offset +'d1;		//increment.
+					window_ready = 1'b1;
+				end
+				else begin					// keep loading in next chunk
+					load = 1'b1;
+					row = store_row;
+					col = store_col;
+					row_mem = 'd15;
+					col_mem = col;
+					window_offset = store_window_offset + 'd1;
+					window_ready = 1'b1;
+				end
 			end
+		endcase
 	end
-	
-	
-	
-	
-	
 	always_ff@(posedge clk, negedge rst_n) begin
 		if(~rst_n) begin
 			cs <= INIT0;

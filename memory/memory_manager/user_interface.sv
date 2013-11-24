@@ -31,17 +31,22 @@ module user_FPGA_test(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	logic 	[31:0]	user_write_data;	// data to write to memory.
 	logic			set_done;	// complete a set.
 	
+	logic [6:0]		row,col;
+	logic			tem_win;
+	logic			frame, store_frame; 		// 0 or 1.
+	
 	// deal with endianess
 	assign user_rd_data = {rd_data[7:0], rd_data[15:8],rd_data[23:16], rd_data[31:24]};
 	assign {write_data[7:0], write_data[15:8], write_data[23:16], write_data[31:24]} = user_write_data;
 	
-	// dummy place holder
-	assign req = 1'b0;
-	assign rd_wr =1'b0;
-	assign user_req_addr =21'b0;
-	assign user_wrte_data = 32'b0;
-	assign set_done = 1'b0;
-	//
+	
+user_FPGA_format chop( clk, rst_n, req, rd_wr, user_write_data,user_rd_data,
+ set_done, row, col, tem_win, ready_2_start);
+
+address_translator translator(row, col, tem_win, frame, 
+							user_req_addr);
+	
+	
 	
 	enum {INIT, WAIT, READ, WRITE, DONE} cs,ns;
     	
@@ -61,6 +66,12 @@ module user_FPGA_test(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
     					    flag_we = 1'b1;
     						req_addr = 21'b0;
     						ns = WAIT;
+							if(store_frame == 'd0) begin
+								frame = 'd1;
+							end
+							else begin
+								frame = 'd0;
+							end
     				    end
     				else begin
     				    ns = INIT;
@@ -106,9 +117,11 @@ module user_FPGA_test(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
     	always_ff@(posedge clk, negedge rst_n)begin
     		if(~rst_n)begin
     			cs <= INIT;
+				store_frame <= 'd1;
     		end
     		else begin
     			cs <= ns;
+				store_frame <= frame;
     		end
     	end
     endmodule: user_FPGA_test
