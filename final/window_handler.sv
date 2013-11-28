@@ -7,7 +7,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 	input logic			en;				//enable this module
 	input logic			receive;		//Dylan says he got it.
 					
-	output logic [31:0]	window_data;	//template data.
+	output logic [15:0][15:0][7:0]		window_data;	//template data.
 	output logic 		window_ready; 	// tell Dylan data is valid.
 	output logic [6:0]	row, col;
 	output logic		done;			// signal to indicate finish.
@@ -50,6 +50,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 					row_offset = 'd0;
 					window_offset = 'd0;
 					window_slider = 'd0;
+					ns = SETUP;
 					
 				end
 				else begin
@@ -69,7 +70,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 					else if(store_col =='d3) begin // hit the end of the column,
 						load = 1'b1;				// move down a row.
 						window_offset = 'd0;
-						row = store_row +'d0;
+						row = store_row +'d1;
 						col = 'd1;
 						row_mem = row;
 						col_mem = col;
@@ -196,7 +197,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 				else begin					// keep loading in next chunk
 					load = 1'b1;
 					row = store_row;
-					col = store_col;
+					col = store_col+'d1;
 					row_mem = 'd15;
 					col_mem = col;
 					window_offset = store_window_offset + 'd1;
@@ -212,6 +213,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 			store_row <= 'd0;
 			store_col <= 'd0;
 			store_window_slider <= 'd0;
+			store_window_offset <= 'd0;
 		end
 		else begin
 			cs <= ns;
@@ -219,6 +221,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 			store_row <= row;
 			store_col <= col;
 			store_window_slider <= window_slider;
+			store_window_offset <= window_offset;
 		end
 	end
 endmodule: window_handler

@@ -18,21 +18,35 @@ module systemTest;
 
 	int i;
     
-    user_FPGA_test uft (.*);
+    user_FPGA_format uft (.*);
 
 	initial begin
 
         $display("hello world");
-		$monitor($stime,, "clk=%d, rst_n=%d, req=%d, rd_wr=%d, write_data=%d, read_data=%d, set_done=%d, row=%d, col=%d, tem_win=%d,ready_2_start=%d, greatestNCCLog2=%d, greatestWindowIndex=%d", clk, rst_n, req, rd_wr, write_data, read_data, set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex);
+/*
+$monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%d, window_data=%h", clk,rst_n,uft.cs,uft.do_wind.cs ,uft.do_wind.store_col, uft.do_wind.store_row, uft.window_data);
+*/
+/*
+		$monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s store_col =%d store_row=%d, input =%d", clk,rst_n,uft.cs,uft.do_wind.cs,uft.do_wind.store_col, uft.do_wind.store_row, uft.do_wind.format_space.input_data);
+*/
+/*
+		$monitor($stime,, "clk=%d, rstn=%d, cs=%s template_data =%d do_temp_cs = %s", clk,rst_n,uft.cs, uft.template_data,uft.do_temp.cs);
+*/
 
+/*
+		$monitor($stime,, "clk=%d, rstn=%d, cs=%s, window_data_ready =%b, desc_data_ready =%b, desc_data_in =%d", clk,rst_n, uft.cs, uft.window_ready, uft.template_ready,uft.template_data);
+*/
+
+		$monitor($stime,, "clk=%d, rst_n=%d, req=%d, rd_wr=%d, write_data=%d, read_data=%d, set_done=%d, row=%d, col=%d, tem_win=%d,ready_2_start=%d, greatestNCCLog2=%d, greatestWindowIndex=%d", clk, rst_n, req, rd_wr, write_data, read_data, set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex);
+	
 		clk = 0;
         rst_n = 0;
         rst_n <= #1 1;
-		repeat (2000) #5 clk = ~clk;
+		forever  #5 clk =~clk;
 	end
 	
 	initial begin
-		for (i = 0; i<1000; i++) begin
+		for (i = 0; i<4700; i++) begin
             if (~set_done) begin
                 read_data = row*col%256;
                 ready_2_start = 1;
@@ -43,6 +57,7 @@ module systemTest;
             end
 			@(posedge clk);
 		end
+		$stop;
 	end
 	
 endmodule: systemTest

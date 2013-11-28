@@ -31,8 +31,7 @@ module user_FPGA_format( clk, rst_n, req, rd_wr, write_data, read_data,
 
 		logic 			activate_template;				//enable signal
 		logic			activate_window;				//
-		logic			template_data_ready;			//
-		logic			window_data_ready;				//
+		logic			template_ready;					//	
 		logic			template_ack;
 		logic			window_ack;
 		logic			window_receive;					// 1 indicate it can accept the next data.
@@ -40,14 +39,24 @@ module user_FPGA_format( clk, rst_n, req, rd_wr, write_data, read_data,
 		logic 			result_ready;					// computation result is ready.
 		
 		logic			data_ready;						// signal to Dylan
-		logic [7:0][15:0][15:0] window_data;			// 16x16 bytes for a patch.
+		logic [15:0][15:0][7:0] window_data;			// 16x16 bytes for a patch.
 		logic [7:0]		set_count, set_count_new;		// count how many sets have been done.
 
         logic [31:0] accRowTotal [15:0];
-		
-ncc ncci(.clk(clk), .rst(~rst_n), .window_data_ready(window_data_ready), .desc_data_ready(template_data_ready),
-                .desc_data_in(template_data), .window_data_in(window_data),
-                .done_with_window_data(window_done), .done_with_desc_data(template_done), 
+		logic [7:0]		Dylan [15:0][15:0];	
+
+always_comb begin
+	int i,j;
+	for(i = 0; i<15; i = i+1)begin
+		for(j = 0; j < 15; j = j+1)begin
+			Dylan[i][j] = window_data[i][j];
+		end
+	end
+end
+
+ncc ncci(.clk(clk), .rst(~rst_n), .window_data_ready(window_ready), .desc_data_ready(template_ready),
+                .desc_data_in(template_data), .window_data_in(Dylan),
+                .done_with_window_data(result_ready), .done_with_desc_data(), 
                 .greatestNCCLog2(greatestNCCLog2), 
                 .greatestWindowIndex(greatestWindowIndex),
                 .accRowTotal(accRowTotal)

@@ -14,10 +14,10 @@ module window_holder ( clk, rst_n, input_data, window_offset,
 	input logic	[6:0]		window_offset;		// which 16x16 window to output.
 	
 	
-	output logic [7:0][15:0][15:0] window_data;		//output patch.
+	output logic [15:0][15:0][7:0] window_data;		//output patch.
 	
-	logic [7:0][79:0][15:0]			store_data;		// 80x80 stored data.
-	logic [7:0][79:0][15:0]			store_data_new;	//format to store new data.
+	logic [15:0][79:0][7:0]			store_data;		// 80x80 stored data.
+	logic [15:0][79:0][7:0]			store_data_new;	//format to store new data.
 	
 	int i,j;
 	always_comb begin // data loading logic
@@ -45,11 +45,11 @@ module window_holder ( clk, rst_n, input_data, window_offset,
 			
 		end
 	end
-	
+int	k,m;	
 	always_comb begin // output 16x16 logic.
-		for( i = 0; i <16; i++)begin
-			for( j = 0; j<16; j++) begin
-				window_data[i][j]= store_data[i][window_offset+j];
+		for( k = 0; k <16; k++)begin
+			for( m = 0; m<16; m++) begin
+				window_data[k][m]= store_data[k][window_offset+m];
 			end
 		end
 	end

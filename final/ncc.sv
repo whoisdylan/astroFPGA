@@ -5,7 +5,7 @@ module ncc
 	 parameter windowSize = 640)
 	(input logic clk, rst, window_data_ready, desc_data_ready,
 	input bit [31:0] desc_data_in,
-	input bit [7:0] window_data_in [15:0] [15:0],
+	input bit [7:0] window_data_in[15:0][15:0],
 	output logic done_with_window_data, done_with_desc_data,
 	output bit [9:-54] greatestNCCLog2,
 	output bit [8:0] greatestWindowIndex,
