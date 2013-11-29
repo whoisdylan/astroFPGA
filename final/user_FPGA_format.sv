@@ -134,13 +134,25 @@ window_handler do_wind( .clk(clk),.rst_n(rst_n),. window_data(window_data), .win
 		      end
 		end
 		WRIT: begin // write operation here.
-			if(result_ready)begin // dylan wants to write back.
-			
-				ns = (set_count == 8'd149)? DONE: WRIT; // finishes 150 sets?
+			//if(result_ready)begin // dylan wants to write back.
+				if(set_count == 8'd149)begin
+					ns = DONE;
+					set_count_new = 'd0;
+				end
+				else begin
+				ns = TEMP;
+				activate_template = 1'b1;		//activate template handler, get address ready.
+				row = template_row;				//
+				col = template_col;				// 
+				tem_win = 1'b0;					// select template format.
+				req = 1'b1;						// want to use memory
+				end
+				/*
 			end
 			else begin
 				ns = WRIT;
 			end
+			*/
 		end
 		DONE: begin// signal the finish of a frame.
 			set_done = 1'b1;				//finish a frame.

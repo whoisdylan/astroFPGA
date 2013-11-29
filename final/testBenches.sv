@@ -20,6 +20,17 @@ module systemTest;
     
     user_FPGA_format uft (.*);
 
+
+	/*class Rand_seed;
+	rand integer Var;
+	function new (int seed);
+	srandom(seed);
+	$display("Seed is initialized to %0d", seed);
+	endfunction
+
+	Rand_seed rs;*/
+
+
 	initial begin
 
         $display("hello world");
@@ -37,8 +48,8 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 		$monitor($stime,, "clk=%d, rstn=%d, cs=%s, window_data_ready =%b, desc_data_ready =%b, desc_data_in =%d", clk,rst_n, uft.cs, uft.window_ready, uft.template_ready,uft.template_data);
 */
 
-		$monitor($stime,, "clk=%d, rst_n=%d, req=%d, rd_wr=%d, write_data=%d, read_data=%d, set_done=%d, row=%d, col=%d, tem_win=%d,ready_2_start=%d, greatestNCCLog2=%d, greatestWindowIndex=%d", clk, rst_n, req, rd_wr, write_data, read_data, set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex);
-	
+		$monitor($stime,, "clk=%d, rst_n=%d, req=%d, rd_wr=%d, write_data=%d, read_data=%d, set_done=%d, row=%d, col=%d, tem_win=%d,ready_2_start=%d, greatestNCCLog2=%b, greatestWindowIndex=%d", clk, rst_n, req, rd_wr, write_data, read_data, set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex);
+		
 		clk = 0;
         rst_n = 0;
         rst_n <= #1 1;
@@ -46,9 +57,13 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 	end
 	
 	initial begin
-		for (i = 0; i<4700; i++) begin
+		//rs = new(20);
+		for (i = 0; i<10000; i++) begin
             if (~set_done) begin
-                read_data = row*col%256;
+                read_data =$random(read_data);
+				//$display(read_data);
+				//$display(i);
+				//if(uft.result_ready =='d1) $display($time,," %d", uft.result_ready);
                 ready_2_start = 1;
             end
             else begin
