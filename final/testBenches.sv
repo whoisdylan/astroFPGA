@@ -46,7 +46,7 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 	end
 	
 	initial begin
-		for (i = 0; i<4700; i++) begin
+		for (i = 0; i<10000; i++) begin
             if (~set_done) begin
                 read_data = row*col%256;
                 ready_2_start = 1;
