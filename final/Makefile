@@ -6,6 +6,12 @@ DFLAGS=-sverilog -debug_all
 all: user_FPGA_format.sv address_translator.sv user_FPGA_test.sv window_handler.sv window_holder.sv ncc.sv template_handler.sv testBenches.sv
 	$(CC) $(CFLAGS) user_FPGA_format.sv address_translator.sv user_FPGA_test.sv window_handler.sv window_holder.sv ncc.sv template_handler.sv testBenches.sv
 
+dylan: ncc.sv win_tb.sv
+	$(CC) $(CFLAGS) ncc.sv win_tb.sv
+
+gun: gun_tb.sv user_FPGA_format.sv
+	$(CC) $(CFLAGS)
+
 
 clean:
 	rm -rf simv
