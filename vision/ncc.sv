@@ -4,12 +4,12 @@ module ncc
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
 	(input logic clk, rst, window_data_ready, desc_data_ready,
-	input bit [31:0] desc_data_in,
-	input bit [7:0] window_data_in [15:0] [15:0],
+	input bit [35:0] desc_data_in,
+	input bit signed [8:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
 	output bit [9:-54] greatestNCCLog2,
 	output bit [8:0] greatestWindowIndex,
-	output bit [31:0] accRowTotal [15:0]);
+	output bit signed [31:0] accRowTotal [15:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	enum logic {WIN_WAIT, WIN_LOAD} currStateWin, nextStateWin;
@@ -20,7 +20,7 @@ module ncc
 	logic loadDescNow, loadWinReg;
 	logic [15:0] loadRow;
 	logic [3:0] loadColGroup;
-	bit [31:0] accOut [239:0];
+	bit signed [31:0] accOut [239:0];
 	bit [3:0] descRowC;
 	bit [1:0] descColC;
 	/*bit [10:-54] descLog2_1, descLog2_2, descLog2_3, descLog2_4;*/
@@ -32,10 +32,10 @@ module ncc
 	counter #(2) descColCounter(clk, rst, 1'b0, incDescColC, descColC);
 
 	//descriptor log2 hardware
-	log2 descLog2_inst1({24'd0, desc_data_in[31:24]}, descLog2[0]);
-	log2 descLog2_inst2({24'd0, desc_data_in[23:16]}, descLog2[1]);
-	log2 descLog2_inst3({24'd0, desc_data_in[15:8]}, descLog2[2]);
-	log2 descLog2_inst4({24'd0, desc_data_in[7:0]}, descLog2[3]);
+	log2 descLog2_inst1({23{desc_data_in[35]}, desc_data_in[35:27]}, descLog2[0]);
+	log2 descLog2_inst2({23{desc_data_in[26]}, desc_data_in[26:18]}, descLog2[1]);
+	log2 descLog2_inst3({23{desc_data_in[17]}, desc_data_in[17:9]}, descLog2[2]);
+	log2 descLog2_inst4({23{desc_data_in[8]}, desc_data_in[8:0]}, descLog2[3]);
 
 	decoder #(4) desc_decoder_col(descColC, loadColGroup);
 	decoder #(16) desc_decoder_row(descRowC, loadRow);
@@ -45,7 +45,7 @@ module ncc
 	generate
 		for (i = 0; i < 16; i++) begin
 			for (j = 0; j < 16; j++) begin
-				log2 windowLog2_inst({24'd0, window_data_in[i][j]}, windowLog2[i][j]);
+				log2 windowLog2_inst({23{window_data_in[i][j][8], window_data_in[i][j]}, windowLog2[i][j]);
 			end
 		end
 	endgenerate
@@ -263,17 +263,17 @@ module processingElement
 	(input bit	[10:-54]	descPixelLog2In,
 	 input bit	[10:-54]	windowPixelLog2In,
 	 input bit			clk, rst, loadDescReg, loadWinReg,
-	 input bit	[31:0]	accIn,
-	 output bit [31:0] descPixelOut,
-	 output bit [31:0] windowPixelOut,
-	 output bit	[31:0]	accOut);
+	 input bit signed [31:0] accIn,
+	 output bit signed [31:0] descPixelOut,
+	 output bit signed [31:0] windowPixelOut,
+	 output bit	signed [31:0] accOut);
 	
 	bit [10:-54] descPixelLog2Out, windowPixelLog2Out;
 	bit [9:-54] tempSumLog2, descPixelLog2, windowPixelLog2;
 	bit [31:0] tempSum;
-	bit [31:0] accSum;
-	bit descSignBit;
+	bit descSignBit, winSignBit;
 	assign descSignBit = descPixelLog2Out[10];
+	assign winSignBit = windowPixelLog2Out[10];
 
 	ilog2 ilog2_inst (tempSumLog2, tempSum);
 
@@ -291,125 +291,231 @@ module processingElement
 	ilog2 ilog2_win_inst (windowPixelLog2, windowPixelOut);
 
 	assign tempSumLog2 = descPixelLog2Out[9:-54] + windowPixelLog2Out[9:-54];
-	assign accOut = (descSignBit ^ windowPixelLog2Out[10]) ?
-					(accIn - tempSum) : (accIn + tempSum);
+	assign accOut = (descSignBit ^ winSignBit) ? (accIn - signed'tempSum) : (accIn + signed'tempSum);
 
 endmodule: processingElement
 
 module log2
-	(input bit [31:0] dataIn,
+	(input bit signed [31:0] dataIn,
 	output bit [10:-54] dataOut);
 
 	bit [31:0] fraction;
-
+	bit signed [31:0] dataInAbs;
+	bit dataInSign
 	bit [4:0] oneIndex;
-	findFirstOne #(32) firstOneFinder(dataIn, oneIndex);
+
+	absoluteValue #(32) absVal_inst(dataIn, dataInAbs, dataInSign)
+	findFirstOne #(32) firstOneFinder(dataInAbs, oneIndex);
 	
-	assign fraction = dataIn << (32-oneIndex);
-	assign dataOut = {dataIn[31], 5'd0, oneIndex, fraction, 22'd0};
+	assign fraction = dataInAbs << (32-oneIndex);
+	assign dataOut = {dataInSign, 5'd0, oneIndex, fraction, 22'd0};
 
 endmodule: log2
 
 module ilog2
-	(input bit [9:-54] dataIn,
-	output bit [31:0] dataOut);
+	(input bit signed [10:-54] dataIn,
+	output bit signed [31:-32] dataOut);
+	bit signed [10:0] oneIndex;
 	always_comb begin
-		dataOut = 32'd1 << dataIn[9:0];
-		unique case (dataIn[9:0])
-			10'd0: begin
+		/*oneIndex = signed'dataIn[10:0];*/
+		/*dataOut = {32'd1, 32'd0};*/
+		/*dataOut = dataOut << oneIndex;*/
+		if (dataIn[10] == 1'b1) begin
+			oneIndex = (~dataIn[10:0]) + 1;
+		end
+		else begin
+			oneIndex = dataIn[10:0];
+		end
+		dataOut = {32'd1, 32'd0} << oneIndex;
+		/*dataOut = 32'd1 << signed'dataIn[10:0];*/
+		unique case (signed'dataIn[10:0])
+			10'sd0: begin
 			end
-			10'd1: begin
-				dataOut[0] = dataIn[-1];
+			10'sd1: begin
+				dataOut[0:-32] = dataIn[-1:-33];
 			end
-			10'd2: begin
-				dataOut[1:0] = dataIn[-1:-2];
+			10'sd2: begin
+				dataOut[1:-32] = dataIn[-1:-34];
 			end
-			10'd3: begin
-				dataOut[2:0] = dataIn[-1:-3];
+			10'sd3: begin
+				dataOut[2:-32] = dataIn[-1:-35];
 			end
-			10'd4: begin
-				dataOut[3:0] = dataIn[-1:-4];
+			10'sd4: begin
+				dataOut[3:-32] = dataIn[-1:-36];
 			end
-			10'd5: begin
-				dataOut[4:0] = dataIn[-1:-5];
+			10'sd5: begin
+				dataOut[4:-32] = dataIn[-1:-37];
 			end
-			10'd6: begin
-				dataOut[5:0] = dataIn[-1:-6];
+			10'sd6: begin
+				dataOut[5:-32] = dataIn[-1:-38];
 			end
-			10'd7: begin
-				dataOut[6:0] = dataIn[-1:-7];
+			10'sd7: begin
+				dataOut[6:-32] = dataIn[-1:-39];
 			end
-			10'd8: begin
-				dataOut[7:0] = dataIn[-1:-8];
+			10'sd8: begin
+				dataOut[7:-32] = dataIn[-1:-40];
 			end
-			10'd9: begin
-				dataOut[8:0] = dataIn[-1:-9];
+			10'sd9: begin
+				dataOut[8:-32] = dataIn[-1:-41];
 			end
-			10'd10: begin
-				dataOut[9:0] = dataIn[-1:-10];
+			10'sd10: begin
+				dataOut[9:-32] = dataIn[-1:-42];
 			end
-			10'd11: begin
-				dataOut[10:0] = dataIn[-1:-11];
+			10'sd11: begin
+				dataOut[10:-32] = dataIn[-1:-43];
 			end
-			10'd12: begin
-				dataOut[11:0] = dataIn[-1:-12];
+			10'sd12: begin
+				dataOut[11:-32] = dataIn[-1:-44];
 			end
-			10'd13: begin
-				dataOut[12:0] = dataIn[-1:-13];
+			10'sd13: begin
+				dataOut[12:-32] = dataIn[-1:-45];
 			end
-			10'd14: begin
-				dataOut[13:0] = dataIn[-1:-14];
+			10'sd14: begin
+				dataOut[13:-32] = dataIn[-1:-46];
 			end
-			10'd15: begin
-				dataOut[14:0] = dataIn[-1:-15];
+			10'sd15: begin
+				dataOut[14:-32] = dataIn[-1:-47];
 			end
-			10'd16: begin
-				dataOut[15:0] = dataIn[-1:-16];
+			10'sd16: begin
+				dataOut[15:-32] = dataIn[-1:-48];
 			end
-			10'd17: begin
-				dataOut[16:0] = dataIn[-1:-17];
+			10'sd17: begin
+				dataOut[16:-32] = dataIn[-1:-49];
 			end
-			10'd18: begin
-				dataOut[17:0] = dataIn[-1:-18];
+			10'sd18: begin
+				dataOut[17:-32] = dataIn[-1:-50];
 			end
-			10'd19: begin
-				dataOut[18:0] = dataIn[-1:-19];
+			10'sd19: begin
+				dataOut[18:-32] = dataIn[-1:-51];
 			end
-			10'd20: begin
-				dataOut[19:0] = dataIn[-1:-20];
+			10'sd20: begin
+				dataOut[19:-32] = dataIn[-1:-52];
 			end
-			10'd21: begin
-				dataOut[20:0] = dataIn[-1:-21];
+			10'sd21: begin
+				dataOut[20:-32] = dataIn[-1:-53];
 			end
-			10'd22: begin
-				dataOut[21:0] = dataIn[-1:-22];
+			10'sd22: begin
+				dataOut[21:-32] = dataIn[-1:-54];
 			end
-			10'd23: begin
-				dataOut[22:0] = dataIn[-1:-23];
+			10'sd23: begin
+				dataOut[22:-32] = {dataIn[-1:-54], 1'd0};
 			end
-			10'd24: begin
-				dataOut[23:0] = dataIn[-1:-24];
+			10'sd24: begin
+				dataOut[23:-32] = {dataIn[-1:-54], 2'd0};
 			end
-			10'd25: begin
-				dataOut[24:0] = dataIn[-1:-25];
+			10'sd25: begin
+				dataOut[24:-32] = {dataIn[-1:-54], 3'd0};
 			end
-			10'd26: begin
-				dataOut[25:0] = dataIn[-1:-26];
+			10'sd26: begin
+				dataOut[25:-32] = {dataIn[-1:-54], 4'd0};
 			end
-			10'd27: begin
-				dataOut[26:0] = dataIn[-1:-27];
+			10'sd27: begin
+				dataOut[26:-32] = {dataIn[-1:-54], 5'd0};
 			end
-			10'd28: begin
-				dataOut[27:0] = {dataIn[-1:-28]};
+			10'sd28: begin
+				dataOut[27:-32] = {dataIn[-1:-54], 6'd0};
 			end
-			10'd29: begin
-				dataOut[28:0] = {dataIn[-1:-29]};
+			10'sd29: begin
+				dataOut[28:-32] = {dataIn[-1:-54], 7'd0};
 			end
-			10'd30: begin
-				dataOut[29:0] = {dataIn[-1:-30]};
+			10'sd30: begin
+				dataOut[29:-32] = {dataIn[-1:-54], 8'd0};
 			end
-			10'd31: begin
-				dataOut[30:0] = {dataIn[-1:-31]};
+			10'sd31: begin
+				dataOut[30:-32] = {dataIn[-1:-54], 9'd0};
+			end
+			10'sd-1: begin
+				dataOut[-2:-32] = dataIn[-1:-31];
+			end
+			10'sd-2: begin
+				dataOut[-3:-32] = dataIn[-1:-30];
+			end
+			10'sd-3: begin
+				dataOut[-4:-32] = dataIn[-1:-29];
+			end
+			10'sd-4: begin
+				dataOut[-5:-32] = dataIn[-1:-28];
+			end
+			10'sd-5: begin
+				dataOut[-6:-32] = dataIn[-1:-27];
+			end
+			10'sd-6: begin
+				dataOut[-7:-32] = dataIn[-1:-26];
+			end
+			10'sd-7: begin
+				dataOut[-8:-32] = dataIn[-1:-25];
+			end
+			10'sd-8: begin
+				dataOut[-9:-32] = dataIn[-1:-24];
+			end
+			10'sd-9: begin
+				dataOut[-10:-32] = dataIn[-1:-23];
+			end
+			10'sd-10: begin
+				dataOut[-11:-32] = dataIn[-1:-22];
+			end
+			10'sd-11: begin
+				dataOut[-12:-32] = dataIn[-1:-21];
+			end
+			10'sd-12: begin
+				dataOut[-13:-32] = dataIn[-1:-20];
+			end
+			10'sd-13: begin
+				dataOut[-14:-32] = dataIn[-1:-19];
+			end
+			10'sd-14: begin
+				dataOut[-15:-32] = dataIn[-1:-18];
+			end
+			10'sd-15: begin
+				dataOut[-16:-32] = dataIn[-1:-17];
+			end
+			10'sd-16: begin
+				dataOut[-17:-32] = dataIn[-1:-16];
+			end
+			10'sd-17: begin
+				dataOut[-18:-32] = dataIn[-1:-15];
+			end
+			10'sd-18: begin
+				dataOut[-19:-32] = dataIn[-1:-14];
+			end
+			10'sd-19: begin
+				dataOut[-20:-32] = dataIn[-1:-13];
+			end
+			10'sd-20: begin
+				dataOut[-21:-32] = dataIn[-1:-12];
+			end
+			10'sd-21: begin
+				dataOut[-22:-32] = dataIn[-1:-11];
+			end
+			10'sd-22: begin
+				dataOut[-23:-32] = dataIn[-1:-10];
+			end
+			10'sd-23: begin
+				dataOut[-24:-32] = dataIn[-1:-9];
+			end
+			10'sd-24: begin
+				dataOut[-25:-32] = dataIn[-1:-8];
+			end
+			10'sd-25: begin
+				dataOut[-26:-32] = dataIn[-1:-7];
+			end
+			10'sd-26: begin
+				dataOut[-27:-32] = dataIn[-1:-6];
+			end
+			10'sd-27: begin
+				dataOut[-28:-32] = dataIn[-1:-5];
+			end
+			10'sd-28: begin
+				dataOut[-29:-32] = dataIn[-1:-4];
+			end
+			10'sd-29: begin
+				dataOut[-30:-32] = dataIn[-1:-3];
+			end
+			10'sd-30: begin
+				dataOut[-31:-32] = dataIn[-1:-2];
+			end
+			10'sd-31: begin
+				dataOut[-32] = dataIn[-1];
 			end
 		endcase
 	end
@@ -494,12 +600,13 @@ module findFirstOne
 endmodule: findFirstOne
 
 module absoluteValue
-	(input bit [31:0] dataIn,
-	output bit [31:0] dataOut,
+	#(parameter signBit = 32)
+	(input bit signed [31:0] dataIn,
+	output bit signed [31:0] dataOut,
 	output bit dataSign);
 
-	assign dataSign = dataIn[31];
-	assign dataOut = (dataIn[31]) ? ~dataIn + 1 : dataIn;
+	assign dataSign = dataIn[signBit-1];
+	assign dataOut = (dataSign) ? ~dataIn + 1 : dataIn;
 
 endmodule: absoluteValue
 
