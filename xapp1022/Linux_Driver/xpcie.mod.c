@@ -23,6 +23,7 @@ __attribute__((section("__versions"))) = {
 	{ 0x69a358a6, "iomem_resource" },
 	{ 0xd691cba2, "malloc_sizes" },
 	{ 0xfa0d49c7, "__register_chrdev" },
+	{ 0x5252f304, "__memcpy_toio" },
 	{ 0xea147363, "printk" },
 	{ 0xbfbcb10f, "pci_find_device" },
 	{ 0x85f8a266, "copy_to_user" },
@@ -32,10 +33,10 @@ __attribute__((section("__versions"))) = {
 	{ 0x42c8de35, "ioremap_nocache" },
 	{ 0xc5aa6d66, "pci_bus_read_config_dword" },
 	{ 0x7c61340c, "__release_region" },
+	{ 0xf666cbb3, "__memcpy_fromio" },
 	{ 0x2044fa9e, "kmem_cache_alloc_trace" },
 	{ 0xe52947e7, "__phys_addr" },
 	{ 0x37a0cba, "kfree" },
-	{ 0x236c8c64, "memcpy" },
 	{ 0xedc03953, "iounmap" },
 	{ 0x3f1899f1, "up" },
 	{ 0xa12add91, "pci_enable_device" },
@@ -50,7 +51,7 @@ __attribute__((section(".modinfo"))) =
 "depends=";
 
 
-MODULE_INFO(srcversion, "888CA8729CBF171B8EA1A50");
+MODULE_INFO(srcversion, "E84A199E6FD4D3D683D2479");
 
 static const struct rheldata _rheldata __used
 __attribute__((section(".rheldata"))) = {

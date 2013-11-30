@@ -39,7 +39,7 @@ module user_FPGA_test(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	assign req = 1'b0;
 	assign rd_wr =1'b0;
 	assign user_req_addr =21'b0;
-	assign user_wrte_data = 32'b0;
+	assign user_write_data = 32'b0;
 	assign set_done = 1'b0;
 	//
 	
@@ -96,7 +96,7 @@ module user_FPGA_test(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 				
 				DONE: begin
 					ready_2_start =1'b0;
-					req_addr = {2'b00,19'h7FFFFE};
+					req_addr = {2'b00,19'h7FFFE};
     				flag_we = 1'b1;
     				out_flag = 32'h0000_0004;
 					ns = INIT;

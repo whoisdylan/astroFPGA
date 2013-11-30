@@ -1,5 +1,5 @@
 
-module user_FPGA_test(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
+module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 					write_data,req_addr, pci_input_data, pci_req_addr, pci_wr_en,
 					in_flag, flag_we, out_flag);
 	
@@ -34,7 +34,9 @@ module user_FPGA_test(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	logic [6:0]		row,col;
 	logic			tem_win;
 	logic			frame, store_frame; 		// 0 or 1.
-	
+	logic [9:-54]	greatestNCCLog2;
+	logic [8:0]		greatestWindowIndex;
+
 	// deal with endianess
 	assign user_rd_data = {rd_data[7:0], rd_data[15:8],rd_data[23:16], rd_data[31:24]};
 	assign {write_data[7:0], write_data[15:8], write_data[23:16], write_data[31:24]} = user_write_data;
@@ -43,8 +45,7 @@ module user_FPGA_test(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 user_FPGA_format chop( clk, rst_n, req, rd_wr, user_write_data,user_rd_data,
  set_done, row, col, tem_win, ready_2_start);
 
-address_translator translator(row, col, tem_win, frame, 
-							user_req_addr);
+address_translator translator(row, col, tem_win,user_req_addr);
 	
 	
 	
