@@ -24,7 +24,7 @@ int g_devFile = -1;
 
 //#define NUM_ROWS    1000000
 //#define NUM_COLS    524288
-#define NUM_ROWS    100
+#define NUM_ROWS    10000
 #define NUM_COLS    249750//524288
 #define TIMER
 #define DDEBUG
@@ -113,28 +113,25 @@ int main()
         //getline(inputFile, line);
         for(i=0; i< NUM_COLS; i++) {
             //ss >> gWriteData->data[0];
-            gWriteData->data[i]=i+1;
+            gWriteData->data[i]=0;
         }
         WriteData((char*) gWriteData, 4*NUM_COLS, offset);
 		flag = 1;
 		*instruction = 0x00000100;
-
 		set_instruction(instruction);
-		
+
 		while(flag == 1){
 			get_instruction(instruction);
-			//printf("instruction = %x\n", *instruction);
-			if(*instruction == 0x04000000){
+	//		printf("instruction = %x\n", *instruction);
+			if((*instruction & 0xFFFF0000) == 0x04000000){
 				flag =0;
 			}
 		}
-	
 
-
-        ReadData((char *) gReadData, 4*NUM_COLS, offset);
+        ReadData((char *) gReadData, 3*150, offset);
 		*instruction = 0x00000000;
 		set_instruction(instruction);
-/*
+/*		
         for(i=0; i<NUM_COLS; i++) {
 			//printf("read value at [%d] is %x\n", i, gReadData->data[i]);
             if (gReadData->data[i] != gWriteData->data[i]+1)

@@ -1,7 +1,0 @@
-make -C /lib/modules/2.6.32-358.18.1.el6.x86_64/build M=/afs/ece.cmu.edu/usr/gcharnma/Private/astroFPGA/astroDriver modules
-make[1]: Entering directory `/usr/src/kernels/2.6.32-358.18.1.el6.x86_64'
-  Building modules, stage 2.
-  MODPOST 1 modules
-make[1]: Leaving directory `/usr/src/kernels/2.6.32-358.18.1.el6.x86_64'
-g++ test2.cpp -o test 
-crw-r--r--. 1 root root 240, 1 Nov  8 23:50 /dev/xpcie
