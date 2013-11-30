@@ -10,7 +10,7 @@ dylan: ncc.sv win_tb.sv
 	$(CC) $(CFLAGS) ncc.sv win_tb.sv
 
 gun: gun_tb.sv user_FPGA_format.sv
-	$(CC) $(CFLAGS)
+	$(CC) $(CFLAGS) tbUserInterface.sv user_interface.sv user_FPGA_format.sv address_translator.sv user_FPGA_test.sv window_handler.sv window_holder.sv ncc.sv template_handler.sv average.sv 
 
 
 clean:

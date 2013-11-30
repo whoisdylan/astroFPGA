@@ -1,7 +1,7 @@
 
 module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 					write_data,req_addr, pci_input_data, pci_req_addr, pci_wr_en,
-					in_flag, flag_we, out_flag);
+					in_flag, flag_we, out_flag, greatestNCCLog2, greatestWindowIndex);
 	
 	input logic			 clk, rst_n;
 	input logic [31:0] 	 rd_data;
@@ -18,6 +18,8 @@ module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	output  logic [20:0] req_addr;
 	output  logic 	 	 FPGA_wr_en;
 	
+	output logic [9:-54] greatestNCCLog2;
+	output logic [8:0]	 greatestWindowIndex;
 	//testing signals.
 	
 	// to user.
@@ -34,8 +36,7 @@ module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	logic [6:0]		row,col;
 	logic			tem_win;
 	logic			frame, store_frame; 		// 0 or 1.
-	logic [9:-54]	greatestNCCLog2;
-	logic [8:0]		greatestWindowIndex;
+	logic [7:0]		set;
 
 	// deal with endianess
 	assign user_rd_data = {rd_data[7:0], rd_data[15:8],rd_data[23:16], rd_data[31:24]};
@@ -43,9 +44,9 @@ module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	
 	
 user_FPGA_format chop( clk, rst_n, req, rd_wr, user_write_data,user_rd_data,
- set_done, row, col, tem_win, ready_2_start);
+ set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex, set);
 
-address_translator translator(row, col, tem_win,user_req_addr);
+address_translator translator(row, col, tem_win,set,user_req_addr);
 	
 	
 	
@@ -62,7 +63,7 @@ address_translator translator(row, col, tem_win,user_req_addr);
     		case(cs)
     			INIT:begin // waiting for data transfer to complete, keep reading flag.
     			// there's a write operation to the flag area. find out the instruction.
-    				if((pci_req_addr == {2'b00,19'h7FFFE})&& pci_wr_en && (pci_input_data == 32'h0001_0000)) begin
+    				if(in_flag == 32'h0001_0000) begin
     					    out_flag = 32'h0000_0002;
     					    flag_we = 1'b1;
     						req_addr = 21'b0;
@@ -108,7 +109,7 @@ address_translator translator(row, col, tem_win,user_req_addr);
 				
 				DONE: begin
 					ready_2_start =1'b0;
-					req_addr = {2'b00,19'h7FFFFE};
+					req_addr = {2'b00,19'h7FFFE};
     				flag_we = 1'b1;
     				out_flag = 32'h0000_0004;
 					ns = INIT;
@@ -125,4 +126,4 @@ address_translator translator(row, col, tem_win,user_req_addr);
 				store_frame <= frame;
     		end
     	end
-    endmodule: user_FPGA_test
+    endmodule: user_interface
