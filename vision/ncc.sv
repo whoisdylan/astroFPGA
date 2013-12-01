@@ -733,6 +733,8 @@ module absoluteValueFP
 	(input bit signed [31:-32] dataIn,
 	output bit signed [31:-32] dataOut);
 
+	bit dataSign;
+
 	assign dataSign = dataIn[signBit-1];
 	assign dataOut = (dataSign) ? ~dataIn + 1 : dataIn;
 
