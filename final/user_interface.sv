@@ -37,6 +37,9 @@ module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	logic			tem_win;
 	logic			frame, store_frame; 		// 0 or 1.
 	logic [7:0]		set;
+	logic [20:0]	user_rd_req_addr;
+	logic [20:0]	user_wr_req_addr;
+	logic [1:0]		wr_index;
 
 	// deal with endianess
 	assign user_rd_data = {rd_data[7:0], rd_data[15:8],rd_data[23:16], rd_data[31:24]};
@@ -44,11 +47,12 @@ module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	
 	
 user_FPGA_format chop( clk, rst_n, req, rd_wr, user_write_data,user_rd_data,
- set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex, set);
+ set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex, set,wr_index);
 
-address_translator translator(row, col, tem_win,set,user_req_addr);
+address_translator translator(row, col, tem_win,set,user_rd_req_addr);
 	
-	
+assign user_req_addr = (rd_wr)? user_wr_req_addr: user_rd_req_addr;
+assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //set *4
 	
 	enum {INIT, WAIT, READ, WRITE, DONE} cs,ns;
     	

@@ -1,5 +1,5 @@
 psSimBaseName                      	simv
-pDaiDir                            	/afs/ece.cmu.edu/usr/gcharnma/Private/astroFPGA/final/simv.daidir
+pDaiDir                            	/afs/ece.cmu.edu/usr/gcharnma/Private/18-545/astroFPGA/final/simv.daidir
 destPath                           	csrc/
 hsMainFileCount                    	0
 hsMainFileName                     	dummy

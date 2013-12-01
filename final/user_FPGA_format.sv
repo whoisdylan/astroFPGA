@@ -1,6 +1,6 @@
 module user_FPGA_format( clk, rst_n, req, rd_wr, write_data, read_data,
  set_done, row, col, tem_win, ready_2_start, greatestNCCLog2,
- greatestWindowIndex,set);
+ greatestWindowIndex,set, wr_index);
 
 
 		input logic			clk, rst_n; // standard signals.
@@ -16,8 +16,9 @@ module user_FPGA_format( clk, rst_n, req, rd_wr, write_data, read_data,
 		output logic[6:0]	row,col;	// 7 bits information of which row, col.
         output logic[9:-54] greatestNCCLog2;
         output logic[8:0] greatestWindowIndex;
-		output logic [7:0]	set;	
-		
+		output logic[7:0]	set;	
+		output logic[1:0]	wr_index;
+
 		logic [31:0]	template_data;  // template data to send to Dylan
 		logic 			template_ready; // ready signal saying data line is valid
 		//logic			tem_win;		// switch to determine which address to get.
@@ -41,7 +42,8 @@ module user_FPGA_format( clk, rst_n, req, rd_wr, write_data, read_data,
 		logic [7:0]		set_count, set_count_new;		// count how many sets have been done.
 
         logic [31:0] accRowTotal [15:0];
-		logic signed [8:0]	avg_window_data[15:0][15:0];	
+		logic signed [8:0]	avg_window_data[15:0][15:0];
+		logic [2:0][31:0] write_back, write_back_new; 
 
 
 average mean(window_data, avg_window_data);
@@ -67,7 +69,7 @@ window_handler do_wind( .clk(clk),.rst_n(rst_n),. window_data(window_data), .win
 				
 assign set = set_count;
 
-	enum {INIT,TEMP,WIND, WRIT, DONE} cs,ns;
+	enum {INIT,TEMP,WIND, WRIT0,WRIT1,WRIT2,WRIT, DONE} cs,ns;
 		
 	always_comb begin // task selector between template and window handler.
 		set_done = 1'b0;
@@ -78,6 +80,9 @@ assign set = set_count;
 		col = 32'b0;
 		tem_win =1'b0;
 		req = 1'b0;
+		write_back_new = write_back;
+		rd_wr = 1'b0;
+		wr_index = 'd0;
 		case(cs)
 		INIT: begin
 			set_count_new = 8'b0;
@@ -117,7 +122,8 @@ assign set = set_count;
 		WIND: begin
 			if(window_done) begin
 				set_count_new = (window_done)? set_count + 8'b1: set_count;
-				ns = WRIT;				 		//go to write back result.
+				ns = WRIT0;				 		//go to write back result.
+				write_back_new = {greatestNCCLog2,greatestWindowIndex, 23'b0};
 			end
 			else begin
 				activate_window = 1'b1;			// activate template handler, get address ready.
@@ -127,8 +133,28 @@ assign set = set_count;
 				req = 1'b1;
 		      end
 		end
+		WRIT0:begin
+				req = 1'b1;
+				rd_wr =1'b1;
+				write_data = write_back[0];
+				ns = WRIT1;
+				wr_index = 'd0;
+		end
+		WRIT1:begin
+				req = 1'b1;
+				rd_wr = 1'b1;
+				write_data = write_back[1];
+				ns = WRIT2;
+				wr_index ='d1;
+		end
+		WRIT2:begin
+				req = 1'b1;
+				rd_wr = 1'b1;
+				write_data = write_back[2];
+				ns = WRIT;
+				wr_index ='d2;
+		end
 		WRIT: begin // write operation here.
-			//if(result_ready)begin // dylan wants to write back.
 				if(set_count == 8'd149)begin
 					ns = DONE;
 					set_count_new = 'd0;
@@ -141,12 +167,6 @@ assign set = set_count;
 				tem_win = 1'b0;					// select template format.
 				req = 1'b1;						// want to use memory
 				end
-				/*
-			end
-			else begin
-				ns = WRIT;
-			end
-			*/
 		end
 		DONE: begin// signal the finish of a frame.
 			set_done = 1'b1;				//finish a frame.
@@ -159,10 +179,12 @@ end
 		if(~rst_n) begin
 			cs <= INIT;
 			set_count <= 8'b0;
+			write_back <= 96'b0;
 		end
 		else begin
 			cs <= ns;
 			set_count <= set_count_new;
+			write_back <= write_back_new;
 		end
 	end
 
