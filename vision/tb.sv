@@ -2,7 +2,7 @@ module tb();
 	bit [31:0] dataIn, result;
 	bit [4:-27] dataOut;
 	log2 dut1(dataIn, dataOut);
-	ilog2 dut2(dataOut, result);
+	ilog2 dut2(dataIn, result);
 
 	initial begin
 		$monitor($stime,,"dataIn=%b, dataOut=%b, result=%b", dataIn, dataOut, result);
