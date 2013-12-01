@@ -7,7 +7,7 @@ module ncc
 	input bit [35:0] desc_data_in,
 	input bit signed [8:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
-	output bit [31:-32] greatestNCC,
+	output bit signed [31:-32] greatestNCC,
 	output bit [8:0] greatestWindowIndex,
 	output bit signed [31:0] accRowTotal [15:0]);
 
@@ -70,8 +70,9 @@ module ncc
 	endgenerate
 
 	bit [31:0] accPatchSum;
-	bit [31:-32] correlationCoefficient;
-	bit [9:-54] denomLog2, corrCoeffLog2;
+	bit signed [31:-32] correlationCoefficient, corrCoeff;
+	bit [9:-54] denomLog2, numLog2;
+	bit signed [9:-54] corrCoeffLog2;
 	bit [31:0] descSumOfSquares, winSumOfSquares;
 	bit [10:-54] descSumOfSquaresLog2, winSumOfSquaresLog2;
 	bit [10:-54] numeratorLog2;
@@ -103,13 +104,27 @@ module ncc
 
 	//final computation
 	always_comb begin
-		corrCoeffLog2 = numeratorLog2[9:-54] - denomLog2;
-		if (corrCoeffLog2 > numeratorLog2[9:-54]) begin
-			corrCoeffLog2 =  {10'd1, 54'd0};
+		if (numeratorLog2[10] == 1'b1) begin
+			numLog2 = ~(numeratorLog2[9:-54])+1;
+		end
+		else begin
+			numLog2 = numeratorLog2[9:-54];
+		end
+		corrCoeffLog2 = signed'(numLog2) - signed'(denomLog2);
+		//if (corrCoeffLog2 > numeratorLog2[9:-54]) begin
+	//		corrCoeffLog2 =  {10'd1, 54'd0};
+	//	end
+	end
+
+	ilog2_negatives coeff_ilog2_inst (corrCoeffLog2, corrCoeff);
+	always_comb begin
+		if (numeratorLog2[10] == 1'b1) begin
+			correlationCoefficient = ~corrCoeff + 1;
+		end
+		else begin
+			correlationCoefficient = corrCoeff;
 		end
 	end
-	//assign corrCoeffLog2 = numeratorLog2[9:-54] - denomLog2;
-	ilog2_negatives coeff_ilog2_inst ({numeratorLog2[10], corrCoeffLog2}, correlationCoefficient);
 	
 	//register to store the entire patch acc total sum
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
@@ -419,204 +434,205 @@ module ilog2
 endmodule: ilog2
 
 module ilog2_negatives
-	(input bit signed [10:-54] dataIn,
+	(input bit signed [9:-54] dataIn,
 	output bit signed [31:-32] dataOut);
 
-	bit signed [10:0] oneIndex;
+	bit signed [9:0] oneIndex;
 	always_comb begin
 		/*oneIndex = signed'dataIn[10:0];*/
 		/*dataOut = {32'd1, 32'd0};*/
 		/*dataOut = dataOut << oneIndex;*/
-		oneIndex = signed'(dataIn[10:0]);
+		oneIndex = signed'(dataIn[9:0]);
+		$display("oneIndex=%b\n",oneIndex);
 		dataOut = {32'd1, 32'd0} << oneIndex;
 		/*dataOut = 32'd1 << signed'dataIn[10:0];*/
-		unique case (signed'(dataIn[10:0]))
-			11'sd0: begin
+		unique case (signed'(dataIn[9:0]))
+			10'sd0: begin
 			end
-			11'sd1: begin
+			10'sd1: begin
 				dataOut[0:-32] = dataIn[-1:-33];
 			end
-			11'sd2: begin
+			10'sd2: begin
 				dataOut[1:-32] = dataIn[-1:-34];
 			end
-			11'sd3: begin
+			10'sd3: begin
 				dataOut[2:-32] = dataIn[-1:-35];
 			end
-			11'sd4: begin
+			10'sd4: begin
 				dataOut[3:-32] = dataIn[-1:-36];
 			end
-			11'sd5: begin
+			10'sd5: begin
 				dataOut[4:-32] = dataIn[-1:-37];
 			end
-			11'sd6: begin
+			10'sd6: begin
 				dataOut[5:-32] = dataIn[-1:-38];
 			end
-			11'sd7: begin
+			10'sd7: begin
 				dataOut[6:-32] = dataIn[-1:-39];
 			end
-			11'sd8: begin
+			10'sd8: begin
 				dataOut[7:-32] = dataIn[-1:-40];
 			end
-			11'sd9: begin
+			10'sd9: begin
 				dataOut[8:-32] = dataIn[-1:-41];
 			end
-			11'sd10: begin
+			10'sd10: begin
 				dataOut[9:-32] = dataIn[-1:-42];
 			end
-			11'sd11: begin
+			10'sd11: begin
 				dataOut[10:-32] = dataIn[-1:-43];
 			end
-			11'sd12: begin
+			10'sd12: begin
 				dataOut[11:-32] = dataIn[-1:-44];
 			end
-			11'sd13: begin
+			10'sd13: begin
 				dataOut[12:-32] = dataIn[-1:-45];
 			end
-			11'sd14: begin
+			10'sd14: begin
 				dataOut[13:-32] = dataIn[-1:-46];
 			end
-			11'sd15: begin
+			10'sd15: begin
 				dataOut[14:-32] = dataIn[-1:-47];
 			end
-			11'sd16: begin
+			10'sd16: begin
 				dataOut[15:-32] = dataIn[-1:-48];
 			end
-			11'sd17: begin
+			10'sd17: begin
 				dataOut[16:-32] = dataIn[-1:-49];
 			end
-			11'sd18: begin
+			10'sd18: begin
 				dataOut[17:-32] = dataIn[-1:-50];
 			end
-			11'sd19: begin
+			10'sd19: begin
 				dataOut[18:-32] = dataIn[-1:-51];
 			end
-			11'sd20: begin
+			10'sd20: begin
 				dataOut[19:-32] = dataIn[-1:-52];
 			end
-			11'sd21: begin
+			10'sd21: begin
 				dataOut[20:-32] = dataIn[-1:-53];
 			end
-			11'sd22: begin
+			10'sd22: begin
 				dataOut[21:-32] = dataIn[-1:-54];
 			end
-			11'sd23: begin
+			10'sd23: begin
 				dataOut[22:-32] = {dataIn[-1:-54], 1'd0};
 			end
-			11'sd24: begin
+			10'sd24: begin
 				dataOut[23:-32] = {dataIn[-1:-54], 2'd0};
 			end
-			11'sd25: begin
+			10'sd25: begin
 				dataOut[24:-32] = {dataIn[-1:-54], 3'd0};
 			end
-			11'sd26: begin
+			10'sd26: begin
 				dataOut[25:-32] = {dataIn[-1:-54], 4'd0};
 			end
-			11'sd27: begin
+			10'sd27: begin
 				dataOut[26:-32] = {dataIn[-1:-54], 5'd0};
 			end
-			11'sd28: begin
+			10'sd28: begin
 				dataOut[27:-32] = {dataIn[-1:-54], 6'd0};
 			end
-			11'sd29: begin
+			10'sd29: begin
 				dataOut[28:-32] = {dataIn[-1:-54], 7'd0};
 			end
-			11'sd30: begin
+			10'sd30: begin
 				dataOut[29:-32] = {dataIn[-1:-54], 8'd0};
 			end
-			11'sd31: begin
+			10'sd31: begin
 				dataOut[30:-32] = {dataIn[-1:-54], 9'd0};
 			end
-			-11'sd1: begin
+			-10'sd1: begin
 				dataOut[-2:-32] = dataIn[-1:-31];
 			end
-			-11'sd2: begin
+			-10'sd2: begin
 				dataOut[-3:-32] = dataIn[-1:-30];
 			end
-			-11'sd3: begin
+			-10'sd3: begin
 				dataOut[-4:-32] = dataIn[-1:-29];
 			end
-			-11'sd4: begin
+			-10'sd4: begin
 				dataOut[-5:-32] = dataIn[-1:-28];
 			end
-			-11'sd5: begin
+			-10'sd5: begin
 				dataOut[-6:-32] = dataIn[-1:-27];
 			end
-			-11'sd6: begin
+			-10'sd6: begin
 				dataOut[-7:-32] = dataIn[-1:-26];
 			end
-			-11'sd7: begin
+			-10'sd7: begin
 				dataOut[-8:-32] = dataIn[-1:-25];
 			end
-			-11'sd8: begin
+			-10'sd8: begin
 				dataOut[-9:-32] = dataIn[-1:-24];
 			end
-			-11'sd9: begin
+			-10'sd9: begin
 				dataOut[-10:-32] = dataIn[-1:-23];
 			end
-			-11'sd10: begin
+			-10'sd10: begin
 				dataOut[-11:-32] = dataIn[-1:-22];
 			end
-			-11'sd11: begin
+			-10'sd11: begin
 				dataOut[-12:-32] = dataIn[-1:-21];
 			end
-			-11'sd12: begin
+			-10'sd12: begin
 				dataOut[-13:-32] = dataIn[-1:-20];
 			end
-			-11'sd13: begin
+			-10'sd13: begin
 				dataOut[-14:-32] = dataIn[-1:-19];
 			end
-			-11'sd14: begin
+			-10'sd14: begin
 				dataOut[-15:-32] = dataIn[-1:-18];
 			end
-			-11'sd15: begin
+			-10'sd15: begin
 				dataOut[-16:-32] = dataIn[-1:-17];
 			end
-			-11'sd16: begin
+			-10'sd16: begin
 				dataOut[-17:-32] = dataIn[-1:-16];
 			end
-			-11'sd17: begin
+			-10'sd17: begin
 				dataOut[-18:-32] = dataIn[-1:-15];
 			end
-			-11'sd18: begin
+			-10'sd18: begin
 				dataOut[-19:-32] = dataIn[-1:-14];
 			end
-			-11'sd19: begin
+			-10'sd19: begin
 				dataOut[-20:-32] = dataIn[-1:-13];
 			end
-			-11'sd20: begin
+			-10'sd20: begin
 				dataOut[-21:-32] = dataIn[-1:-12];
 			end
-			-11'sd21: begin
+			-10'sd21: begin
 				dataOut[-22:-32] = dataIn[-1:-11];
 			end
-			-11'sd22: begin
+			-10'sd22: begin
 				dataOut[-23:-32] = dataIn[-1:-10];
 			end
-			-11'sd23: begin
+			-10'sd23: begin
 				dataOut[-24:-32] = dataIn[-1:-9];
 			end
-			-11'sd24: begin
+			-10'sd24: begin
 				dataOut[-25:-32] = dataIn[-1:-8];
 			end
-			-11'sd25: begin
+			-10'sd25: begin
 				dataOut[-26:-32] = dataIn[-1:-7];
 			end
-			-11'sd26: begin
+			-10'sd26: begin
 				dataOut[-27:-32] = dataIn[-1:-6];
 			end
-			-11'sd27: begin
+			-10'sd27: begin
 				dataOut[-28:-32] = dataIn[-1:-5];
 			end
-			-11'sd28: begin
+			-10'sd28: begin
 				dataOut[-29:-32] = dataIn[-1:-4];
 			end
-			-11'sd29: begin
+			-10'sd29: begin
 				dataOut[-30:-32] = dataIn[-1:-3];
 			end
-			-11'sd30: begin
+			-10'sd30: begin
 				dataOut[-31:-32] = dataIn[-1:-2];
 			end
-			-11'sd31: begin
+			-10'sd31: begin
 				dataOut[-32] = dataIn[-1];
 			end
 		endcase
@@ -712,6 +728,16 @@ module absoluteValue
 
 endmodule: absoluteValue
 
+module absoluteValueFP
+	#(parameter signBit = 32)
+	(input bit signed [31:-32] dataIn,
+	output bit signed [31:-32] dataOut);
+
+	assign dataSign = dataIn[signBit-1];
+	assign dataOut = (dataSign) ? ~dataIn + 1 : dataIn;
+
+endmodule: absoluteValueFP
+
 module register
 	#(parameter w = 32)
 	(input bit	[w-1:0]	dataIn,
@@ -731,16 +757,21 @@ endmodule: register
 
 module priorityRegisterFP
 	#(parameter w2 = 9)
-	(input bit	[31:-32] dataIn,
-	input bit	[w2-1:0] dataIn2,
-	input bit	clk, rst, load,
-	output bit	[31:-32] dataOut,
+	(input bit signed[31:-32] dataIn,
+	input bit [w2-1:0] dataIn2,
+	input bit clk, rst, load,
+	output bit signed [31:-32] dataOut,
 	output bit	[w2-1:0] dataOut2);
 
-	bit [31:-32] data;
+	bit signed [31:-32] dataInAbs, dataOutAbs, data;
 	bit [w2-1:0] data2;
-	assign data = (dataIn > dataOut) ? dataIn : dataOut;
+
+	absoluteValueFP #(32) absValInFP_inst (dataIn, dataInAbs);
+	absoluteValueFP #(32) absValOutFP_inst (dataOut, dataOutAbs);
+
+	assign data = (dataInAbs > dataOutAbs) ? dataIn : dataOut;
 	assign data2 = (dataIn > dataOut) ? dataIn2 : dataOut2;
+
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
 			dataOut <= 'd0;

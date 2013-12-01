@@ -17,11 +17,11 @@ module tb();
 		forever #5 clk = ~clk;
 	end
 	initial begin
-		$monitor($stime,,"********************************************************************************\nart1=%d, art15=%d, art16=%d, numTot=%d, winIndex=%d\ngreatestNCC=%b.%b\nnum=%b.%b\nden=%b.%b\ndsos=%d, wsos=%d", accRowTotal[0], accRowTotal[14], accRowTotal[15], ncc.accPatchSum, greatestWinIndex, greatestNCC[31:0], greatestNCC[-1:-32], ncc.numeratorLog2[9:0], ncc.numeratorLog2[-1:-54], ncc.denomLog2[9:0], ncc.denomLog2[-1:-54], ncc.descSumOfSquares, ncc.winSumOfSquares);
-		descIn[35:27] = 9'd3;
-		descIn[26:18] = 9'd4;
-		descIn[17:9] = 9'd5;
-		descIn[8:0] = 9'd6;
+		$monitor($stime,,"********************************************************************************\nart1=%d, art15=%d, art16=%d, numTot=%d, winIndex=%d\ngreatestNCC=%b.%b\nnum=%b.%b\nden=%b.%b\ncorrCoeffLog2=%b.%b\ndsos=%d, wsos=%d", accRowTotal[0], accRowTotal[14], accRowTotal[15], ncc.accPatchSum, greatestWinIndex, greatestNCC[31:0], greatestNCC[-1:-32], ncc.numeratorLog2[9:0], ncc.numeratorLog2[-1:-54], ncc.denomLog2[9:0], ncc.denomLog2[-1:-54], ncc.corrCoeffLog2[9:0], ncc.corrCoeffLog2[-1:-54], ncc.descSumOfSquares, ncc.winSumOfSquares);
+		descIn[35:27] = 9'd30;
+		descIn[26:18] = 9'd40;
+		descIn[17:9] = 9'd50;
+		descIn[8:0] = 9'd60;
 		for (int row = 0; row < 16; row++) begin
 			for (int col = 0; col < 16; col++) begin
 				windowIn[row][col] = 9'd2;
