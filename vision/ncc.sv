@@ -32,10 +32,10 @@ module ncc
 	counter #(2) descColCounter(clk, rst, 1'b0, incDescColC, descColC);
 
 	//descriptor log2 hardware
-	log2 descLog2_inst1({23{desc_data_in[35]}, desc_data_in[35:27]}, descLog2[0]);
-	log2 descLog2_inst2({23{desc_data_in[26]}, desc_data_in[26:18]}, descLog2[1]);
-	log2 descLog2_inst3({23{desc_data_in[17]}, desc_data_in[17:9]}, descLog2[2]);
-	log2 descLog2_inst4({23{desc_data_in[8]}, desc_data_in[8:0]}, descLog2[3]);
+	log2 descLog2_inst1({{23{desc_data_in[35]}}, desc_data_in[35:27]}, descLog2[0]);
+	log2 descLog2_inst2({{23{desc_data_in[26]}}, desc_data_in[26:18]}, descLog2[1]);
+	log2 descLog2_inst3({{23{desc_data_in[17]}}, desc_data_in[17:9]}, descLog2[2]);
+	log2 descLog2_inst4({{23{desc_data_in[8]}}, desc_data_in[8:0]}, descLog2[3]);
 
 	decoder #(4) desc_decoder_col(descColC, loadColGroup);
 	decoder #(16) desc_decoder_row(descRowC, loadRow);
@@ -45,7 +45,7 @@ module ncc
 	generate
 		for (i = 0; i < 16; i++) begin
 			for (j = 0; j < 16; j++) begin
-				log2 windowLog2_inst({23{window_data_in[i][j][8], window_data_in[i][j]}, windowLog2[i][j]);
+				log2 windowLog2_inst({{23{window_data_in[i][j][8]}}, window_data_in[i][j]}, windowLog2[i][j]);
 			end
 		end
 	endgenerate
@@ -292,7 +292,7 @@ module processingElement
 	ilog2 ilog2_win_inst (windowPixelLog2, windowPixelOut);
 
 	assign tempSumLog2 = descPixelLog2Out[9:-54] + windowPixelLog2Out[9:-54];
-	assign accOut = (descSignBit ^ winSignBit) ? (accIn - signed'tempSum) : (accIn + signed'tempSum);
+	assign accOut = (descSignBit ^ winSignBit) ? (accIn - signed'(tempSum)) : (accIn + signed'(tempSum));
 
 endmodule: processingElement
 
@@ -302,10 +302,10 @@ module log2
 
 	bit [31:0] fraction;
 	bit signed [31:0] dataInAbs;
-	bit dataInSign
+	bit dataInSign;
 	bit [4:0] oneIndex;
 
-	absoluteValue #(32) absVal_inst(dataIn, dataInAbs, dataInSign)
+	absoluteValue #(32) absVal_inst(dataIn, dataInAbs, dataInSign);
 	findFirstOne #(32) firstOneFinder(dataInAbs, oneIndex);
 	
 	assign fraction = dataInAbs << (32-oneIndex);
@@ -434,7 +434,7 @@ module ilog2_negatives
 		end
 		dataOut = {32'd1, 32'd0} << oneIndex;
 		/*dataOut = 32'd1 << signed'dataIn[10:0];*/
-		unique case (signed'dataIn[10:0])
+		unique case (signed'(dataIn[10:0]))
 			11'sd0: begin
 			end
 			11'sd1: begin
@@ -530,97 +530,97 @@ module ilog2_negatives
 			11'sd31: begin
 				dataOut[30:-32] = {dataIn[-1:-54], 9'd0};
 			end
-			11'sd-1: begin
+			-11'sd1: begin
 				dataOut[-2:-32] = dataIn[-1:-31];
 			end
-			11'sd-2: begin
+			-11'sd2: begin
 				dataOut[-3:-32] = dataIn[-1:-30];
 			end
-			11'sd-3: begin
+			-11'sd3: begin
 				dataOut[-4:-32] = dataIn[-1:-29];
 			end
-			11'sd-4: begin
+			-11'sd4: begin
 				dataOut[-5:-32] = dataIn[-1:-28];
 			end
-			11'sd-5: begin
+			-11'sd5: begin
 				dataOut[-6:-32] = dataIn[-1:-27];
 			end
-			11'sd-6: begin
+			-11'sd6: begin
 				dataOut[-7:-32] = dataIn[-1:-26];
 			end
-			11'sd-7: begin
+			-11'sd7: begin
 				dataOut[-8:-32] = dataIn[-1:-25];
 			end
-			11'sd-8: begin
+			-11'sd8: begin
 				dataOut[-9:-32] = dataIn[-1:-24];
 			end
-			11'sd-9: begin
+			-11'sd9: begin
 				dataOut[-10:-32] = dataIn[-1:-23];
 			end
-			11'sd-10: begin
+			-11'sd10: begin
 				dataOut[-11:-32] = dataIn[-1:-22];
 			end
-			11'sd-11: begin
+			-11'sd11: begin
 				dataOut[-12:-32] = dataIn[-1:-21];
 			end
-			11'sd-12: begin
+			-11'sd12: begin
 				dataOut[-13:-32] = dataIn[-1:-20];
 			end
-			11'sd-13: begin
+			-11'sd13: begin
 				dataOut[-14:-32] = dataIn[-1:-19];
 			end
-			11'sd-14: begin
+			-11'sd14: begin
 				dataOut[-15:-32] = dataIn[-1:-18];
 			end
-			11'sd-15: begin
+			-11'sd15: begin
 				dataOut[-16:-32] = dataIn[-1:-17];
 			end
-			11'sd-16: begin
+			-11'sd16: begin
 				dataOut[-17:-32] = dataIn[-1:-16];
 			end
-			11'sd-17: begin
+			-11'sd17: begin
 				dataOut[-18:-32] = dataIn[-1:-15];
 			end
-			11'sd-18: begin
+			-11'sd18: begin
 				dataOut[-19:-32] = dataIn[-1:-14];
 			end
-			11'sd-19: begin
+			-11'sd19: begin
 				dataOut[-20:-32] = dataIn[-1:-13];
 			end
-			11'sd-20: begin
+			-11'sd20: begin
 				dataOut[-21:-32] = dataIn[-1:-12];
 			end
-			11'sd-21: begin
+			-11'sd21: begin
 				dataOut[-22:-32] = dataIn[-1:-11];
 			end
-			11'sd-22: begin
+			-11'sd22: begin
 				dataOut[-23:-32] = dataIn[-1:-10];
 			end
-			11'sd-23: begin
+			-11'sd23: begin
 				dataOut[-24:-32] = dataIn[-1:-9];
 			end
-			11'sd-24: begin
+			-11'sd24: begin
 				dataOut[-25:-32] = dataIn[-1:-8];
 			end
-			11'sd-25: begin
+			-11'sd25: begin
 				dataOut[-26:-32] = dataIn[-1:-7];
 			end
-			11'sd-26: begin
+			-11'sd26: begin
 				dataOut[-27:-32] = dataIn[-1:-6];
 			end
-			11'sd-27: begin
+			-11'sd27: begin
 				dataOut[-28:-32] = dataIn[-1:-5];
 			end
-			11'sd-28: begin
+			-11'sd28: begin
 				dataOut[-29:-32] = dataIn[-1:-4];
 			end
-			11'sd-29: begin
+			-11'sd29: begin
 				dataOut[-30:-32] = dataIn[-1:-3];
 			end
-			11'sd-30: begin
+			-11'sd30: begin
 				dataOut[-31:-32] = dataIn[-1:-2];
 			end
-			11'sd-31: begin
+			-11'sd31: begin
 				dataOut[-32] = dataIn[-1];
 			end
 		endcase
