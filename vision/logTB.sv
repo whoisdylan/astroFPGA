@@ -7,7 +7,7 @@ logic [31:0]					int_mem[500];
 logic [31:0]					log_mem[500];
 
 log2 dut1(.dataIn(a_in),.dataOut(a_out));
-ilog2 dut2(.dataIn(a_out),.dataOut(inverse));
+ilog2_negatives dut2(.dataIn(a_out),.dataOut(inverse));
 
 int i;
 
