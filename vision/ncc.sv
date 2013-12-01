@@ -421,17 +421,13 @@ endmodule: ilog2
 module ilog2_negatives
 	(input bit signed [10:-54] dataIn,
 	output bit signed [31:-32] dataOut);
+
 	bit signed [10:0] oneIndex;
 	always_comb begin
 		/*oneIndex = signed'dataIn[10:0];*/
 		/*dataOut = {32'd1, 32'd0};*/
 		/*dataOut = dataOut << oneIndex;*/
-		if (dataIn[10] == 1'b1) begin
-			oneIndex = (~dataIn[10:0]) + 1;
-		end
-		else begin
-			oneIndex = dataIn[10:0];
-		end
+		oneIndex = signed'(dataIn[10:0]);
 		dataOut = {32'd1, 32'd0} << oneIndex;
 		/*dataOut = 32'd1 << signed'dataIn[10:0];*/
 		unique case (signed'(dataIn[10:0]))
