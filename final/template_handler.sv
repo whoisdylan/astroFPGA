@@ -26,9 +26,6 @@ assign template_data[35:27] =signed'({1'b0,input_data[31:24]}) - signed'({1'b0,s
 
 
 	always_comb begin
-		$display("td1=%b\ntd2=%b",input_data[7:0],template_data[15:8]);
-		$display("avg=%d",avg);
-		//$display("td1=%b\ntd2=%b\ntd3=%b\ntd4=%b",template_data[8:0],template_data[17:9],template_data[26:18],template_data[35:27]);
 		template_ready = 1'b0;
 		done = 1'b0;
 		ack = 1'b0;

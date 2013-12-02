@@ -42,7 +42,6 @@ module user_FPGA_format( clk, rst_n, req, rd_wr, write_data, read_data,
 		logic [15:0][15:0][7:0] window_data;			// 16x16 bytes for a patch.
 		logic [7:0]		set_count, set_count_new;		// count how many sets have been done.
 
-        logic [31:0] accRowTotal [15:0];
 		logic signed [8:0]	avg_window_data[15:0][15:0];
 		logic [2:0][31:0] write_back, write_back_new; 
 
@@ -54,8 +53,7 @@ ncc ncci(.clk(clk), .rst(~rst_n), .window_data_ready(window_ready), .desc_data_r
                 .desc_data_in(template_data), .window_data_in(avg_window_data),
                 .done_with_window_data(result_ready), .done_with_desc_data(), 
                 .greatestNCC(greatestNCCLog2), 
-                .greatestWindowIndex(greatestWindowIndex),
-                .accRowTotal(accRowTotal)
+                .greatestWindowIndex(greatestWindowIndex)
                 );
                 
 template_handler do_temp(.clk(clk),.rst_n(rst_n),.template_data(template_data), .template_ready(template_ready),

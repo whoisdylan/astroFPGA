@@ -18,6 +18,7 @@ module window_holder ( clk, rst_n, input_data, window_offset,
 	
 	logic [15:0][79:0][7:0]			store_data;		// 80x80 stored data.
 	logic [15:0][79:0][7:0]			store_data_new;	//format to store new data.
+	logic [6:0] store_row, store_col;
 	
 	int i,j;
 	always_comb begin // data loading logic
@@ -29,18 +30,18 @@ module window_holder ( clk, rst_n, input_data, window_offset,
 			// deal with the last row.
 			// load in the 4 bytes to last row first columns.
 				store_data_new[15] = 'd0;
-				store_data_new[15]['d3] = input_data[7:0];
-				store_data_new[15]['d2] = input_data[15:8];
-				store_data_new[15]['d1] = input_data[23:16];
-				store_data_new[15]['d0] = input_data[31:24];
+				store_data_new[15][3] = input_data[7:0];
+				store_data_new[15][2] = input_data[15:8];
+				store_data_new[15][1] = input_data[23:16];
+				store_data_new[15][0] = input_data[31:24];
 			
 		end
 		else begin			//not a new row, load as normal.
 			store_data_new = store_data; 		//set default case.
-			store_data_new[row][col+'d3] = input_data[7:0];
-			store_data_new[row][col+'d2] = input_data[15:8];
-			store_data_new[row][col+'d1] = input_data[23:16];
-			store_data_new[row][col] = input_data[31:24];
+			store_data_new[store_row][store_col*4+3] = input_data[7:0];
+			store_data_new[store_row][store_col*4+2] = input_data[15:8];
+			store_data_new[store_row][store_col*4+1] = input_data[23:16];
+			store_data_new[store_row][store_col*4] = input_data[31:24];
 			
 			
 		end
@@ -57,12 +58,18 @@ int	k,m;
 	always_ff@(posedge clk, negedge rst_n)begin
 		if(~rst_n) begin
 			store_data <= 'b0;
+			store_row <= 'd0;
+			store_col <= 'd0;
 		end
 		else if(load) begin
 			store_data <= store_data_new;
+			store_row <= row;
+			store_col <= col;
 		end
 		else begin // maintain data.
 			store_data <= store_data;
+			store_row <= row;
+			store_col <= col;
 		end
 	end
 						

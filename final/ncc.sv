@@ -8,8 +8,7 @@ module ncc
 	input bit signed [8:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
 	output bit signed [31:-32] greatestNCC,
-	output bit [11:0] greatestWindowIndex,
-	output bit signed [31:0] accRowTotal [15:0]);
+	output bit [11:0] greatestWindowIndex);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	enum logic {WIN_WAIT, WIN_LOAD} currStateWin, nextStateWin;
@@ -20,6 +19,7 @@ module ncc
 	logic loadDescNow, loadWinReg;
 	logic [15:0] loadRow;
 	logic [3:0] loadColGroup;
+	bit signed [31:0] accRowTotal [15:0];
 	bit signed [31:0] accOut [239:0];
 	bit [3:0] descRowC;
 	bit [1:0] descColC;

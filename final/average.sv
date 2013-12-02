@@ -11,10 +11,12 @@ always_comb begin
 	sum = 0;
 	for(i = 0; i <16; i++)begin
 		for(j = 0; j <16; j++)begin
+			//$display("win_data=%b\n",window_data[i][j]);
 			sum = sum + window_data[i][j];
 		end
 	end
 	avg = sum[15:8];	// division by 256 is right shift by8
+	//$display("avg=%d\n",avg);
 
 	for(i = 0; i <16 ; i++) begin
 		for(j = 0; j <16; j++) begin
