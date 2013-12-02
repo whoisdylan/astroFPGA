@@ -15,7 +15,7 @@ module user_FPGA_format( clk, rst_n, req, rd_wr, write_data, read_data,
 		output logic		set_done;	// once complete a set, this is asserted.
 		output logic[6:0]	row,col;	// 7 bits information of which row, col.
         output logic[31:-32] greatestNCCLog2;
-        output logic[8:0] greatestWindowIndex;
+        output logic[11:0] greatestWindowIndex;
 		output logic[7:0]	set;	
 		output logic[1:0]	wr_index;
 		output logic		inst;
@@ -124,7 +124,7 @@ assign set = set_count;
 			if(window_done) begin
 				set_count_new = (window_done)? set_count + 8'b1: set_count;
 				ns = WRIT0;				 		//go to write back result.
-				write_back_new = {greatestNCCLog2,greatestWindowIndex, 23'b0};
+				write_back_new = {greatestNCCLog2,greatestWindowIndex, 20'b0};
 			end
 			else begin
 				activate_window = 1'b1;			// activate template handler, get address ready.

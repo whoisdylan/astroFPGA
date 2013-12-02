@@ -19,7 +19,7 @@ module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	output  logic 	 	 FPGA_wr_en;
 	
 	output logic [31:-32] greatestNCCLog2;
-	output logic [8:0]	 greatestWindowIndex;
+	output logic [11:0]	 greatestWindowIndex;
 	//testing signals.
 	
 	// to user.

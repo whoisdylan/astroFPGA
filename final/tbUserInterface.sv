@@ -32,7 +32,7 @@ module systemTest;
 	logic [20:0]	req_addr;
 	logic			FPGA_wr_en;
 	logic [31:-32]	greatestNCCLog2;
-	logic [8:0]		greatestWindowIndex;
+	logic [11:0]		greatestWindowIndex;
 
 	logic [2**18 -1:0][31:0]	 mem;
 	int i,j,k;
@@ -81,7 +81,7 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 		$monitor($stime,, "clk=%d, rst_n=%d, req=%d, rd_wr=%d, write_data=%d, read_data=%d, set_done=%d, row=%d, col=%d, tem_win=%d,ready_2_start=%d, greatestNCCLog2=%b, greatestWindowIndex=%d", clk, rst_n, req, rd_wr, write_data, read_data, set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex);
 */	
 
-	$monitor($time, , "address =%d, data = %h, %s tem_win =%b, row =%d col =%d set =%d greatestNCC =%d.%b", req_addr, rd_data, uft.chop.cs,uft.chop.tem_win, uft.chop.row, uft.chop.col, uft.set,$signed(uft.chop.greatestNCCLog2[31:0]),uft.chop.greatestNCCLog2[-1:-32]);
+	$monitor($time, , "address =%d, data = %h, %s tem_win =%b, row =%d col =%d set =%d greatestNCC =%d.%b\nnum=%b.%b\nden=%b.%b\ncorrCoeffLog2=%b.%b\ndsos=%d, wsos=%d\ndesc_in=%b,%b,%b,%b\nwin_in=%b,%b,%b,%b", req_addr, rd_data, uft.chop.cs,uft.chop.tem_win, uft.chop.row, uft.chop.col, uft.set,$signed(uft.chop.greatestNCCLog2[31:0]),uft.chop.greatestNCCLog2[-1:-32], uft.chop.ncci.numeratorLog2[9:0], uft.chop.ncci.numeratorLog2[-1:-54], uft.chop.ncci.denomLog2[9:0], uft.chop.ncci.denomLog2[-1:-54], uft.chop.ncci.corrCoeffLog2[9:0], uft.chop.ncci.corrCoeffLog2[-1:-54], uft.chop.ncci.descSumOfSquares, uft.chop.ncci.winSumOfSquares, uft.chop.ncci.desc_data_in[35:27], uft.chop.ncci.desc_data_in[26:18], uft.chop.ncci.desc_data_in[17:9], uft.chop.ncci.desc_data_in[8:0], uft.chop.ncci.window_data_in[0][0], uft.chop.ncci.window_data_in[0][1], uft.chop.ncci.window_data_in[0][2], uft.chop.ncci.window_data_in[0][3]);
 
 
 		clk = 0;
@@ -92,13 +92,15 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 	
 	initial begin
 		// set up the memory
-		for(i = 0; i < 150; i++)begin
-			mem[1665*i]  =  32'h 42;
+		for(i = 0; i < 1; i++)begin
+			mem[1665*i]  =  {24'd0, 8'h42};
 			for(j = 0; j < 64; j++) begin
-				mem[1665*i +j +1] = 32'h FFFF0000 + j;
+				//mem[1665*i +j +1] = 32'h FFFF0000 + j;
+				mem[1665*i +j +1] = 32'h41434143;
 			end
 			for(k = 0; k < 1600; k++) begin
-				mem[1665*i +64 +1 + k] = 32'h11110000 + k;
+				//mem[1665*i +64 +1 + k] = 32'h11110000 + k;
+				mem[1665*i +64 +1 + k] = 32'h41434143;
 			end
 		end
 /*	
@@ -137,7 +139,7 @@ repeat(50) @(posedge clk);
 		end
 		$stop;
 		*/
-		$stop;
+		$finish;
 	end
 	
 endmodule: systemTest
