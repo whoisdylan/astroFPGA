@@ -8,7 +8,7 @@ module ncc
 	input bit signed [8:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
 	output bit signed [31:-32] greatestNCC,
-	output bit [8:0] greatestWindowIndex,
+	output bit [11:0] greatestWindowIndex,
 	output bit signed [31:0] accRowTotal [15:0]);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
@@ -129,12 +129,12 @@ module ncc
 	//register to store the entire patch acc total sum
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
 
-	logic loadGreatestReg, clearWinCount;
-	bit [8:0] windowCount;
+	logic loadGreatestReg, clearWinCount, clearGreatestReg;
+	bit [11:0] windowCount;
 	//register to store greatest correlation coefficient and window index
 	/*priorityRegister #(9) greatestNCCReg (corrCoeffLog2, windowCount, clk, rst, loadGreatestReg, greatestNCCLog2, greatestWindowIndex);*/
-	priorityRegisterFP #(9) greatestNCCRegFP (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, greatestNCC, greatestWindowIndex);
-	counter #(9) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
+	priorityRegisterFP #(12) greatestNCCRegFP (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, clearGreatestReg, greatestNCC, greatestWindowIndex);
+	counter #(12) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
 
 	//descriptor loading fsm
 	always_comb begin
@@ -173,6 +173,7 @@ module ncc
 		loadWinReg = 1'b0;
 		loadGreatestReg = 1'b0;
 		clearWinCount = 1'b0;
+		clearGreatestReg = 1'b0;
 		case (currStateWin)
 			WIN_WAIT: begin
 				if (window_data_ready) begin
@@ -186,8 +187,9 @@ module ncc
 			WIN_LOAD: begin
 				loadGreatestReg = 1'b1;
 				done_with_window_data = 1'b1;
-				if (windowCount >= (149)) begin
+				if (windowCount >= (4095)) begin
 					clearWinCount = 1'b1;
+					clearGreatestReg = 1'b1;
 				end
 				nextStateWin = WIN_WAIT;
 			end
@@ -758,10 +760,10 @@ module register
 endmodule: register
 
 module priorityRegisterFP
-	#(parameter w2 = 9)
+	#(parameter w2 = 12)
 	(input bit signed[31:-32] dataIn,
 	input bit [w2-1:0] dataIn2,
-	input bit clk, rst, load,
+	input bit clk, rst, load, clear,
 	output bit signed [31:-32] dataOut,
 	output bit	[w2-1:0] dataOut2);
 
@@ -776,6 +778,10 @@ module priorityRegisterFP
 
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
+			dataOut <= 'd0;
+			dataOut2 <= 'd0;
+		end
+		else if (clear) begin
 			dataOut <= 'd0;
 			dataOut2 <= 'd0;
 		end
