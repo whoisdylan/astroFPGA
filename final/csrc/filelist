@@ -22,12 +22,18 @@ VCS_OBJS =$(CG_OBJS) SIM_l.o \
 CG_OBJS= 
 
 
-VCS_INCR_OBJS=pre_vcsobj_1_1.o pre_vcsobj_1_2.o 
+VCS_INCR_OBJS=pre_vcsobj_1_1.o pre_vcsobj_1_2.o pre_vcsobj_1_3.o pre_vcsobj_1_4.o 
 
 pre_vcsobj_1_1.o : pre_vcsobj_1_1.a
 	ld -r -m elf_i386 -o $@ --whole-archive $< --no-whole-archive
 
 pre_vcsobj_1_2.o : pre_vcsobj_1_2.a
+	ld -r -m elf_i386 -o $@ --whole-archive $< --no-whole-archive
+
+pre_vcsobj_1_3.o : pre_vcsobj_1_3.a
+	ld -r -m elf_i386 -o $@ --whole-archive $< --no-whole-archive
+
+pre_vcsobj_1_4.o : pre_vcsobj_1_4.a
 	ld -r -m elf_i386 -o $@ --whole-archive $< --no-whole-archive
 
 

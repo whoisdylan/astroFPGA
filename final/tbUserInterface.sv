@@ -31,7 +31,7 @@ module systemTest;
 	logic [31:0]	write_data;
 	logic [20:0]	req_addr;
 	logic			FPGA_wr_en;
-	logic [9:-54]	greatestNCCLog2;
+	logic [31:-32]	greatestNCCLog2;
 	logic [8:0]		greatestWindowIndex;
 
 	logic [2**18 -1:0][31:0]	 mem;
@@ -81,7 +81,7 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 		$monitor($stime,, "clk=%d, rst_n=%d, req=%d, rd_wr=%d, write_data=%d, read_data=%d, set_done=%d, row=%d, col=%d, tem_win=%d,ready_2_start=%d, greatestNCCLog2=%b, greatestWindowIndex=%d", clk, rst_n, req, rd_wr, write_data, read_data, set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex);
 */	
 
-	$monitor($time, , "address =%d, data = %h, %s tem_win =%b, row =%d col =%d set =%d", req_addr, rd_data, uft.chop.cs,uft.chop.tem_win, uft.chop.row, uft.chop.col, uft.set);
+	$monitor($time, , "address =%d, data = %h, %s tem_win =%b, row =%d col =%d set =%d greatestNCC =%d.%b", req_addr, rd_data, uft.chop.cs,uft.chop.tem_win, uft.chop.row, uft.chop.col, uft.set,$signed(uft.chop.greatestNCCLog2[31:0]),uft.chop.greatestNCCLog2[-1:-32]);
 
 
 		clk = 0;
