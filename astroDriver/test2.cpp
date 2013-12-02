@@ -29,20 +29,22 @@ int g_devFile = -1;
 #define TIMER
 #define DDEBUG
 #define OFFSET_INST 2097144
+#define DESC_SIZE   16
+#define WIN_SIZE    80
 
 typedef struct dataSet{
-// 64 bits reserved for flags and stuff.
-	unsigned int instruction;
+    // 64 bits reserved for flags and stuff.
+    unsigned int instruction;
 
-// 16x16 pixels
-// 16x16/4. 4 pixels per int.
-	 unsigned int descriptor[64];
-// 80x80/4 pixels window
-//
-	unsigned int window[1600];
+    // 16x16 pixels
+    // 16x16/4. 4 pixels per int.
+    unsigned int descriptor[64];
+    // 80x80/4 pixels window
+    //
+    unsigned int window[1600];
 
-// 1665 *4 = 6660B
-// 999000B per image
+    // 1665 *4 = 6660B
+    // 999000B per image
 }dataSet; 
 
 
@@ -70,75 +72,133 @@ int ReadData(char *buff, int size, loff_t offset)
 
 
 void set_instruction(uint32_t *instruction){
-	// for sending instruction
-	loff_t offset = OFFSET_INST;
-	
-	int ret = pwrite(g_devFile, instruction ,sizeof(uint32_t),offset);
+    // for sending instruction
+    loff_t offset = OFFSET_INST;
+
+    int ret = pwrite(g_devFile, instruction ,sizeof(uint32_t),offset);
 
 }
 
 void get_instruction(uint32_t *instruction){
-	loff_t offset = OFFSET_INST;
+    loff_t offset = OFFSET_INST;
 
-	int ret = pread(g_devFile, instruction, sizeof(uint32_t),offset);
+    int ret = pread(g_devFile, instruction, sizeof(uint32_t),offset);
 
+}
+
+inline uint32_t PACK(uint8_t byte0, uint8_t byte1, uint8_t byte2, uint8_t byte3) {
+    return (byte0 << 24) | (byte1 << 16) | (byte2 << 8) | byte3;
 }
 
 int main()
 {
     int i, j,k;
     int iter_count = NUM_ROWS;
-    ifstream inputFile("file.txt");
     string line;
     istringstream ss;
     loff_t offset = 0;
-	uint32_t* instruction;
-	int flag;
+    uint32_t* instruction;
+    int flag;
     char* devfilename = devname;
     g_devFile = open(devfilename, O_RDWR);
+
+    char descriptorLLFile[100]; 
+    char windowLLFile[100];
+
+    uint32_t byte0, byte1, byte2, byte3;
+    uint32_t packedBytes;
 
     if ( g_devFile < 0 )  {
         printf("Error opening device file\n");
         return 0;
     }
-	flag = 1;
+    flag = 1;
     gReadData = (TransferData  *) malloc(sizeof(struct TransferData));	
     gWriteData = (TransferData  *) malloc(sizeof(struct TransferData));	
-	instruction = (uint32_t *) malloc(sizeof(uint32_t));
+    instruction = (uint32_t *) malloc(sizeof(uint32_t));
     time_t start = time(NULL);
 
     printf("Starting...\n");
-    for (j = 0; j < NUM_ROWS; j++) 
-    {
-        //getline(inputFile, line);
-        for(i=0; i< NUM_COLS; i++) {
-            //ss >> gWriteData->data[0];
-            gWriteData->data[i]=0;
-        }
-        WriteData((char*) gWriteData, 4*NUM_COLS, offset);
-		flag = 1;
-		*instruction = 0x00000100;
-		set_instruction(instruction);
 
-		while(flag == 1){
-			get_instruction(instruction);
-	//		printf("instruction = %x\n", *instruction);
-			if((*instruction & 0xFFFF0000) == 0x04000000){
-				flag =0;
-			}
-		}
+    printf("Reading descriptors and windows...\n");
+    ifstream descFile, winFile;
+    descFile.open("/afs/ece.cmu.edu/usr/wtabib/astroFPGA/astrovision/output/descriptorsLL0001.txt");
+    winFile.open("/afs/ece.cmu.edu/usr/wtabib/astroFPGA/astrovision/output/windowsLL0001.txt");
 
-        ReadData((char *) gReadData, 3*150, offset);
-		*instruction = 0x00000000;
-		set_instruction(instruction);
-/*		
-        for(i=0; i<NUM_COLS; i++) {
-			//printf("read value at [%d] is %x\n", i, gReadData->data[i]);
-            if (gReadData->data[i] != gWriteData->data[i]+1)
-                printf("DWORD miscompare [%d] -> expected %x : found %x \n", i, gWriteData->data[i], gReadData->data[i]);
-        }
-*/
+    if (descFile.fail()) {
+        cout << "failed to open descFile" << endl;
+        exit(0);
     }
+    if (winFile.fail()) {
+        cout << "failed to open winFile" << endl;
+        exit(0);
+    }
+
+
+    i = 0; j = 0; k = 0;
+    int count = 0;
+    *instruction = 0x00000100;
+    while (i < 150) {
+        gWriteData->data[count] = 0;
+        int meanIndex = count;
+        count++;
+        int mean = 0; 
+
+        //load the descriptor 
+        for(j = 0; j < DESC_SIZE*DESC_SIZE/4; j++) {
+            descFile >> byte0;
+            descFile >> byte1;
+            descFile >> byte2;
+            descFile >> byte3;
+
+            //compute the mean as you see pixel values
+            mean = mean + byte0 + byte1 + byte2 + byte3;
+            packedBytes = PACK(byte0, byte1, byte2, byte3);
+            gWriteData->data[count] = packedBytes;
+            count++;
+        }
+
+
+        //store the mean in the write buffer
+        mean = mean >> 8;
+        gWriteData->data[meanIndex] = mean;
+        
+        //load the window
+        for(k = 0; k < WIN_SIZE*WIN_SIZE/4; k++) {
+            winFile >> byte0;
+            winFile >> byte1;
+            winFile >> byte2;
+            winFile >> byte3;
+            packedBytes = PACK(byte0, byte1, byte2, byte3);
+            gWriteData->data[count] = packedBytes;
+            count++;
+        }
+
+        i++;
+    }
+
+    WriteData((char*) gWriteData, 4*NUM_COLS, offset);
+    flag = 1;
+    *instruction = 0x00000100;
+
+    set_instruction(instruction);
+
+    while(flag == 1){
+        get_instruction(instruction);
+        //		printf("instruction = %x\n", *instruction);
+        if((*instruction & 0xFFFF0000) == 0x04000000){
+            flag =0;
+        }
+    }
+
+    ReadData((char *) gReadData, 4*NUM_COLS, offset);
+
+
+    for(i=0; i<NUM_COLS; i++) {
+        if (gReadData->data[i] != gWriteData->data[i]+1)
+            printf("DWORD miscompare [%d] -> expected %x : found %x \n", i, gWriteData->data[i], gReadData->data[i]);
+    }
+
     time_t end = time(NULL);
     int time = end-start;
     cout << "elapsed time: " << time << " s" << endl;
