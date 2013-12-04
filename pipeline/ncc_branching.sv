@@ -21,44 +21,58 @@
 endmodule: ncc*/
 
 module numeratorTop(
-        input bit               en,
         input bit               clk,
         input bit               rst,
-        input bit  [10:-54]    window_data_in [15:0] [15:0],
-        input bit  [10:-54]    desc_data_in [15:0] [15:0],
+        input bit               window_data_ready,
+        input bit  [8:0]        window_data_in [15:0] [15:0],
+        input bit               desc_data_ready,
+        input bit  [35:0]       desc_data_in,
 
-        output bit              en_out,
-        output bit [31:0]       windowPixelOut [15:0] [15:0],
-        output bit [31:0]       descPixelOut [15:0] [15:0],
-        output bit [10:-54]     descPixelLog2 [15:0] [15:0],
-        output bit [10:-54]     windowPixelLog2 [15:0] [15:0],
+//        output bit              en_out,
+//        output bit [31:0]       windowPixelOut [15:0] [15:0],
+//        output bit [31:0]       descPixelOut [15:0] [15:0],
+//        output bit [10:-54]     descPixelLog2 [15:0] [15:0],
+//        output bit [10:-54]     windowPixelLog2 [15:0] [15:0],
         output bit [31:0]       accOut[15:0][15:0]
     );
 
     bit signed [31:0] accIn [15:0] [15:0];
+    bit en1, en2, en3, en4, en5;
     assign accIn = '{default:0};
+
+    bit [10:-54]                inputToPE_desc [15:0] [15:0];
+    bit [10:-54]                inputToPE_window [15:0] [15:0];
+
+    numeratorDescriptor  nd(.en(desc_data_ready), .desc_array_out(inputToPE_desc), .*);
+    numeratorWindow nw(.en_out(en2), .en(window_data_ready), .window_data_out(inputToPE_window), .*);
+
+
+    bit [31:0]                  descPixelOut [15:0][15:0];
+    bit [31:0]                  windowPixelOut [15:0][15:0];
 
 	genvar i, j;
 	//generate 16x16 PE grid
 	generate
 		for (i = 0; i < 16; i++) begin
 			for (j = 0; j < 16; j++) begin
-				processingElement PE_inst(.clk(clk), .rst(rst), .descPixelLog2In(desc_data_in[i][j]), .windowPixelLog2In(window_data_in[i][j]), .loadDescReg(en), .loadWinReg(en), .accIn(accIn[i][j]), .descPixelOut(descPixelOut[i][j]), .windowPixelOut(windowPixelOut[i][j]), .accOut(accOut[i][j]));
+				processingElement PE_inst(.clk(clk), .rst(rst), .descPixelLog2In(inputToPE_desc[i][j]), .windowPixelLog2In(inputToPE_window[i][j]), .loadDescReg(en2), .loadWinReg(en2), .accIn(accIn[i][j]), .descPixelOut(descPixelOut[i][j]), .windowPixelOut(windowPixelOut[i][j]), .accOut(accOut[i][j]));
 			end
 		end
 	endgenerate
 
     always_ff @(posedge clk) begin
-        en_out <= en;
+//        en_out <= enPE_out;
+        en3 <= en2;
+        en4 <= en3;
     end
 
-    bit lnwd_en_out;
     bit [31:0] treeAdderIn [15:0][15:0];
+
     //latch the data returned from the PE
-    //latchNumWinDesc lnwd(.en(en_out), .data_in(acc_out), data_out(treeAdderIn), .en_out(lnwd_en_out), .*);
+    //latchNumWinDesc lnwd(.en(en3), .data_in(accOut), .data_out(treeAdderIn), .en_out(en4), .*);
 
     //treeadder code here
-    //tree_adder ta (.rst_n(~rst), .enable(en), .*);
+    //tree_adder ta (.rst_n(~rst), .enable(en4), .dataRead(en5));
 
 endmodule
 
