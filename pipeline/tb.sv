@@ -71,9 +71,33 @@ module numeratorTopTB;
         @(posedge clk);
         @(posedge clk);
         @(posedge clk);
+
+        window_data_ready <= 1;
+
+        count = 255;
+        for (i = 0; i < 16; i++) begin
+            for (j = 0; j < 16; j++) begin
+                window_data_in[i][j] = count;
+                count = count-1;
+            end
+        end
+
+        @(posedge clk);
+        window_data_ready <= 0;
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
         @(posedge clk);
 
-	    $finish;
+
+        $finish;
     end
 endmodule:numeratorTopTB 
 

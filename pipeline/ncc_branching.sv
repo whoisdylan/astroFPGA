@@ -62,15 +62,15 @@ module numeratorTop(
 		end
 	endgenerate
 
+    bit [31:0] treeAdderIn [15:0][15:0];
+    //latch the data returned from the PE
+    latchNumWinDesc lnwd(.en(en3), .data_in(accOut), .data_out(treeAdderIn), .en_out(en4), .*);
+
     always_ff @(posedge clk) begin
         en3 <= en2;
     end
+    
 
-
-    bit [31:0] treeAdderIn [15:0][15:0];
-
-    //latch the data returned from the PE
-    latchNumWinDesc lnwd(.en(en3), .data_in(accOut), .data_out(treeAdderIn), .en_out(en4), .*);
 
     //treeadder code here
     tree_adder #(32) ta (.rst_n(~rst), .enable(en4), .operand(treeAdderIn), .sum_result(numerator), .*);
