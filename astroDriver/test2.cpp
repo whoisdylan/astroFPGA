@@ -19,6 +19,9 @@
 
 using namespace std;
 
+unsigned int findFirstOne(unsigned int);
+void saveResults(const unsigned int, const char, const int);
+
 char devname[] = "/dev/xpcie";
 int g_devFile = -1;
 
@@ -228,8 +231,9 @@ void saveResults(const unsigned int readDataBuffer[], const char filename[], con
 		unsigned int corrCoeffInt = readDataBuffer[(i+1)*3];
 		unsigned int corrCoeffDec = readDataBuffer[(i+2)*3];
 		unsigned int exponent = findFirstOne(corrCoeffInt);
-		double corrCoeff = exponent << 52;
-		double corrCoeff = corrCoeff || corrCoeffDec;
+		double corrCoeff = exponent;
+		corrCoeff = corrCoeff << 52;
+		corrCoeff = corrCoeff || corrCoeffDec;
 		resultsFile << windowIndex << "\t" << corrCoeff << endl;
 	}
 	resultsFile.close();
