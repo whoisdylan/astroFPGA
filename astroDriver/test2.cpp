@@ -206,7 +206,7 @@ int main()
 	const char resultsDir[] = "/Users/dylan/Dropbox/files/fpgaResults.txt";
 	// char resultsLoc[100];
 	// sprintf(resultsLoc, "%s%03d%s", resultsDir, 
-	saveResults(gReadData, resultsDir, 150);
+	saveResults(gReadData->data, resultsDir, 150);
 
 /*
     for(i=0; i<NUM_COLS; i++) {
