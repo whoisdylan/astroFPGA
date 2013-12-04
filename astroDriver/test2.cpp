@@ -199,7 +199,7 @@ int main()
 		printf("result back is %x\n",gReadData->data[i]);
 	}
 	
-	//TODO write gReadData to a file!
+	//write gReadData to a file
 	const char resultsDir[] = "/Users/dylan/Dropbox/files/fpgaResults.txt";
 	// char resultsLoc[100];
 	// sprintf(resultsLoc, "%s%03d%s", resultsDir, 
