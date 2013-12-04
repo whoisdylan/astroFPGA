@@ -230,12 +230,13 @@ void saveResults(const unsigned int readDataBuffer[], const char filename[], con
 		windowIndex = windowIndex >> 19;
 		uint64_t corrCoeffInt = (uint64_t) (readDataBuffer[(i+1)*3]);
 		uint64_t corrCoeffSign = ((uint64_t) corrCoeffInt) & 0x80000000;
+		uint64_t corrCoeffDec = ((uint64_t) (readDataBuffer[(i+2)*3]));
 		if (corrCoeffSign) {
 			corrCoeffInt = ~corrCoeffInt + 1;
 			corrCoeffDec = ~corrCoeffDec + 1;
 		}
 		uint64_t exponent = (uint64_t) findFirstOne(corrCoeffInt);
-		uint64_t corrCoeffDec = ((uint64_t) (readDataBuffer[(i+2)*3])) << (20-exponent);
+		uint64_t corrCoeffDec = corrCoeffDec << (20-exponent);
 		uint64_t ccI = (corrCoeffInt << (64-exponent)) >> (64-exponent); //get rid of first 1 bit
 		uint64_t dec = ccI << (52-exponent);
 		dec = dec | corrCoeffDec;
