@@ -20,6 +20,72 @@
 
 endmodule: ncc*/
 
+
+module denominatorTop(
+        input bit               clk,
+        input bit               rst,
+        input bit               window_data_ready,
+        input bit  [8:0]        window_data_in [15:0] [15:0],
+        input bit               desc_data_ready,
+        input bit  [35:0]       desc_data_in,
+
+        output bit [31:0]       accOut[15:0][15:0],
+        output bit  [31:0]      denDesc,
+        output bit              dataReadyDenDesc,
+        output bit  [31:0]      denWin,
+        output bit              dataReadyDenWin
+    );
+
+    bit signed [31:0] accIn [15:0] [15:0];
+    bit en1, en2, en3, en4Desc, en4Win, en5;
+    assign accIn = '{default:0};
+
+    bit [10:-54]                inputToPE_desc [15:0] [15:0];
+    bit [10:-54]                inputToPE_window [15:0] [15:0];
+
+    numeratorDescriptor  nd(.en(desc_data_ready), .desc_array_out(inputToPE_desc), .*);
+    numeratorWindow nw(.en_out(en2), .en(window_data_ready), .window_data_out(inputToPE_window), .*);
+
+
+    bit [31:0]                  descPixelOut [15:0][15:0];
+    bit [31:0]                  windowPixelOut [15:0][15:0];
+
+	genvar i, j;
+	//generate 16x16 PE grid
+	generate
+		for (i = 0; i < 16; i++) begin
+			for (j = 0; j < 16; j++) begin
+				processingElement PE_inst(.clk(clk), .rst(rst), .descPixelLog2In(inputToPE_desc[i][j]), .windowPixelLog2In(inputToPE_window[i][j]), .loadDescReg(en2), .loadWinReg(en2), .accIn(accIn[i][j]), .descPixelOut(descPixelOut[i][j]), .windowPixelOut(windowPixelOut[i][j]), .accOut(accOut[i][j]));
+			end
+		end
+	endgenerate
+
+    bit [31:0] treeAdderDescIn [15:0][15:0];
+    bit [31:0] treeAdderWinIn [15:0][15:0];
+    //latch the data returned from the PE
+    latchNumWinDesc ld(.en(en3), .data_in(descPixelOut), .data_out(treeAdderDescIn), .en_out(en4Desc), .*);
+    latchNumWinDesc lw(.en(en3), .data_in(windowPixelOut), .data_out(treeAdderWinIn), .en_out(en4Win), .*);
+
+    always_ff @(posedge clk, posedge rst) begin
+        if (rst) begin
+            en3 <= 0;
+        end
+        else begin
+            en3 <= en2;
+        end
+    end
+
+    //treeadder code here
+    tree_adder #(32) ta_desc (.rst_n(~rst), .enable(en4Desc), .operand(treeAdderDescIn), .sum_result(denDesc), .dataReady(dataReadyDenDesc), .*);
+    tree_adder #(32) ta_win (.rst_n(~rst), .enable(en4Win), .operand(treeAdderWinIn), .sum_result(denWin), .dataReady(dataReadyDenWin), .*);
+
+    //need to convert back to log 2 and finish off the math
+
+endmodule
+
+
+
+
 module numeratorTop(
         input bit               clk,
         input bit               rst,
@@ -66,8 +132,13 @@ module numeratorTop(
     //latch the data returned from the PE
     latchNumWinDesc lnwd(.en(en3), .data_in(accOut), .data_out(treeAdderIn), .en_out(en4), .*);
 
-    always_ff @(posedge clk) begin
-        en3 <= en2;
+    always_ff @(posedge clk, posedge rst) begin
+        if (rst) begin
+            en3 <= 0;
+        end
+        else begin
+            en3 <= en2;
+        end
     end
     
 
