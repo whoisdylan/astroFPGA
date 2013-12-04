@@ -33,7 +33,9 @@ module numeratorTop(
 //        output bit [31:0]       descPixelOut [15:0] [15:0],
 //        output bit [10:-54]     descPixelLog2 [15:0] [15:0],
 //        output bit [10:-54]     windowPixelLog2 [15:0] [15:0],
-        output bit [31:0]       accOut[15:0][15:0]
+        output bit [31:0]       accOut[15:0][15:0],
+        output bit              dataReady,
+        output bit  [31:0]      numerator
     );
 
     bit signed [31:0] accIn [15:0] [15:0];
@@ -61,18 +63,17 @@ module numeratorTop(
 	endgenerate
 
     always_ff @(posedge clk) begin
-//        en_out <= enPE_out;
         en3 <= en2;
-        en4 <= en3;
     end
+
 
     bit [31:0] treeAdderIn [15:0][15:0];
 
     //latch the data returned from the PE
-    //latchNumWinDesc lnwd(.en(en3), .data_in(accOut), .data_out(treeAdderIn), .en_out(en4), .*);
+    latchNumWinDesc lnwd(.en(en3), .data_in(accOut), .data_out(treeAdderIn), .en_out(en4), .*);
 
     //treeadder code here
-    //tree_adder ta (.rst_n(~rst), .enable(en4), .dataRead(en5));
+    tree_adder #(32) ta (.rst_n(~rst), .enable(en4), .operand(treeAdderIn), .sum_result(numerator), .*);
 
 endmodule
 
