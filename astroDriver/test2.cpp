@@ -184,21 +184,27 @@ int main()
     set_instruction(instruction);
 
     while(flag == 1){
+		sleep(1);
         get_instruction(instruction);
-        //		printf("instruction = %x\n", *instruction);
+        	printf("instruction = %x\n", *instruction);
         if((*instruction & 0xFFFF0000) == 0x04000000){
             flag =0;
         }
     }
 
-    ReadData((char *) gReadData, 4*NUM_COLS, offset);
+	offset = 990000;
+    ReadData((char *) gReadData, 3*150, offset);
 
+	for(i =0; i <150; i++){
+		printf("result back is %x\n",gReadData->data[i]);
+	}
 
+/*
     for(i=0; i<NUM_COLS; i++) {
-        if (gReadData->data[i] != gWriteData->data[i]+1)
+        if (gReadData->data[i] != gWriteData->data[i])
             printf("DWORD miscompare [%d] -> expected %x : found %x \n", i, gWriteData->data[i], gReadData->data[i]);
     }
-
+*/
     time_t end = time(NULL);
     int time = end-start;
     cout << "elapsed time: " << time << " s" << endl;

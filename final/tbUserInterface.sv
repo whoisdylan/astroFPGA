@@ -41,9 +41,25 @@ module systemTest;
 	logic tem;
 	logic [7:0]		set_test;
 	logic [20:0]	address;
-	
+	int				count;
 
     user_interface uft (.*);
+
+always @(posedge clk) begin
+//	$display($time, , "state = %s",uft.cs);
+	if(uft.cs == 'b100)begin
+		$display($time, ," write back is good!!");
+	end
+	if(uft.chop.set_done == 1) begin
+		$display($time, , "set_done = %b", uft.chop.set_done);
+		$display($time, , "the state is = %s", uft.cs);
+	end
+	if(out_flag == 32'h0000_0004) begin
+		$display("receive set complete flag");
+	end
+	if(uft.chop.window_ready) count++;
+end
+
 /*
 	address_translator ah(row_test, col_test, tem, set_test, address);
 
@@ -78,15 +94,18 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 		$monitor($stime,, "clk=%d, rstn=%d, cs=%s, window_data_ready =%b, desc_data_ready =%b, desc_data_in =%d", clk,rst_n, uft.cs, uft.window_ready, uft.template_ready,uft.template_data);
 */
 /*
-		$monitor($stime,, "clk=%d, rst_n=%d, req=%d, rd_wr=%d, write_data=%d, read_data=%d, set_done=%d, row=%d, col=%d, tem_win=%d,ready_2_start=%d, greatestNCCLog2=%b, greatestWindowIndex=%d", clk, rst_n, req, rd_wr, write_data, read_data, set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex);
+		$monitor($stime,, "clk=%d, rst_n=%d, req=%d, rd_wr=%d, write_data=%d, read_data=%d, set_done=%d, row=%d, col=%d, tem_win=%d,ready_2_start=%d, greatestNCCLog2=%b, greatestWindowIndex=%d, count =%d", clk, rst_n, req, rd_wr, write_data, read_data, set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex, count);
 */	
 
-	$monitor($time, , "address =%d, data = %h, %s tem_win =%b, row =%d col =%d set =%d greatestNCC =%d.%b\nnum=%b.%b\nden=%b.%b\ncorrCoeffLog2=%b.%b\ndsos=%d, wsos=%d\ndesc_in=%b,%b,%b,%b\nwin_in=%b,%b,%b,%b\nwin_hand_data_in=%b,%b,%b,%b\nwin_hand_data_out=%h", req_addr, rd_data, uft.chop.cs,uft.chop.tem_win, uft.chop.row, uft.chop.col, uft.set,$signed(uft.chop.greatestNCCLog2[31:0]),uft.chop.greatestNCCLog2[-1:-32], uft.chop.ncci.numeratorLog2[9:0], uft.chop.ncci.numeratorLog2[-1:-54], uft.chop.ncci.denomLog2[9:0], uft.chop.ncci.denomLog2[-1:-54], uft.chop.ncci.corrCoeffLog2[9:0], uft.chop.ncci.corrCoeffLog2[-1:-54], uft.chop.ncci.descSumOfSquares, uft.chop.ncci.winSumOfSquares, uft.chop.ncci.desc_data_in[35:27], uft.chop.ncci.desc_data_in[26:18], uft.chop.ncci.desc_data_in[17:9], uft.chop.ncci.desc_data_in[8:0], uft.chop.ncci.window_data_in[0][0], uft.chop.ncci.window_data_in[0][1], uft.chop.ncci.window_data_in[0][2], uft.chop.ncci.window_data_in[0][3], uft.chop.do_wind.input_data[31:24], uft.chop.do_wind.input_data[23:16], uft.chop.do_wind.input_data[15:8], uft.chop.do_wind.input_data[7:0],uft.chop.do_wind.window_data); 
-	/*
+	$monitor($time, , "address =%d, data = %h, %s tem_win =%b, row =%d col =%d set =%d greatestNCC =%d.%b\nnum=%b.%b\nden=%b.%b\ncorrCoeffLog2=%b.%b\ndsos=%d, wsos=%d\ndesc_in=%b,%b,%b,%b\nwin_in=%b,%b,%b,%b\nwin_hand_data_in=%b,%b,%b,%b\nwin_hand_data_out=%h, count = %d", req_addr, rd_data, uft.chop.cs,uft.chop.tem_win, uft.chop.row, uft.chop.col, uft.set,$signed(uft.chop.greatestNCCLog2[31:0]),uft.chop.greatestNCCLog2[-1:-32], uft.chop.ncci.numeratorLog2[9:0], uft.chop.ncci.numeratorLog2[-1:-54], uft.chop.ncci.denomLog2[9:0], uft.chop.ncci.denomLog2[-1:-54], uft.chop.ncci.corrCoeffLog2[9:0], uft.chop.ncci.corrCoeffLog2[-1:-54], uft.chop.ncci.descSumOfSquares, uft.chop.ncci.winSumOfSquares, uft.chop.ncci.desc_data_in[35:27], uft.chop.ncci.desc_data_in[26:18], uft.chop.ncci.desc_data_in[17:9], uft.chop.ncci.desc_data_in[8:0], uft.chop.ncci.window_data_in[0][0], uft.chop.ncci.window_data_in[0][1], uft.chop.ncci.window_data_in[0][2], uft.chop.ncci.window_data_in[0][3], uft.chop.do_wind.input_data[31:24], uft.chop.do_wind.input_data[23:16], uft.chop.do_wind.input_data[15:8], uft.chop.do_wind.input_data[7:0],uft.chop.do_wind.window_data, count); 
+
+
+/*
 	uft.chop.do_wind.window_data[0][4], uft.chop.do_wind.window_data[0][5], uft.chop.do_wind.window_data[0][6], uft.chop.do_wind.window_data[0][7]);
 */
 
 		clk = 0;
+		count = 0;
         rst_n = 0;
         rst_n <= #1 1;
 		forever  #5 clk =~clk;
@@ -111,7 +130,6 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 		$display("%h",mem[i]);
 	end
 */
-	$display(mem[86]);
 	in_flag = 32'h0001_0000;		//signal to start.
 
 
@@ -119,9 +137,13 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 	@(posedge clk);
 	in_flag = 32'h0000_0000;
 
-repeat(50) @(posedge clk);
+repeat (10000) @(posedge clk);
 
-	#85000;
+	$display($time, ,"count is =%d", count);
+
+//repeat(10000000) @(posedge clk);
+
+
 	
 	/*
 		//rs = new(20);

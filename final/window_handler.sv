@@ -178,7 +178,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 			end
 			RSHIFT: begin // first 4 column sets are in. load in the rest
 						  // and keep shifting window
-				if(store_col == 'd19 && store_window_offset == 'd63)begin
+				if(store_col == 'd19 && store_window_offset == 'd64)begin
 						if(store_row == 'd79) begin // last row
 							load = 1'b0;
 							ns = INIT0;

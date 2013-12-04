@@ -55,7 +55,7 @@ address_translator translator(row, col, tem_win,set,user_rd_req_addr, inst);
 assign user_req_addr = (rd_wr)? user_wr_req_addr: user_rd_req_addr;
 assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //set *4
 	
-	enum {INIT, WAIT, READ, WRITE, DONE} cs,ns;
+	enum {INIT, WAIT, READ, WRITE, DONE=3'b100} cs,ns;
     	
     	always_comb begin
     		rd_req = 1'b0;
@@ -93,12 +93,20 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
 						ready_2_start =1'b1;
 						if(req) ns = (rd_wr)? WRITE:READ;
 						else ns = WAIT;
+						if(set_done) begin
+							ns = DONE;
+							ready_2_start = 1'b0;
+						end
+
 				end
 				READ: begin
 						ready_2_start =1'b1;
 						if(req&&rd_wr) FPGA_wr_en =1'b1; // next operation is write
 						
-						if(set_done) ns = DONE;
+						if(set_done) begin
+							ns = DONE;
+							ready_2_start = 1'b0;
+						end
 						else if(req) ns = (rd_wr)? WRITE:READ;
 						else ns = WAIT;
 				end
@@ -107,7 +115,10 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
 						ready_2_start =1'b1;
 						if(req&&rd_wr) FPGA_wr_en =1'b1; // next operation is write
 						
-						if(set_done) ns = DONE;
+						if(set_done)begin
+							ns = DONE;
+							ready_2_start = 1'b0;
+						end
 						else if(req) ns = (rd_wr)? WRITE:READ;
 						else ns = WAIT;
 				end
