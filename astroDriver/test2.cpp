@@ -236,7 +236,7 @@ void saveResults(const unsigned int readDataBuffer[], const char filename[], con
 			corrCoeffDec = ~corrCoeffDec + 1;
 		}
 		uint64_t exponent = (uint64_t) findFirstOne(corrCoeffInt);
-		uint64_t corrCoeffDec = corrCoeffDec << (20-exponent);
+		corrCoeffDec = corrCoeffDec << (20-exponent);
 		uint64_t ccI = (corrCoeffInt << (64-exponent)) >> (64-exponent); //get rid of first 1 bit
 		uint64_t dec = ccI << (52-exponent);
 		dec = dec | corrCoeffDec;
