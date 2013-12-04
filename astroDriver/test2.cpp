@@ -20,7 +20,7 @@
 using namespace std;
 
 unsigned int findFirstOne(unsigned int);
-void saveResults(const unsigned int, const char, const int);
+void saveResults(const unsigned int[], const char[], const int);
 
 char devname[] = "/dev/xpcie";
 int g_devFile = -1;
