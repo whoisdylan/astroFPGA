@@ -1,4 +1,65 @@
-module processingElementTB;
+module myTreeAdderTB;
+    logic clk;
+    logic rst_n;
+    logic enable;
+    logic signed [31:0] operand[16][16];
+    logic signed [31:0] sum_result;
+    logic dataReady;
+
+
+    tree_adder  #(32) ta (.*);
+
+    initial begin
+	    clk = 0;
+	    rst_n = 1;
+	    forever	#5 clk = ~clk;
+    end
+
+    int count, i, j;
+    initial begin
+
+        $monitor("sum_result=%d dataReady=%d sum_0=%d sum_1=%d sum_2=%d sum_3=%d sum_4=%d sum_5=%d sum_6=%d sum_7=%d en=%d en0=%d en1=%d en2=%d en3=%d en4=%d en5=%d en6=%d en7=%d", sum_result, dataReady, ta.sum_0_in[4],
+        ta.sum_1_in[4], ta.sum_2_in[4], ta.sum_3_in[4], ta.sum_4_in[4], ta.sum_5_in[1],
+        ta.sum_6_in[1], ta.sum_7_in[1], ta.enable, enable, ta.en0, ta.en1, ta.en2,
+        ta.en3, ta.en4, ta.en5, ta.en6, ta.en7);
+
+	    rst_n = 0;
+        enable = 0;
+
+        @(posedge clk);
+
+        rst_n <= 1;
+        enable <= 1;
+
+        count = 0;
+        for (i = 0; i < 16; i++) begin
+            for (j = 0; j < 16; j++) begin
+                operand[i][j] = count;
+                count = count+1;
+            end
+        end
+        $display("%d", operand[8][8]);
+
+
+        @(posedge clk);
+        enable <= 0;
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+
+
+	    $finish;
+    end
+endmodule: myTreeAdderTB
+
+/*module processingElementTB;
     bit             clk;
     bit             rst;
 
@@ -85,14 +146,14 @@ module processingElementTB;
         @(posedge clk);
         @(posedge clk);
 
-
-
-
-
-        
 	    $finish;
     end
-endmodule: processingElementTB
+endmodule: processingElementTB*/
+
+
+
+
+
 
 
 /*module numeratorWindowTB;

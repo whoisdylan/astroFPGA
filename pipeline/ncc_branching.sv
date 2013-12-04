@@ -8,7 +8,7 @@
 	input bit signed [8:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
 	output bit signed [31:-32] greatestNCC,
-	output bit [11:0] greatestWindowIndex);
+	output bit [12:0] greatestWindowIndex);
 
     bit     [10:-54]        desc_array_out  [15:0] [15:0];
     bit                     en_out;
@@ -47,7 +47,48 @@ module numeratorTop(
 			end
 		end
 	endgenerate
+
+    always_ff @(posedge clk) begin
+        en_out <= en;
+    end
+
+    bit lnwd_en_out;
+    bit [31:0] treeAdderIn [15:0][15:0];
+    //latch the data returned from the PE
+    //latchNumWinDesc lnwd(.en(en_out), .data_in(acc_out), data_out(treeAdderIn), .en_out(lnwd_en_out), .*);
+
+    //treeadder code here
+    //tree_adder ta (.rst_n(~rst), .enable(en), .*);
+
 endmodule
+
+
+module latchNumWinDesc (
+    input bit                   en,
+    input bit                   clk,
+    input bit                   rst,
+    input bit       [31:0]    data_in  [15:0] [15:0],
+    output bit      [31:0]    data_out [15:0] [15:0],
+
+    output bit                  en_out
+    );
+
+    always_ff @(posedge clk, posedge rst) begin
+       
+        if (rst) begin
+            data_out <= '{default:0};
+        end
+        else if (en) begin
+            data_out <= data_in;
+        end
+        else begin
+            data_out <= data_out;
+        end
+        en_out <= en;
+    end
+
+endmodule:latchNumWinDesc
+
 
 
 module processingElement
@@ -422,6 +463,178 @@ module ilog2
 endmodule: ilog2
 
 
+module tree_adder
+#(parameter inputSize = 9)
+(input logic clk,
+input logic rst_n,
+input logic enable,
+input logic signed [inputSize-1:0] operand[16][16] ,
+output logic signed [inputSize-1:0] sum_result,
+output logic dataReady);
+
+logic signed [inputSize -1:0] sum_0_in[128];
+logic signed [inputSize -1:0] sum_1_in[64];
+logic signed [inputSize -1:0] sum_2_in[32];
+logic signed [inputSize -1:0] sum_3_in[16];
+logic signed [inputSize -1:0] sum_4_in[8];
+logic signed [inputSize -1:0] sum_5_in[4];
+logic signed [inputSize -1:0] sum_6_in[2];
+logic signed [inputSize -1:0] sum_7_in;
+
+logic signed [inputSize -1:0] sum_0_out[128];
+logic signed [inputSize -1:0] sum_1_out[64];
+logic signed [inputSize -1:0] sum_2_out[32];
+logic signed [inputSize -1:0] sum_3_out[16];
+logic signed [inputSize -1:0] sum_4_out[8];
+logic signed [inputSize -1:0] sum_5_out[4];
+logic signed [inputSize -1:0] sum_6_out[2];
+logic signed [inputSize -1:0] sum_7_out;
+
+logic en0;
+logic en1;
+logic en2;
+logic en3;
+logic en4;
+logic en5;
+logic en6;
+logic en7;
+
+always_ff @(posedge clk) begin
+    en0 <= enable;
+    en1 <= en0;
+    en2 <= en1;
+    en3 <= en2;
+    en4 <= en3;
+    en5 <= en4;
+    en6 <= en5;
+    dataReady <= en6;
+end
+
+
+assign sum_result = sum_7_out;
+//pair off all the values.
+// first pairing 256 ==> 128
+
+genvar i;
+generate 
+
+	for(i = 0 ; i < 128; i++) begin
+	// 128 sum
+		adder#(inputSize) stage0(.input_A(operand[i/8][(i%8)*2]),.input_B(operand[i/8][(i%8)*2 +1]),.out(sum_0_in[i]));
+		adder_reg#(inputSize) re_0(.clk(clk),.rst_n(rst_n),.in(sum_0_in[i]),.enable(enable),.out(sum_0_out[i]));
+
+	end
+endgenerate
+
+generate 
+// second pairing 128 ==>64
+for(i = 0; i< 64; i++)begin
+
+adder#(inputSize) stage1(.input_A(sum_0_out[i*2]),.input_B(sum_0_out[i*2+1]),.out(sum_1_in[i]));
+adder_reg#(inputSize) re_1(.clk(clk),.rst_n(rst_n),.in(sum_1_in[i]),.enable(en0),.out(sum_1_out[i]));
+
+
+
+end
+endgenerate
+
+generate
+// third pairing 64 ==>32
+for(i = 0; i<32; i++)begin
+
+adder#(inputSize) stage2(.input_A(sum_1_out[i*2]),.input_B(sum_1_out[i*2+1]),.out(sum_2_in[i]));
+adder_reg#(inputSize) re_2(.clk(clk),.rst_n(rst_n),.in(sum_2_in[i]),.enable(en1),.out(sum_2_out[i]));
+
+
+end
+endgenerate
+
+generate
+// forth pairing 32 ==>16
+for( i = 0; i<16; i++)begin
+
+adder#(inputSize) stage3(.input_A(sum_2_out[i*2]),.input_B(sum_2_out[i*2+1]),.out(sum_3_in[i]));
+adder_reg#(inputSize) re_3(.clk(clk),.rst_n(rst_n),.in(sum_3_in[i]),.enable(en2),.out(sum_3_out[i]));
+
+
+end
+endgenerate
+
+generate
+// fifth pairing 16 ==>8
+
+for( i = 0; i <8; i++)begin
+
+adder#(inputSize) stage4(.input_A(sum_3_out[i*2]),.input_B(sum_3_out[i*2+1]),.out(sum_4_in[i]));
+adder_reg#(inputSize) re_4(.clk(clk),.rst_n(rst_n),.in(sum_4_in[i]),.enable(en3),.out(sum_4_out[i]));
+
+
+end
+endgenerate
+generate
+// sixth pairing 8 ==> 4
+
+for( i = 0; i < 4; i++)begin
+
+adder#(inputSize) stage5(.input_A(sum_4_out[i*2]),.input_B(sum_4_out[i*2+1]),.out(sum_5_in[i]));
+adder_reg#(inputSize) re_5(.clk(clk),.rst_n(rst_n),.in(sum_5_in[i]),.enable(en4),.out(sum_5_out[i]));
+
+
+end
+endgenerate
+generate 
+// seventh pairing 4 ==>2
+
+for( i = 0; i <2; i++)begin
+
+adder#(inputSize) stage6(.input_A(sum_5_out[i*2]),.input_B(sum_5_out[i*2+1]),.out(sum_6_in[i]));
+adder_reg#(inputSize) re_6(.clk(clk),.rst_n(rst_n),.in(sum_6_in[i]),.enable(en5),.out(sum_6_out[i]));
+
+
+end
+endgenerate
+
+generate
+// eigth pairing 2 ==>1
+
+adder#(inputSize) stage7(.input_A(sum_6_out[0]),.input_B(sum_6_out[1]),.out(sum_7_in));
+adder_reg#(inputSize) re_7(.clk(clk),.rst_n(rst_n),.in(sum_7_in),.enable(en6),.out(sum_7_out));
+
+endgenerate
+
+endmodule: tree_adder
+
+module adder #(parameter inputSize = 9)(
+				input logic signed [inputSize-1:0] input_A,
+				input logic signed [inputSize-1:0] input_B,
+				output logic signed [inputSize-1:0] out
+);
+
+assign out = input_A + input_B;
+
+endmodule: adder
+
+
+module adder_reg #(parameter inputSize = 9)
+		 (input logic clk,
+		  input logic rst_n,
+		  input logic signed [inputSize-1:0] in,
+		  input logic enable,
+		  output logic signed[inputSize-1:0] out);
+
+always_ff@(posedge clk,negedge rst_n)begin
+	if(~rst_n)begin
+		out <= 'd0;
+	end
+	else if (enable)begin
+		out <= in;
+	end
+	else begin
+		out <= out;
+	end
+end
+endmodule: adder_reg
+
 /*
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	enum logic {WIN_WAIT, WIN_LOAD} currStateWin, nextStateWin;
@@ -541,10 +754,10 @@ endmodule: ilog2
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
 
 	logic loadGreatestReg, clearWinCount, clearGreatestReg;
-	bit [11:0] windowCount;
+	bit [12:0] windowCount;
 	//register to store greatest correlation coefficient and window index
-	priorityRegisterFP #(12) greatestNCCRegFP (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, clearGreatestReg, greatestNCC, greatestWindowIndex);
-	counter #(12) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
+	priorityRegisterFP #(13) greatestNCCRegFP (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, clearGreatestReg, greatestNCC, greatestWindowIndex);
+	counter #(13) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
 
 	//descriptor loading fsm
 	always_comb begin
@@ -590,7 +803,7 @@ endmodule: ilog2
 			WIN_LOAD: begin
 				loadGreatestReg = 1'b1;
 				done_with_window_data = 1'b1;
-				if (windowCount >= (4095)) begin
+				if (windowCount >= (4224)) begin
 					clearWinCount = 1'b1;
 					clearGreatestReg = 1'b1;
 				end
