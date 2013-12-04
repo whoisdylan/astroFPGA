@@ -8,7 +8,7 @@ module ncc
 	input bit signed [8:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
 	output bit signed [31:-32] greatestNCC,
-	output bit [11:0] greatestWindowIndex);
+	output bit [12:0] greatestWindowIndex);
 
 	enum logic {DESC_WAIT, DESC_LOAD} currStateDesc, nextStateDesc;
 	enum logic {WIN_WAIT, WIN_LOAD} currStateWin, nextStateWin;
@@ -130,11 +130,11 @@ module ncc
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
 
 	logic loadGreatestReg, clearWinCount, clearGreatestReg;
-	bit [11:0] windowCount;
+	bit [12:0] windowCount;
 	//register to store greatest correlation coefficient and window index
 	/*priorityRegister #(9) greatestNCCReg (corrCoeffLog2, windowCount, clk, rst, loadGreatestReg, greatestNCCLog2, greatestWindowIndex);*/
-	priorityRegisterFP #(12) greatestNCCRegFP (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, clearGreatestReg, greatestNCC, greatestWindowIndex);
-	counter #(12) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
+	priorityRegisterFP #(13) greatestNCCRegFP (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, clearGreatestReg, greatestNCC, greatestWindowIndex);
+	counter #(13) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
 
 	//descriptor loading fsm
 	always_comb begin
@@ -187,7 +187,7 @@ module ncc
 			WIN_LOAD: begin
 				loadGreatestReg = 1'b1;
 				done_with_window_data = 1'b1;
-				if (windowCount >= (4095)) begin
+				if (windowCount >= (4224)) begin
 					clearWinCount = 1'b1;
 					clearGreatestReg = 1'b1;
 				end
