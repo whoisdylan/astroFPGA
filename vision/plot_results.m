@@ -4,8 +4,8 @@ numPoints = 150;
 % direc = 'C:\Users\dylan.koenig\Dropbox\Hongbin\roof_images\rectified\';
 % direc = 'C:\Users\dylan.koenig\Dropbox\datasets\zipline\';
 % direcC = 'C:\Users\dylan.koenig\Dropbox\astromats_three\';
-direc = '/Users/dylan/Dropbox/Hongbin/roof_images/rectified/';
-direcC = '/Users/dylan/Documents/datasets/zipline2/descent1/';
+direcC = '/Users/dylan/Dropbox/files/';
+direc = '/Users/dylan/Documents/datasets/zipline2/descent1/';
 % DL = dir([direc 'L_*.png']);
 % DR = dir([direc 'R_*.png']);
 DL = dir([direc 'left_rect_*.png']);
@@ -34,11 +34,28 @@ corrPrev = zeros(numPoints,2,numImages-1);
 corrNext = zeros(numPoints,2,numImages-1);
 corrRight = zeros(numPoints,2,numImages-1);
 for i=1:numImages-1;
-    corrPrev(:,:,i) = load([direcC DCP(i).name]);
+%     corrPrev(:,:,i) = load([direcC DCP(i).name]);
     corrNext(:,:,i) = load([direcC DCN(i).name]);
-    corrRight(:,:,i) = load([direcC DCR(i).name]);
+%     corrRight(:,:,i) = load([direcC DCR(i).name]);
 end
 display('finished loading correspondences');
+%%
+% load ncc results from FPGA
+corrIndexes = load([direcC 'fpgaResults.txt']);
+for i=1:numImages-1
+    rows = corrNext(:,2,i);
+    cols = corrNext(:,1,i);
+    colOffsets = mod(corrIndexes(:,1), 65);
+    rowOffsets = floor(corrIndexes(:,1)/65);
+    rows0 = rows - 32*5;
+    cols0 = cols - 32*5;
+    corrPrev(:,:,i) = [cols0+colOffsets; rows0+rowOffsets];
+    rows(rows>0) = 1;
+    cols(cols>0) = 1;
+    mask = rows | cols;
+    corrPrev(:,:,i) = corrPrev(:,:,i) | mask;
+end
+
 %%
 %save tri-image figs to show correspondences
 fig = figure;
