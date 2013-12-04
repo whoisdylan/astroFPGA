@@ -198,6 +198,12 @@ int main()
 	for(i =0; i <150; i++){
 		printf("result back is %x\n",gReadData->data[i]);
 	}
+	
+	//TODO write gReadData to a file!
+	const char resultsDir[] = "/Users/dylan/Dropbox/files/fpgaResults.txt";
+	// char resultsLoc[100];
+	// sprintf(resultsLoc, "%s%03d%s", resultsDir, 
+	saveResults(gReadData, resultsDir, 150);
 
 /*
     for(i=0; i<NUM_COLS; i++) {
@@ -212,3 +218,30 @@ int main()
     return 0;
 }
 
+void saveResults(const unsigned int readDataBuffer[], const char filename[], const int numPoints) {
+	ofstream resultsFile;
+	resultsFile.open(filename);
+	for (int i = 0; i < numPoints; i++) {
+		unsigned int windowIndex = readDataBuffer[i*3];
+		//only need 13 MSB of windowIndex;
+		windowIndex = windowIndex >> 19;
+		unsigned int corrCoeffInt = readDataBuffer[(i+1)*3];
+		unsigned int corrCoeffDec = readDataBuffer[(i+2)*3];
+		unsigned int exponent = findFirstOne(corrCoeffInt);
+		double corrCoeff = exponent << 52;
+		double corrCoeff = corrCoeff || corrCoeffDec;
+		resultsFile << windowIndex << "\t" << corrCoeff << endl;
+	}
+	resultsFile.close();
+}
+
+unsigned int findFirstOne(unsigned int x) {
+	static const unsigned int bval[] =
+	{0,1,2,2,3,3,3,3,4,4,4,4,4,4,4,4};
+
+	unsigned int r = 0;
+	if (x & 0xFFFF0000) { r += 16/1; x >>= 16/1; }
+	if (x & 0x0000FF00) { r += 16/2; x >>= 16/2; }
+	if (x & 0x000000F0) { r += 16/4; x >>= 16/4; }
+	return r + bval[x];
+}
