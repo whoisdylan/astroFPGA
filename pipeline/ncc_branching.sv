@@ -11,6 +11,7 @@
 	output bit [11:0] greatestWindowIndex);
 
     bit     [10:-54]        desc_array_out  [15:0] [15:0];
+    bit                     en_out;
 
     numeratorDescriptor     nd (.en(desc_data_ready), .*);
     numeratorWindow         nw (.en(window_data_ready), .*);
@@ -19,12 +20,93 @@
 
 endmodule: ncc*/
 
+module numeratorTop(
+        input bit               en,
+        input bit               clk,
+        input bit               rst,
+        input bit  [10:-54]    window_data_in [15:0] [15:0],
+        input bit  [10:-54]    desc_data_in [15:0] [15:0],
+
+        output bit              en_out,
+        output bit [31:0]       windowPixelOut [15:0] [15:0],
+        output bit [31:0]       descPixelOut [15:0] [15:0],
+        output bit [10:-54]     descPixelLog2 [15:0] [15:0],
+        output bit [10:-54]     windowPixelLog2 [15:0] [15:0],
+        output bit [31:0]       accOut[15:0][15:0]
+    );
+
+    bit signed [31:0] accIn [15:0] [15:0];
+    assign accIn = '{default:0};
+
+	genvar i, j;
+	//generate 16x16 PE grid
+	generate
+		for (i = 0; i < 16; i++) begin
+			for (j = 0; j < 16; j++) begin
+				processingElement PE_inst(.clk(clk), .rst(rst), .descPixelLog2In(desc_data_in[i][j]), .windowPixelLog2In(window_data_in[i][j]), .loadDescReg(en), .loadWinReg(en), .accIn(accIn[i][j]), .descPixelOut(descPixelOut[i][j]), .windowPixelOut(windowPixelOut[i][j]), .accOut(accOut[i][j]));
+			end
+		end
+	endgenerate
+endmodule
+
+
+module processingElement
+	(input bit	[10:-54]	descPixelLog2In,
+	 input bit	[10:-54]	windowPixelLog2In,
+	 input bit			clk, rst, loadDescReg, loadWinReg,
+	 input bit signed [31:0] accIn,
+	 output bit signed [31:0] descPixelOut,
+	 output bit signed [31:0] windowPixelOut,
+	 output bit	signed [31:0] accOut);
+	
+	bit [10:-54] descPixelLog2Out, windowPixelLog2Out;
+	bit [9:-54] tempSumLog2, descPixelLog2, windowPixelLog2;
+	bit [31:0] tempSum;
+	bit descSignBit, winSignBit;
+	assign descSignBit = descPixelLog2Out[10];
+	assign winSignBit = windowPixelLog2Out[10];
+
+	ilog2 ilog2_inst (tempSumLog2, tempSum);
+
+	//register for descriptor pixel
+	registerLog2 #(10) descReg (descPixelLog2In, clk, rst, loadDescReg, descPixelLog2Out);
+	//register for storing "LTC"
+	registerLog2 #(10) windowReg (windowPixelLog2In, clk, rst, loadWinReg, windowPixelLog2Out);
+
+	//output the ilog2 of the square of the pixels for denominator computation
+	assign descPixelLog2 = descPixelLog2Out[9:-54] << 1;
+	assign windowPixelLog2 = windowPixelLog2Out[9:-54] << 1;
+	ilog2 ilog2_desc_inst (descPixelLog2, descPixelOut);
+	ilog2 ilog2_win_inst (windowPixelLog2, windowPixelOut);
+
+	assign tempSumLog2 = descPixelLog2Out[9:-54] + windowPixelLog2Out[9:-54];
+	assign accOut = (descSignBit ^ winSignBit) ? (accIn - signed'(tempSum)) : (accIn + signed'(tempSum));
+
+endmodule: processingElement
+
+module registerLog2
+	#(parameter w = 10)
+	(input bit	[w:-54]	dataIn,
+	 input bit			clk, rst, load,
+	 output bit	[w:-54] dataOut);
+
+	always_ff @(posedge clk, posedge rst) begin
+		if (rst) begin
+			dataOut <= 'd0;
+		end
+		else if (load) begin
+			dataOut <= dataIn;
+		end
+	end
+endmodule: registerLog2
+
 module numeratorWindow (
         input bit               en,
         input bit               clk,
         input bit               rst,
         input bit   [8:0]       window_data_in  [15:0] [15:0],
-        output bit  [10:-54]    window_data_out [15:0] [15:0]
+        output bit  [10:-54]    window_data_out [15:0] [15:0],
+        output bit              en_out
 
     );
 
@@ -41,8 +123,6 @@ module numeratorWindow (
 		end
 	endgenerate
 
-
-
 endmodule:numeratorWindow
 
 module latchNumWin (
@@ -50,7 +130,9 @@ module latchNumWin (
     input bit                   clk,
     input bit                   rst,
     input bit       [10:-54]    window_data_in  [15:0] [15:0],
-    output bit      [10:-54]    window_data_out [15:0] [15:0]
+    output bit      [10:-54]    window_data_out [15:0] [15:0],
+
+    output bit                  en_out
     );
 
     always_ff @(posedge clk, posedge rst) begin
@@ -64,6 +146,7 @@ module latchNumWin (
         else begin
             window_data_out <= window_data_out;
         end
+        en_out <= en;
     end
 
 endmodule:latchNumWin
