@@ -236,7 +236,8 @@ void saveResults(const unsigned int readDataBuffer[], const char filename[], con
 		}
 		uint64_t exponent = (uint64_t) findFirstOne(corrCoeffInt);
 		uint64_t corrCoeffDec = ((uint64_t) (readDataBuffer[(i+2)*3])) << (20-exponent);
-		uint64_t dec = corrCoeffInt << (51-exponent);
+		uint64_t ccI = (corrCoeffInt << (64-exponent)) >> (64-exponent); //get rid of first 1 bit
+		uint64_t dec = ccI << (52-exponent);
 		dec = dec | corrCoeffDec;
 		double corrCoeffE = 0;
 		// unsigned char *cce = reinterpret_cast<unsigned char *>(&corrCoeff);
