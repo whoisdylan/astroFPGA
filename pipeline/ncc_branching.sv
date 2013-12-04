@@ -10,12 +10,63 @@
 	output bit signed [31:-32] greatestNCC,
 	output bit [11:0] greatestWindowIndex);
 
-    numeratorDescriptor     nd (.*);
-    numeratorWindow         nw (.*);
+    bit     [10:-54]        desc_array_out  [15:0] [15:0];
+
+    numeratorDescriptor     nd (.en(desc_data_ready), .*);
+    numeratorWindow         nw (.en(window_data_ready), .*);
     denominatorDescriptor   dd (.*);
     denominatorWindow       dw (.*);
 
 endmodule: ncc*/
+
+module numeratorWindow (
+        input bit               en,
+        input bit               clk,
+        input bit               rst,
+        input bit   [8:0]       window_data_in  [15:0] [15:0],
+        output bit  [10:-54]    window_data_out [15:0] [15:0]
+
+    );
+
+	bit [10:-54] windowLog2 [15:0] [15:0];
+    latchNumWin lnw (.window_data_in(windowLog2),.*);
+
+    //window log2 hardware
+	genvar i, j;
+	generate
+		for (i = 0; i < 16; i++) begin
+			for (j = 0; j < 16; j++) begin
+				log2 windowLog2_inst({{23{window_data_in[i][j][8]}}, window_data_in[i][j]}, windowLog2[i][j]);
+			end
+		end
+	endgenerate
+
+
+
+endmodule:numeratorWindow
+
+module latchNumWin (
+    input bit                   en,
+    input bit                   clk,
+    input bit                   rst,
+    input bit       [10:-54]    window_data_in  [15:0] [15:0],
+    output bit      [10:-54]    window_data_out [15:0] [15:0]
+    );
+
+    always_ff @(posedge clk, posedge rst) begin
+       
+        if (rst) begin
+            window_data_out <= '{default:0};
+        end
+        else if (en) begin
+            window_data_out <= window_data_in;
+        end
+        else begin
+            window_data_out <= window_data_out;
+        end
+    end
+
+endmodule:latchNumWin
 
 
 // Takes in 36 bits (4 signed bytes of data)
@@ -70,8 +121,7 @@ module latchNumDesc (
         if (rst) begin
             desc_array_out <= '{default:0};
         end
-
-        if (en) begin
+        else if (en) begin
             desc_array_out[iCounterOld][jCounterOld] <= desc_data_in[0];
             desc_array_out[iCounterOld][jCounterOld+5'd1] <= desc_data_in[1];
             desc_array_out[iCounterOld][jCounterOld+5'd2] <= desc_data_in[2];
@@ -79,6 +129,9 @@ module latchNumDesc (
 
             jCounterOld <= jCounterNew;
             iCounterOld <= iCounterNew;
+        end
+        else begin
+            desc_array_out <= desc_array_out;
         end
     end
 
