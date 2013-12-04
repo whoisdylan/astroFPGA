@@ -33,7 +33,9 @@ module denominatorTop(
         output bit  [31:0]      denDesc,
         output bit              dataReadyDenDesc,
         output bit  [31:0]      denWin,
-        output bit              dataReadyDenWin
+        output bit              dataReadyDenWin,
+        output bit [9:-54]      denomLog2Latch,
+        output bit              denomLog2Ready
     );
 
     bit signed [31:0] accIn [15:0] [15:0];
@@ -79,9 +81,105 @@ module denominatorTop(
     tree_adder #(32) ta_desc (.rst_n(~rst), .enable(en4Desc), .operand(treeAdderDescIn), .sum_result(denDesc), .dataReady(dataReadyDenDesc), .*);
     tree_adder #(32) ta_win (.rst_n(~rst), .enable(en4Win), .operand(treeAdderWinIn), .sum_result(denWin), .dataReady(dataReadyDenWin), .*);
 
-    //need to convert back to log 2 and finish off the math
 
-endmodule
+    //latch the result
+    bit [31:0] descSumOfSquares, winSumOfSquares;
+    bit [10:-54] descSumOfSquaresLog2, winSumOfSquaresLog2;
+    bit sumSquaresReady;
+    always_ff @(posedge clk, posedge rst) begin
+        if (rst) begin
+            descSumOfSquares <= 0;
+            winSumOfSquares <= 0;
+            sumSquaresReady <= 0;
+        end
+        else begin
+            descSumOfSquares <= denDesc;
+            winSumOfSquares <= denWin;
+            sumSquaresReady <= dataReadyDenWin;
+        end
+    end
+
+    //convert back to log 2 and finish off the math
+    
+/////////// DYLAN ///////////////////
+	log2 denom_desc_log2_inst (descSumOfSquares, descSumOfSquaresLog2);
+	log2 denom_win_log2_inst (winSumOfSquares, winSumOfSquaresLog2);
+
+    //latch the result
+    bit [10:-54] winSumSquaresLatch, descSumSquaresLatch;
+    bit sumSquaresLog2Ready;
+    always_ff @(posedge clk, posedge rst) begin
+        if (rst) begin
+            winSumSquaresLatch <= 0;
+            descSumSquaresLatch <= 0;
+            sumSquaresLog2Ready <= 0;
+        end
+        else begin
+            winSumSquaresLatch <= winSumOfSquaresLog2;
+            descSumSquaresLatch <= descSumOfSquaresLog2;
+            sumSquaresLog2Ready <= sumSquaresReady;
+        end
+    end
+
+	//part 2 of denominator
+    bit [9:-54] denomLog2;
+	assign denomLog2 = (descSumSquaresLatch[9:-54] + winSumSquaresLatch[9:-54]) >> 1;
+
+    //latch the result
+
+    //bit [10:-54] denomLog2Latch;
+    //bit denomLog2Ready;
+    always_ff @(posedge clk, posedge rst) begin
+        if (rst) begin
+            denomLog2Ready <= 0;
+            denomLog2Latch <=  0;
+        end
+        else begin
+            denomLog2Latch <= denomLog2;
+            denomLog2Ready <= sumSquaresLog2Ready;
+        end
+    end
+
+    /*
+	//final computation
+	always_comb begin
+		if (numeratorLog2[10] == 1'b1) begin
+			numLog2 = ~(numeratorLog2[9:-54])+1;
+		end
+		else begin
+			numLog2 = numeratorLog2[9:-54];
+		end
+		corrCoeffLog2 = signed'(numLog2) - signed'(denomLog2);
+		//if (corrCoeffLog2 > numeratorLog2[9:-54]) begin
+	//		corrCoeffLog2 =  {10'd1, 54'd0};
+	//	end
+	end
+
+	ilog2_negatives coeff_ilog2_inst (corrCoeffLog2, corrCoeff);
+	always_comb begin
+		if (numeratorLog2[10] == 1'b1) begin
+			correlationCoefficient = ~corrCoeff + 1;
+		end
+		else begin
+			correlationCoefficient = corrCoeff;
+		end
+	end
+	
+	//register to store the entire patch acc total sum
+	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
+
+	logic loadGreatestReg, clearWinCount, clearGreatestReg;
+	bit [12:0] windowCount;
+	//register to store greatest correlation coefficient and window index
+	priorityRegisterFP #(13) greatestNCCRegFP (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, clearGreatestReg, greatestNCC, greatestWindowIndex);
+	counter #(13) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
+*/
+
+
+/////////// DYLAN ///////////////////
+
+
+endmodule:denominatorTop
 
 
 
