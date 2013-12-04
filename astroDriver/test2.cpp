@@ -228,13 +228,28 @@ void saveResults(const unsigned int readDataBuffer[], const char filename[], con
 		unsigned int windowIndex = readDataBuffer[i*3];
 		//only need 13 MSB of windowIndex;
 		windowIndex = windowIndex >> 19;
-		unsigned int corrCoeffInt = readDataBuffer[(i+1)*3];
-		unsigned int corrCoeffDec = readDataBuffer[(i+2)*3];
-		unsigned int exponent = findFirstOne(corrCoeffInt);
-		double corrCoeff = exponent;
-		corrCoeff = corrCoeff << 52;
-		corrCoeff = corrCoeff || corrCoeffDec;
-		resultsFile << windowIndex << "\t" << corrCoeff << endl;
+		uint64_t corrCoeffInt = (uint64_t) (readDataBuffer[(i+1)*3]);
+		uint64_t corrCoeffSign = ((uint64_t) corrCoeffInt) & 0x80000000;
+		if (corrCoeffSign) {
+			corrCoeffInt = ~corrCoeffInt + 1;
+			corrCoeffDec = ~corrCoeffDec + 1;
+		}
+		uint64_t exponent = (uint64_t) findFirstOne(corrCoeffInt);
+		uint64_t corrCoeffDec = ((uint64_t) (readDataBuffer[(i+2)*3])) << (20-exponent);
+		uint64_t dec = corrCoeffInt << (51-exponent);
+		dec = dec | corrCoeffDec;
+		double corrCoeffE = 0;
+		// unsigned char *cce = reinterpret_cast<unsigned char *>(&corrCoeff);
+		uint64_t* cce = reinterpret_cast<uint64_t*>(&corrCoeffE);
+		*cce = *cce | (exponent + (uint64_t) 1023);
+		*cce = *cce << 52;
+		*cce = *cce | (corrCoeffSign << 32);
+		*cce = *cce | dec;
+		double* corrCoeff = reinterpret_cast<double*>(cce);
+		// corrCoeffE = corrCoeffE << 52;
+		// double corrCoeff = corrCoeffE | corrCoeffDoubleSign;
+		// corrCoeff = corrCoeffE | corrCoeffDec;
+		resultsFile << windowIndex << "\t" << (*corrCoeff) << endl;
 	}
 	resultsFile.close();
 }
