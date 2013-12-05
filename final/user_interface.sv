@@ -1,7 +1,7 @@
 
 module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 					write_data,req_addr, pci_input_data, pci_req_addr, pci_wr_en,
-					in_flag, flag_we, out_flag, greatestNCCLog2, greatestWindowIndex);
+					in_flag, flag_we, out_flag, greatestNCCLog2, greatestWindowIndex, LEDs);
 	
 	input logic			 clk, rst_n;
 	input logic [31:0] 	 rd_data;
@@ -20,6 +20,7 @@ module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	
 	output logic [31:-32] greatestNCCLog2;
 	output logic [12:0]	 greatestWindowIndex;
+	output bit [3:0] LEDs;
 	//testing signals.
 	
 	// to user.
@@ -46,24 +47,24 @@ module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	assign {write_data[7:0], write_data[15:8], write_data[23:16], write_data[31:24]} = user_write_data;
 	
 	
-user_FPGA_format chop( clk, rst_n, req, rd_wr, user_write_data,user_rd_data,
- set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex, set,wr_index, inst);
+user_FPGA_format chop( clk, rst_n, req, rd_wr, user_write_data, user_rd_data,
+ set_done, row, col, tem_win, ready_2_start, greatestNCCLog2, greatestWindowIndex, set,wr_index, inst, LEDs);
 
 address_translator translator(row, col, tem_win,set,user_rd_req_addr, inst);
 	
 assign user_req_addr = (rd_wr)? user_wr_req_addr: user_rd_req_addr;
 assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //set *4
 	
-	enum {INIT, WAIT, READ, WRITE, DONE=3'b100} cs,ns;
-    	
+	enum {INIT, WAIT, READ, WRITE, DONE=3'b100,DONE1,DONE2} cs,ns;
+
     	always_comb begin
     		rd_req = 1'b0;
     		FPGA_wr_en = 1'b0;
     		flag_we = 1'b0;
     		out_flag = 32'b0;
 			ready_2_start = 1'b0;
-    		ns = cs;
 			req_addr = user_req_addr;
+			//LEDs = 4'd0;
     		case(cs)
     			INIT:begin // waiting for data transfer to complete, keep reading flag.
     			// there's a write operation to the flag area. find out the instruction.
@@ -78,6 +79,7 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
     			    end
 					// not ready to start yet
 					ready_2_start = 1'b0;
+					//LEDs = 4'd0;
     			end
 				WAIT: begin
 				
@@ -90,6 +92,7 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
 							ns = DONE;
 							ready_2_start = 1'b0;
 						end
+						//LEDs = 4'd1;
 
 				end
 				READ: begin
@@ -102,6 +105,7 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
 						end
 						else if(req) ns = (rd_wr)? WRITE:READ;
 						else ns = WAIT;
+						//LEDs = 4'd2;
 				end
 				
 				WRITE: begin
@@ -114,6 +118,7 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
 						end
 						else if(req) ns = (rd_wr)? WRITE:READ;
 						else ns = WAIT;
+						//LEDs = 4'd3;
 				end
 				
 				DONE: begin
@@ -121,8 +126,25 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
 					req_addr = {2'b00,19'h7FFFE};
     				flag_we = 1'b1;
     				out_flag = 32'h0000_0004;
-					ns = INIT;
+					ns = DONE1;
+					//LEDs = 4'd4;
 				end	
+				DONE1: begin
+               		ready_2_start =1'b0;
+                	req_addr = {2'b00,19'h7FFFE};
+           			flag_we = 1'b1;
+                    out_flag = 32'h0000_0004;
+              		ns = DONE2;
+              		//LEDs = 4'd5;
+                end					
+                DONE2: begin
+                    ready_2_start =1'b0;
+                	req_addr = {2'b00,19'h7FFFE};
+                    flag_we = 1'b1;
+                    out_flag = 32'h0000_0004;
+                    ns = INIT;
+                    //LEDs = 4'd6;
+               end					
     	endcase
     end
     	always_ff@(posedge clk, negedge rst_n)begin
