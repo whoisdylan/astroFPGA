@@ -1,4 +1,190 @@
-module denominatorTopTB;
+module nccTB;
+    bit             clk;
+    bit             rst;
+
+    // signals for numeratorTop
+    bit             desc_data_ready;
+    bit             window_data_ready;
+    bit [8:0]       window_data_in [15:0][15:0];
+    bit [35:0]      desc_data_in;
+
+    bit [31:0]      accOut[15:0][15:0];
+    bit             dataReadyDenDesc, dataReadyDenWin;
+    bit [31:0]      denDesc, denWin;
+    bit [9:-54]     denomLog2Latch;
+    bit             denomLog2Ready;
+    bit [31:-32]    greatestNCC;
+    bit [12:0]      greatestWindowIndex;
+    bit             done_with_window_data;
+    bit             done_with_desc_data;
+
+    bit             dataReady;
+
+    ncc dut(.*);
+
+
+    initial begin
+	    clk = 0;
+	    rst = 1;
+	    forever	#5 clk = ~clk;
+
+    end
+
+    bit [8:0] count = 0;
+    int i,j;
+    initial begin
+
+//	    $monitor($time, , "rst=%d, en2=%d, en3=%d, dataReadyDenDesc=%d, denDesc=%d, dataReadyDenWin=%d, deWin=%d, denomLog2Latch=%d.%b, denomLog2Ready=%d numerator=%d greatestNCC=%b.%b descSumOfSquares=%d descSumSquaresLatch=%d.%b denomLog2Latch=%d.%b\n", 
+ //       rst, dut.en2, dut.en3, dataReadyDenDesc, denDesc, dataReadyDenWin, denWin, denomLog2Latch[9:0], denomLog2Latch[-1:-54], denomLog2Ready, dut.numerator, greatestNCC[31:0], greatestNCC[-1:-32], dut.descSumOfSquares, dut.descSumSquaresLatch[10:0], dut.descSumSquaresLatch[-1:-54], dut.denomLog2[9:0], dut.denomLog2Latch[-1:-54]);
+/*	    $monitor($time, , "numLog2=%d.%b, corrCoeffLog2=%d.%b, numeratorReg2=%d.%b, 10th bit=%d numLog2=%d.%b, greatestNCC=%d.%b\n", 
+        dut.numLog2[9:0], dut.numLog2[-1:-54], dut.corrCoeffLog2[9:0], dut.corrCoeffLog2[-1:-54], dut.numeratorReg2[9:0], dut.numeratorReg2[-1:-54], dut.numeratorReg2[10], dut.numLog2[9:0],
+        dut.numLog2[-1:-54], greatestNCC[31:0], greatestNCC[-1:-32]);
+*/
+        $monitor($stime, "numLog2=%d.%b denomLog2=%d.%b correlationCoefficient=%d.%b greatestNCC=%d.%b done_with_window_data=%d", dut.numLog2[9:0],
+        dut.numLog2[0:-54], dut.denomLog2[9:0], dut.denomLog2[0:-54],
+        dut.correlationCoefficient[9:0], dut.correlationCoefficient[-1:-54],
+        greatestNCC[9:0], greatestNCC[-1:-54], done_with_window_data);
+	    rst = 0;
+        desc_data_ready <= 1;
+
+        for (i = 0; i < 256; i++) begin
+                desc_data_in = {count, count+4'd1, count+4'd2, count+4'd3};
+                count = count+4;
+                @(posedge clk);
+	    end
+        desc_data_ready <= 0;
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+
+        window_data_ready <= 1;
+
+        count = 0;
+        for (i = 0; i < 16; i++) begin
+            for (j = 0; j < 16; j++) begin
+                window_data_in[i][j] = 50;
+                count = count+1;
+            end
+        end
+
+        @(posedge clk);
+        window_data_ready <= 0;
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        count = 0;
+        for (i = 0; i < 16; i++) begin
+            for (j = 0; j < 16; j++) begin
+                window_data_in[i][j] = count;
+                count = count+1;
+            end
+        end
+        @(posedge clk);
+        window_data_ready <= 1;
+        @(posedge clk);
+        window_data_ready <= 0;
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+
+/*        rst <= 1;
+        @(posedge clk);
+	    rst = 0;
+        desc_data_ready <= 1;
+
+        for (i = 0; i < 256; i++) begin
+                desc_data_in = {count, count+4'd1, count+4'd2, count+4'd3};
+                count = count+4;
+                @(posedge clk);
+	    end
+        desc_data_ready <= 0;
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+
+        window_data_ready <= 1;
+
+        count = 0;
+        for (i = 0; i < 16; i++) begin
+            for (j = 0; j < 16; j++) begin
+                window_data_in[i][j] = 50;
+                count = count+1;
+            end
+        end
+
+        @(posedge clk);
+        window_data_ready <= 0;
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);*/
+
+
+
+        $finish;
+    end
+endmodule:nccTB
+
+/*
+
+	    $monitor($time, , "rst=%d, en2=%d, en3=%d, dataReadyDenDesc=%d, denDesc=%d, dataReadyDenWin=%d, deWin=%d, denomLog2Latch=%d.%b, denomLog2Ready=%d numerator=%d greatestNCC=%b.%b\n %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d\n\n", rst, dut.en2, dut.en3, dataReadyDenDesc, denDesc, dataReadyDenWin, denWin, denomLog2Latch[9:0], denomLog2Latch[-1:-54], denomLog2Ready, dut.numerator, greatestNCC[31:0], greatestNCC[-1:-32], dut.window_data_in[0][0], dut.window_data_in[0][1], dut.window_data_in[0][2], dut.window_data_in[0][3], dut.window_data_in[0][4], dut.window_data_in[0][5], dut.window_data_in[0][6], dut.window_data_in[0][7], dut.window_data_in[0][8], dut.window_data_in[0][9], dut.window_data_in[0][10], dut.window_data_in[0][11], dut.window_data_in[0][12], dut.window_data_in[0][13], dut.window_data_in[0][14], dut.window_data_in[0][15], dut.window_data_in[1][0], dut.window_data_in[1][1], dut.window_data_in[1][2], dut.window_data_in[1][3], dut.window_data_in[1][4], dut.window_data_in[1][5], dut.window_data_in[1][6], dut.window_data_in[1][7], dut.window_data_in[1][8], dut.window_data_in[1][9], dut.window_data_in[1][10], dut.window_data_in[1][11], dut.window_data_in[1][12], dut.window_data_in[1][13], dut.window_data_in[1][14], dut.window_data_in[1][15], dut.window_data_in[2][0], dut.window_data_in[2][1], dut.window_data_in[2][2], dut.window_data_in[2][3], dut.window_data_in[2][4], dut.window_data_in[2][5], dut.window_data_in[2][6], dut.window_data_in[2][7], dut.window_data_in[2][8], dut.window_data_in[2][9], dut.window_data_in[2][10], dut.window_data_in[2][11], dut.window_data_in[2][12], dut.window_data_in[2][13], dut.window_data_in[2][14], dut.window_data_in[2][15], dut.window_data_in[3][0], dut.window_data_in[3][1], dut.window_data_in[3][2], dut.window_data_in[3][3], dut.window_data_in[3][4], dut.window_data_in[3][5], dut.window_data_in[3][6], dut.window_data_in[3][7], dut.window_data_in[3][8], dut.window_data_in[3][9], dut.window_data_in[3][10], dut.window_data_in[3][11], dut.window_data_in[3][12], dut.window_data_in[3][13], dut.window_data_in[3][14], dut.window_data_in[3][15], dut.window_data_in[4][0], dut.window_data_in[4][1], dut.window_data_in[4][2], dut.window_data_in[4][3], dut.window_data_in[4][4], dut.window_data_in[4][5], dut.window_data_in[4][6], dut.window_data_in[4][7], dut.window_data_in[4][8], dut.window_data_in[4][9], dut.window_data_in[4][10], dut.window_data_in[4][11], dut.window_data_in[4][12], dut.window_data_in[4][13], dut.window_data_in[4][14], dut.window_data_in[4][15], dut.window_data_in[5][0], dut.window_data_in[5][1], dut.window_data_in[5][2], dut.window_data_in[5][3], dut.window_data_in[5][4], dut.window_data_in[5][5], dut.window_data_in[5][6], dut.window_data_in[5][7], dut.window_data_in[5][8], dut.window_data_in[5][9], dut.window_data_in[5][10], dut.window_data_in[5][11], dut.window_data_in[5][12], dut.window_data_in[5][13], dut.window_data_in[5][14], dut.window_data_in[5][15], dut.window_data_in[6][0], dut.window_data_in[6][1], dut.window_data_in[6][2], dut.window_data_in[6][3], dut.window_data_in[6][4], dut.window_data_in[6][5], dut.window_data_in[6][6], dut.window_data_in[6][7], dut.window_data_in[6][8], dut.window_data_in[6][9], dut.window_data_in[6][10], dut.window_data_in[6][11], dut.window_data_in[6][12], dut.window_data_in[6][13], dut.window_data_in[6][14], dut.window_data_in[6][15], dut.window_data_in[7][0], dut.window_data_in[7][1], dut.window_data_in[7][2], dut.window_data_in[7][3], dut.window_data_in[7][4], dut.window_data_in[7][5], dut.window_data_in[7][6], dut.window_data_in[7][7], dut.window_data_in[7][8], dut.window_data_in[7][9], dut.window_data_in[7][10], dut.window_data_in[7][11], dut.window_data_in[7][12], dut.window_data_in[7][13], dut.window_data_in[7][14], dut.window_data_in[7][15], dut.window_data_in[8][0], dut.window_data_in[8][1], dut.window_data_in[8][2], dut.window_data_in[8][3], dut.window_data_in[8][4], dut.window_data_in[8][5], dut.window_data_in[8][6], dut.window_data_in[8][7], dut.window_data_in[8][8], dut.window_data_in[8][9], dut.window_data_in[8][10], dut.window_data_in[8][11], dut.window_data_in[8][12], dut.window_data_in[8][13], dut.window_data_in[8][14], dut.window_data_in[8][15], dut.window_data_in[9][0], dut.window_data_in[9][1], dut.window_data_in[9][2], dut.window_data_in[9][3], dut.window_data_in[9][4], dut.window_data_in[9][5], dut.window_data_in[9][6], dut.window_data_in[9][7], dut.window_data_in[9][8], dut.window_data_in[9][9], dut.window_data_in[9][10], dut.window_data_in[9][11], dut.window_data_in[9][12], dut.window_data_in[9][13], dut.window_data_in[9][14], dut.window_data_in[9][15], dut.window_data_in[10][0], dut.window_data_in[10][1], dut.window_data_in[10][2], dut.window_data_in[10][3], dut.window_data_in[10][4], dut.window_data_in[10][5], dut.window_data_in[10][6], dut.window_data_in[10][7], dut.window_data_in[10][8], dut.window_data_in[10][9], dut.window_data_in[10][10], dut.window_data_in[10][11], dut.window_data_in[10][12], dut.window_data_in[10][13], dut.window_data_in[10][14], dut.window_data_in[10][15], dut.window_data_in[11][0], dut.window_data_in[11][1], dut.window_data_in[11][2], dut.window_data_in[11][3], dut.window_data_in[11][4], dut.window_data_in[11][5], dut.window_data_in[11][6], dut.window_data_in[11][7], dut.window_data_in[11][8], dut.window_data_in[11][9], dut.window_data_in[11][10], dut.window_data_in[11][11], dut.window_data_in[11][12], dut.window_data_in[11][13], dut.window_data_in[11][14], dut.window_data_in[11][15], dut.window_data_in[12][0], dut.window_data_in[12][1], dut.window_data_in[12][2], dut.window_data_in[12][3], dut.window_data_in[12][4], dut.window_data_in[12][5], dut.window_data_in[12][6], dut.window_data_in[12][7], dut.window_data_in[12][8], dut.window_data_in[12][9], dut.window_data_in[12][10], dut.window_data_in[12][11], dut.window_data_in[12][12], dut.window_data_in[12][13], dut.window_data_in[12][14], dut.window_data_in[12][15], dut.window_data_in[13][0], dut.window_data_in[13][1], dut.window_data_in[13][2], dut.window_data_in[13][3], dut.window_data_in[13][4], dut.window_data_in[13][5], dut.window_data_in[13][6], dut.window_data_in[13][7], dut.window_data_in[13][8], dut.window_data_in[13][9], dut.window_data_in[13][10], dut.window_data_in[13][11], dut.window_data_in[13][12], dut.window_data_in[13][13], dut.window_data_in[13][14], dut.window_data_in[13][15], dut.window_data_in[14][0], dut.window_data_in[14][1], dut.window_data_in[14][2], dut.window_data_in[14][3], dut.window_data_in[14][4], dut.window_data_in[14][5], dut.window_data_in[14][6], dut.window_data_in[14][7], dut.window_data_in[14][8], dut.window_data_in[14][9], dut.window_data_in[14][10], dut.window_data_in[14][11], dut.window_data_in[14][12], dut.window_data_in[14][13], dut.window_data_in[14][14], dut.window_data_in[14][15], dut.window_data_in[15][0], dut.window_data_in[15][1], dut.window_data_in[15][2], dut.window_data_in[15][3], dut.window_data_in[15][4], dut.window_data_in[15][5], dut.window_data_in[15][6], dut.window_data_in[15][7], dut.window_data_in[15][8], dut.window_data_in[15][9], dut.window_data_in[15][10], dut.window_data_in[15][11], dut.window_data_in[15][12], dut.window_data_in[15][13], dut.window_data_in[15][14], dut.window_data_in[15][15]);
+
+*/
+
+/*module denominatorTopTB;
     bit             clk;
     bit             rst;
 
@@ -81,9 +267,63 @@ module denominatorTopTB;
         @(posedge clk);
         @(posedge clk);
 
+        rst <= 1;
+        @(posedge clk);
+	    rst = 0;
+        desc_data_ready <= 1;
+
+        for (i = 0; i < 256; i++) begin
+                desc_data_in = {count, count+4'd1, count+4'd2, count+4'd3};
+                count = count+4;
+                @(posedge clk);
+	    end
+        desc_data_ready <= 0;
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+
+        window_data_ready <= 1;
+
+        count = 0;
+        for (i = 0; i < 16; i++) begin
+            for (j = 0; j < 16; j++) begin
+                window_data_in[i][j] = 50;
+                count = count+1;
+            end
+        end
+
+        @(posedge clk);
+        window_data_ready <= 0;
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+        @(posedge clk);
+
+
+
         $finish;
     end
-endmodule:denominatorTopTB 
+endmodule:denominatorTopTB*/ 
 
 /*
 module numeratorTopTB;
