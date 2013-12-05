@@ -19,7 +19,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 
     logic       [79:0][79:0][7:0]       window_data_mem; //latched 80x80 window
 	
-	enum {INIT0, SETUP, LOAD, WAIT} cs,ns;
+	enum logic[1:0] {INIT0, SETUP, LOAD, WAIT} cs,ns;
 	
     int i,j,k,l;
 	always_comb begin

@@ -55,7 +55,7 @@ address_translator translator(row, col, tem_win,set,user_rd_req_addr, inst);
 assign user_req_addr = (rd_wr)? user_wr_req_addr: user_rd_req_addr;
 assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //set *4
 	
-	enum {INIT, WAIT, READ, WRITE, DONE=3'b100,DONE1,DONE2} cs,ns;
+	enum {INIT, WAIT, DO, DONE} cs,ns;
 
     	always_comb begin
     		rd_req = 1'b0;
@@ -82,69 +82,36 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
 					//LEDs = 4'd0;
     			end
 				WAIT: begin
-				
-						if(req&&rd_wr) FPGA_wr_en =1'b1; // next operation is write
-						
-						ready_2_start =1'b1;
-						if(req) ns = (rd_wr)? WRITE:READ;
-						else ns = WAIT;
-						if(set_done) begin
-							ns = DONE;
-							ready_2_start = 1'b0;
+						ready_2_start =1'b1;	
+						if(req) begin
+							ns = DO;
+							FPGA_wr_en = (rd_wr)? 1'b1:1'b0;
 						end
-						//LEDs = 4'd1;
-
-				end
-				READ: begin
-						ready_2_start =1'b1;
-						if(req&&rd_wr) FPGA_wr_en =1'b1; // next operation is write
-						
-						if(set_done) begin
-							ns = DONE;
-							ready_2_start = 1'b0;
+						else begin
+							ns = WAIT;
+							FPGA_wr_en = 1'b0;
 						end
-						else if(req) ns = (rd_wr)? WRITE:READ;
-						else ns = WAIT;
-						//LEDs = 4'd2;
 				end
-				
-				WRITE: begin
-						ready_2_start =1'b1;
-						if(req&&rd_wr) FPGA_wr_en =1'b1; // next operation is write
-						
-						if(set_done)begin
-							ns = DONE;
-							ready_2_start = 1'b0;
-						end
-						else if(req) ns = (rd_wr)? WRITE:READ;
-						else ns = WAIT;
-						//LEDs = 4'd3;
+				DO: begin
+					ready_2_start = 1'b0;		// shouldn't really matter.
+					if(set_done) begin
+						ns = DONE;
+						FPGA_wr_en = 1'b0;
+					end
+					else begin
+						ns = DO;
+						FPGA_wr_en = (rd_wr) ? 1'b1:1'b0;
+					end
 				end
-				
 				DONE: begin
 					ready_2_start =1'b0;
-					req_addr = {2'b00,19'h7FFFE};
+					req_addr = 21'b0;
     				flag_we = 1'b1;
     				out_flag = 32'h0000_0004;
-					ns = DONE1;
+					FPGA_wr_en = 1'b0;
+					ns = DONE;
 					//LEDs = 4'd4;
-				end	
-				DONE1: begin
-               		ready_2_start =1'b0;
-                	req_addr = {2'b00,19'h7FFFE};
-           			flag_we = 1'b1;
-                    out_flag = 32'h0000_0004;
-              		ns = DONE2;
-              		//LEDs = 4'd5;
-                end					
-                DONE2: begin
-                    ready_2_start =1'b0;
-                	req_addr = {2'b00,19'h7FFFE};
-                    flag_we = 1'b1;
-                    out_flag = 32'h0000_0004;
-                    ns = INIT;
-                    //LEDs = 4'd6;
-               end					
+				end				
     	endcase
     end
     	always_ff@(posedge clk, negedge rst_n)begin

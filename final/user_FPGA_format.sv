@@ -67,7 +67,7 @@ window_handler do_wind( .clk(clk), .rst_n(rst_n), .window_data(window_data), .wi
 				);
 
 bit windowCountClr, windowCountEn;
-counter #(8) window_counter_inst(clk, rst_n, windowCountClr, windowCountEn, set_count);
+counter_local #(8) window_counter_inst(clk, rst_n, windowCountClr, windowCountEn, set_count);
 
 	enum {INIT,TEMP,WIND, WRIT0,WRIT1,WRIT2,WRIT, DONE} cs,ns;
 		
@@ -198,13 +198,13 @@ end
 
 endmodule: user_FPGA_format
 
-module counter
+module counter_local
     #(parameter w = 256)
     (input logic clk, rst_n, clr, enable,
     output bit [w-1:0] count);
     
     always_ff @(posedge clk, negedge rst_n) begin
-        if (rst_n) begin
+        if (~rst_n) begin
             count <= 'd0;
         end
         else if (clr) begin
@@ -214,4 +214,5 @@ module counter
             count <= count + 'd1;
         end
     end
-endmodule: counter
+endmodule: counter_local
+
