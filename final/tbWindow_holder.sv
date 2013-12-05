@@ -57,7 +57,7 @@ module systemTest;
 	logic [31:0]		rd_data;
 	logic [20:0]		req_addr;
 
-	address_translator trans(row,col, 1,0,address, 0);
+	address_translator trans(row,col, 1'b1,8'b0,address, 1'b0);
 	window_handler dut(.*);
 assign input_data = rd_data;
 assign req_addr = address;
@@ -89,7 +89,7 @@ end
 
         $display("hello world");
 
-		$monitor($time, ,"address[dec] = %d, row =%d, col =%d, done =%b, input_data = %h store_row =%d, store_col =%d \n window_data = \n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n ",address, row,col,done,input_data, dut.store_row, dut.store_col,window_data[0][3:0],window_data[0][7:4],window_data[0][11:8],window_data[0][15:12],   window_data[1][3:0],window_data[1][7:4],window_data[1][11:8],window_data[1][15:12],  window_data[2][3:0],window_data[2][7:4],window_data[2][11:8],window_data[2][15:12],  window_data[3][3:0],window_data[3][7:4],window_data[3][11:8],window_data[3][15:12],  window_data[4][3:0],window_data[4][7:4],window_data[4][11:8],window_data[4][15:12],  window_data[5][3:0],window_data[5][7:4],window_data[5][11:8],window_data[5][15:12],  window_data[6][3:0],window_data[6][7:4],window_data[6][11:8],window_data[6][15:12],  window_data[7][3:0],window_data[7][7:4],window_data[7][11:8],window_data[7][15:12],  window_data[8][3:0],window_data[8][7:4],window_data[8][11:8],window_data[8][15:12],  window_data[9][3:0],window_data[9][7:4],window_data[9][11:8],window_data[9][15:12],  window_data[10][3:0],window_data[10][7:4],window_data[10][11:8],window_data[10][15:12],  window_data[11][3:0],window_data[11][7:4],window_data[11][11:8],window_data[11][15:12],  window_data[12][3:0],window_data[12][7:4],window_data[12][11:8],window_data[12][15:12],  window_data[13][3:0],window_data[13][7:4],window_data[13][11:8],window_data[13][15:12],  window_data[14][3:0],window_data[14][7:4],window_data[14][11:8],window_data[14][15:12],  window_data[15][3:0],window_data[15][7:4],window_data[15][11:8],window_data[15][15:12]);
+		$monitor($time, ,"address[dec] = %d, row =%d, col =%d, done =%b, input_data = %h store_row =%d, store_col =%d window_offset=%d ,window_slider = %d\n window_data = \n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,",address, row,col,done,input_data, dut.store_row, dut.store_col,dut.window_offset,dut.window_slider,window_data[0][3:0],window_data[0][7:4],window_data[0][11:8],window_data[0][15:12],   window_data[1][3:0],window_data[1][7:4],window_data[1][11:8],window_data[1][15:12],  window_data[2][3:0],window_data[2][7:4],window_data[2][11:8],window_data[2][15:12],  window_data[3][3:0],window_data[3][7:4],window_data[3][11:8],window_data[3][15:12],  window_data[4][3:0],window_data[4][7:4],window_data[4][11:8],window_data[4][15:12],  window_data[5][3:0],window_data[5][7:4],window_data[5][11:8],window_data[5][15:12],  window_data[6][3:0],window_data[6][7:4],window_data[6][11:8],window_data[6][15:12],  window_data[7][3:0],window_data[7][7:4],window_data[7][11:8],window_data[7][15:12],  window_data[8][3:0],window_data[8][7:4],window_data[8][11:8],window_data[8][15:12],  window_data[9][3:0],window_data[9][7:4],window_data[9][11:8],window_data[9][15:12],  window_data[10][3:0],window_data[10][7:4],window_data[10][11:8],window_data[10][15:12],  window_data[11][3:0],window_data[11][7:4],window_data[11][11:8],window_data[11][15:12],  window_data[12][3:0],window_data[12][7:4],window_data[12][11:8],window_data[12][15:12],  window_data[13][3:0],window_data[13][7:4],window_data[13][11:8],window_data[13][15:12],  window_data[14][3:0],window_data[14][7:4],window_data[14][11:8],window_data[14][15:12],  window_data[15][3:0],window_data[15][7:4],window_data[15][11:8],window_data[15][15:12]);
 /*
 $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%d, window_data=%h", clk,rst_n,uft.cs,uft.do_wind.cs ,uft.do_wind.store_col, uft.do_wind.store_row, uft.window_data);
 */
@@ -144,10 +144,19 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 
 //	$display($time, ,"count is =%d", count);
 
-#10;
+
 	en = 1;
-#20;
+#10;
 	en = 0;
+
+	$display("mem[63] = %h", mem[63]);
+	$display("mem[64] = %h", mem[64]);
+	$display("mem[65] = %h", mem[65]);
+	$display("mem[66] = %h", mem[66]);
+	$display("mem[67] = %h", mem[67]);
+
+
+
 repeat(10000000) @(posedge clk);
 
 

@@ -140,7 +140,12 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 
 	@(posedge clk);
 	in_flag = 32'h0000_0000;
-
+	/*
+	$display("mem[64] =%h", mem[64]);
+	$display("mem[65] =%h", mem[65]);
+	$display("mem[66] =%h", mem[66]);
+	$display("mem[67] =$h", mem[67]);
+*/
 //repeat (10000) @(posedge clk);
 
 	$display($time, ,"count is =%d", count);
