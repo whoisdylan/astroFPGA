@@ -17,6 +17,7 @@ module nccTB;
     bit [12:0]      greatestWindowIndex;
     bit             done_with_window_data;
     bit             done_with_desc_data;
+    bit             result_ready;
 
     bit             dataReady;
 
@@ -40,10 +41,11 @@ module nccTB;
         dut.numLog2[9:0], dut.numLog2[-1:-54], dut.corrCoeffLog2[9:0], dut.corrCoeffLog2[-1:-54], dut.numeratorReg2[9:0], dut.numeratorReg2[-1:-54], dut.numeratorReg2[10], dut.numLog2[9:0],
         dut.numLog2[-1:-54], greatestNCC[31:0], greatestNCC[-1:-32]);
 */
-        $monitor($stime, "numLog2=%d.%b denomLog2=%d.%b correlationCoefficient=%d.%b greatestNCC=%d.%b done_with_window_data=%d", dut.numLog2[9:0],
+        $monitor($stime, "numLog2=%d.%b denomLog2=%d.%b correlationCoefficient=%d.%b greatestNCC=%d.%b done_with_window_data=%d greatestNCCIndex = %d", dut.numLog2[9:0],
         dut.numLog2[0:-54], dut.denomLog2[9:0], dut.denomLog2[0:-54],
         dut.correlationCoefficient[9:0], dut.correlationCoefficient[-1:-54],
-        greatestNCC[9:0], greatestNCC[-1:-54], done_with_window_data);
+        greatestNCC[9:0], greatestNCC[-1:-54], done_with_window_data,
+        greatestWindowIndex);
 	    rst = 0;
         desc_data_ready <= 1;
 

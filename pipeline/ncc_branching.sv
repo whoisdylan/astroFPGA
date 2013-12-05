@@ -7,20 +7,23 @@ module ncc
 	input bit [35:0] desc_data_in,
 	input bit signed [8:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
+    output logic result_ready,
 	output bit signed [31:-32] greatestNCC,
-	output bit [12:0] greatestWindowIndex,
-    //EXTRANEOUS
+	output bit [12:0] greatestWindowIndex
 
-    output bit [31:0]   accOut [15:0] [15:0],
-    output bit [31:0]   denDesc,
-    output bit          dataReadyDenDesc,
-    output bit [31:0]   denWin,
-    output bit          dataReadyDenWin,
-    output bit          dataReady,
-    output bit [9:-54]  denomLog2Latch,
-    output bit          denomLog2Ready
-    //END EXTRANEOUS
     );
+    //EXTRANEOUS
+    bit [31:0]   accOut [15:0] [15:0];
+    bit [31:0]   denDesc;
+    bit          dataReadyDenDesc;
+    bit [31:0]   denWin;
+    bit          dataReadyDenWin;
+    bit          dataReady;
+    bit [9:-54]  denomLog2Latch;
+    bit          denomLog2Ready;
+    //END EXTRANEOUS
+    bit my_rst;
+    bit [12:0] my_counter;
 
     bit signed [31:0] accIn [15:0] [15:0];
     bit en1, en2, en3, en4, en4Desc, en4Win, en5;
@@ -30,8 +33,8 @@ module ncc
     bit [10:-54]                inputToPE_desc [15:0] [15:0];
     bit [10:-54]                inputToPE_window [15:0] [15:0];
 
-    numeratorDescriptor  nd(.en(desc_data_ready), .desc_array_out(inputToPE_desc), .*);
-    numeratorWindow nw(.en_out(en2), .en(window_data_ready), .window_data_out(inputToPE_window), .*);
+    numeratorDescriptor  nd(.en(desc_data_ready), .desc_array_out(inputToPE_desc), .rst(rst | my_rst), .*);
+    numeratorWindow nw(.en_out(en2), .en(window_data_ready), .window_data_out(inputToPE_window), .rst(rst | my_rst), .*);
 
 
     bit [31:0]                  descPixelOut [15:0][15:0];
@@ -42,7 +45,7 @@ module ncc
 	generate
 		for (i = 0; i < 16; i++) begin
 			for (j = 0; j < 16; j++) begin
-				processingElement PE_inst(.clk(clk), .rst(rst), .descPixelLog2In(inputToPE_desc[i][j]), .windowPixelLog2In(inputToPE_window[i][j]), .loadDescReg(en2), .loadWinReg(en2), .accIn(accIn[i][j]), .descPixelOut(descPixelOut[i][j]), .windowPixelOut(windowPixelOut[i][j]), .accOut(accOut[i][j]));
+				processingElement PE_inst(.clk(clk), .rst(rst | my_rst), .descPixelLog2In(inputToPE_desc[i][j]), .windowPixelLog2In(inputToPE_window[i][j]), .loadDescReg(en2), .loadWinReg(en2), .accIn(accIn[i][j]), .descPixelOut(descPixelOut[i][j]), .windowPixelOut(windowPixelOut[i][j]), .accOut(accOut[i][j]));
 			end
 		end
 	endgenerate
@@ -50,18 +53,18 @@ module ncc
     //NUMERATOR COMPUTATION
     bit [31:0] treeAdderIn [15:0][15:0];
     //latch the data returned from the PE
-    latchNumWinDesc lnwd(.en(en3), .data_in(accOut), .data_out(treeAdderIn), .en_out(en4), .*);
+    latchNumWinDesc lnwd(.en(en3), .data_in(accOut), .data_out(treeAdderIn), .en_out(en4), .rst(rst | my_rst), .*);
 
 
     //DENOMINATOR COMPUTATION
     bit [31:0] treeAdderDescIn [15:0][15:0];
     bit [31:0] treeAdderWinIn [15:0][15:0];
     //latch the data returned from the PE
-    latchNumWinDesc ld(.en(en3), .data_in(descPixelOut), .data_out(treeAdderDescIn), .en_out(en4Desc), .*);
-    latchNumWinDesc lw(.en(en3), .data_in(windowPixelOut), .data_out(treeAdderWinIn), .en_out(en4Win), .*);
+    latchNumWinDesc ld(.en(en3), .data_in(descPixelOut), .data_out(treeAdderDescIn), .en_out(en4Desc),  .rst(rst | my_rst),.*);
+    latchNumWinDesc lw(.en(en3), .data_in(windowPixelOut), .data_out(treeAdderWinIn), .en_out(en4Win), .rst(rst | my_rst), .*);
 
-    always_ff @(posedge clk, posedge rst) begin
-        if (rst) begin
+    always_ff @(posedge clk, posedge my_rst, posedge rst) begin
+        if (my_rst|rst) begin
             en3 <= 0;
         end
         else begin
@@ -70,19 +73,19 @@ module ncc
     end
     
     //NUMERATOR: treeadder code here
-    tree_adder #(32) ta (.rst_n(~rst), .enable(en4), .operand(treeAdderIn), .sum_result(numerator), .*);
+    tree_adder #(32) ta (.enable(en4), .operand(treeAdderIn), .sum_result(numerator), .rst_n(~rst | ~my_rst), .*);
 
     //DENOMINATOR:
-    tree_adder #(32) ta_desc (.rst_n(~rst), .enable(en4Desc), .operand(treeAdderDescIn), .sum_result(denDesc), .dataReady(dataReadyDenDesc), .*);
-    tree_adder #(32) ta_win (.rst_n(~rst), .enable(en4Win), .operand(treeAdderWinIn), .sum_result(denWin), .dataReady(dataReadyDenWin), .*);
+    tree_adder #(32) ta_desc (.enable(en4Desc), .operand(treeAdderDescIn), .sum_result(denDesc), .dataReady(dataReadyDenDesc), .rst_n(~rst | ~my_rst), .*);
+    tree_adder #(32) ta_win (.enable(en4Win), .operand(treeAdderWinIn), .sum_result(denWin), .dataReady(dataReadyDenWin), .rst_n(~rst | ~my_rst), .*);
 
     //latch the result
     bit [31:0] descSumOfSquares, winSumOfSquares;
     bit [10:-54] descSumOfSquaresLog2, winSumOfSquaresLog2;
     bit sumSquaresReady;
     bit  [31:0]      numeratorReg;
-    always_ff @(posedge clk, posedge rst) begin
-        if (rst) begin
+    always_ff @(posedge clk, posedge my_rst, posedge rst) begin
+        if (my_rst | rst) begin
             descSumOfSquares <= 0;
             winSumOfSquares <= 0;
             sumSquaresReady <= 0;
@@ -107,8 +110,8 @@ module ncc
     bit [10:-54] winSumSquaresLatch, descSumSquaresLatch;
     bit sumSquaresLog2Ready;
     bit  [10:-54]      numeratorReg1;
-    always_ff @(posedge clk, posedge rst) begin
-        if (rst) begin
+    always_ff @(posedge clk, posedge rst, posedge my_rst) begin
+        if (my_rst | rst) begin
             winSumSquaresLatch <= 0;
             descSumSquaresLatch <= 0;
             sumSquaresLog2Ready <= 0;
@@ -131,8 +134,8 @@ module ncc
     //bit [10:-54] denomLog2Latch;
     //bit denomLog2Ready;
     bit  [10:-54]      numeratorReg2;
-    always_ff @(posedge clk, posedge rst) begin
-        if (rst) begin
+    always_ff @(posedge clk, posedge rst, posedge my_rst) begin
+        if (my_rst | rst) begin
             denomLog2Ready <= 0;
             denomLog2Latch <=  0;
             numeratorReg2 <= 0;
@@ -179,15 +182,37 @@ module ncc
 	bit [12:0] windowCount;
 	//register to store greatest correlation coefficient and window index
 	//priorityRegisterFP #(13) greatestNCCRegFP (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, clearGreatestReg, greatestNCC, greatestWindowIndex);
-	priorityRegisterFP #(13) greatestNCCRegFP (correlationCoefficient, windowCount, clk, rst, denomLog2Ready, clearGreatestReg, greatestNCC, greatestWindowIndex);
-	counter #(13) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
+	priorityRegisterFP #(13) greatestNCCRegFP (correlationCoefficient, windowCount, clk, (rst | my_rst), denomLog2Ready, clearGreatestReg, greatestNCC, greatestWindowIndex);
+	counter #(13) windowCounter (clk, (rst | my_rst), clearWinCount, loadGreatestReg, windowCount);
 
     //assign done_with_window_data = denomLog2Ready;
 
     always_ff @(posedge clk, posedge rst) begin
-        done_with_window_data <= denomLog2Ready;
+        if (rst) begin
+            done_with_window_data <= 0;
+            result_ready <= 0;
+            my_rst <= 1;
+            my_counter <= 0;
+        end
+        else if (denomLog2Ready & my_counter+1 == 13'd4096) begin
+            my_counter <= 0;
+            result_ready <= 1;
+            my_rst <= 0;
+            done_with_window_data <= denomLog2Ready;
+        end
+        else if (result_ready) begin
+            my_counter <= 0;
+            my_rst <= 1;
+            result_ready <= 0;
+            done_with_window_data <= denomLog2Ready;
+        end
+        else begin
+            my_counter <= my_counter + 1'd1;
+            my_rst <= 0;
+            result_ready <= 0;
+            done_with_window_data <= denomLog2Ready;
+        end
     end
-
 
 endmodule: ncc
 
