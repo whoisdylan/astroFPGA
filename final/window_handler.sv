@@ -1,5 +1,5 @@
 module window_handler (clk,rst_n,window_data,window_ready,
-						en, input_data, row, col, done, ack, receive
+						en, input_data, row, col, done, ack, receive, LEDs
 					);
 					
 	input logic			clk, rst_n;
@@ -12,6 +12,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 	output logic [6:0]	row, col;
 	output logic		done;			// signal to indicate finish.
 	output logic 		ack;			//acknowledgement.
+	output bit [3:0] LEDs;
 	logic [6:0]			store_row, store_col;	
 	logic [6:0]			row_offset;
 	logic [6:0]			store_row_offset;
@@ -40,8 +41,10 @@ module window_handler (clk,rst_n,window_data,window_ready,
 		row = store_row;
 		col = store_col;
 		done = 1'b0;
+		LEDs = 4'd0;
 		case(cs)
 			INIT0: begin
+			    LEDs = 4'd0;
 				if(en) begin
 					ack = 1'b1;
 					row = 'd0;
@@ -51,13 +54,13 @@ module window_handler (clk,rst_n,window_data,window_ready,
 					window_offset = 'd0;
 					window_slider = 'd0;
 					ns = SETUP;
-					
 				end
 				else begin
-					ns = INIT0;
-				end
+                    ns = INIT0;
+                end
 			end
 			SETUP: begin
+			        LEDs = 4'd1;
 					if(store_row == 'd15 && store_col == 'd3)begin // first patch finished.
 						load = 1'b1;
 						window_offset = 'd0;// Dylan can load it.
@@ -97,6 +100,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 				window_ready = 1'b1;
 			end
 			SHIFT: begin
+			    LEDs = 4'd2;
 				if( store_row == 'd15 && store_col == 'd19)begin 
 				// hit row == 15 and column == 19 since 19*4.
 				// move to a stage where four windows are slide out
@@ -141,6 +145,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 
 
 			EMPTY: begin // mindlessly shift out 3 windows.
+				LEDs = 4'd3;
 				if(store_window_slider >='d1) begin // keep sliding, until hit 1 is left.
 					load = 1'b0;
 					window_offset = store_window_offset +'d1;
@@ -171,6 +176,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 			end
 			NXTROW: begin // keep track of row offset,load in the other 3 chunks.
 						  // move on to RSHIFT after done.
+					LEDs = 4'd4;
 					if(store_col == 'd3) begin // complete loading of 4 chunks
 						// start shifting out window.
 						load = 1'b1; //keep loading
@@ -205,7 +211,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 			end
 			RSHIFT: begin // first 4 column sets are in. load in the rest
 						  // and keep shifting window
-				
+			    LEDs = 4'd5;
 				if(store_col == 'd19 && store_window_offset == 'd64)begin
 						if(store_row == 'd79) begin // last row
 							load = 1'b0;
@@ -231,7 +237,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 					col = store_col;
 					row_mem = 'd15;
 					col_mem = store_col;
-					
+					ns = RSHIFT;
 					// keep doing the window
 					window_offset = store_window_offset +'d1;		//increment.
 					window_ready = 1'b1;
