@@ -13,10 +13,12 @@ module window_handler (clk,rst_n,window_data,window_ready,
 	output logic		done;			// signal to indicate finish.
 	output logic 		ack;			//acknowledgement.
 	output bit [3:0] LEDs;
-	logic [6:0]			store_row, store_col;	
+	logic [6:0]			store_row, store_col;
+	logic [6:0] row_in, col_in;	
 	logic [6:0]			mem_row, mem_col;       //latched	
 	logic [6:0]			mem_row_c, mem_col_c;	//combinationally set
-
+	logic [6:0] mem_row_c_store, mem_col_c_store;
+    logic [31:0] input_data_store;
     logic       [79:0][79:0][7:0]       window_data_mem; //latched 80x80 window
 	
 	enum logic[1:0] {INIT0, SETUP, LOAD, WAIT} cs,ns;
@@ -32,7 +34,11 @@ module window_handler (clk,rst_n,window_data,window_ready,
         mem_row_c = 'd0;
         mem_col_c = 'd0;
         window_data = 'd0;
-
+        input_data_store = 'd0;
+        row_in = 'd0;
+        col_in = 'd0;
+        mem_row_c_store = 'd0;
+        mem_col_c_store = 'd0;
 		case(cs)
 			INIT0: begin
 				if(en) begin
@@ -47,6 +53,11 @@ module window_handler (clk,rst_n,window_data,window_ready,
 			end
 			SETUP: begin
 			    LEDs = 4'd1;
+			    input_data_store = input_data;
+			    row_in = row;
+			    col_in = col;
+			    mem_row_c_store = mem_row_c;
+			    mem_col_c_store = mem_col_c;
 				if(store_row == 'd79 && store_col == 'd19)begin // first patch finished.
 					row = 'd0;			// top row, the column
 					col = 'd0;			// after 16x16
@@ -67,6 +78,8 @@ module window_handler (clk,rst_n,window_data,window_ready,
 			end
             LOAD: begin
                 window_ready = 1'b1;
+                mem_row_c_store = mem_row_c;
+                mem_col_c_store = mem_col_c;
                 for (i=0 ; i < 'd16; i++) begin
                     for (j=0; j < 'd16; j++) begin
                         window_data[i][j][7:0] = window_data_mem[mem_row+i][mem_col+j][7:0];
@@ -92,6 +105,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
                 mem_row_c = mem_row;
                 mem_col_c = mem_col;
             end
+            default: ns = INIT0;
 		endcase
 	end
 	always_ff@(posedge clk, negedge rst_n) begin
@@ -100,24 +114,16 @@ module window_handler (clk,rst_n,window_data,window_ready,
 			store_row <= 'd0;
 			store_col <= 'd0;
 		end
-        else if (cs == SETUP) begin
-            window_data_mem[store_row][store_col*4+3] <= input_data[7:0];
-            window_data_mem[store_row][store_col*4+2] <= input_data[15:8];
-            window_data_mem[store_row][store_col*4+1] <= input_data[23:16];
-            window_data_mem[store_row][store_col*4] <= input_data[31:24];
-            store_row <= row;
-            store_col <= col;
-            cs <= ns;
-            mem_row <= mem_row_c;
-            mem_col <= mem_col_c;
-        end
-		else if (cs == LOAD) begin
-            mem_row <= mem_row_c;
-            mem_col <= mem_col_c;
-            cs <= ns;
-        end
         else begin
+            window_data_mem[store_row][store_col*4+3] <= input_data_store[7:0];
+            window_data_mem[store_row][store_col*4+2] <= input_data_store[15:8];
+            window_data_mem[store_row][store_col*4+1] <= input_data_store[23:16];
+            window_data_mem[store_row][store_col*4] <= input_data_store[31:24];
+            store_row <= row_in;
+            store_col <= col_in;
             cs <= ns;
+            mem_row <= mem_row_c_store;
+            mem_col <= mem_col_c_store;
         end
 	end
 endmodule: window_handler
