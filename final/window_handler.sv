@@ -31,6 +31,8 @@ module window_handler (clk,rst_n,window_data,window_ready,
 		LEDs = 4'd0;
         mem_row_c = 'd0;
         mem_col_c = 'd0;
+        window_data = 'd0;
+
 		case(cs)
 			INIT0: begin
 				if(en) begin
@@ -60,6 +62,8 @@ module window_handler (clk,rst_n,window_data,window_ready,
 					col = store_col +'d1; //move on to the next 4 bytes.
                     ns = SETUP;
 				end
+                mem_row_c = 'd0;
+                mem_col_c = 'd0;
 			end
             LOAD: begin
                 window_ready = 1'b1;
@@ -104,10 +108,8 @@ module window_handler (clk,rst_n,window_data,window_ready,
             store_row <= row;
             store_col <= col;
             cs <= ns;
-            if (ns == LOAD) begin
-                mem_row <= mem_row_c;
-                mem_col <= mem_col_c;
-            end
+            mem_row <= mem_row_c;
+            mem_col <= mem_col_c;
         end
 		else if (cs == LOAD) begin
             mem_row <= mem_row_c;
