@@ -63,7 +63,6 @@ module window_handler (clk,rst_n,window_data,window_ready,
 			end
             LOAD: begin
                 window_ready = 1'b1;
-                $display("here mem_row=%d mem_col=%d", mem_row, mem_col);
                 for (i=0 ; i < 'd16; i++) begin
                     for (j=0; j < 'd16; j++) begin
                         window_data[i][j][7:0] = window_data_mem[mem_row+i][mem_col+j][7:0];
@@ -104,7 +103,6 @@ module window_handler (clk,rst_n,window_data,window_ready,
             window_data_mem[store_row][store_col*4] <= input_data[31:24];
             store_row <= row;
             store_col <= col;
-            $display("store_row = %d store_col = %d", store_row, store_col);
             cs <= ns;
             if (ns == LOAD) begin
                 mem_row <= mem_row_c;
