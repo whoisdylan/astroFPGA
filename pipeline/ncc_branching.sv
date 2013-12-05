@@ -1,5 +1,5 @@
 `default_nettype none
-/*module ncc
+module ncc
 	#(parameter descSize = 2048,
 	 parameter numPixelsDesc = 256,
 	 parameter windowSize = 640)
@@ -7,58 +7,503 @@
 	input bit [35:0] desc_data_in,
 	input bit signed [8:0] window_data_in [15:0] [15:0],
 	output logic done_with_window_data, done_with_desc_data,
+    output logic result_ready,
 	output bit signed [31:-32] greatestNCC,
-	output bit [12:0] greatestWindowIndex);
+	output bit [12:0] greatestWindowIndex
 
-    bit     [10:-54]        desc_array_out  [15:0] [15:0];
-    bit                     en_out;
-
-    numeratorDescriptor     nd (.en(desc_data_ready), .*);
-    numeratorWindow         nw (.en(window_data_ready), .*);
-    denominatorDescriptor   dd (.*);
-    denominatorWindow       dw (.*);
-
-endmodule: ncc*/
-
-module numeratorTop(
-        input bit               en,
-        input bit               clk,
-        input bit               rst,
-        input bit  [10:-54]    window_data_in [15:0] [15:0],
-        input bit  [10:-54]    desc_data_in [15:0] [15:0],
-
-        output bit              en_out,
-        output bit [31:0]       windowPixelOut [15:0] [15:0],
-        output bit [31:0]       descPixelOut [15:0] [15:0],
-        output bit [10:-54]     descPixelLog2 [15:0] [15:0],
-        output bit [10:-54]     windowPixelLog2 [15:0] [15:0],
-        output bit [31:0]       accOut[15:0][15:0]
     );
+    //EXTRANEOUS
+    bit [31:0]   accOut [15:0] [15:0];
+    bit [31:0]   denDesc;
+    bit          dataReadyDenDesc;
+    bit [31:0]   denWin;
+    bit          dataReadyDenWin;
+    bit          dataReady;
+    bit [9:-54]  denomLog2Latch;
+    bit          denomLog2Ready;
+    //END EXTRANEOUS
+    bit my_rst;
+    bit [12:0] my_counter;
 
     bit signed [31:0] accIn [15:0] [15:0];
+    bit en1, en2, en3, en4, en4Desc, en4Win, en5;
+    bit  [31:0]      numerator;
     assign accIn = '{default:0};
+
+    bit [10:-54]                inputToPE_desc [15:0] [15:0];
+    bit [10:-54]                inputToPE_window [15:0] [15:0];
+
+    numeratorDescriptor  nd(.en(desc_data_ready), .desc_array_out(inputToPE_desc), .rst(rst | my_rst), .*);
+    numeratorWindow nw(.en_out(en2), .en(window_data_ready), .window_data_out(inputToPE_window), .rst(rst | my_rst), .*);
+
+
+    bit [31:0]                  descPixelOut [15:0][15:0];
+    bit [31:0]                  windowPixelOut [15:0][15:0];
 
 	genvar i, j;
 	//generate 16x16 PE grid
 	generate
 		for (i = 0; i < 16; i++) begin
 			for (j = 0; j < 16; j++) begin
-				processingElement PE_inst(.clk(clk), .rst(rst), .descPixelLog2In(desc_data_in[i][j]), .windowPixelLog2In(window_data_in[i][j]), .loadDescReg(en), .loadWinReg(en), .accIn(accIn[i][j]), .descPixelOut(descPixelOut[i][j]), .windowPixelOut(windowPixelOut[i][j]), .accOut(accOut[i][j]));
+				processingElement PE_inst(.clk(clk), .rst(rst | my_rst), .descPixelLog2In(inputToPE_desc[i][j]), .windowPixelLog2In(inputToPE_window[i][j]), .loadDescReg(en2), .loadWinReg(en2), .accIn(accIn[i][j]), .descPixelOut(descPixelOut[i][j]), .windowPixelOut(windowPixelOut[i][j]), .accOut(accOut[i][j]));
 			end
 		end
 	endgenerate
 
-    always_ff @(posedge clk) begin
-        en_out <= en;
-    end
-
-    bit lnwd_en_out;
+    //NUMERATOR COMPUTATION
     bit [31:0] treeAdderIn [15:0][15:0];
     //latch the data returned from the PE
-    //latchNumWinDesc lnwd(.en(en_out), .data_in(acc_out), data_out(treeAdderIn), .en_out(lnwd_en_out), .*);
+    latchNumWinDesc lnwd(.en(en3), .data_in(accOut), .data_out(treeAdderIn), .en_out(en4), .rst(rst | my_rst), .*);
+
+
+    //DENOMINATOR COMPUTATION
+    bit [31:0] treeAdderDescIn [15:0][15:0];
+    bit [31:0] treeAdderWinIn [15:0][15:0];
+    //latch the data returned from the PE
+    latchNumWinDesc ld(.en(en3), .data_in(descPixelOut), .data_out(treeAdderDescIn), .en_out(en4Desc),  .rst(rst | my_rst),.*);
+    latchNumWinDesc lw(.en(en3), .data_in(windowPixelOut), .data_out(treeAdderWinIn), .en_out(en4Win), .rst(rst | my_rst), .*);
+
+    always_ff @(posedge clk, posedge my_rst, posedge rst) begin
+        if (my_rst|rst) begin
+            en3 <= 0;
+        end
+        else begin
+            en3 <= en2;
+        end
+    end
+    
+    //NUMERATOR: treeadder code here
+    tree_adder #(32) ta (.enable(en4), .operand(treeAdderIn), .sum_result(numerator), .rst_n(~rst | ~my_rst), .*);
+
+    //DENOMINATOR:
+    tree_adder #(32) ta_desc (.enable(en4Desc), .operand(treeAdderDescIn), .sum_result(denDesc), .dataReady(dataReadyDenDesc), .rst_n(~rst | ~my_rst), .*);
+    tree_adder #(32) ta_win (.enable(en4Win), .operand(treeAdderWinIn), .sum_result(denWin), .dataReady(dataReadyDenWin), .rst_n(~rst | ~my_rst), .*);
+
+    //latch the result
+    bit [31:0] descSumOfSquares, winSumOfSquares;
+    bit [10:-54] descSumOfSquaresLog2, winSumOfSquaresLog2;
+    bit sumSquaresReady;
+    bit  [31:0]      numeratorReg;
+    always_ff @(posedge clk, posedge my_rst, posedge rst) begin
+        if (my_rst | rst) begin
+            descSumOfSquares <= 0;
+            winSumOfSquares <= 0;
+            sumSquaresReady <= 0;
+            numeratorReg <= 0;
+        end
+        else begin
+            descSumOfSquares <= denDesc;
+            winSumOfSquares <= denWin;
+            sumSquaresReady <= dataReadyDenWin;
+            numeratorReg <= numerator;
+        end
+    end
+
+    //convert back to log 2 and finish off the math
+    
+	bit [10:-54] numeratorLog2;
+	log2 denom_desc_log2_inst (descSumOfSquares, descSumOfSquaresLog2);
+	log2 denom_win_log2_inst (winSumOfSquares, winSumOfSquaresLog2);
+	log2 num_log2_inst (numeratorReg, numeratorLog2);
+
+    //latch the result
+    bit [10:-54] winSumSquaresLatch, descSumSquaresLatch;
+    bit sumSquaresLog2Ready;
+    bit  [10:-54]      numeratorReg1;
+    always_ff @(posedge clk, posedge rst, posedge my_rst) begin
+        if (my_rst | rst) begin
+            winSumSquaresLatch <= 0;
+            descSumSquaresLatch <= 0;
+            sumSquaresLog2Ready <= 0;
+            numeratorReg1 <= 0;
+        end
+        else begin
+            winSumSquaresLatch <= winSumOfSquaresLog2;
+            descSumSquaresLatch <= descSumOfSquaresLog2;
+            sumSquaresLog2Ready <= sumSquaresReady;
+            numeratorReg1 <= numeratorLog2;
+        end
+    end
+
+	//part 2 of denominator
+    bit [9:-54] denomLog2;
+	assign denomLog2 = (descSumSquaresLatch[9:-54] + winSumSquaresLatch[9:-54]) >> 1;
+
+    //latch the result
+
+    //bit [10:-54] denomLog2Latch;
+    //bit denomLog2Ready;
+    bit  [10:-54]      numeratorReg2;
+    always_ff @(posedge clk, posedge rst, posedge my_rst) begin
+        if (my_rst | rst) begin
+            denomLog2Ready <= 0;
+            denomLog2Latch <=  0;
+            numeratorReg2 <= 0;
+        end
+        else begin
+            denomLog2Latch <= denomLog2;
+            denomLog2Ready <= sumSquaresLog2Ready;
+            numeratorReg2 <= numeratorReg1;
+        end
+    end
+
+/////////// DYLAN ///////////////////
+	//final computation
+	bit [9:-54] numLog2;
+	bit signed [9:-54] corrCoeffLog2;
+	always_comb begin
+		if (numeratorReg2[10] == 1'b1) begin
+			numLog2 = ~(numeratorReg2[9:-54])+1;
+		end
+		else begin
+			numLog2 = numeratorReg2[9:-54];
+		end
+		corrCoeffLog2 = signed'(numLog2) - signed'(denomLog2);
+		//if (corrCoeffLog2 > numeratorLog2[9:-54]) begin
+	//		corrCoeffLog2 =  {10'd1, 54'd0};
+	//	end
+	end
+
+	bit signed [31:-32] correlationCoefficient, corrCoeff;
+	ilog2_negatives coeff_ilog2_inst (corrCoeffLog2, corrCoeff);
+	always_comb begin
+		if (numeratorLog2[10] == 1'b1) begin
+			correlationCoefficient = ~corrCoeff + 1;
+		end
+		else begin
+			correlationCoefficient = corrCoeff;
+		end
+	end
+	
+	//register to store the entire patch acc total sum
+	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
+
+	logic loadGreatestReg, clearWinCount, clearGreatestReg;
+	bit [12:0] windowCount;
+	//register to store greatest correlation coefficient and window index
+	//priorityRegisterFP #(13) greatestNCCRegFP (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, clearGreatestReg, greatestNCC, greatestWindowIndex);
+	priorityRegisterFP #(13) greatestNCCRegFP (correlationCoefficient, windowCount, clk, (rst | my_rst), denomLog2Ready, clearGreatestReg, greatestNCC, greatestWindowIndex);
+	counter #(13) windowCounter (clk, (rst | my_rst), clearWinCount, loadGreatestReg, windowCount);
+
+    //assign done_with_window_data = denomLog2Ready;
+
+    always_ff @(posedge clk, posedge rst) begin
+        if (rst) begin
+            done_with_window_data <= 0;
+            result_ready <= 0;
+            my_rst <= 1;
+            my_counter <= 0;
+        end
+        else if (denomLog2Ready & my_counter+1 == 13'd4096) begin
+            my_counter <= 0;
+            result_ready <= 1;
+            my_rst <= 0;
+            done_with_window_data <= denomLog2Ready;
+        end
+        else if (result_ready) begin
+            my_counter <= 0;
+            my_rst <= 1;
+            result_ready <= 0;
+            done_with_window_data <= denomLog2Ready;
+        end
+        else begin
+            my_counter <= my_counter + 1'd1;
+            my_rst <= 0;
+            result_ready <= 0;
+            done_with_window_data <= denomLog2Ready;
+        end
+    end
+
+endmodule: ncc
+
+
+module absoluteValueFP
+	#(parameter signBit = 32)
+	(input bit signed [31:-32] dataIn,
+	output bit signed [31:-32] dataOut);
+
+	bit dataSign;
+
+	assign dataSign = dataIn[signBit-1];
+	assign dataOut = (dataSign) ? ~dataIn + 1 : dataIn;
+
+endmodule: absoluteValueFP
+
+
+
+module counter
+	#(parameter w = 256)
+	(input logic clk, rst, clr, enable,
+	output bit [w-1:0] count);
+
+	always_ff @(posedge clk, posedge rst) begin
+		if (rst) begin
+			count <= 'd0;
+		end
+		else if (clr) begin
+			count <= 'd0;
+		end
+		else if (enable) begin
+			count <= count + 'd1;
+		end
+	end
+endmodule: counter
+
+module priorityRegisterFP
+	#(parameter w2 = 12)
+	(input bit signed[31:-32] dataIn,
+	input bit [w2-1:0] dataIn2,
+	input bit clk, rst, load, clear,
+	output bit signed [31:-32] dataOut,
+	output bit	[w2-1:0] dataOut2);
+
+	bit signed [31:-32] dataInAbs, dataOutAbs, data;
+	bit [w2-1:0] data2;
+
+	absoluteValueFP #(32) absValInFP_inst (dataIn, dataInAbs);
+	absoluteValueFP #(32) absValOutFP_inst (dataOut, dataOutAbs);
+
+	assign data = (dataInAbs > dataOutAbs) ? dataIn : dataOut;
+	assign data2 = (dataIn > dataOut) ? dataIn2 : dataOut2;
+
+	always_ff @(posedge clk, posedge rst) begin
+		if (rst) begin
+			dataOut <= 'd0;
+			dataOut2 <= 'd0;
+		end
+		else if (clear) begin
+			dataOut <= 'd0;
+			dataOut2 <= 'd0;
+		end
+		else if (load) begin
+			dataOut <= data;
+			dataOut2 <= data2;
+		end
+	end
+endmodule: priorityRegisterFP
+
+module denominatorTop(
+        input bit               clk,
+        input bit               rst,
+        input bit               window_data_ready,
+        input bit  [8:0]        window_data_in [15:0] [15:0],
+        input bit               desc_data_ready,
+        input bit  [35:0]       desc_data_in,
+
+        output bit [31:0]       accOut[15:0][15:0],
+        output bit  [31:0]      denDesc,
+        output bit              dataReadyDenDesc,
+        output bit  [31:0]      denWin,
+        output bit              dataReadyDenWin,
+        output bit [9:-54]      denomLog2Latch,
+        output bit              denomLog2Ready
+    );
+
+    bit signed [31:0] accIn [15:0] [15:0];
+    bit en1, en2, en3, en4Desc, en4Win, en5;
+    assign accIn = '{default:0};
+
+    bit [10:-54]                inputToPE_desc [15:0] [15:0];
+    bit [10:-54]                inputToPE_window [15:0] [15:0];
+
+    numeratorDescriptor  nd(.en(desc_data_ready), .desc_array_out(inputToPE_desc), .*);
+    numeratorWindow nw(.en_out(en2), .en(window_data_ready), .window_data_out(inputToPE_window), .*);
+
+
+    bit [31:0]                  descPixelOut [15:0][15:0];
+    bit [31:0]                  windowPixelOut [15:0][15:0];
+
+	genvar i, j;
+	//generate 16x16 PE grid
+	generate
+		for (i = 0; i < 16; i++) begin
+			for (j = 0; j < 16; j++) begin
+				processingElement PE_inst(.clk(clk), .rst(rst), .descPixelLog2In(inputToPE_desc[i][j]), .windowPixelLog2In(inputToPE_window[i][j]), .loadDescReg(en2), .loadWinReg(en2), .accIn(accIn[i][j]), .descPixelOut(descPixelOut[i][j]), .windowPixelOut(windowPixelOut[i][j]), .accOut(accOut[i][j]));
+			end
+		end
+	endgenerate
+
+    bit [31:0] treeAdderDescIn [15:0][15:0];
+    bit [31:0] treeAdderWinIn [15:0][15:0];
+    //latch the data returned from the PE
+    latchNumWinDesc ld(.en(en3), .data_in(descPixelOut), .data_out(treeAdderDescIn), .en_out(en4Desc), .*);
+    latchNumWinDesc lw(.en(en3), .data_in(windowPixelOut), .data_out(treeAdderWinIn), .en_out(en4Win), .*);
+
+    always_ff @(posedge clk, posedge rst) begin
+        if (rst) begin
+            en3 <= 0;
+        end
+        else begin
+            en3 <= en2;
+        end
+    end
 
     //treeadder code here
-    //tree_adder ta (.rst_n(~rst), .enable(en), .*);
+    tree_adder #(32) ta_desc (.rst_n(~rst), .enable(en4Desc), .operand(treeAdderDescIn), .sum_result(denDesc), .dataReady(dataReadyDenDesc), .*);
+    tree_adder #(32) ta_win (.rst_n(~rst), .enable(en4Win), .operand(treeAdderWinIn), .sum_result(denWin), .dataReady(dataReadyDenWin), .*);
+
+
+    //latch the result
+    bit [31:0] descSumOfSquares, winSumOfSquares;
+    bit [10:-54] descSumOfSquaresLog2, winSumOfSquaresLog2;
+    bit sumSquaresReady;
+    always_ff @(posedge clk, posedge rst) begin
+        if (rst) begin
+            descSumOfSquares <= 0;
+            winSumOfSquares <= 0;
+            sumSquaresReady <= 0;
+        end
+        else begin
+            descSumOfSquares <= denDesc;
+            winSumOfSquares <= denWin;
+            sumSquaresReady <= dataReadyDenWin;
+        end
+    end
+
+    //convert back to log 2 and finish off the math
+    
+/////////// DYLAN ///////////////////
+	log2 denom_desc_log2_inst (descSumOfSquares, descSumOfSquaresLog2);
+	log2 denom_win_log2_inst (winSumOfSquares, winSumOfSquaresLog2);
+
+    //latch the result
+    bit [10:-54] winSumSquaresLatch, descSumSquaresLatch;
+    bit sumSquaresLog2Ready;
+    always_ff @(posedge clk, posedge rst) begin
+        if (rst) begin
+            winSumSquaresLatch <= 0;
+            descSumSquaresLatch <= 0;
+            sumSquaresLog2Ready <= 0;
+        end
+        else begin
+            winSumSquaresLatch <= winSumOfSquaresLog2;
+            descSumSquaresLatch <= descSumOfSquaresLog2;
+            sumSquaresLog2Ready <= sumSquaresReady;
+        end
+    end
+
+	//part 2 of denominator
+    bit [9:-54] denomLog2;
+	assign denomLog2 = (descSumSquaresLatch[9:-54] + winSumSquaresLatch[9:-54]) >> 1;
+
+    //latch the result
+
+    //bit [10:-54] denomLog2Latch;
+    //bit denomLog2Ready;
+    always_ff @(posedge clk, posedge rst) begin
+        if (rst) begin
+            denomLog2Ready <= 0;
+            denomLog2Latch <=  0;
+        end
+        else begin
+            denomLog2Latch <= denomLog2;
+            denomLog2Ready <= sumSquaresLog2Ready;
+        end
+    end
+
+    /*
+	//final computation
+	always_comb begin
+		if (numeratorLog2[10] == 1'b1) begin
+			numLog2 = ~(numeratorLog2[9:-54])+1;
+		end
+		else begin
+			numLog2 = numeratorLog2[9:-54];
+		end
+		corrCoeffLog2 = signed'(numLog2) - signed'(denomLog2);
+		//if (corrCoeffLog2 > numeratorLog2[9:-54]) begin
+	//		corrCoeffLog2 =  {10'd1, 54'd0};
+	//	end
+	end
+
+	ilog2_negatives coeff_ilog2_inst (corrCoeffLog2, corrCoeff);
+	always_comb begin
+		if (numeratorLog2[10] == 1'b1) begin
+			correlationCoefficient = ~corrCoeff + 1;
+		end
+		else begin
+			correlationCoefficient = corrCoeff;
+		end
+	end
+	
+	//register to store the entire patch acc total sum
+	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
+
+	logic loadGreatestReg, clearWinCount, clearGreatestReg;
+	bit [12:0] windowCount;
+	//register to store greatest correlation coefficient and window index
+	priorityRegisterFP #(13) greatestNCCRegFP (correlationCoefficient, windowCount, clk, rst, loadGreatestReg, clearGreatestReg, greatestNCC, greatestWindowIndex);
+	counter #(13) windowCounter (clk, rst, clearWinCount, loadGreatestReg, windowCount);
+*/
+
+
+/////////// DYLAN ///////////////////
+
+
+endmodule:denominatorTop
+
+
+
+
+module numeratorTop(
+        input bit               clk,
+        input bit               rst,
+        input bit               window_data_ready,
+        input bit  [8:0]        window_data_in [15:0] [15:0],
+        input bit               desc_data_ready,
+        input bit  [35:0]       desc_data_in,
+
+//        output bit              en_out,
+//        output bit [31:0]       windowPixelOut [15:0] [15:0],
+//        output bit [31:0]       descPixelOut [15:0] [15:0],
+//        output bit [10:-54]     descPixelLog2 [15:0] [15:0],
+//        output bit [10:-54]     windowPixelLog2 [15:0] [15:0],
+        output bit [31:0]       accOut[15:0][15:0],
+        output bit              dataReady,
+        output bit  [31:0]      numerator
+    );
+
+    bit signed [31:0] accIn [15:0] [15:0];
+    bit en1, en2, en3, en4, en5;
+    assign accIn = '{default:0};
+
+    bit [10:-54]                inputToPE_desc [15:0] [15:0];
+    bit [10:-54]                inputToPE_window [15:0] [15:0];
+
+    numeratorDescriptor  nd(.en(desc_data_ready), .desc_array_out(inputToPE_desc), .*);
+    numeratorWindow nw(.en_out(en2), .en(window_data_ready), .window_data_out(inputToPE_window), .*);
+
+
+    bit [31:0]                  descPixelOut [15:0][15:0];
+    bit [31:0]                  windowPixelOut [15:0][15:0];
+
+	genvar i, j;
+	//generate 16x16 PE grid
+	generate
+		for (i = 0; i < 16; i++) begin
+			for (j = 0; j < 16; j++) begin
+				processingElement PE_inst(.clk(clk), .rst(rst), .descPixelLog2In(inputToPE_desc[i][j]), .windowPixelLog2In(inputToPE_window[i][j]), .loadDescReg(en2), .loadWinReg(en2), .accIn(accIn[i][j]), .descPixelOut(descPixelOut[i][j]), .windowPixelOut(windowPixelOut[i][j]), .accOut(accOut[i][j]));
+			end
+		end
+	endgenerate
+
+    bit [31:0] treeAdderIn [15:0][15:0];
+    //latch the data returned from the PE
+    latchNumWinDesc lnwd(.en(en3), .data_in(accOut), .data_out(treeAdderIn), .en_out(en4), .*);
+
+    always_ff @(posedge clk, posedge rst) begin
+        if (rst) begin
+            en3 <= 0;
+        end
+        else begin
+            en3 <= en2;
+        end
+    end
+    
+
+
+    //treeadder code here
+    tree_adder #(32) ta (.rst_n(~rst), .enable(en4), .operand(treeAdderIn), .sum_result(numerator), .*);
 
 endmodule
 
@@ -356,6 +801,209 @@ module findFirstOne
 		end
 	end
 endmodule: findFirstOne
+
+
+module ilog2_negatives
+	(input bit signed [9:-54] dataIn,
+	output bit signed [31:-32] dataOut);
+
+	bit signed [9:0] oneIndex;
+	always_comb begin
+		oneIndex = signed'(dataIn[9:0]);
+		dataOut = {32'd1, 32'd0} << oneIndex;
+		unique case (signed'(dataIn[9:0]))
+			10'sd0: begin
+			end
+			10'sd1: begin
+				dataOut[0:-32] = dataIn[-1:-33];
+			end
+			10'sd2: begin
+				dataOut[1:-32] = dataIn[-1:-34];
+			end
+			10'sd3: begin
+				dataOut[2:-32] = dataIn[-1:-35];
+			end
+			10'sd4: begin
+				dataOut[3:-32] = dataIn[-1:-36];
+			end
+			10'sd5: begin
+				dataOut[4:-32] = dataIn[-1:-37];
+			end
+			10'sd6: begin
+				dataOut[5:-32] = dataIn[-1:-38];
+			end
+			10'sd7: begin
+				dataOut[6:-32] = dataIn[-1:-39];
+			end
+			10'sd8: begin
+				dataOut[7:-32] = dataIn[-1:-40];
+			end
+			10'sd9: begin
+				dataOut[8:-32] = dataIn[-1:-41];
+			end
+			10'sd10: begin
+				dataOut[9:-32] = dataIn[-1:-42];
+			end
+			10'sd11: begin
+				dataOut[10:-32] = dataIn[-1:-43];
+			end
+			10'sd12: begin
+				dataOut[11:-32] = dataIn[-1:-44];
+			end
+			10'sd13: begin
+				dataOut[12:-32] = dataIn[-1:-45];
+			end
+			10'sd14: begin
+				dataOut[13:-32] = dataIn[-1:-46];
+			end
+			10'sd15: begin
+				dataOut[14:-32] = dataIn[-1:-47];
+			end
+			10'sd16: begin
+				dataOut[15:-32] = dataIn[-1:-48];
+			end
+			10'sd17: begin
+				dataOut[16:-32] = dataIn[-1:-49];
+			end
+			10'sd18: begin
+				dataOut[17:-32] = dataIn[-1:-50];
+			end
+			10'sd19: begin
+				dataOut[18:-32] = dataIn[-1:-51];
+			end
+			10'sd20: begin
+				dataOut[19:-32] = dataIn[-1:-52];
+			end
+			10'sd21: begin
+				dataOut[20:-32] = dataIn[-1:-53];
+			end
+			10'sd22: begin
+				dataOut[21:-32] = dataIn[-1:-54];
+			end
+			10'sd23: begin
+				dataOut[22:-32] = {dataIn[-1:-54], 1'd0};
+			end
+			10'sd24: begin
+				dataOut[23:-32] = {dataIn[-1:-54], 2'd0};
+			end
+			10'sd25: begin
+				dataOut[24:-32] = {dataIn[-1:-54], 3'd0};
+			end
+			10'sd26: begin
+				dataOut[25:-32] = {dataIn[-1:-54], 4'd0};
+			end
+			10'sd27: begin
+				dataOut[26:-32] = {dataIn[-1:-54], 5'd0};
+			end
+			10'sd28: begin
+				dataOut[27:-32] = {dataIn[-1:-54], 6'd0};
+			end
+			10'sd29: begin
+				dataOut[28:-32] = {dataIn[-1:-54], 7'd0};
+			end
+			10'sd30: begin
+				dataOut[29:-32] = {dataIn[-1:-54], 8'd0};
+			end
+			10'sd31: begin
+				dataOut[30:-32] = {dataIn[-1:-54], 9'd0};
+			end
+			-10'sd1: begin
+				dataOut[-2:-32] = dataIn[-1:-31];
+			end
+			-10'sd2: begin
+				dataOut[-3:-32] = dataIn[-1:-30];
+			end
+			-10'sd3: begin
+				dataOut[-4:-32] = dataIn[-1:-29];
+			end
+			-10'sd4: begin
+				dataOut[-5:-32] = dataIn[-1:-28];
+			end
+			-10'sd5: begin
+				dataOut[-6:-32] = dataIn[-1:-27];
+			end
+			-10'sd6: begin
+				dataOut[-7:-32] = dataIn[-1:-26];
+			end
+			-10'sd7: begin
+				dataOut[-8:-32] = dataIn[-1:-25];
+			end
+			-10'sd8: begin
+				dataOut[-9:-32] = dataIn[-1:-24];
+			end
+			-10'sd9: begin
+				dataOut[-10:-32] = dataIn[-1:-23];
+			end
+			-10'sd10: begin
+				dataOut[-11:-32] = dataIn[-1:-22];
+			end
+			-10'sd11: begin
+				dataOut[-12:-32] = dataIn[-1:-21];
+			end
+			-10'sd12: begin
+				dataOut[-13:-32] = dataIn[-1:-20];
+			end
+			-10'sd13: begin
+				dataOut[-14:-32] = dataIn[-1:-19];
+			end
+			-10'sd14: begin
+				dataOut[-15:-32] = dataIn[-1:-18];
+			end
+			-10'sd15: begin
+				dataOut[-16:-32] = dataIn[-1:-17];
+			end
+			-10'sd16: begin
+				dataOut[-17:-32] = dataIn[-1:-16];
+			end
+			-10'sd17: begin
+				dataOut[-18:-32] = dataIn[-1:-15];
+			end
+			-10'sd18: begin
+				dataOut[-19:-32] = dataIn[-1:-14];
+			end
+			-10'sd19: begin
+				dataOut[-20:-32] = dataIn[-1:-13];
+			end
+			-10'sd20: begin
+				dataOut[-21:-32] = dataIn[-1:-12];
+			end
+			-10'sd21: begin
+				dataOut[-22:-32] = dataIn[-1:-11];
+			end
+			-10'sd22: begin
+				dataOut[-23:-32] = dataIn[-1:-10];
+			end
+			-10'sd23: begin
+				dataOut[-24:-32] = dataIn[-1:-9];
+			end
+			-10'sd24: begin
+				dataOut[-25:-32] = dataIn[-1:-8];
+			end
+			-10'sd25: begin
+				dataOut[-26:-32] = dataIn[-1:-7];
+			end
+			-10'sd26: begin
+				dataOut[-27:-32] = dataIn[-1:-6];
+			end
+			-10'sd27: begin
+				dataOut[-28:-32] = dataIn[-1:-5];
+			end
+			-10'sd28: begin
+				dataOut[-29:-32] = dataIn[-1:-4];
+			end
+			-10'sd29: begin
+				dataOut[-30:-32] = dataIn[-1:-3];
+			end
+			-10'sd30: begin
+				dataOut[-31:-32] = dataIn[-1:-2];
+			end
+			-10'sd31: begin
+				dataOut[-32] = dataIn[-1];
+			end
+		endcase
+	end
+endmodule: ilog2_negatives
+
 
 module ilog2
 	(input bit [9:-54] dataIn,

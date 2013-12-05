@@ -19,6 +19,9 @@
 
 using namespace std;
 
+unsigned int findFirstOne(unsigned int);
+void saveResults(const unsigned int[], const char[], const int);
+
 char devname[] = "/dev/xpcie";
 int g_devFile = -1;
 
@@ -216,6 +219,12 @@ for(i = 0; i < 150; i++) {
 	for(i =0; i <150*3; i++){
 		printf("initial at[%d] is  %x\n",i,gReadData2->data[i]);
 	}
+	
+	//write gReadData to a file
+	const char resultsDir[] = "/Users/dylan/Dropbox/files/fpgaResults.txt";
+	// char resultsLoc[100];
+	// sprintf(resultsLoc, "%s%03d%s", resultsDir, 
+	saveResults(gReadData->data, resultsDir, 150);
 
 
 	for(i =0; i <150*3; i++){
@@ -246,3 +255,48 @@ for(i = 0; i < 150; i++) {
     return 0;
 }
 
+void saveResults(const unsigned int readDataBuffer[], const char filename[], const int numPoints) {
+	ofstream resultsFile;
+	resultsFile.open(filename);
+	for (int i = 0; i < numPoints; i++) {
+		unsigned int windowIndex = readDataBuffer[i*3];
+		//only need 13 MSB of windowIndex;
+		windowIndex = windowIndex >> 19;
+		uint64_t corrCoeffInt = (uint64_t) (readDataBuffer[(i+1)*3]);
+		uint64_t corrCoeffSign = ((uint64_t) corrCoeffInt) & 0x80000000;
+		uint64_t corrCoeffDec = ((uint64_t) (readDataBuffer[(i+2)*3]));
+		if (corrCoeffSign) {
+			corrCoeffInt = ~corrCoeffInt + 1;
+			corrCoeffDec = ~corrCoeffDec + 1;
+		}
+		uint64_t exponent = (uint64_t) findFirstOne(corrCoeffInt);
+		corrCoeffDec = corrCoeffDec << (20-exponent);
+		uint64_t ccI = (corrCoeffInt << (64-exponent)) >> (64-exponent); //get rid of first 1 bit
+		uint64_t dec = ccI << (52-exponent);
+		dec = dec | corrCoeffDec;
+		double corrCoeffE = 0;
+		// unsigned char *cce = reinterpret_cast<unsigned char *>(&corrCoeff);
+		uint64_t* cce = reinterpret_cast<uint64_t*>(&corrCoeffE);
+		*cce = *cce | (exponent + (uint64_t) 1023);
+		*cce = *cce << 52;
+		*cce = *cce | (corrCoeffSign << 32);
+		*cce = *cce | dec;
+		double* corrCoeff = reinterpret_cast<double*>(cce);
+		// corrCoeffE = corrCoeffE << 52;
+		// double corrCoeff = corrCoeffE | corrCoeffDoubleSign;
+		// corrCoeff = corrCoeffE | corrCoeffDec;
+		resultsFile << windowIndex << "\t" << (*corrCoeff) << endl;
+	}
+	resultsFile.close();
+}
+
+unsigned int findFirstOne(unsigned int x) {
+	static const unsigned int bval[] =
+	{0,1,2,2,3,3,3,3,4,4,4,4,4,4,4,4};
+
+	unsigned int r = 0;
+	if (x & 0xFFFF0000) { r += 16/1; x >>= 16/1; }
+	if (x & 0x0000FF00) { r += 16/2; x >>= 16/2; }
+	if (x & 0x000000F0) { r += 16/4; x >>= 16/4; }
+	return r + bval[x];
+}
