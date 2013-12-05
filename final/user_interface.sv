@@ -19,7 +19,7 @@ module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	output  logic 	 	 FPGA_wr_en;
 	
 	output logic [31:-32] greatestNCCLog2;
-	output logic [11:0]	 greatestWindowIndex;
+	output logic [12:0]	 greatestWindowIndex;
 	//testing signals.
 	
 	// to user.
@@ -35,7 +35,6 @@ module user_interface(clk,rst_n,  rd_ready, rd_req, rd_data,FPGA_wr_en,
 	
 	logic [6:0]		row,col;
 	logic			tem_win;
-	logic			frame, store_frame; 		// 0 or 1.
 	logic [7:0]		set;
 	logic [20:0]	user_rd_req_addr;
 	logic [20:0]	user_wr_req_addr;
@@ -73,12 +72,6 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
     					    flag_we = 1'b1;
     						req_addr = 21'b0;
     						ns = WAIT;
-							if(store_frame == 'd0) begin
-								frame = 'd1;
-							end
-							else begin
-								frame = 'd0;
-							end
     				    end
     				else begin
     				    ns = INIT;
@@ -135,11 +128,9 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
     	always_ff@(posedge clk, negedge rst_n)begin
     		if(~rst_n)begin
     			cs <= INIT;
-				store_frame <= 'd1;
     		end
     		else begin
     			cs <= ns;
-				store_frame <= frame;
     		end
     	end
     endmodule: user_interface
