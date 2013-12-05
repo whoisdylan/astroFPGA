@@ -113,6 +113,12 @@ module window_handler (clk,rst_n,window_data,window_ready,
 			cs <= INIT0;
 			store_row <= 'd0;
 			store_col <= 'd0;
+			window_data_mem[store_row][store_col*4+3] <= 'd0;
+            window_data_mem[store_row][store_col*4+2] <= 'd0;
+            window_data_mem[store_row][store_col*4+1] <= 'd0;
+            window_data_mem[store_row][store_col*4] <= 'd0;
+            mem_row <= 'd0;
+            mem_col <= 'd0;
 		end
         else begin
             window_data_mem[store_row][store_col*4+3] <= input_data_store[7:0];
