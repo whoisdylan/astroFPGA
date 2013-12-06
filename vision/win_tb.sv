@@ -5,7 +5,7 @@ module tb();
 	bit [35:0] descIn;
 	bit signed [8:0] windowIn [15:0] [15:0];
 	bit signed [31:-32] greatestNCC;
-	bit [11:0] greatestWinIndex;
+	bit [12:0] greatestWinIndex;
 	bit [31:0] num, denom;
 
 	ncc ncc_inst(clk, rst, window_data_ready, desc_data_ready, descIn, windowIn, 
