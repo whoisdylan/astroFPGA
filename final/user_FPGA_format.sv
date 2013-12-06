@@ -48,14 +48,14 @@ module user_FPGA_format( clk, rst_n, req, rd_wr, write_data, read_data,
 
 average mean(window_data, avg_window_data);
 
-/*
+
 ncc ncci(.clk(clk), .rst(~rst_n), .window_data_ready(window_ready), .desc_data_ready(template_ready),
                 .desc_data_in(template_data), .window_data_in(avg_window_data),
                 .done_with_window_data(result_ready), .done_with_desc_data(), 
                 .greatestNCC(greatestNCCLog2), 
                 .greatestWindowIndex(greatestWindowIndex)
                 );
- */              
+               
 template_handler do_temp(.clk(clk),.rst_n(rst_n),.template_data(template_data), .template_ready(template_ready),
 					.en(activate_template), .input_data(read_data), .row(template_row), .col(template_col),
 					.done(template_done), .ack(template_ack), .receive(template_receive),.inst(inst)

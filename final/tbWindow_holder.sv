@@ -59,7 +59,7 @@ module systemTest;
     logic [3:0]         LEDs;
 
 	address_translator trans(row,col, 1'b1,8'b0,address, 1'b0);
-	window_handler_mine dut(.*);
+	window_handler dut(.*);
 assign input_data = rd_data;
 assign req_addr = address;
 /*
@@ -192,8 +192,9 @@ repeat(14401) @(posedge clk);
 		$stop;
 		*/
 
-
+/*
         $display("%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10], dut.window_data_mem[0][11], dut.window_data_mem[0][12], dut.window_data_mem[0][13], dut.window_data_mem[0][14], dut.window_data_mem[0][15], dut.window_data_mem[79][76], dut.window_data_mem[79][77], {dut.window_data_mem[79][78], dut.window_data_mem[79][79]});
+		*/
          /*dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10]
        dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10]
         dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10]

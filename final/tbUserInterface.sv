@@ -115,7 +115,7 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 */	
 
 
-	$monitor($time, , "address =%d, data = %h, %s tem_win =%b, row =%d col =%d set =%d greatestNCC =%d.%b\n  window_ready =%b, num=%b.%b\nden=%b.%b\ncorrCoeffLog2=%b.%b\ndsos=%d, wsos=%d\ndesc_in=%b,%b,%b,%b\nwin_in=%b,%b,%b,%b\nwin_hand_data_in=%b,%b,%b,%b\nwin_hand_data_out=%h", req_addr, rd_data, uft.chop.cs,uft.chop.tem_win, uft.chop.row, uft.chop.col, uft.set,$signed(uft.chop.greatestNCCLog2[31:0]),uft.chop.greatestNCCLog2[-1:-32], uft.chop.window_ready, uft.chop.ncci.numeratorLog2[9:0], uft.chop.ncci.numeratorLog2[-1:-54], uft.chop.ncci.denomLog2[9:0], uft.chop.ncci.denomLog2[-1:-54], uft.chop.ncci.corrCoeffLog2[9:0], uft.chop.ncci.corrCoeffLog2[-1:-54], uft.chop.ncci.descSumOfSquares, uft.chop.ncci.winSumOfSquares, uft.chop.ncci.desc_data_in[35:27], uft.chop.ncci.desc_data_in[26:18], uft.chop.ncci.desc_data_in[17:9], uft.chop.ncci.desc_data_in[8:0], uft.chop.ncci.window_data_in[0][0], uft.chop.ncci.window_data_in[0][1], uft.chop.ncci.window_data_in[0][2], uft.chop.ncci.window_data_in[0][3], uft.chop.do_wind.input_data[31:24], uft.chop.do_wind.input_data[23:16], uft.chop.do_wind.input_data[15:8], uft.chop.do_wind.input_data[7:0],window); 
+	$monitor($time, , "address =%d, data = %h, %s tem_win =%b, row =%d col =%d set =%d greatestNCC =%d.%b greatest_Window_Index %d\n  window_ready =%b, num=%b.%b\nden=%b.%b\ncorrCoeffLog2=%b.%b\ndsos=%d, wsos=%d\ndesc_in=%b,%b,%b,%b\nwin_in=%b,%b,%b,%b\nwin_hand_data_in=%b,%b,%b,%b\nwin_hand_data_out=%h \n wind_in = %b, %b, %b, %b, avg = %d", req_addr, rd_data, uft.chop.cs,uft.chop.tem_win, uft.chop.row, uft.chop.col, uft.set,$signed(uft.chop.greatestNCCLog2[31:0]),uft.chop.greatestNCCLog2[-1:-32],uft.chop.greatestWindowIndex, uft.chop.window_ready, uft.chop.ncci.numeratorLog2[9:0], uft.chop.ncci.numeratorLog2[-1:-54], uft.chop.ncci.denomLog2[9:0], uft.chop.ncci.denomLog2[-1:-54], uft.chop.ncci.corrCoeffLog2[9:0], uft.chop.ncci.corrCoeffLog2[-1:-54], uft.chop.ncci.descSumOfSquares, uft.chop.ncci.winSumOfSquares, uft.chop.ncci.desc_data_in[35:27], uft.chop.ncci.desc_data_in[26:18], uft.chop.ncci.desc_data_in[17:9], uft.chop.ncci.desc_data_in[8:0], uft.chop.ncci.window_data_in[0][0], uft.chop.ncci.window_data_in[0][1], uft.chop.ncci.window_data_in[0][2], uft.chop.ncci.window_data_in[0][3], uft.chop.do_wind.input_data[31:24], uft.chop.do_wind.input_data[23:16], uft.chop.do_wind.input_data[15:8], uft.chop.do_wind.input_data[7:0],uft.chop.do_wind.window_data, uft.chop.ncci.window_data_in[0][0], uft.chop.ncci.window_data_in[0][1],uft.chop.ncci.window_data_in[0][2],uft.chop.ncci.window_data_in[0][3], uft.chop.do_temp.avg); 
 
 
 
@@ -136,33 +136,33 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 		
 		// set up the memory
 		for(i = 0; i < 1; i++)begin
-			mem[1665*i]  =  {24'd0, 8'd42};
+			mem[1665*i]  =  {24'd0, 8'd127};
 			
 			for(j = 0; j < 64; j++) begin
-					mem[1665*i+j+1] = 32'h40444044;
-					/*
-					mem[1665*i+j+1][7:0] = j*4;
-					mem[1665*i+j+1][15:8] = j*4 +1;
-					mem[1665*i+j+1][23:16] = j*4 +2;
-					mem[1665*i+j+1][31:24] = j*4 +3;
-					*/	
+			//		mem[1665*i+j+1] = 32'h40424244;
+				
+					mem[1665*i+j+1][7:0] = 8'hFF - (j*4);
+					mem[1665*i+j+1][15:8] = 8'hFF - (j*4 +1);
+					mem[1665*i+j+1][23:16] = 8'hFF - (j*4 +2);
+					mem[1665*i+j+1][31:24] = 8'hFF - (j*4 +3);
+					
 			//	mem[1665*i +j +1] = 32'h FFFF0000 + j;
 			end
 			
 			for(k = 0; k < 1600; k++) begin
-		//		mem[1665*i +64 +1 + k] = 32'h11110000 + k;
+			//	mem[1665*i +64 +1 + k] = 32'h11110000 + k;
 				
 				mem[1665*i +64 +1 + k] = 32'h0;
-				if( ((k%20) >= 0) && ((k%20) <=3))begin
+				if( ((k%20) >= 2) && ((k%20) <=5))begin
 					if(((k/80) >= 0) && ( (k/80) <=15))begin
 
-						mem[1665*i +64 +1 +k] = 32'h40444044;
-						/*
+			//			mem[1665*i +64 +1 +k] = 32'h40424244;
+						
 						mem[1665*i +64 + 1 +k][7:0] = (k/80)*16 +(k%20)*4 +0;
 						mem[1665*i +64 + 1 +k][15:8] = (k/80)*16 +(k%20)*4 +1;
 						mem[1665*i +64 + 1 +k][23:16] = (k/80)*16 +(k%20)*4 +2;
 						mem[1665*i +64 + 1 +k][31:24] = (k/80)*16 +(k%20)*4 +3;
-						*/
+						
 					end
 				end
 				

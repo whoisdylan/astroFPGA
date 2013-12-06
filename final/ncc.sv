@@ -32,10 +32,10 @@ module ncc
 	counter #(2) descColCounter(clk, rst, 1'b0, incDescColC, descColC);
 
 	//descriptor log2 hardware
-	log2 descLog2_inst1({{23{desc_data_in[35]}}, desc_data_in[35:27]}, descLog2[3]);
-	log2 descLog2_inst2({{23{desc_data_in[26]}}, desc_data_in[26:18]}, descLog2[2]);
-	log2 descLog2_inst3({{23{desc_data_in[17]}}, desc_data_in[17:9]}, descLog2[1]);
-	log2 descLog2_inst4({{23{desc_data_in[8]}}, desc_data_in[8:0]}, descLog2[0]);
+	log2 descLog2_inst1({{23{desc_data_in[35]}}, desc_data_in[35:27]}, descLog2[0]);
+	log2 descLog2_inst2({{23{desc_data_in[26]}}, desc_data_in[26:18]}, descLog2[1]);
+	log2 descLog2_inst3({{23{desc_data_in[17]}}, desc_data_in[17:9]}, descLog2[2]);
+	log2 descLog2_inst4({{23{desc_data_in[8]}}, desc_data_in[8:0]}, descLog2[3]);
 
 	decoder #(4) desc_decoder_col(descColC, loadColGroup);
 	decoder #(16) desc_decoder_row(descRowC, loadRow);
@@ -117,6 +117,8 @@ module ncc
 	end
 
 	ilog2_negatives coeff_ilog2_inst (corrCoeffLog2, corrCoeff);
+	absoluteValueFP corr_coeff_abs_inst (corrCoeff, correlationCoefficient);
+	/*
 	always_comb begin
 		if (numeratorLog2[10] == 1'b1) begin
 			correlationCoefficient = ~corrCoeff + 1;
@@ -125,6 +127,7 @@ module ncc
 			correlationCoefficient = corrCoeff;
 		end
 	end
+	*/
 	
 	//register to store the entire patch acc total sum
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
@@ -738,7 +741,7 @@ module absoluteValueFP
 	bit dataSign;
 
 	assign dataSign = dataIn[signBit-1];
-	assign dataOut = (dataSign) ? (~(dataIn) + {32'sh1,32'shd0}) : (dataIn);
+	assign dataOut = (dataSign) ? {(~(dataIn[31:0])) + 32'd1, dataIn[-1:-32]} : dataIn;
 
 endmodule: absoluteValueFP
 
@@ -770,19 +773,13 @@ module priorityRegisterFP
 	bit signed [31:-32] dataInAbs, dataOutAbs, data;
 	bit [w2-1:0] data2;
 
-	absoluteValueFP #(32) absValInFP_inst (dataIn, dataInAbs);
-	absoluteValueFP #(32) absValOutFP_inst (dataOut, dataOutAbs);
+	//absoluteValueFP #(32) absValInFP_inst (dataIn, dataInAbs);
+	//absoluteValueFP #(32) absValOutFP_inst (dataOut, dataOutAbs);
+	assign dataInAbs = dataIn;
+	assign dataOutAbs = dataOut;
 
-	always_comb begin
-		if (dataInAbs > dataOutAbs) begin
-			data = dataInAbs;
-			data2 = dataIn2;
-		end
-		else begin
-			data = dataOutAbs;
-			data2 = dataOut2;
-		end
-	end
+	assign data = (dataInAbs > dataOutAbs) ? dataIn : dataOut;
+	assign data2 = (dataInAbs > dataOutAbs) ? dataIn2 : dataOut2;
 
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin

@@ -275,9 +275,9 @@ module window_shift (clk, rst_n, en, clr, shift,in,valid, out);
 	input logic shift;
 	input logic [3:0][7:0] in;
 	output logic valid;
-	output logic [7:0] out [16];
+	output logic [15:0][7:0] out;
 
-	logic [7:0]		data[20];
+	logic [19:0][7:0]		data;
 	logic [19:0]		valid_array;
 
 	//can only load or shift, can't do both.
@@ -287,9 +287,35 @@ assign valid = valid_array[19]; // highest point
 
 int j;
 always_comb begin
+/*
 	for(j = 0; j <16; j++) begin
 		out[j] = data[j];
+		out[j] = data[j];
+		out[j] = data[j];
+		out[j]  = data[j];
 	end
+	*/
+	out[0] = data[3];
+	out[1] = data[2];
+	out[2] = data[1];
+	out[3] = data[0];
+
+	out[4] = data[7];
+	out[5] = data[6];
+	out[6] = data[5];
+	out[7] = data[4]; 
+
+	out[8] = data[11];
+	out[9] = data[10];
+	out[10] = data[9];
+	out[11] = data[8];
+
+	out[12] = data[15];
+	out[13] = data[14];
+	out[14] = data[13];
+	out[15] = data[12]; 
+
+
 end
 int i;
 always_ff@(posedge clk, negedge rst_n) begin
@@ -307,10 +333,10 @@ always_ff@(posedge clk, negedge rst_n) begin
 		for( i =0; i < 16; i++)begin
 			data[i] = data[i];
 		end
-		data[17] = in[0];
-		data[18] = in[1];
-		data[19] = in[2];
-		data[20] = in[3];
+		data[16] = in[0];
+		data[17] = in[1];
+		data[18] = in[2];
+		data[19] = in[3];
 		// set to valid.
 		valid_array[3:0] = 4'b1111;
 		

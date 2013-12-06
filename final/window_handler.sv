@@ -31,7 +31,11 @@ module window_handler (clk,rst_n,window_data,window_ready,
 		LEDs = 4'd0;
         mem_row_c = 'd0;
         mem_col_c = 'd0;
-        window_data = 'd0;
+        for(k = 0; k < 16; k++)begin
+            for(l = 0; l <16; l++)begin
+                window_data[k][l] = 'd0;
+            end
+        end
         input_data_store = 'd0;
 		case(cs)
 			INIT0: begin
