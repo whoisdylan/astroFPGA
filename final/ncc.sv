@@ -176,6 +176,10 @@ module ncc
 		clearGreatestReg = 1'b0;
 		case (currStateWin)
 			WIN_WAIT: begin
+				if (windowCount > (4224)) begin
+					clearWinCount = 1'b1;
+					clearGreatestReg = 1'b1;
+				end
 				if (window_data_ready) begin
 					loadWinReg = 1'b1;
 					nextStateWin = WIN_LOAD;
@@ -187,10 +191,6 @@ module ncc
 			WIN_LOAD: begin
 				loadGreatestReg = 1'b1;
 				done_with_window_data = 1'b1;
-				if (windowCount >= (4224)) begin
-					clearWinCount = 1'b1;
-					clearGreatestReg = 1'b1;
-				end
 				nextStateWin = WIN_WAIT;
 			end
 			default: nextStateWin = WIN_WAIT;
@@ -738,7 +738,7 @@ module absoluteValueFP
 	bit dataSign;
 
 	assign dataSign = dataIn[signBit-1];
-	assign dataOut = (dataSign) ? ~dataIn + 1 : dataIn;
+	assign dataOut = (dataSign) ? (~(dataIn) + {32'sh1,32'sh0}) : (dataIn);
 
 endmodule: absoluteValueFP
 
@@ -773,7 +773,7 @@ module priorityRegisterFP
 	absoluteValueFP #(32) absValInFP_inst (dataIn, dataInAbs);
 	absoluteValueFP #(32) absValOutFP_inst (dataOut, dataOutAbs);
 
-	assign data = (dataInAbs > dataOutAbs) ? dataIn : dataOut;
+	assign data = (dataInAbs > dataOutAbs) ? dataInAbs : dataOutAbs;
 	assign data2 = (dataIn > dataOut) ? dataIn2 : dataOut2;
 
 	always_ff @(posedge clk, posedge rst) begin
