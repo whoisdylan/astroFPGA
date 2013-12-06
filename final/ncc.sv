@@ -32,10 +32,10 @@ module ncc
 	counter #(2) descColCounter(clk, rst, 1'b0, incDescColC, descColC);
 
 	//descriptor log2 hardware
-	log2 descLog2_inst1({{23{desc_data_in[35]}}, desc_data_in[35:27]}, descLog2[0]);
-	log2 descLog2_inst2({{23{desc_data_in[26]}}, desc_data_in[26:18]}, descLog2[1]);
-	log2 descLog2_inst3({{23{desc_data_in[17]}}, desc_data_in[17:9]}, descLog2[2]);
-	log2 descLog2_inst4({{23{desc_data_in[8]}}, desc_data_in[8:0]}, descLog2[3]);
+	log2 descLog2_inst1({{23{desc_data_in[35]}}, desc_data_in[35:27]}, descLog2[3]);
+	log2 descLog2_inst2({{23{desc_data_in[26]}}, desc_data_in[26:18]}, descLog2[2]);
+	log2 descLog2_inst3({{23{desc_data_in[17]}}, desc_data_in[17:9]}, descLog2[1]);
+	log2 descLog2_inst4({{23{desc_data_in[8]}}, desc_data_in[8:0]}, descLog2[0]);
 
 	decoder #(4) desc_decoder_col(descColC, loadColGroup);
 	decoder #(16) desc_decoder_row(descRowC, loadRow);
@@ -176,6 +176,10 @@ module ncc
 		clearGreatestReg = 1'b0;
 		case (currStateWin)
 			WIN_WAIT: begin
+				if (windowCount > (4224)) begin
+					clearWinCount = 1'b1;
+					clearGreatestReg = 1'b1;
+				end
 				if (window_data_ready) begin
 					loadWinReg = 1'b1;
 					nextStateWin = WIN_LOAD;
@@ -187,10 +191,6 @@ module ncc
 			WIN_LOAD: begin
 				loadGreatestReg = 1'b1;
 				done_with_window_data = 1'b1;
-				if (windowCount >= (4224)) begin
-					clearWinCount = 1'b1;
-					clearGreatestReg = 1'b1;
-				end
 				nextStateWin = WIN_WAIT;
 			end
 			default: nextStateWin = WIN_WAIT;
@@ -738,7 +738,7 @@ module absoluteValueFP
 	bit dataSign;
 
 	assign dataSign = dataIn[signBit-1];
-	assign dataOut = (dataSign) ? ~dataIn + 1 : dataIn;
+	assign dataOut = (dataSign) ? (~(dataIn) + {32'sh1,32'shd0}) : (dataIn);
 
 endmodule: absoluteValueFP
 
@@ -773,7 +773,7 @@ module priorityRegisterFP
 	absoluteValueFP #(32) absValInFP_inst (dataIn, dataInAbs);
 	absoluteValueFP #(32) absValOutFP_inst (dataOut, dataOutAbs);
 
-	assign data = (dataInAbs > dataOutAbs) ? dataIn : dataOut;
+	assign data = (dataInAbs > dataOutAbs) ? dataInAbs : dataOutAbs;
 	assign data2 = (dataIn > dataOut) ? dataIn2 : dataOut2;
 
 	always_ff @(posedge clk, posedge rst) begin
