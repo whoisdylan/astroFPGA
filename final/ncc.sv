@@ -32,10 +32,10 @@ module ncc
 	counter #(2) descColCounter(clk, rst, 1'b0, incDescColC, descColC);
 
 	//descriptor log2 hardware
-	log2 descLog2_inst1({{23{desc_data_in[35]}}, desc_data_in[35:27]}, descLog2[0]);
-	log2 descLog2_inst2({{23{desc_data_in[26]}}, desc_data_in[26:18]}, descLog2[1]);
-	log2 descLog2_inst3({{23{desc_data_in[17]}}, desc_data_in[17:9]}, descLog2[2]);
-	log2 descLog2_inst4({{23{desc_data_in[8]}}, desc_data_in[8:0]}, descLog2[3]);
+	log2 descLog2_inst1({{23{desc_data_in[35]}}, desc_data_in[35:27]}, descLog2[3]);
+	log2 descLog2_inst2({{23{desc_data_in[26]}}, desc_data_in[26:18]}, descLog2[2]);
+	log2 descLog2_inst3({{23{desc_data_in[17]}}, desc_data_in[17:9]}, descLog2[1]);
+	log2 descLog2_inst4({{23{desc_data_in[8]}}, desc_data_in[8:0]}, descLog2[0]);
 
 	decoder #(4) desc_decoder_col(descColC, loadColGroup);
 	decoder #(16) desc_decoder_row(descRowC, loadRow);
