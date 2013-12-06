@@ -117,14 +117,16 @@ module ncc
 	end
 
 	ilog2_negatives coeff_ilog2_inst (corrCoeffLog2, corrCoeff);
-	always_comb begin
-		if (numeratorLog2[10] == 1'b1) begin
-			correlationCoefficient = ~corrCoeff + 1;
-		end
-		else begin
-			correlationCoefficient = corrCoeff;
-		end
-	end
+
+	absoluteValueFP corr_coeff_abs_inst (corrCoeff, correlationCoefficient)
+	/*always_comb begin*/
+	/*	if (numeratorLog2[10] == 1'b1) begin*/
+	/*		correlationCoefficient = ~corrCoeff + 1;*/
+	/*	end*/
+	/*	else begin*/
+	/*		correlationCoefficient = corrCoeff;*/
+	/*	end*/
+	/*end*/
 	
 	//register to store the entire patch acc total sum
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
