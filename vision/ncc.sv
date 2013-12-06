@@ -117,6 +117,8 @@ module ncc
 	end
 
 	ilog2_negatives coeff_ilog2_inst (corrCoeffLog2, corrCoeff);
+	absoluteValueFP corr_coeff_abs_inst (corrCoeff, correlationCoefficient);
+	/*
 	always_comb begin
 		if (numeratorLog2[10] == 1'b1) begin
 			correlationCoefficient = ~corrCoeff + 1;
@@ -125,6 +127,7 @@ module ncc
 			correlationCoefficient = corrCoeff;
 		end
 	end
+	*/
 	
 	//register to store the entire patch acc total sum
 	//register #(32) accReg (accPatchSum, clk, rst, loadAccSumReg, accTotalSum);
@@ -176,6 +179,10 @@ module ncc
 		clearGreatestReg = 1'b0;
 		case (currStateWin)
 			WIN_WAIT: begin
+				if (windowCount > (4224)) begin
+					clearWinCount = 1'b1;
+					clearGreatestReg = 1'b1;
+				end
 				if (window_data_ready) begin
 					loadWinReg = 1'b1;
 					nextStateWin = WIN_LOAD;
@@ -187,10 +194,6 @@ module ncc
 			WIN_LOAD: begin
 				loadGreatestReg = 1'b1;
 				done_with_window_data = 1'b1;
-				if (windowCount >= (4224)) begin
-					clearWinCount = 1'b1;
-					clearGreatestReg = 1'b1;
-				end
 				nextStateWin = WIN_WAIT;
 			end
 			default: nextStateWin = WIN_WAIT;
@@ -738,7 +741,7 @@ module absoluteValueFP
 	bit dataSign;
 
 	assign dataSign = dataIn[signBit-1];
-	assign dataOut = (dataSign) ? ~dataIn + 1 : dataIn;
+	assign dataOut = (dataSign) ? {(~(dataIn[31:0])) + 32'd1, dataIn[-1:-32]} : dataIn;
 
 endmodule: absoluteValueFP
 
@@ -770,11 +773,13 @@ module priorityRegisterFP
 	bit signed [31:-32] dataInAbs, dataOutAbs, data;
 	bit [w2-1:0] data2;
 
-	absoluteValueFP #(32) absValInFP_inst (dataIn, dataInAbs);
-	absoluteValueFP #(32) absValOutFP_inst (dataOut, dataOutAbs);
+	//absoluteValueFP #(32) absValInFP_inst (dataIn, dataInAbs);
+	//absoluteValueFP #(32) absValOutFP_inst (dataOut, dataOutAbs);
+	assign dataInAbs = dataIn;
+	assign dataOutAbs = dataOut;
 
 	assign data = (dataInAbs > dataOutAbs) ? dataIn : dataOut;
-	assign data2 = (dataIn > dataOut) ? dataIn2 : dataOut2;
+	assign data2 = (dataInAbs > dataOutAbs) ? dataIn2 : dataOut2;
 
 	always_ff @(posedge clk, posedge rst) begin
 		if (rst) begin
