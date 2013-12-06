@@ -83,8 +83,10 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
     			end
 				WAIT: begin
 				
-						if(req&&rd_wr) FPGA_wr_en =1'b1; // next operation is write
-						
+						if(req&&rd_wr) begin
+							FPGA_wr_en =1'b1; // next operation is write
+							ns = WAIT;
+						end
 						ready_2_start =1'b1;
 						if(req) ns = (rd_wr)? WRITE:READ;
 						else ns = WAIT;
@@ -97,8 +99,10 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
 				end
 				READ: begin
 						ready_2_start =1'b1;
-						if(req&&rd_wr) FPGA_wr_en =1'b1; // next operation is write
-						
+						if(req&&rd_wr) begin
+							FPGA_wr_en =1'b1; // next operation is write
+							ns = READ;
+						end
 						if(set_done) begin
 							ns = DONE;
 							ready_2_start = 1'b0;
@@ -110,8 +114,10 @@ assign user_wr_req_addr = 21'h03CF96 + {19'b0 ,wr_index} + {11'b0,set,2'b00}; //
 				
 				WRITE: begin
 						ready_2_start =1'b1;
-						if(req&&rd_wr) FPGA_wr_en =1'b1; // next operation is write
-						
+						if(req&&rd_wr) begin
+							FPGA_wr_en =1'b1; // next operation is write
+							ns = WRITE;
+						end
 						if(set_done)begin
 							ns = DONE;
 							ready_2_start = 1'b0;

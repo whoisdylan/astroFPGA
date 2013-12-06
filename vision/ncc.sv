@@ -176,6 +176,10 @@ module ncc
 		clearGreatestReg = 1'b0;
 		case (currStateWin)
 			WIN_WAIT: begin
+				if (windowCount > (4224)) begin
+					clearWinCount = 1'b1;
+					clearGreatestReg = 1'b1;
+				end
 				if (window_data_ready) begin
 					loadWinReg = 1'b1;
 					nextStateWin = WIN_LOAD;
@@ -187,10 +191,6 @@ module ncc
 			WIN_LOAD: begin
 				loadGreatestReg = 1'b1;
 				done_with_window_data = 1'b1;
-				if (windowCount >= (4224)) begin
-					clearWinCount = 1'b1;
-					clearGreatestReg = 1'b1;
-				end
 				nextStateWin = WIN_WAIT;
 			end
 			default: nextStateWin = WIN_WAIT;
