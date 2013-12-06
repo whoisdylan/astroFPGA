@@ -182,22 +182,25 @@ int main()
         i++;
     }
 for(i = 0; i < 150; i++) {
-		gWriteData2->data[i] = 0;
+		gWriteData2->data[i] = 42;
 }
-/* here...
-    WriteData((char*) gWriteData, 4*NUM_COLS, offset);
-    flag = 40;
 
-	offset = 4*NUM_COLS;
+    WriteData((char*) gWriteData, 4*NUM_COLS, offset);
+    flag = 60;
+/*
+	offset = ;
 	WriteData((char*) gWriteData2,3*150*4, offset);
 
 	ReadData((char *) gReadData2, 3*150*4, offset);
 */
+/*
 	while(1) {
 		sleep(1);
 		get_instruction(instruction);
 		printf("instruction = %x\n", *instruction);
 	}
+	*/
+
     *instruction = 0x00000100;
 	
     set_instruction(instruction);
@@ -212,11 +215,13 @@ for(i = 0; i < 150; i++) {
         }
     }
 
-	ReadData((char *) gReadData, 4*3*150, offset);
+	offset = 0x0003CF96;
+	ReadData((char *) gReadData2, 4*4*150, 4*offset);
 
-//    ReadData((char *) gReadData, 4*NUM_COLS, 0);
-/*   here...
-	for(i =0; i <150*3; i++){
+    ReadData((char *) gReadData, 4*NUM_COLS, 0);
+
+
+	for(i =0; i <150*4; i++){
 		printf("initial at[%d] is  %x\n",i,gReadData2->data[i]);
 	}
 	
@@ -224,28 +229,26 @@ for(i = 0; i < 150; i++) {
 	const char resultsDir[] = "/Users/dylan/Dropbox/files/fpgaResults.txt";
 	// char resultsLoc[100];
 	// sprintf(resultsLoc, "%s%03d%s", resultsDir, 
-	saveResults(gReadData->data, resultsDir, 150);
+	//saveResults(gReadData->data, resultsDir, 150);
 
-
+/*
 	for(i =0; i <150*3; i++){
 		printf("result back is at[%d] %x\n",i,gReadData->data[i]);
 	}
 */
-/*
+
+
 	offset = 0;
-     ReadData((char *) gReadData2, 4*NUM_COLS, offset);
-*/
-/*
- *
+     ReadData((char *) gReadData2, 4*NUM_COLS, offset); 
 	for(i=0; i<NUM_COLS; i++) {
-        if (gReadData->data[i] != gReadData2->data[i])
-            printf("DWORD miscompare [%d] -> expected %x : found %x \n", i, gReadData2->data[i], gReadData->data[i]);
+        if (gReadData->data[i] != gWriteData->data[i])
+            printf("DWORD miscompare [%d] -> expected %x : found %x \n", i, gWriteData->data[i], gReadData->data[i]);
     }
-*/	
+	
 /*
     for(i=0; i<NUM_COLS; i++) {
-        if (gReadData->data[i] != gWriteData->data[i]+1)
-            printf("DWORD miscompare [%d] -> expected %x : found %x \n", i, gWriteData->data[i], gReadData->data[i]);
+        if (gReadData->data[i] != gReadData2->data[i])
+            printf("DWORD miscompare [%d] -> expected %x : found %x \n", i, gReadData->data[i], gReadData2->data[i]);
     }
 */
     time_t end = time(NULL);
