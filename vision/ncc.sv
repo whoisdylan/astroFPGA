@@ -773,7 +773,7 @@ module priorityRegisterFP
 	absoluteValueFP #(32) absValInFP_inst (dataIn, dataInAbs);
 	absoluteValueFP #(32) absValOutFP_inst (dataOut, dataOutAbs);
 
-	assign data = (dataInAbs > dataOutAbs) ? dataIn : dataOut;
+	assign data = (dataInAbs > dataOutAbs) ? dataInAbs : dataOutAbs;
 	assign data2 = (dataIn > dataOut) ? dataIn2 : dataOut2;
 
 	always_ff @(posedge clk, posedge rst) begin
