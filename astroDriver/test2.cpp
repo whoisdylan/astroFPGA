@@ -215,16 +215,16 @@ for(i = 0; i < 150; i++) {
         }
     }
 
-	offset = 0x0003CF96;
-	ReadData((char *) gReadData2, 4*4*150, 4*offset);
+//	offset = 0x0003CF96;
+//	ReadData((char *) gReadData2, 4*4*150, 4*offset);
 
     ReadData((char *) gReadData, 4*NUM_COLS, 0);
 
-
+/*
 	for(i =0; i <150*4; i++){
 		printf("initial at[%d] is  %x\n",i,gReadData2->data[i]);
 	}
-	
+*/	
 	//write gReadData to a file
 	const char resultsDir[] = "/Users/dylan/Dropbox/files/fpgaResults.txt";
 	// char resultsLoc[100];
@@ -241,16 +241,16 @@ for(i = 0; i < 150; i++) {
 	offset = 0;
      ReadData((char *) gReadData2, 4*NUM_COLS, offset); 
 	for(i=0; i<NUM_COLS; i++) {
-        if (gReadData->data[i] != gWriteData->data[i])
+        if (gReadData->data[i] != gWriteData->data[i]+1)
             printf("DWORD miscompare [%d] -> expected %x : found %x \n", i, gWriteData->data[i], gReadData->data[i]);
     }
 	
-/*
+
     for(i=0; i<NUM_COLS; i++) {
         if (gReadData->data[i] != gReadData2->data[i])
-            printf("DWORD miscompare [%d] -> expected %x : found %x \n", i, gReadData->data[i], gReadData2->data[i]);
+            printf("inconsistent read [%d] -> expected %x : found %x \n", i, gReadData->data[i], gReadData2->data[i]);
     }
-*/
+
     time_t end = time(NULL);
     int time = end-start;
     cout << "elapsed time: " << time << " s" << endl;
