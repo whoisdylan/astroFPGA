@@ -1,3 +1,50 @@
+module window_handler_fake
+    (input logic clk, rst_n, en,
+    output logic done);
+    enum logic {WAIT, FAKE_IT} cs, ns;
+    
+    bit [4:0] winCount;
+    bit countEn, clr;
+    counter_local #(5) window_count_faker(clk, rst_n, clr, countEn, winCount);
+    
+    always_comb begin
+        countEn = 1'b0;
+        clr = 1'b0;
+        done = 1'b0;
+        case(cs)
+            WAIT: begin
+                if (en) begin
+                    ns = FAKE_IT;
+                    countEn = 1'b1;
+                end
+                else begin
+                    ns = WAIT;
+                end
+            end
+            FAKE_IT: begin
+                if (winCount == 5'd5) begin
+                    done = 1'b1;
+                    clr = 1'b1;
+                    ns = WAIT;
+                end
+                else begin
+                    countEn = 1'b1;
+                    ns = FAKE_IT;
+                end
+            end
+        endcase
+    end
+    
+    always_ff @(posedge clk, negedge rst_n) begin
+        if (~rst_n) begin
+            cs <= WAIT;
+        end
+        else begin
+            cs <= ns;
+        end
+    end
+endmodule: window_handler_fake
+    
 module window_handler (clk,rst_n,window_data,window_ready,
 						en, input_data, row, col, done, ack, receive, LEDs
 					);
@@ -28,7 +75,7 @@ module window_handler (clk,rst_n,window_data,window_ready,
 							.window_offset(window_offset), .row(row_mem), .col(col_mem),
 							.new_row(new_row), .load(load), .window_data(window_data));
 
-	enum {INIT0, SETUP, SHIFT, EMPTY,NXTROW, RSHIFT} cs,ns;
+	enum logic[2:0] {INIT0, SETUP, SHIFT, EMPTY,NXTROW, RSHIFT} cs,ns;
 	
 	always_comb begin
 		ack =1'b0;

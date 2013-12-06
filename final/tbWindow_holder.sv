@@ -36,7 +36,7 @@ module systemTest;
 	logic [11:0]		greatestWindowIndex;
 */
 	logic [2**18 -1:0][31:0]	 mem;
-	int i,j,k;
+	int i,j,k,icount;
     
 	logic [20:0]	address;
 
@@ -56,9 +56,10 @@ module systemTest;
 	logic				receive;
 	logic [31:0]		rd_data;
 	logic [20:0]		req_addr;
+    logic [3:0]         LEDs;
 
-	address_translator trans(row,col, 1,0,address, 0);
-	window_handler dut(.*);
+	address_translator trans(row,col, 1'b1,8'b0,address, 1'b0);
+	window_handler_mine dut(.*);
 assign input_data = rd_data;
 assign req_addr = address;
 /*
@@ -89,7 +90,7 @@ end
 
         $display("hello world");
 
-		$monitor($time, ,"address[dec] = %d, row =%d, col =%d, done =%b, input_data = %h store_row =%d, store_col =%d \n window_data = \n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n ",address, row,col,done,input_data, dut.store_row, dut.store_col,window_data[0][3:0],window_data[0][7:4],window_data[0][11:8],window_data[0][15:12],   window_data[1][3:0],window_data[1][7:4],window_data[1][11:8],window_data[1][15:12],  window_data[2][3:0],window_data[2][7:4],window_data[2][11:8],window_data[2][15:12],  window_data[3][3:0],window_data[3][7:4],window_data[3][11:8],window_data[3][15:12],  window_data[4][3:0],window_data[4][7:4],window_data[4][11:8],window_data[4][15:12],  window_data[5][3:0],window_data[5][7:4],window_data[5][11:8],window_data[5][15:12],  window_data[6][3:0],window_data[6][7:4],window_data[6][11:8],window_data[6][15:12],  window_data[7][3:0],window_data[7][7:4],window_data[7][11:8],window_data[7][15:12],  window_data[8][3:0],window_data[8][7:4],window_data[8][11:8],window_data[8][15:12],  window_data[9][3:0],window_data[9][7:4],window_data[9][11:8],window_data[9][15:12],  window_data[10][3:0],window_data[10][7:4],window_data[10][11:8],window_data[10][15:12],  window_data[11][3:0],window_data[11][7:4],window_data[11][11:8],window_data[11][15:12],  window_data[12][3:0],window_data[12][7:4],window_data[12][11:8],window_data[12][15:12],  window_data[13][3:0],window_data[13][7:4],window_data[13][11:8],window_data[13][15:12],  window_data[14][3:0],window_data[14][7:4],window_data[14][11:8],window_data[14][15:12],  window_data[15][3:0],window_data[15][7:4],window_data[15][11:8],window_data[15][15:12]);
+		$monitor($time, ,"cs = %s, address[dec] = %d, row =%d, col =%d, done =%b, input_data = %h store_row =%d, store_col =%d window_data = \n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,\n %h, %h, %h, %h,", dut.cs, address, row,col,done,input_data, dut.store_row, dut.store_col,window_data[0][3:0],window_data[0][7:4],window_data[0][11:8],window_data[0][15:12],   window_data[1][3:0],window_data[1][7:4],window_data[1][11:8],window_data[1][15:12],  window_data[2][3:0],window_data[2][7:4],window_data[2][11:8],window_data[2][15:12],  window_data[3][3:0],window_data[3][7:4],window_data[3][11:8],window_data[3][15:12],  window_data[4][3:0],window_data[4][7:4],window_data[4][11:8],window_data[4][15:12],  window_data[5][3:0],window_data[5][7:4],window_data[5][11:8],window_data[5][15:12],  window_data[6][3:0],window_data[6][7:4],window_data[6][11:8],window_data[6][15:12],  window_data[7][3:0],window_data[7][7:4],window_data[7][11:8],window_data[7][15:12],  window_data[8][3:0],window_data[8][7:4],window_data[8][11:8],window_data[8][15:12],  window_data[9][3:0],window_data[9][7:4],window_data[9][11:8],window_data[9][15:12],  window_data[10][3:0],window_data[10][7:4],window_data[10][11:8],window_data[10][15:12],  window_data[11][3:0],window_data[11][7:4],window_data[11][11:8],window_data[11][15:12],  window_data[12][3:0],window_data[12][7:4],window_data[12][11:8],window_data[12][15:12],  window_data[13][3:0],window_data[13][7:4],window_data[13][11:8],window_data[13][15:12],  window_data[14][3:0],window_data[14][7:4],window_data[14][11:8],window_data[14][15:12],  window_data[15][3:0],window_data[15][7:4],window_data[15][11:8],window_data[15][15:12]);
 /*
 $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%d, window_data=%h", clk,rst_n,uft.cs,uft.do_wind.cs ,uft.do_wind.store_col, uft.do_wind.store_row, uft.window_data);
 */
@@ -121,6 +122,7 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 		forever  #5 clk =~clk;
 	end
 	
+    
 	initial begin
 		// set up the memory
 		for(i = 0; i < 1; i++)begin
@@ -144,13 +146,32 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 
 //	$display($time, ,"count is =%d", count);
 
-#10;
+
 	en = 1;
-#20;
+#10;
 	en = 0;
-repeat(10000000) @(posedge clk);
+
+	$display("mem[63] = %h", mem[63]);
+	$display("mem[64] = %h", mem[64]);
+	$display("mem[65] = %h", mem[65]);
+	$display("mem[66] = %h", mem[66]);
+	$display("mem[67] = %h", mem[67]);
 
 
+
+//repeat(1601) @(posedge clk);
+repeat(14401) @(posedge clk);
+
+
+	    rst_n = 0;
+        rst_n <= #1 1;
+        en <= 1;
+        
+        @(posedge clk);
+        en <= 0;
+
+        @(posedge clk);
+repeat(14401) @(posedge clk);
 	
 	/*
 		//rs = new(20);
@@ -170,6 +191,17 @@ repeat(10000000) @(posedge clk);
 		end
 		$stop;
 		*/
+
+
+        $display("%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10], dut.window_data_mem[0][11], dut.window_data_mem[0][12], dut.window_data_mem[0][13], dut.window_data_mem[0][14], dut.window_data_mem[0][15], dut.window_data_mem[79][76], dut.window_data_mem[79][77], {dut.window_data_mem[79][78], dut.window_data_mem[79][79]});
+         /*dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10]
+       dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10]
+        dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10]
+        dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10]
+        dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10]
+        dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10]
+        dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10]
+        dut.window_data_mem[0][0], dut.window_data_mem[0][1], dut.window_data_mem[0][2], dut.window_data_mem[0][3], dut.window_data_mem[0][4], dut.window_data_mem[0][5], dut.window_data_mem[0][6], dut.window_data_mem[0][7], dut.window_data_mem[0][8], dut.window_data_mem[0][9], dut.window_data_mem[0][10]*/
 		$finish;
 	end
 	

@@ -38,10 +38,10 @@ module window_holder ( clk, rst_n, input_data, window_offset,
 		end
 		else begin			//not a new row, load as normal.
 			store_data_new = store_data; 		//set default case.
-			store_data_new[store_row][store_col*4+3] = input_data[7:0];
-			store_data_new[store_row][store_col*4+2] = input_data[15:8];
-			store_data_new[store_row][store_col*4+1] = input_data[23:16];
-			store_data_new[store_row][store_col*4] = input_data[31:24];
+			store_data_new[row][col*4+3] = input_data[7:0];
+			store_data_new[row][col*4+2] = input_data[15:8];
+			store_data_new[row][col*4+1] = input_data[23:16];
+			store_data_new[row][col*4] = input_data[31:24];
 			
 			
 		end
@@ -57,7 +57,7 @@ int	k,m;
 	
 	always_ff@(posedge clk, negedge rst_n)begin
 		if(~rst_n) begin
-			store_data <= 'b0;
+			store_data <= 'bx;
 			store_row <= 'd0;
 			store_col <= 'd0;
 		end

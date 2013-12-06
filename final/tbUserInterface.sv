@@ -24,7 +24,7 @@ module systemTest;
 	logic [20:0]	pci_req_addr;
 	logic			pci_wr_en;
 	logic [31:0]	in_flag;
-	
+	logic [3:0]		LEDs;
 	logic			flag_we;
 	logic [31:0]	out_flag;
 	logic			rd_req;
@@ -55,13 +55,14 @@ always @(posedge clk) begin
 		$display($time, , "the state is = %s", uft.cs);
 	end
 	if(out_flag == 32'h0000_0004) begin
-		$display("receive set complete flag");
+		$display($time, ,"receive set complete flag");
 	end
 
 	if(uft.rd_wr == 1'b1) begin			// there's a write operation
 		$display($time, ,"writing to address %h",req_addr);
 	end
 	if(uft.chop.window_ready) count++;
+
 end
 
 /*
@@ -140,12 +141,17 @@ $monitor($stime,, "clk=%d, rstn=%d, cs=%s wind.cs =%s, store_col =%d store_row=%
 
 	@(posedge clk);
 	in_flag = 32'h0000_0000;
-
+	/*
+	$display("mem[64] =%h", mem[64]);
+	$display("mem[65] =%h", mem[65]);
+	$display("mem[66] =%h", mem[66]);
+	$display("mem[67] =$h", mem[67]);
+*/
 //repeat (10000) @(posedge clk);
 
 	$display($time, ,"count is =%d", count);
 
-repeat(10000000) @(posedge clk);
+repeat(1000000) @(posedge clk);
 
 
 	
