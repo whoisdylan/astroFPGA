@@ -738,7 +738,7 @@ module absoluteValueFP
 	bit dataSign;
 
 	assign dataSign = dataIn[signBit-1];
-	assign dataOut = (dataSign) ? (~(dataIn) + {32'sh1,32'shd0}) : (dataIn);
+	assign dataOut = (dataSign) ? ({~(dataIn[31:0]) + 32'sd1, dataIn[-1:-32]}) : (dataIn);
 
 endmodule: absoluteValueFP
 
@@ -770,8 +770,10 @@ module priorityRegisterFP
 	bit signed [31:-32] dataInAbs, dataOutAbs, data;
 	bit [w2-1:0] data2;
 
-	absoluteValueFP #(32) absValInFP_inst (dataIn, dataInAbs);
-	absoluteValueFP #(32) absValOutFP_inst (dataOut, dataOutAbs);
+	//absoluteValueFP #(32) absValInFP_inst (dataIn, dataInAbs);
+	//absoluteValueFP #(32) absValOutFP_inst (dataOut, dataOutAbs);
+    assign dataInAbs = dataIn;
+    assign dataOutAbs = dataOut;
 
 	always_comb begin
 		if (dataInAbs > dataOutAbs) begin
