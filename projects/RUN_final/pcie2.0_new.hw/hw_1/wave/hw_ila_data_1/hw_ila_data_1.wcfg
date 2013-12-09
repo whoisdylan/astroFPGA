@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<wave_config>
+	<wave_state>
+	</wave_state>
+	<db_ref_list>
+		<db_ref path="C:/Users/z1701Ez/Dropbox/18-545/pcie2.0_new/pcie2.0_new.hw/hw_1/wave/hw_ila_data_1/hw_ila_data_1.wdb" id="1" type="auto">
+			<top_modules>
+				<top_module name="top">
+				</top_module>
+			</top_modules>
+		</db_ref>
+	</db_ref_list>
+	<WVObjectSize size="10">
+	</WVObjectSize>
+	<wvobject fp_name="app/PIO/PIO_EP_inst/astro_MEM_inst/addra" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/addra[15:0]</obj_property>
+		<obj_property name="ObjectShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/addra[15:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="app/PIO/PIO_EP_inst/astro_MEM_inst/wea" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/wea[3:0]</obj_property>
+		<obj_property name="ObjectShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/wea[3:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="app/PIO/PIO_EP_inst/astro_MEM_inst/I1" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I1[3:0]</obj_property>
+		<obj_property name="ObjectShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I1[3:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="app/PIO/PIO_EP_inst/astro_MEM_inst/I2" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I2[3:0]</obj_property>
+		<obj_property name="ObjectShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I2[3:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="app/PIO/PIO_EP_inst/astro_MEM_inst/I3" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I3[3:0]</obj_property>
+		<obj_property name="ObjectShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I3[3:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="app/PIO/PIO_EP_inst/astro_MEM_inst/I4" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I4[3:0]</obj_property>
+		<obj_property name="ObjectShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I4[3:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="app/PIO/PIO_EP_inst/astro_MEM_inst/I5" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I5[3:0]</obj_property>
+		<obj_property name="ObjectShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I5[3:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="app/PIO/PIO_EP_inst/astro_MEM_inst/I6" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I6[3:0]</obj_property>
+		<obj_property name="ObjectShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I6[3:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="app/PIO/PIO_EP_inst/astro_MEM_inst/I7" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I7[3:0]</obj_property>
+		<obj_property name="ObjectShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/I7[3:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+	<wvobject fp_name="app/PIO/PIO_EP_inst/astro_MEM_inst/Q" type="array" db_ref_id="1">
+		<obj_property name="ElementShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/Q[31:0]</obj_property>
+		<obj_property name="ObjectShortName">app/PIO/PIO_EP_inst/astro_MEM_inst/Q[31:0]</obj_property>
+		<obj_property name="Radix">HEXRADIX</obj_property>
+	</wvobject>
+</wave_config>
+

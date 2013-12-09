@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--Product Version: Vivado v2013.2 (64-bit)-->
+<Project Version="6" Minor="11" Path="C:/Users/z1701Ez/Dropbox/18-545/pcie2.0_new/pcie2.0.xpr">
+	<FileSet Dir="sources_1" File="fileset.xml"/>
+	<FileSet Dir="constrs_1" File="fileset.xml"/>
+	<FileSet Dir="sim_1" File="fileset.xml"/>
+	<HWSession Dir="hw" File="hwsession_1.xml"/>
+	<RunSet Dir="runs" File="runs.xml"/>
+	<DefaultLaunch Dir="$PRUNDIR"/>
+	<Config>
+		<Option Name="Id" Val="c1166b8de00b4ab3abcf900ce8737b33"/>
+		<Option Name="Part" Val="xc7vx485tffg1761-2"/>
+		<Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
+		<Option Name="Board" Val=""/>
+		<Option Name="ActiveSimSet" Val="sim_1"/>
+	</Config>
+</Project>
+

@@ -1,0 +1,347 @@
+Copyright 1986-1999, 2001-2013 Xilinx, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2013.2 (lin64) Build 272601 Sat Jun 15 11:11:11 MDT 2013
+| Date         : Fri Dec  6 03:29:57 2013
+| Host         : hallertau.ece.cmu.edu running 64-bit Red Hat Enterprise Linux Server release 6.4 (Santiago)
+| Command      : report_clock_utilization -file xilinx_pcie_2_1_ep_7x_clock_utilization_placed.rpt
+| Design       : xilinx_pcie_2_1_ep_7x
+| Device       : xc7vx485t
+-------------------------------------------------------------------------------------------------------------
+
+Clock Utilization Report
+
+Table of Contents
+-----------------
+1. Clock Primitive Utilization
+2. Details of Global Clocks
+3. Details of Regional Clocks
+4. Details of Multi-Regional Clocks
+5. Details of Local Clocks
+6. Clock Regions : Key Resource Utilization
+7. Net wise resources used in clock region X0Y0
+8. Net wise resources used in clock region X1Y0
+9. Net wise resources used in clock region X0Y1
+10. Net wise resources used in clock region X1Y1
+11. Net wise resources used in clock region X0Y2
+12. Net wise resources used in clock region X1Y2
+13. Net wise resources used in clock region X0Y3
+14. Net wise resources used in clock region X1Y3
+15. Net wise resources used in clock region X0Y4
+16. Net wise resources used in clock region X1Y4
+17. Net wise resources used in clock region X0Y5
+18. Net wise resources used in clock region X1Y5
+19. Net wise resources used in clock region X0Y6
+20. Net wise resources used in clock region X1Y6
+
+1. Clock Primitive Utilization
+------------------------------
+
++-------+------+-----------+------------+
+| Type  | Used | Available | Num Locked |
++-------+------+-----------+------------+
+| BUFG  |    8 |        32 |          0 |
+| BUFH  |    0 |       168 |          0 |
+| BUFIO |    0 |        56 |          0 |
+| MMCM  |    2 |        14 |          0 |
+| BUFR  |    0 |        56 |          0 |
+| BUFMR |    0 |        28 |          0 |
++-------+------+-----------+------------+
+
+
+2. Details of Global Clocks
+---------------------------
+
++-------+---------------------------------------------------------------+--------------------------------------------------------------------------+---------------+--------+---------------+-----------+
+|       |                                                               |                                                                          |   Num Loads   |        |               |           |
++-------+---------------------------------------------------------------+--------------------------------------------------------------------------+-------+-------+--------+---------------+-----------+
+| Index | BUFG Cell                                                     | Net Name                                                                 |  BELs | Sites | Locked | MaxDelay (ns) | Skew (ns) |
++-------+---------------------------------------------------------------+--------------------------------------------------------------------------+-------+-------+--------+---------------+-----------+
+|     1 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clkf_buf    | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clkfbout_buf_clk_wiz_0 |     1 |     1 |     no |         1.666 |     0.083 |
+|     2 | ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i                    | ext_clk.pipe_clock_i/refclk                                              |     1 |     1 |     no |         1.359 |     0.068 |
+|     3 | ext_clk.pipe_clock_i/userclk1_i1.usrclk1_i1                   | pipe_userclk1_in                                                         |     5 |     9 |     no |         1.692 |     0.114 |
+|     4 | write_data_reg[31]_i_2                                        | app/PIO/PIO_EP_inst/astro_MEM_inst/dut/rd_wr                             |    33 |    19 |     no |         1.530 |     0.331 |
+|     5 | ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i                       | pipe_dclk_in                                                             |   764 |   266 |     no |         2.010 |     0.399 |
+|     6 | ext_clk.pipe_clock_i/userclk2_i1.usrclk2_i1                   | pipe_userclk2_in                                                         |  1205 |   773 |     no |         2.046 |     0.878 |
+|     7 | ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1                 | pipe_oobclk_in                                                           |  1788 |   657 |     no |         2.010 |     0.432 |
+|     8 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clkout1_buf | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1               | 22613 | 10415 |     no |         1.884 |     0.716 |
++-------+---------------------------------------------------------------+--------------------------------------------------------------------------+-------+-------+--------+---------------+-----------+
+
+
++-------+-----------------------------------------------------------------+----------------------------------------------------------------------+--------------+--------+---------------+-----------+
+|       |                                                                 |                                                                      |   Num Loads  |        |               |           |
++-------+-----------------------------------------------------------------+----------------------------------------------------------------------+------+-------+--------+---------------+-----------+
+| Index | MMCM Cell                                                       | Net Name                                                             | BELs | Sites | Locked | MaxDelay (ns) | Skew (ns) |
++-------+-----------------------------------------------------------------+----------------------------------------------------------------------+------+-------+--------+---------------+-----------+
+|     1 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/mmcm_adv_inst | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clkfbout_clk_wiz_0 |    1 |     1 |     no |         1.698 |     0.085 |
+|     2 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/mmcm_adv_inst | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1_clk_wiz_0 |    1 |     1 |     no |         1.698 |     0.085 |
+|     3 | ext_clk.pipe_clock_i/mmcm_i                                     | ext_clk.pipe_clock_i/mmcm_fb                                         |    1 |     1 |     no |         0.012 |     0.001 |
+|     4 | ext_clk.pipe_clock_i/mmcm_i                                     | ext_clk.pipe_clock_i/clk_250mhz                                      |    1 |     1 |     no |         1.458 |     0.073 |
+|     5 | ext_clk.pipe_clock_i/mmcm_i                                     | ext_clk.pipe_clock_i/userclk1                                        |    1 |     1 |     no |         1.458 |     0.073 |
+|     6 | ext_clk.pipe_clock_i/mmcm_i                                     | ext_clk.pipe_clock_i/userclk2                                        |    1 |     1 |     no |         1.458 |     0.073 |
+|     7 | ext_clk.pipe_clock_i/mmcm_i                                     | ext_clk.pipe_clock_i/clk_125mhz                                      |    2 |     2 |     no |         1.458 |     0.073 |
++-------+-----------------------------------------------------------------+----------------------------------------------------------------------+------+-------+--------+---------------+-----------+
+
+
+3. Details of Regional Clocks
+-----------------------------
+
+4. Details of Multi-Regional Clocks
+-----------------------------------
+
+5. Details of Local Clocks
+--------------------------
+
+6. Clock Regions : Key Resource Utilization
+-------------------------------------------
+
++-------------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+--------------+
+|                   | Global Clock |     BUFRs    |    BUFMRs    |    BUFIOs    |     MMCM     |      PLL     |      GT      |      PCI     |    ILOGIC    |    OLOGIC    |      FF      |     LUTM     |    RAMB18    |    RAMB36    |    DSP48E1   |
++-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
+| Clock Region Name | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail | Used | Avail |
++-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
+| X0Y0              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     5 |    0 |     0 |    0 |    50 |    0 |    50 |   14 | 44000 |    0 |  8800 |    0 |   280 |    0 |    70 |    0 |   180 |
+| X1Y0              |    1 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     5 |    0 |     0 |    0 |    50 |    0 |    50 |    4 | 44800 |    0 | 10000 |    0 |   320 |    0 |    80 |    0 |   220 |
+| X0Y1              |    1 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     5 |    0 |     0 |    0 |    50 |    0 |    50 |  959 | 39200 |    0 |  8800 |    0 |   280 |    0 |    70 |    0 |   180 |
+| X1Y1              |    3 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    5 |     5 |    0 |     0 |    0 |    50 |    0 |    50 | 2167 | 44800 |    0 | 10000 |    0 |   320 |    0 |    80 |    0 |   220 |
+| X0Y2              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     5 |    0 |     1 |    0 |    50 |    0 |    50 | 1537 | 38000 |    0 |  8600 |    0 |   260 |    3 |    65 |    0 |   180 |
+| X1Y2              |    5 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    5 |     5 |    1 |     1 |    0 |    50 |    0 |    50 | 3019 | 43600 |    0 |  9800 |    0 |   300 |   18 |    75 |    0 |   220 |
+| X0Y3              |    3 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    1 |     1 |    0 |     1 |    0 |     5 |    0 |     0 |    0 |    50 |    0 |    50 | 2686 | 44000 |    0 |  8800 |    0 |   280 |   16 |    70 |    0 |   180 |
+| X1Y3              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     5 |    0 |     0 |    0 |    50 |    0 |    50 | 2211 | 44800 |    0 | 10000 |    0 |   320 |   54 |    80 |    0 |   220 |
+| X0Y4              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     5 |    0 |     0 |    0 |    50 |    0 |    50 | 3215 | 44000 |    0 |  8800 |    0 |   280 |   17 |    70 |    0 |   180 |
+| X1Y4              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     5 |    0 |     0 |    0 |    50 |    0 |    50 | 2382 | 44800 |    0 | 10000 |    0 |   320 |   80 |    80 |    2 |   220 |
+| X0Y5              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     5 |    0 |     1 |    0 |    50 |    0 |    50 | 2349 | 42800 |    0 |  8600 |    0 |   260 |    3 |    65 |    0 |   180 |
+| X1Y5              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     5 |    0 |     1 |    0 |    50 |    0 |    50 | 2180 | 43600 |    0 |  9800 |    0 |   300 |   65 |    75 |    0 |   220 |
+| X0Y6              |    3 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    1 |     1 |    0 |     1 |    0 |     5 |    0 |     0 |    0 |    50 |    0 |    50 | 1793 | 44000 |    0 |  8800 |    0 |   280 |    0 |    70 |    0 |   180 |
+| X1Y6              |    2 |    12 |    0 |     4 |    0 |     2 |    0 |     4 |    0 |     1 |    0 |     1 |    0 |     5 |    0 |     0 |    0 |    50 |    0 |    50 | 1375 | 44800 |    0 | 10000 |    0 |   320 |    4 |    80 |    0 |   220 |
++-------------------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+------+-------+
+* RAMB36 site can be used as two RAMB18/FIFO18 sites
+
+
+7. Net wise resources used in clock region X0Y0
+-----------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+-----+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs | FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+-----+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |         0 |       0 |       0 |   2 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
+| BUFG        |   no   |         0 |         0 |       0 |       0 |  12 |     0 |        0 |    0 | pipe_userclk2_in                                           |
++-------------+--------+-----------+-----------+---------+---------+-----+-------+----------+------+------------------------------------------------------------+
+
+
+8. Net wise resources used in clock region X1Y0
+-----------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+-----+-------+----------+------+------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs | FFs | LUTMs | DSP48E1s | PLLs |   Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+-----+-------+----------+------+------------------+
+| BUFG        |   no   |         0 |         0 |       0 |       0 |   4 |     0 |        0 |    0 | pipe_userclk2_in |
++-------------+--------+-----------+-----------+---------+---------+-----+-------+----------+------+------------------+
+
+
+9. Net wise resources used in clock region X0Y1
+-----------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+-----+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs | FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+-----+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |         0 |       0 |       0 | 959 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
++-------------+--------+-----------+-----------+---------+---------+-----+-------+----------+------+------------------------------------------------------------+
+
+
+10. Net wise resources used in clock region X1Y1
+------------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |         0 |       0 |       0 |  439 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
+| BUFG        |   no   |         0 |         0 |       0 |       0 |  421 |     0 |        0 |    0 | pipe_dclk_in                                               |
+| BUFGCTRL    |   no   |         0 |         0 |       0 |       0 | 1307 |     0 |        0 |    0 | pipe_oobclk_in                                             |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+
+
+11. Net wise resources used in clock region X0Y2
+------------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |         3 |       0 |       0 | 1510 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
+| BUFG        |   no   |         0 |         3 |       0 |       0 |   27 |     0 |        0 |    0 | pipe_userclk2_in                                           |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+
+
+12. Net wise resources used in clock region X1Y2
+------------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |        14 |       0 |       0 | 1447 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
+| BUFG        |   no   |         0 |         0 |       0 |       0 |  333 |     0 |        0 |    0 | pipe_dclk_in                                               |
+| BUFGCTRL    |   no   |         0 |         0 |       0 |       0 |  472 |     0 |        0 |    0 | pipe_oobclk_in                                             |
+| BUFG        |   no   |         0 |        14 |       0 |       0 |  767 |     0 |        0 |    0 | pipe_userclk2_in                                           |
+| BUFG        |   no   |         0 |         8 |       0 |       0 |    0 |     0 |        0 |    0 | pipe_userclk1_in                                           |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+
+
+13. Net wise resources used in clock region X0Y3
+------------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |        16 |       0 |       0 | 2678 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
+| BUFG        |   no   |         1 |         0 |       0 |       0 |    0 |     0 |        0 |    0 | ext_clk.pipe_clock_i/refclk                                |
+| BUFG        |   no   |         0 |        16 |       0 |       0 |    8 |     0 |        0 |    0 | pipe_userclk2_in                                           |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+
+
+14. Net wise resources used in clock region X1Y3
+------------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |        54 |       0 |       0 | 2178 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
+| BUFG        |   no   |         0 |        54 |       0 |       0 |   33 |     0 |        0 |    0 | pipe_userclk2_in                                           |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+
+
+15. Net wise resources used in clock region X0Y4
+------------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |        17 |       0 |       0 | 3179 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
+| BUFG        |   no   |         0 |        17 |       0 |       0 |    9 |     0 |        0 |    0 | pipe_userclk2_in                                           |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+
+
+16. Net wise resources used in clock region X1Y4
+------------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |        80 |       0 |       0 | 2305 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
+| BUFG        |   no   |         0 |        80 |       0 |       0 |   50 |     0 |        0 |    0 | pipe_userclk2_in                                           |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+
+
+17. Net wise resources used in clock region X0Y5
+------------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |         3 |       0 |       0 | 2349 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
+| BUFG        |   no   |         0 |         3 |       0 |       0 |    0 |     0 |        0 |    0 | pipe_userclk2_in                                           |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+
+
+18. Net wise resources used in clock region X1Y5
+------------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |        65 |       0 |       0 | 2143 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
+| BUFG        |   no   |         0 |        65 |       0 |       0 |   37 |     0 |        0 |    0 | pipe_userclk2_in                                           |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+
+
+19. Net wise resources used in clock region X0Y6
+------------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+--------------------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s | PLLs |                                                           Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+--------------------------------------------------------------------------+
+| BUFG        |   no   |         0 |         0 |       0 |       0 | 1793 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1               |
+| BUFG        |   no   |         1 |         0 |       0 |       0 |    0 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clkfbout_buf_clk_wiz_0 |
+| BUFG        |   no   |         1 |         0 |       0 |       0 |    0 |     0 |        0 |    0 | pipe_userclk2_in                                                         |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+--------------------------------------------------------------------------+
+
+
+20. Net wise resources used in clock region X1Y6
+------------------------------------------------
+
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| Source Type | Locked | MMCM Pins | BRAM Pins | ILOGICs | OLOGICs |  FFs | LUTMs | DSP48E1s | PLLs |                                             Clock Net Name |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+| BUFG        |   no   |         0 |         4 |       0 |       0 | 1375 |     0 |        0 |    0 | app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1 |
+| BUFG        |   no   |         0 |         4 |       0 |       0 |    0 |     0 |        0 |    0 | pipe_userclk2_in                                           |
++-------------+--------+-----------+-----------+---------+---------+------+-------+----------+------+------------------------------------------------------------+
+
+
+
+# Location of BUFG Primitives 
+set_property LOC BUFGCTRL_X0Y17 [get_cells app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clkf_buf]
+set_property LOC BUFGCTRL_X0Y5 [get_cells ext_clk.pipe_clock_i/txoutclk_i.txoutclk_i]
+set_property LOC BUFGCTRL_X0Y3 [get_cells ext_clk.pipe_clock_i/userclk1_i1.usrclk1_i1]
+set_property LOC BUFGCTRL_X0Y4 [get_cells write_data_reg[31]_i_2]
+set_property LOC BUFGCTRL_X0Y2 [get_cells ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i]
+set_property LOC BUFGCTRL_X0Y1 [get_cells ext_clk.pipe_clock_i/userclk2_i1.usrclk2_i1]
+set_property LOC BUFGCTRL_X0Y0 [get_cells ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1]
+set_property LOC BUFGCTRL_X0Y16 [get_cells app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clkout1_buf]
+
+# Location of IO Clock Primitives
+
+# Location of MMCM Clock Primitives
+set_property LOC MMCME2_ADV_X0Y6 [get_cells app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/mmcm_adv_inst]
+set_property LOC MMCME2_ADV_X0Y3 [get_cells ext_clk.pipe_clock_i/mmcm_i]
+
+# Location of BUFH Clock Primitives
+
+# Location of BUFR Clock Primitives
+
+# Location of BUFMR Clock Primitives
+
+# Location of PLL Clock Primitives
+
+# Location of IO Primitives which is load of clock spine
+
+# Location of clock ports
+
+# Clock net "app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1" driven by instance "app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clkout1_buf" located at site "BUFGCTRL_X0Y16"
+#startgroup
+create_pblock CLKAG_app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1
+add_cells_to_pblock [get_pblocks  CLKAG_app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1] [get_cells  -filter { IS_PRIMITIVE==1 } -of_object [get_pins -leaf -filter {DIRECTION==IN} -of_objects [get_nets app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1]]]
+resize_pblock [get_pblocks CLKAG_app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/clk_out1] -add {CLOCKREGION_X0Y0:CLOCKREGION_X0Y0 CLOCKREGION_X0Y1:CLOCKREGION_X0Y1 CLOCKREGION_X0Y2:CLOCKREGION_X0Y2 CLOCKREGION_X0Y3:CLOCKREGION_X0Y3 CLOCKREGION_X0Y4:CLOCKREGION_X0Y4 CLOCKREGION_X0Y5:CLOCKREGION_X0Y5 CLOCKREGION_X0Y6:CLOCKREGION_X0Y6 CLOCKREGION_X1Y1:CLOCKREGION_X1Y1 CLOCKREGION_X1Y2:CLOCKREGION_X1Y2 CLOCKREGION_X1Y3:CLOCKREGION_X1Y3 CLOCKREGION_X1Y4:CLOCKREGION_X1Y4 CLOCKREGION_X1Y5:CLOCKREGION_X1Y5 CLOCKREGION_X1Y6:CLOCKREGION_X1Y6}
+#endgroup
+
+# Clock net "pipe_dclk_in" driven by instance "ext_clk.pipe_clock_i/dclk_i_bufg.dclk_i" located at site "BUFGCTRL_X0Y2"
+#startgroup
+create_pblock CLKAG_pipe_dclk_in
+add_cells_to_pblock [get_pblocks  CLKAG_pipe_dclk_in] [get_cells  -filter { IS_PRIMITIVE==1 } -of_object [get_pins -leaf -filter {DIRECTION==IN} -of_objects [get_nets  -hierarchical pipe_dclk_in]]]
+resize_pblock [get_pblocks CLKAG_pipe_dclk_in] -add {CLOCKREGION_X1Y1:CLOCKREGION_X1Y1 CLOCKREGION_X1Y2:CLOCKREGION_X1Y2}
+#endgroup
+
+# Clock net "pipe_oobclk_in" driven by instance "ext_clk.pipe_clock_i/pclk_i1_bufgctrl.pclk_i1" located at site "BUFGCTRL_X0Y0"
+#startgroup
+create_pblock CLKAG_pipe_oobclk_in
+add_cells_to_pblock [get_pblocks  CLKAG_pipe_oobclk_in] [get_cells  -filter { IS_PRIMITIVE==1 } -of_object [get_pins -leaf -filter {DIRECTION==IN} -of_objects [get_nets  -hierarchical pipe_oobclk_in]]]
+resize_pblock [get_pblocks CLKAG_pipe_oobclk_in] -add {CLOCKREGION_X1Y1:CLOCKREGION_X1Y1 CLOCKREGION_X1Y2:CLOCKREGION_X1Y2}
+#endgroup
+
+# Clock net "pipe_userclk1_in" driven by instance "ext_clk.pipe_clock_i/userclk1_i1.usrclk1_i1" located at site "BUFGCTRL_X0Y3"
+#startgroup
+create_pblock CLKAG_pipe_userclk1_in
+add_cells_to_pblock [get_pblocks  CLKAG_pipe_userclk1_in] [get_cells  -filter { IS_PRIMITIVE==1 } -of_object [get_pins -leaf -filter {DIRECTION==IN} -of_objects [get_nets  -hierarchical pipe_userclk1_in]]]
+resize_pblock [get_pblocks CLKAG_pipe_userclk1_in] -add {CLOCKREGION_X1Y2:CLOCKREGION_X1Y2}
+#endgroup
+
+# Clock net "pipe_userclk2_in" driven by instance "ext_clk.pipe_clock_i/userclk2_i1.usrclk2_i1" located at site "BUFGCTRL_X0Y1"
+#startgroup
+create_pblock CLKAG_pipe_userclk2_in
+add_cells_to_pblock [get_pblocks  CLKAG_pipe_userclk2_in] [get_cells  -filter { IS_PRIMITIVE==1 && NAME!=app/PIO/PIO_EP_inst/astro_MEM_inst/clock_gen/inst/mmcm_adv_inst} -of_object [get_pins -leaf -filter {DIRECTION==IN} -of_objects [get_nets  -hierarchical pipe_userclk2_in]]]
+resize_pblock [get_pblocks CLKAG_pipe_userclk2_in] -add {CLOCKREGION_X0Y0:CLOCKREGION_X0Y0 CLOCKREGION_X0Y2:CLOCKREGION_X0Y2 CLOCKREGION_X0Y3:CLOCKREGION_X0Y3 CLOCKREGION_X0Y4:CLOCKREGION_X0Y4 CLOCKREGION_X0Y5:CLOCKREGION_X0Y5 CLOCKREGION_X1Y0:CLOCKREGION_X1Y0 CLOCKREGION_X1Y2:CLOCKREGION_X1Y2 CLOCKREGION_X1Y3:CLOCKREGION_X1Y3 CLOCKREGION_X1Y4:CLOCKREGION_X1Y4 CLOCKREGION_X1Y5:CLOCKREGION_X1Y5 CLOCKREGION_X1Y6:CLOCKREGION_X1Y6}
+#endgroup
+
+# Clock net "app/PIO/PIO_EP_inst/astro_MEM_inst/dut/rd_wr" driven by instance "write_data_reg[31]_i_2" located at site "BUFGCTRL_X0Y4"
+#startgroup
+create_pblock CLKAG_app/PIO/PIO_EP_inst/astro_MEM_inst/dut/rd_wr
+add_cells_to_pblock [get_pblocks  CLKAG_app/PIO/PIO_EP_inst/astro_MEM_inst/dut/rd_wr] [get_cells  -filter { IS_PRIMITIVE==1 } -of_object [get_pins -leaf -filter {DIRECTION==IN} -of_objects [get_nets  -hierarchical app/PIO/PIO_EP_inst/astro_MEM_inst/dut/rd_wr]]]
+resize_pblock [get_pblocks CLKAG_app/PIO/PIO_EP_inst/astro_MEM_inst/dut/rd_wr] -add {CLOCKREGION_X0Y4:CLOCKREGION_X0Y4 CLOCKREGION_X1Y3:CLOCKREGION_X1Y3 CLOCKREGION_X1Y4:CLOCKREGION_X1Y4}
+#endgroup

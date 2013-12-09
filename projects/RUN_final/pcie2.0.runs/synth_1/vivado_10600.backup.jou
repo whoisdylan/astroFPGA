@@ -1,0 +1,9 @@
+#-----------------------------------------------------------
+# Vivado v2013.2 (64-bit)
+# Build 272601 by xbuild on Sat Jun 15 11:27:26 MDT 2013
+# Start of session at: Thu Oct 24 20:34:18 2013
+# Process ID: 3584
+# Log file: C:/Users/z1701Ez/Dropbox/18-545/pcie2.0/pcie2.0.runs/synth_1/xilinx_pcie_2_1_ep_7x.rds
+# Journal file: C:/Users/z1701Ez/Dropbox/18-545/pcie2.0/pcie2.0.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source xilinx_pcie_2_1_ep_7x.tcl

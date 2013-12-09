@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<Interface Version="1" Minor="2">
+	<Ifc Id="ROOT" Top="1">
+		<Bus Id="pci_exp_txp">
+			<Port Id="7" Dir="OUT"/>
+			<Port Id="6" Dir="OUT"/>
+			<Port Id="5" Dir="OUT"/>
+			<Port Id="4" Dir="OUT"/>
+			<Port Id="3" Dir="OUT"/>
+			<Port Id="2" Dir="OUT"/>
+			<Port Id="1" Dir="OUT"/>
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="pci_exp_txn">
+			<Port Id="7" Dir="OUT"/>
+			<Port Id="6" Dir="OUT"/>
+			<Port Id="5" Dir="OUT"/>
+			<Port Id="4" Dir="OUT"/>
+			<Port Id="3" Dir="OUT"/>
+			<Port Id="2" Dir="OUT"/>
+			<Port Id="1" Dir="OUT"/>
+			<Port Id="0" Dir="OUT"/>
+		</Bus>
+		<Bus Id="pci_exp_rxp">
+			<Port Id="7" Dir="IN"/>
+			<Port Id="6" Dir="IN"/>
+			<Port Id="5" Dir="IN"/>
+			<Port Id="4" Dir="IN"/>
+			<Port Id="3" Dir="IN"/>
+			<Port Id="2" Dir="IN"/>
+			<Port Id="1" Dir="IN"/>
+			<Port Id="0" Dir="IN"/>
+		</Bus>
+		<Bus Id="pci_exp_rxn">
+			<Port Id="7" Dir="IN"/>
+			<Port Id="6" Dir="IN"/>
+			<Port Id="5" Dir="IN"/>
+			<Port Id="4" Dir="IN"/>
+			<Port Id="3" Dir="IN"/>
+			<Port Id="2" Dir="IN"/>
+			<Port Id="1" Dir="IN"/>
+			<Port Id="0" Dir="IN"/>
+		</Bus>
+		<Port Id="led_0" Dir="OUT"/>
+		<Port Id="led_1" Dir="OUT"/>
+		<Port Id="led_2" Dir="OUT"/>
+		<Port Id="led_3" Dir="OUT"/>
+		<Port Id="GPIO_LED_4_LS" Dir="OUT"/>
+		<Port Id="GPIO_LED_5_LS" Dir="OUT"/>
+		<Port Id="GPIO_LED_6_LS" Dir="OUT"/>
+		<Port Id="GPIO_LED_7_LS" Dir="OUT"/>
+		<Port Id="emcclk" Dir="IN"/>
+		<Port Id="sys_clk_p" Dir="IN"/>
+		<Port Id="sys_clk_n" Dir="IN"/>
+		<Port Id="sys_rst_n" Dir="IN"/>
+	</Ifc>
+</Interface>
+

@@ -1,0 +1,9 @@
+#-----------------------------------------------------------
+# Vivado v2013.2 (64-bit)
+# Build 272601 by xbuild on Sat Jun 15 11:11:11 MDT 2013
+# Start of session at: Fri Dec  6 03:35:30 2013
+# Process ID: 28662
+# Log file: /afs/ece.cmu.edu/usr/gcharnma/Private/18-545/RUN_final/pcie2.0.runs/impl_1/xilinx_pcie_2_1_ep_7x.rdi
+# Journal file: /afs/ece.cmu.edu/usr/gcharnma/Private/18-545/RUN_final/pcie2.0.runs/impl_1/vivado.jou
+#-----------------------------------------------------------
+source xilinx_pcie_2_1_ep_7x.tcl -notrace
